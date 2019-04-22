@@ -1,0 +1,19 @@
+{
+  "name": "xty-wx-web",
+  "version": "1.0.0",
+  "description": "## 框架 ### uni-app",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@192.168.3.112:micro-shoppingmall/xty-wx-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.6.10"
+  }
+}
