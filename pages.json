@@ -35,22 +35,22 @@
         "list": [{
             "pagePath": "pages/home/home",
             "iconPath": "static/tab-bar-icons/homepage.png",
-            "selectedIconPath": "static/tab-bar-icons/homepage.png",
+            "selectedIconPath": "static/tab-bar-icons/homepage-s.png",
             "text": "首页"
         }, {
             "pagePath": "pages/lining/lining",
             "iconPath": "static/tab-bar-icons/lining.png",
-            "selectedIconPath": "static/tab-bar-icons/homepage.png",
+            "selectedIconPath": "static/tab-bar-icons/lining-s.png",
             "text": "面料"
         }, {
             "pagePath": "pages/shopCar/shopCar",
             "iconPath": "static/tab-bar-icons/shopcar.png",
-            "selectedIconPath": "static/tab-bar-icons/homepage.png",
+            "selectedIconPath": "static/tab-bar-icons/shopcar-s.png",
             "text": "购物车"
         }, {
             "pagePath": "pages/my/my",
             "iconPath": "static/tab-bar-icons/my.png",
-            "selectedIconPath": "static/tab-bar-icons/homepage.png",
+            "selectedIconPath": "static/tab-bar-icons/my-s.png",
             "text": "我的"
         }]
 
