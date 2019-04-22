@@ -5,14 +5,14 @@
         <!-- 轮播图 -->
         <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" class="banner">
             <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
-                <view class="swiper-item"><img mode="aspectFill" class="banner-img" :src="banner" alt="" /></view>
+                <view class="swiper-item"><image mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
             </swiper-item>
         </swiper>
 
         <!-- 第二屏 -->
         <view class="picture-presentation second">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><img mode="aspectFill" src="../../static/imgs/home/second-top.png" alt="" /></view>
+            <view class="picture-presentation-top"><image mode="aspectFill" src="../../static/imgs/home/second-top.png" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -22,11 +22,11 @@
                     <!-- 左部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <img mode="aspectFill" src="../../static/imgs/home/left.png" alt="" />
+                        <image mode="aspectFill" src="../../static/imgs/home/left.png" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Gyms Wome</text>
-                            <img mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt="" />
+                            <image mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100587</view>
@@ -35,12 +35,12 @@
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">FASHION BRANFDS</view>
-                        <img mode="aspectFill" src="../../static/imgs/home/right.png" alt="" />
+                        <image mode="aspectFill" src="../../static/imgs/home/right.png" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Sexy Dres</text>
-                            <img class="more" src="../../static/imgs/home/more.png" alt="" />
+                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100846</view>
@@ -52,7 +52,7 @@
         <!-- 第三屏 -->
         <view class="picture-presentation third">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><img mode="aspectFill" src="../../static/imgs/home/1555916144469.jpg" alt="" /></view>
+            <view class="picture-presentation-top"><image mode="aspectFill" src="../../static/imgs/home/1555916144469.jpg" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -62,12 +62,12 @@
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">WOVEN FABIC</view>
-                        <img mode="aspectFill" src="../../static/imgs/home/1555917371557.jpg" alt="" />
+                        <image mode="aspectFill" src="../../static/imgs/home/1555917371557.jpg" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Men T-shirt</text>
-                            <img class="more" src="../../static/imgs/home/more.png" alt="" />
+                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100112314</view>
@@ -76,11 +76,11 @@
                     <!-- 右部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <img mode="aspectFill" src="../../static/imgs/home/1555917485604.jpg" alt="" />
+                        <image mode="aspectFill" src="../../static/imgs/home/1555917485604.jpg" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Beauty Dres</text>
-                            <img class="more" src="../../static/imgs/home/more.png" alt="" />
+                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100812367</view>
@@ -95,15 +95,17 @@
             <video class="my-video" poster="../../static/imgs/home/1555917485604.jpg" src="" controls loop></video>
             <view class="tel">如果您在选购中有疑问，请致电：0571-88888888</view>
         </view>
+
+        <custmer-phone />
     </view>
 </template>
 
 <script>
-import search from '../../components/mehaotian-search/mehaotian-search.vue';
+import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
 
 export default {
     components: {
-        search
+        'custmer-phone': CustmerPhone
     },
     data() {
         return {
@@ -162,7 +164,7 @@ export default {
             height: 400upx;
             margin: 30upx 0;
             overflow: hidden;
-            > img {
+            > image {
                 height: 400upx;
             }
         }
@@ -200,7 +202,7 @@ export default {
                     }
                 }
 
-                .big-pic > img {
+                .big-pic > image {
                     height: 470upx;
                 }
 
@@ -218,7 +220,7 @@ export default {
                             border-top: 6upx solid $theme-color;
                         }
                     }
-                    > img {
+                    > image {
                         height: 332upx;
                         margin-top: 100upx;
                     }
@@ -261,8 +263,9 @@ export default {
             width: 690upx;
             height: 386upx;
             margin: 50upx 0 30upx;
+            border-radius: 8upx;
         }
-        .tel{
+        .tel {
             padding: 0 $white-space 34upx;
             font-size: 20upx;
             text-align: left;

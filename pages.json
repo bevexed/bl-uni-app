@@ -3,7 +3,7 @@
         {
             "path": "pages/home/home",
             "style": {
-                "navigationBarTitleText": "首页"
+                "navigationBarTitleText": ""
             }
         }, {
             "path": "pages/lining/lining",
@@ -24,9 +24,9 @@
     ],
     "globalStyle": {
         "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "uni-app",
-        "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
+        "navigationBarTitleText": "SINOTY",
+        "navigationBarBackgroundColor": "#fff",
+        "backgroundColor": "#fff"
     },
     "tabBar": {
         "color": "black",

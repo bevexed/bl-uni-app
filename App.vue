@@ -19,7 +19,7 @@ text {
     font-family: Helvetica;
 }
 
-img {
+image {
     width: 100%;
     border-radius: 8upx;
 }
