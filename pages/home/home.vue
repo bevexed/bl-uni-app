@@ -3,11 +3,13 @@
         <view class="title">SINOTY</view>
 
         <!-- 轮播图 -->
-        <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" class="banner">
-            <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
-                <view class="swiper-item"><image mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
-            </swiper-item>
-        </swiper>
+        <uni-swiper-dot :info="banners" :current="current" mode="long" :dotsStyles="dotsStyles">
+            <swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" loop class="banner" @change="swiperChange">
+                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
+                    <view class="swiper-item"><image mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
+                </swiper-item>
+            </swiper>
+        </uni-swiper-dot>
 
         <!-- 第二屏 -->
         <view class="picture-presentation second">
@@ -102,14 +104,26 @@
 
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+import { uniSwiperDot } from '@dcloudio/uni-ui';
 
 export default {
     components: {
-        'custmer-phone': CustmerPhone
+        CustmerPhone,
+        uniSwiperDot
     },
     data() {
         return {
             title: 'SINOTY',
+            // 当前 swiper 索引
+            current: 0,
+            // 轮播图 指示器样式
+            dotsStyles: {
+                border: 'none',
+                backgroundColor: 'rgba(0,0,0,.3)',
+                selectedBorder: 'none',
+                selectedBackgroundColor: 'rgba(0,0,0,.3)'
+            },
+            // banner数据
             banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png']
         };
     },
@@ -117,6 +131,9 @@ export default {
         this.getdata();
     },
     methods: {
+        swiperChange(e) {
+            this.current = e.detail.current;
+        },
         toSearch(e, val) {
             console.log(e, val);
             this['val' + val] = e;
@@ -157,7 +174,7 @@ export default {
     }
 
     .picture-presentation {
-        padding:0 $white-space;
+        padding: 0 $white-space;
         margin: 20upx 0;
         .picture-presentation-top {
             width: 690upx;
