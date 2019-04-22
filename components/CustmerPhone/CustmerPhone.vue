@@ -1,5 +1,5 @@
 <template>
-    <view class="custmer-phone"><image @click="alert(1)" src="../../static/icon/phone.png" mode=""></image></view>
+    <view class="custmer-phone"><image @click="link('/pages/contact/contact')" src="../../static/icon/phone.png" mode=""></image></view>
 </template>
 
 <script>
@@ -7,9 +7,9 @@ export default {
     data() {
         return {};
     },
-    methods:{
-        alert(){
-            alert('联系客服')
+    methods: {
+        link(url) {
+            uni.navigateTo({ url });
         }
     }
 };

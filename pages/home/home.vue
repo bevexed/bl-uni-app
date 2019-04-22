@@ -148,7 +148,7 @@ export default {
     }
 
     .banner {
-        padding: $white-space;
+        padding: 0 $white-space;
         margin-top: 40upx;
         height: 966upx;
         .banner-img {
@@ -157,7 +157,7 @@ export default {
     }
 
     .picture-presentation {
-        padding: $white-space;
+        padding:0 $white-space;
         margin: 20upx 0;
         .picture-presentation-top {
             width: 690upx;
