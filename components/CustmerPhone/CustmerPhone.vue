@@ -20,7 +20,7 @@ export default {
     z-index: 999;
     position: fixed;
     right: 48upx;
-    bottom: 222upx;
+    bottom: 160upx;
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     width: 74upx;

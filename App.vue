@@ -23,4 +23,16 @@ image {
     width: 100%;
     border-radius: 8upx;
 }
+
+.placehoder {
+    font-family: 苹方 常规;
+    font-weight: 400;
+    font-size: 24upx;
+    color: #aaa;
+}
+
+/* 强行 修改 抽屉长度 */
+.uni-drawer__content {
+    width: 80% !important;
+}
 </style>

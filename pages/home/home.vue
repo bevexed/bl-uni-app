@@ -6,7 +6,7 @@
         <uni-swiper-dot :info="banners" :current="current" mode="long" :dotsStyles="dotsStyles">
             <swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" loop class="banner" @change="swiperChange">
                 <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
-                    <view class="swiper-item"><image mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
+                    <view class="swiper-item"><image lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
                 </swiper-item>
             </swiper>
         </uni-swiper-dot>
@@ -14,7 +14,7 @@
         <!-- 第二屏 -->
         <view class="picture-presentation second">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image mode="aspectFill" src="../../static/imgs/home/second-top.png" alt=""></image></view>
+            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="../../static/imgs/home/second-top.png" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -24,7 +24,7 @@
                     <!-- 左部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image mode="aspectFill" src="../../static/imgs/home/left.png" alt=""></image>
+                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/left.png" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Gyms Wome</text>
@@ -37,12 +37,12 @@
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">FASHION BRANFDS</view>
-                        <image mode="aspectFill" src="../../static/imgs/home/right.png" alt=""></image>
+                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/right.png" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Sexy Dres</text>
-                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
+                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100846</view>
@@ -54,7 +54,7 @@
         <!-- 第三屏 -->
         <view class="picture-presentation third">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image mode="aspectFill" src="../../static/imgs/home/1555916144469.jpg" alt=""></image></view>
+            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="../../static/imgs/home/1555916144469.jpg" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -64,12 +64,12 @@
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">WOVEN FABIC</view>
-                        <image mode="aspectFill" src="../../static/imgs/home/1555917371557.jpg" alt=""></image>
+                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/1555917371557.jpg" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Men T-shirt</text>
-                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
+                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
                         <view class="shop-count">z100112314</view>
@@ -78,7 +78,7 @@
                     <!-- 右部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image mode="aspectFill" src="../../static/imgs/home/1555917485604.jpg" alt=""></image>
+                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/1555917485604.jpg" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Beauty Dres</text>
