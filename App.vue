@@ -31,8 +31,19 @@ image {
     color: #aaa;
 }
 
-/* 强行 修改 抽屉长度 */
+
+/* 强行 修改 抽屉长 */
 .uni-drawer__content {
     width: 80% !important;
 }
+
+/* 修改 tag*/
+.uni-tag {
+    width: 100%;
+    padding: 0 !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 </style>

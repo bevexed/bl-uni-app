@@ -2,7 +2,7 @@
     <view class="lining">
         <!-- 切换 按钮 -->
         <view class="menus">
-            <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @click="changeMenu(index)">
+            <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
                 {{ menu }}
                 <image v-if="index === 2" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
@@ -30,14 +30,44 @@
             </view>
 
             <view class="color">
-                <view class="label">颜色</view>
-                <view class="tags"><uni-tag text="标签" type="primary" :inverted="true" v-for="i in 4"></uni-tag></view>
+                <view class="label">
+                    颜色
+                    <image :class="{ active: showColorMore }" @touchend="showColorMore = !showColorMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
+                <view :class="['tags', { active: showColorMore }]"><uni-tag class="tag" :text="color" type="primary" :inverted="true" v-for="color in colorList" /></view>
+            </view>
+
+            <view class="price">
+                <view class="label">
+                    价格
+                    <text>（元/米）</text>
+                </view>
+
+                <view class="value">
+                    <input class="input" type="number" placeholder="最底价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                    <view class="hr"></view>
+                    <input class="input" type="number" placeholder="最高价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                </view>
+            </view>
+
+            <view class="real-tags">
+                <view class="label">
+                    标签
+                    <image :class="{ active: showTagsMore }" @touchend="showTagsMore = !showTagsMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
+                <view :class="['tags', { active: showTagsMore }]"><uni-tag class="tag" :text="tag" type="primary" :inverted="true" v-for="tag in tagsList" /></view>
+            </view>
+
+            <view class="buttons">
+                <view class="my-button plain">重置</view>
+
+                <view class="my-button">确定</view>
             </view>
         </uni-drawer>
 
         <!-- 商品列表 -->
         <view class="list">
-            <view class="item" v-for="i in 30">
+            <view class="item" v-for="i in 30" :key="i">
                 <image src="../../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
                 <view class="name">G2560817</view>
                 <view class="price">
@@ -61,13 +91,15 @@
 
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-import { uniDrawer, uniNavBar, uniTag } from '@dcloudio/uni-ui';
+import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 export default {
     components: {
         uniDrawer,
         uniNavBar,
         uniTag,
+        uniCollapse,
+        uniCollapseItem,
         CustmerPhone
     },
     data() {
@@ -76,10 +108,21 @@ export default {
             // 当前选中 按钮
             menuCurrentSelect: 0,
             // 抽屉 显示控制
-            drawerShow: true,
+            drawerShow: false,
             // 商品列表
             shopList: [{}],
-            // 标签列表
+            // 显示更多颜色
+            showColorMore: false,
+            // 颜色标签列表
+            colorList: ['红色', '黄色', '蓝色', '黑色', '白色', '湖蓝', '藏青', '杨红'],
+            // 当前选中颜色
+            colorCurrentSelect: [],
+            // 显示更多颜色
+            showTagsMore: false,
+            // 颜色标签列表
+            tagsList: ['标签一', '标签二', '标签三', '标签四', '标签一', '标签一', '标签一', '标签一'],
+            // 当前选中颜色
+            tagCurrentSelect: []
         };
     },
     methods: {
@@ -169,12 +212,24 @@ export default {
         }
 
         .label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: $uni-text-color;
             padding: 0 0 46upx;
             font-size: 28upx;
+
             text {
                 font-size: 20upx;
                 color: $uni-text-color-grey;
+            }
+            image {
+                width: 16px;
+                height: 16px;
+                transition: transform .5s ease;
+                &.active {
+                    transform: rotate(180deg);
+                }
             }
         }
 
@@ -185,12 +240,11 @@ export default {
             padding: 0 0 28upx;
             border-bottom: 4upx solid #eee;
             > .input {
-               text-align: center;
+                text-align: center;
             }
             .hr {
                 width: 54upx;
                 height: 2upx;
-
                 background-color: #ccc;
             }
         }
@@ -198,6 +252,23 @@ export default {
         .tags {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            max-height: 60upx;
+            overflow: hidden;
+            padding: 0 0 28upx;
+            border-bottom: 4upx solid #eee;
+            transition: max-height 0.3s ease;
+            &.active {
+                max-height: 1200upx;
+            }
+            .tag {
+                margin: 0 0 30upx;
+                width: 24%;
+                padding: 0;
+                text-align: center;
+                overflow: hidden;
+                font-size: 24upx;
+            }
         }
 
         .weigh {
@@ -206,6 +277,36 @@ export default {
 
         .color {
             padding: $white-space;
+        }
+
+        .price {
+            padding: $white-space;
+        }
+
+        .real-tags {
+            padding: $white-space;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: $white-space;
+            .my-button {
+                $height: 60upx;
+                width: 240upx;
+                height: $height;
+                line-height: $height;
+                text-align: center;
+                border: 1px solid $theme-color;
+                border-radius: 8upx;
+                font-size: 28upx;
+                color: #fff;
+                background: $theme-color;
+                &.plain{
+                    background: #fff;
+                    color: $theme-color;
+                }
+            }
         }
     }
 

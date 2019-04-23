@@ -22,10 +22,13 @@ $theme-red: #c50000;
 $white-space: 32upx;
 
 /* 行为相关颜色 */
-$uni-color-primary: #ccc;
-$uni-color-success: #4cd964;
+// 修改为灰色
+$uni-color-primary: #CCCCCC; 
+// 修改为 主题颜色
+$uni-color-success: #bfa065;
 $uni-color-warning: #f0ad4e;
 $uni-color-error: #dd524d;
+
 
 /* 文字基本颜色 */
 $uni-text-color: #333; //基本色
@@ -41,7 +44,7 @@ $uni-bg-color-hover: #f1f1f1; //点击状态颜色
 $uni-bg-color-mask: rgba(0, 0, 0, 0.4); //遮罩颜色
 
 /* 边框颜色 */
-$uni-border-color: #c8c7cc;
+$uni-border-color: #bfa065;
 
 /* 尺寸变量 */
 
