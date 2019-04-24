@@ -34,7 +34,7 @@
                     颜色
                     <image :class="{ active: showColorMore }" @touchend="showColorMore = !showColorMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
-                <view :class="['tags', { active: showColorMore }]"><uni-tag class="tag" :text="color" type="primary" :inverted="true" v-for="color in colorList" /></view>
+                <view :class="['tags', { active: showColorMore }]"><uni-tag class="tag" :text="color" type="primary" :inverted="true" v-for="(color,index) in colorList" :key="index"/></view>
             </view>
 
             <view class="price">
@@ -55,7 +55,7 @@
                     标签
                     <image :class="{ active: showTagsMore }" @touchend="showTagsMore = !showTagsMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
-                <view :class="['tags', { active: showTagsMore }]"><uni-tag class="tag" :text="tag" type="primary" :inverted="true" v-for="tag in tagsList" /></view>
+                <view :class="['tags', { active: showTagsMore }]"><uni-tag class="tag" :text="tag" type="primary" :inverted="true" v-for="(tag,index) in tagsList" :key="index"/></view>
             </view>
 
             <view class="buttons">
