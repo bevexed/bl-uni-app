@@ -119,14 +119,12 @@ export default {
 
                     // 向服务器发送请求
                     let res = await textile3dmix(this.data_upload);
-                    uni.hideLoading();
+
                     if (res.error_code === 0) {
                         this.currentImage = 'data:image/png;base64,' + res.image;
                     }
                 })
-                .catch(error => {
-                    console.error(error);
-                });
+
         },
 
         mounted() {

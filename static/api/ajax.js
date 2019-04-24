@@ -29,10 +29,13 @@ export default function ajax(url, data = {}, type = "POST", loading = true) {
 
         promise.then(
             response => {
+                uni.hideLoading();
+                console.log('ajax-success',response.data);
                 resolve(response.data)
             },
             error => {
-                reject(error)
+                uni.hideLoading();
+                reject('ajax-error', error)
             }
         );
 
