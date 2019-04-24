@@ -391,6 +391,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "http://registry.npm.taobao.org/tweetnacl/download/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
+uni-request@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/uni-request/download/uni-request-1.0.2.tgz#aa276b1e86d5822e4a747a48464892274487dc52"
+  integrity sha1-qidrHobVgi5KdHpIRkiSJ0SH3FI=
+
 uri-js@^4.2.2:
   version "4.2.2"
   resolved "http://registry.npm.taobao.org/uri-js/download/uri-js-4.2.2.tgz#94c540e1ff772956e2299507c010aea6c8838eb0"

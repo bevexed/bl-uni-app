@@ -18,7 +18,7 @@
             </view>
 
             <!-- 模特实体图 -->
-            <view class="model-show"><image src="../../static/imgs/home/1555917485604.jpg" mode="aspectFill"></image></view>
+            <view class="model-show"><image :src="currentImage" mode="aspectFill"></image></view>
         </view>
 
         <!-- 样式选择标题 -->
@@ -47,12 +47,12 @@
 
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
+import { textile3dmix } from '../../static/api';
 
 export default {
     data() {
         return {
-            // 默认模特数量
-            // 最小数量为5
+            // 默认模特数量,最小数量为5
             defaultModel: [
                 'static/imgs/fitting/1.jpg',
                 'static/imgs/fitting/2.jpg',
@@ -65,8 +65,7 @@ export default {
             ],
             // 当前选中模特
             currentModel: 0,
-            // 默认花纹数量
-            // 最小数量为5
+            // 默认花纹数量,最小数量为5
             defaultStyle: [
                 'static/imgs/fitting/1.jpg',
                 'static/imgs/fitting/2.jpg',
@@ -79,6 +78,9 @@ export default {
             ],
             // 当前样式
             currentStyle: 0,
+
+            // 展示区图片
+            currentImage: '',
 
             // 请求数据
             data_upload: {
@@ -94,35 +96,39 @@ export default {
         };
     },
     methods: {
+        // 更换模特
         async onModelChange(index, imgUrl) {
             this.currentModel = index;
             this.data_upload.model_id = (index + 1).toString();
             this.textile3dmix(this.data_upload);
         },
 
+        // 更换花纹
         async onStyleChange(index, imgUrl) {
             this.currentStyle = index;
+
+            // 图片 转 base64
             pathToBase64(imgUrl)
-                .then(base64 => {
-                    console.log(base64);
+                .then(async base64 => {
+                    // console.log(base64);
                     this.data_upload.image = base64.split('base64,')[1];
-                    this.textile3dmix(this.data_upload);
+
+                    uni.showLoading({
+                        title: '数据加载中...'
+                    });
+
+                    // 向服务器发送请求
+                    let res = await textile3dmix(this.data_upload);
+                    uni.hideLoading();
+                    if (res.error_code === 0) {
+                        this.currentImage = 'data:image/png;base64,' + res.image;
+                    }
                 })
                 .catch(error => {
                     console.error(error);
                 });
         },
 
-        async textile3dmix(data) {
-            uni.request({
-                url: 'http://192.168.3.112:5003/textile3dmix', //仅为示例，并非真实接口地址。
-                method: 'post',
-                data: { ...data },
-                success(res) {
-                    
-                }
-            });
-        },
         mounted() {
             console.log(1);
             this.onStyleChange(0, this.defaultStyle[1]);
