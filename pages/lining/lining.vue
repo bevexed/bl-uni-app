@@ -1,6 +1,9 @@
 <template>
-    <view class="lining">
+    <view class="lining" @touchmove="toTopShow">
         <!-- 切换 按钮 -->
+
+        <view class="to-top" v-show="appear" @tap="toTop"><image src="../../static/icon/top.png" mode=""></image></view>
+
         <view class="menus">
             <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
                 {{ menu }}
@@ -34,7 +37,17 @@
                     颜色
                     <image :class="{ active: showColorMore }" @touchend="showColorMore = !showColorMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
-                <view :class="['tags', { active: showColorMore }]"><uni-tag class="tag" :text="color" type="primary" :inverted="true" v-for="(color,index) in colorList" :key="index"/></view>
+                <view :class="['tags', { active: showColorMore }]">
+                    <uni-tag
+                        class="tag"
+                        :text="color"
+                        :type="colorCurrentSelect.includes(color) ? 'success' : 'primary'"
+                        :inverted="true"
+                        v-for="(color, index) in colorList"
+                        :key="index"
+                        @click="selectTag('colorCurrentSelect', color)"
+                    />
+                </view>
             </view>
 
             <view class="price">
@@ -55,7 +68,17 @@
                     标签
                     <image :class="{ active: showTagsMore }" @touchend="showTagsMore = !showTagsMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
-                <view :class="['tags', { active: showTagsMore }]"><uni-tag class="tag" :text="tag" type="primary" :inverted="true" v-for="(tag,index) in tagsList" :key="index"/></view>
+                <view :class="['tags', { active: showTagsMore }]">
+                    <uni-tag
+                        class="tag"
+                        :text="tag"
+                        :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                        :inverted="true"
+                        v-for="(tag, index) in tagsList"
+                        :key="index"
+                        @click="selectTag('tagCurrentSelect', tag)"
+                    />
+                </view>
             </view>
 
             <view class="buttons">
@@ -93,6 +116,8 @@
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
+let observer = null;
+
 export default {
     components: {
         uniDrawer,
@@ -121,8 +146,10 @@ export default {
             showTagsMore: false,
             // 颜色标签列表
             tagsList: ['标签一', '标签二', '标签三', '标签四', '标签一', '标签一', '标签一', '标签一'],
-            // 当前选中颜色
-            tagCurrentSelect: []
+            // 当前选中标签
+            tagCurrentSelect: [],
+            // 返回顶部显示
+            appear: false
         };
     },
     methods: {
@@ -153,8 +180,42 @@ export default {
             this.drawerShow = false;
             //重置 按钮 状态
             this.menuCurrentSelect = 0;
+        },
+
+        selectTag(currentState, tag_name) {
+            if (this[currentState].includes(tag_name)) {
+                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+                return;
+            }
+            this[currentState].push(tag_name);
+        },
+
+        // 返回顶部
+        toTop() {
+            uni.pageScrollTo({
+                scrollTop: 0,
+                duration: 300
+            });
+        },
+
+        // 监听 totop 显示
+        toTopShow() {
+            observer = setInterval(() => {
+                let view = uni.createSelectorQuery().select('.lining');
+                uni.createSelectorQuery()
+                    .selectViewport()
+                    .scrollOffset(res => {
+                        if (res.scrollTop > 100) {
+                            this.appear = true;
+                        } else {
+                            this.appear = false;
+                        }
+                    })
+                    .exec();
+            }, 300);
         }
-    }
+    },
+    onReady() {}
 };
 </script>
 
@@ -226,7 +287,7 @@ export default {
             image {
                 width: 16px;
                 height: 16px;
-                transition: transform .5s ease;
+                transition: transform 0.5s ease;
                 &.active {
                     transform: rotate(180deg);
                 }
@@ -257,7 +318,7 @@ export default {
             overflow: hidden;
             padding: 0 0 28upx;
             border-bottom: 4upx solid #eee;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease-in-out;
             &.active {
                 max-height: 1200upx;
             }
@@ -302,7 +363,7 @@ export default {
                 font-size: 28upx;
                 color: #fff;
                 background: $theme-color;
-                &.plain{
+                &.plain {
                     background: #fff;
                     color: $theme-color;
                 }
@@ -311,7 +372,7 @@ export default {
     }
 
     .list {
-        padding: 60upx $white-space;
+        padding: 20upx $white-space;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -353,6 +414,25 @@ export default {
                     color: $uni-text-color-grey;
                 }
             }
+        }
+    }
+
+    .to-top {
+        z-index: 999;
+        width: 268upx;
+        height: 60upx;
+        position: fixed;
+        top: 126upx;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background: rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border-radius: 8upx;
+        image {
+            width: 40upx;
+            height: 40upx;
+            margin: 10upx 0;
         }
     }
 }
