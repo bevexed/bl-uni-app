@@ -246,18 +246,19 @@ export default {
 
         // 展示 上传 图框
 
-       chooseImg(){
-           uni.chooseImage({
-           	success() {
-           		console.log('选择图片完成');
-           	},
-            count:1,
-            sourceType:['album'],
-            sizeType:['original']
-           })
-       }
-
-     
+        chooseImg() {
+            uni.chooseImage({
+                success(res) {
+                    console.log('选择图片完成', res);
+                    uni.navigateTo({
+                        url: '/pages/clipper/clipper?imgUrl=' + res.tempFiles[0].path
+                    });
+                },
+                count: 1,
+                sourceType: ['album'],
+                sizeType: ['original']
+            });
+        }
     },
 
     onReady() {
