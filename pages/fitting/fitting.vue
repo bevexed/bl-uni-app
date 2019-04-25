@@ -1,11 +1,10 @@
 <template>
     <view class="fitting">
-        <!-- 模特选择标题 -->
-        <view class="model-select-title"><text>模特选择</text></view>
-
         <!-- 模特选择轮播 -->
         <view class="model">
             <view class="select-model">
+                <!-- 模特选择标题 -->
+                <view class="model-select-title"><text>模特选择</text></view>
                 <image class="before" src="../../static/icon/before.svg" mode=""></image>
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
                     <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
@@ -47,6 +46,7 @@
 
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
+import { myImage } from '../../static/unit';
 import { textile3dmix } from '../../static/api';
 
 export default {
@@ -100,31 +100,34 @@ export default {
         async onModelChange(index, imgUrl) {
             this.currentModel = index;
             this.data_upload.model_id = (index + 1).toString();
-            this.textile3dmix(this.data_upload);
+            textile3dmix(this.data_upload);
         },
 
         // 更换花纹
-        async onStyleChange(index, imgUrl) {
+        onStyleChange(index, imgUrl) {
             this.currentStyle = index;
 
+            // 自封装 图片转 base64
+            // myImage(imgUrl).then(res => {
+            //     console.log(res);
+            // });
+
             // 图片 转 base64
-            pathToBase64(imgUrl)
-                .then(async base64 => {
-                    // console.log(base64);
-                    this.data_upload.image = base64.split('base64,')[1];
+            pathToBase64(imgUrl).then(async base64 => {
+                // console.log(base64);
+                this.data_upload.image = base64.split('base64,')[1];
 
-                    uni.showLoading({
-                        title: '数据加载中...'
-                    });
+                uni.showLoading({
+                    title: '数据加载中...'
+                });
 
-                    // 向服务器发送请求
-                    let res = await textile3dmix(this.data_upload);
+                // 向服务器发送请求
+                let res = await textile3dmix(this.data_upload);
 
-                    if (res.error_code === 0) {
-                        this.currentImage = 'data:image/png;base64,' + res.image;
-                    }
-                })
-
+                if (res.error_code === 0) {
+                    this.currentImage = 'data:image/png;base64,' + res.image;
+                }
+            });
         },
 
         mounted() {
