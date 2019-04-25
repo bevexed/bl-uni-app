@@ -58,8 +58,20 @@
                         <image :src="'../../' + imgUrl" mode="aspectFill"></image>
                     </view>
                 </swiper-item>
+
+                <!-- 上传图片 -->
+                <swiper-item key="add">
+                    <view class="swiper-item upload-style"><image src="../../static/icon/adds.png" mode="center" @tap="popShow = true"></image></view>
+                </swiper-item>
             </swiper>
             <image class="next" src="../../static/icon/before.svg" mode=""></image>
+        </view>
+
+        <view :class="['pop-wrap']" v-show="popShow" @touchmove.prevent.stop @tap="popShow = false">
+            <view :class="['pop']" @tap.stop="chooseImg">
+                <image src="../../static/icon/com.png" mode="aspectFill"></image>
+                <text>本地上传</text>
+            </view>
         </view>
     </view>
 </template>
@@ -67,9 +79,10 @@
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
 import { myImage } from '../../static/unit';
-import { textile3dmix } from '../../static/api';
+import { reqTextile3dmix } from '../../static/api';
 
 export default {
+    components: {},
     data() {
         return {
             // 默认模特数量,最小数量为5
@@ -108,6 +121,9 @@ export default {
             // 当前滑块停留位置
             currentBar: 338,
 
+            // 弹窗显示
+            popShow: false,
+
             // 请求数据
             data_upload: {
                 model_id: 2,
@@ -122,11 +138,26 @@ export default {
         };
     },
     methods: {
+        // 请求 3d 试衣结果
+        async getTextile3dmix() {
+            uni.showLoading({
+                title: '数据加载中...',
+                mask: true
+            });
+
+            let res = await reqTextile3dmix(this.data_upload);
+
+            if (res.error_code === 0) {
+                this.currentImage = 'data:image/png;base64,' + res.image;
+            }
+        },
+
         // 更换模特
         async onModelChange(index, imgUrl) {
             this.currentModel = index;
             this.data_upload.model_id = (index + 1).toString();
-            textile3dmix(this.data_upload);
+            // 向服务器发送请求
+            this.getTextile3dmix();
         },
 
         // 更换花纹
@@ -143,16 +174,8 @@ export default {
                 // console.log(base64);
                 this.data_upload.image = base64.split('base64,')[1];
 
-                uni.showLoading({
-                    title: '数据加载中...'
-                });
-
                 // 向服务器发送请求
-                let res = await textile3dmix(this.data_upload);
-
-                if (res.error_code === 0) {
-                    this.currentImage = 'data:image/png;base64,' + res.image;
-                }
+                this.getTextile3dmix();
             });
         },
 
@@ -189,6 +212,9 @@ export default {
 
             this.currentBar = currentStep * stepSize;
 
+            // 向服务器发送请求
+            this.getTextile3dmix();
+
             console.log(this.currentBar);
         },
 
@@ -202,19 +228,41 @@ export default {
             } else {
                 currentStep++;
             }
-            
-            if(currentStep > 9){currentStep = 9}
-            if(currentStep < 0){currentStep = 0}
+
+            if (currentStep > 9) {
+                currentStep = 9;
+            }
+            if (currentStep < 0) {
+                currentStep = 0;
+            }
 
             this.data_upload.amp = 10 - currentStep;
 
             this.currentBar = currentStep * stepSize;
+
+            // 向服务器发送请求
+            this.getTextile3dmix();
         },
 
-        mounted() {
-            console.log(1);
-            this.onStyleChange(0, this.defaultStyle[1]);
-        }
+        // 展示 上传 图框
+
+       chooseImg(){
+           uni.chooseImage({
+           	success() {
+           		console.log('选择图片完成');
+           	},
+            count:1,
+            sourceType:['album'],
+            sizeType:['original']
+           })
+       }
+
+     
+    },
+
+    onReady() {
+        console.log(1);
+        this.onStyleChange(0, this.defaultStyle[1]);
     }
 };
 </script>
@@ -242,7 +290,7 @@ export default {
             display: flex;
             align-items: center;
             text {
-                font-family: 苹方 粗体,serif;
+                font-family: 苹方 粗体, serif;
                 font-weight: bold;
                 font-size: 20upx;
                 color: #444444;
@@ -302,7 +350,7 @@ export default {
             }
         }
         .model-show {
-            width: 500upx;
+            width: 440upx;
             height: 928upx;
             text-align: center;
             align-self: flex-end;
@@ -355,6 +403,7 @@ export default {
                 align-items: center;
                 flex-direction: column;
                 margin: 90upx 0 0;
+
                 image {
                     width: 34upx;
                     height: 34upx;
@@ -446,6 +495,51 @@ export default {
         border: 2upx solid transparent;
         &.selected {
             border-color: $theme-color;
+        }
+    }
+
+    .upload-style {
+        width: 120upx;
+        height: 100upx;
+        border: 2upx solid #ccc;
+        image {
+            width: 60upx;
+            height: 50upx;
+        }
+    }
+
+    .pop-wrap {
+        z-index: 99;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 750upx;
+        height: 100vh;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.3);
+
+        .pop {
+            z-index: 999;
+            position: fixed;
+            width: 750upx - 32upx * 2;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 38upx 32upx;
+            border-radius: 8upx 8upx 0 0;
+            overflow: hidden;
+
+            image {
+                margin-right: 26upx;
+                width: 36upx;
+                height: 36upx;
+            }
+            text {
+                font-family: 苹方 中等;
+                color: $uni-text-color;
+                font-size: 28upx;
+            }
         }
     }
 }

@@ -27,14 +27,19 @@ export default function ajax(url, data = {}, type = "POST", loading = true) {
             promise = uniRequest.post(url, data)
         }
 
+
         promise.then(
             response => {
                 uni.hideLoading();
-                console.log('ajax-success',response.data);
+                console.log('ajax-success', response.data);
                 resolve(response.data)
             },
             error => {
                 uni.hideLoading();
+                uni.showToast({
+                    icon:'none',
+                    title: '服务器错误'
+                })
                 reject('ajax-error', error)
             }
         );
