@@ -186,7 +186,7 @@ export default {
             if (this[currentState].includes(tag_name)) {
                 this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
                 return;
-            }
+            };
             this[currentState].push(tag_name);
         },
 

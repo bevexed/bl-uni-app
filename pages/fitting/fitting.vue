@@ -78,7 +78,6 @@
 
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
-import { myImage } from '../../static/unit';
 import { reqTextile3dmix } from '../../static/api';
 
 export default {

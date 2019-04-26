@@ -1,251 +1,194 @@
 <template>
-	<view class="content">
-		<view class="cropper-wrapper" style="height:617px">
-			<canvas
-				class="cropper"
-				disable-scroll="true"
-				@touchstart="touchStart"
-				@touchmove="touchMove"
-				@touchend="touchEnd"
-				:style="{ width: cropperOpt.width, height: cropperOpt.height }"
-				canvas-id="cropper"
-			></canvas>
-		</view>
-		<view class="cropper-buttons">
-			<view class="getCropperImage" @tap="getCropperImage">确定</view>
-		</view>
-	</view>
+    <view class="clipper">
+        <canvas canvas-id="clipper" disable-scroll="true" class="canvas" @touchstart="start" @touchmove="move" @touchend="end" @touchcancel=""></canvas>
+        <view class="title">Coordinates: ({{ mouseX }}, {{ mouseY }})</view>
+    </view>
 </template>
 
 <script>
-import weCropper from '../../static/js/weCropper';
-const device = uni.getSystemInfoSync();
-const width = device.windowWidth;
-const height = device.windowHeight - 50;
-console.log(device);
 export default {
-	data() {
-		return {
-			cropperOpt: {
-				id: 'cropper',
-				width: width,
-				height: height,
-				scale: 2.5,
-				zoom: 8,
-				cut: {
-					x: (width - 295) / 2,
-					y: (height - 413) / 2,
-					width: 295,
-					height: 413
-				}
-			},
-			weCropper: ''
-		};
-	},
-	methods: {
-		back() {
-			uni.redirectTo({
-				url: '../fitting/fitting'
-			});
-		},
-		touchStart(e) {
-			this.weCropper.touchStart(e);
-		},
-		touchMove(e) {
-			this.weCropper.touchMove(e);
-		},
-		touchEnd(e) {
-			this.weCropper.touchEnd(e);
-		},
-		convertBase64UrlToBlob(dataURI, type) {
-			var binary = atob(dataURI.split(',')[1]);
-			var array = [];
-			for (var i = 0; i < binary.length; i++) {
-				array.push(binary.charCodeAt(i));
-			}
-			return new Blob([new Uint8Array(array)], { type: type }, { filename: '1111.jpg' });
-		},
-		blobToDataURL(blob) {
-			var a = new FileReader();
-			a.readAsDataURL(blob); //读取文件保存在result中
-			a.onload = function(e) {
-				var getRes = e.target.result; //读取的结果在result中
-				console.log(getRes);
-			};
-		},
-		getCropperImage() {
-			let _this = this;
-			//let pathurl = url + '/user/upload';上传服务器地址
-			this.weCropper.getCropperImage(avatar => {
-				if (avatar) {
-					//  获取到裁剪后的图片
-					//  获取到裁剪后的图片
-					wx.redirectTo({
-					  url: '../index/index?avatar=' + avatar
-					})
-					//下面是上传到服务器的方法
-// 					uni.uploadFile({
-// 						url: pathurl,
-// 						filePath: avatar,
-// 						name: 'file',
-// 						formData: { token: token, userId: userId},
-// 						success: res => {
-// 							console.log('uploadImage success, res is:', res);
-// 								uni.showToast({
-// 								title: '上传成功',
-// 								icon: 'success',
-// 								duration: 1000
-// 							});
-// 						},
-// 						ail: err => {
-// 							console.log('uploadImage fail', err);
-// 							uni.showModal({
-// 								content: err.errMsg,
-// 								showCancel: false
-// 							});
-// 							uni.hideLoading();
-// 						},
-// 						complete: () => {
-// 							console.log('complate');
-// 						}
-// 					});
-				} else {
-					console.log('获取图片失败，请稍后重试');
-				}
-			});
-		},
-		uploadTap() {
-			const self = this;
+    data() {
+        return {
+            // 画布
 
-			uni.chooseImage({
-				count: 1, // 默认9
-				sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
-				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-				success(res) {
-					let src = res.tempFilePaths[0];
-					//  获取裁剪图片资源后，给data添加src属性及其值
+            // 视口
+            windowWidth: 0,
+            windowHeight: 0,
 
-					self.weCropper.pushOrign(src);
-				}
-			});
-		}
-	},
-	onLoad(option) {
-		// do something
-		const cropperOpt = this.cropperOpt;
-		const src = option.imgUrl;
-        console.log(src);
-		if (src) {
-			Object.assign(cropperOpt, {
-				src
-			});
+            // 鼠标
+            mouseX: 0,
+            mouseY: 0,
 
-			this.weCropper = new weCropper(cropperOpt)
-				.on('ready', function(ctx) {})
-				.on('beforeImageLoad', ctx => {
-					uni.showToast({
-						title: '上传中',
-						icon: 'loading',
-						duration: 3000
-					});
-				})
-				.on('imageLoad', ctx => {
-					uni.hideToast();
-				});
-		}
-	}
+            // 图片距离鼠标距离
+            offsetX: 0,
+            offsetY: 0,
+
+            // 图片
+            imgUrl: '',
+            realHeight: 0,
+            realWidth: 0,
+            imgWidth: 0,
+            imgHeight: 0,
+
+            // 选择 区域
+            x1: 0,
+            y1: 0,
+            x2: 100,
+            y2: 100,
+            width: 0,
+            height: 0,
+
+            hidden: false
+        };
+    },
+    methods: {
+        back() {
+            uni.redirectTo({
+                url: '../fitting/fitting'
+            });
+        },
+        // 获取 图片信息
+        getImageInfo(imgUrl) {
+            return new Promise(resolve => {
+                uni.getImageInfo({
+                    src: imgUrl,
+                    success(res) {
+                        resolve(res);
+                    }
+                });
+            });
+        },
+
+        async init(e) {
+            // 获取图像路径
+            this.imgUrl = '/static/imgs/fitting/8.jpg';
+
+            this.context = uni.createCanvasContext('clipper');
+
+            // 设置画布宽高
+            let _this = this;
+            uni.getSystemInfo({
+                success: res => {
+                    _this.windowHeight = res.windowHeight;
+                    _this.windowWidth = res.windowWidth;
+                }
+            });
+
+            // 绘制
+            this.clearRect();
+            await this.drawImg(this.imgUrl);
+            this.drawRect();
+
+            // 绘制 选择 区域
+            console.log(this.imgWidth, this.imgHeight, this.windowWidth / this.windowHeight);
+            this.context.draw();
+        },
+
+        // 绘制图片
+        async drawImg(imgUrl) {
+            // 获取 原图像 数据
+            let imgInfo = await this.getImageInfo(imgUrl);
+            let { height, width } = imgInfo;
+            this.realWidth = width;
+            this.realHeight = height;
+            // 计算 图片 宽高
+            // 宽相等 结果越大 说明 height 越小
+            if (width / height > this.windowWidth / this.windowHeight) {
+                this.imgWidth = this.windowWidth;
+                this.imgHeight = (this.windowWidth * height) / width;
+            } else {
+                this.imgHeight = this.windowHeight;
+                this.imgWidth = (this.windowHeight * width) / height;
+            }
+
+            // 绘制图片
+            this.context.drawImage(imgUrl, 0, 0, this.imgWidth, this.imgHeight);
+        },
+
+        // 绘制选择 区域
+        async drawRect() {
+            let { x1, y1, x2, y2, windowWidth, windowHeight, context, imgUrl, imgHeight, imgWidth, realWidth, realHeight } = this;
+            // 绘制灰色区域
+            context.setFillStyle('rgba(0,0,0,.3)');
+            context.fillRect(0, 0, 10000, 10000);
+
+            // 绘制 选择 区域
+            this.context.drawImage(
+                imgUrl,
+                x1 / ((x2 - x1) / imgWidth),
+                y1 / ((y2 - y1) / imgWidth),
+                realWidth * ((x2 - x1) / imgWidth),
+                realHeight * ((y2 - y1) / imgHeight),
+                x1,
+                y1,
+                x2 - x1,
+                y2 - y1
+            );
+        },
+
+        // 绘制 大小控制器
+        
+        drawSelect(){
+            
+        },
+
+        // 清除 绘画
+        clearRect() {
+            let { x1, y1, x2, y2, windowWidth, windowHeight } = this;
+            // 绘制灰色区域
+            this.context.clearRect(0, 0, 10000, 10000);
+        },
+
+        async start(e) {
+            let { x1, y1, x2, y2, windowWidth, windowHeight } = this;
+            this.mouseX = e.touches[0].x;
+            this.mouseY = e.touches[0].y;
+
+            // 检测 鼠标位置
+            if (x1 < this.mouseX && this.mouseX < x2 && (y1 < this.mouseY && this.mouseY < y2)) {
+                // 此时 鼠标在 选则区域内
+                this.offsetX = this.mouseX - x1;
+                this.offsetY = this.mouseY - y1;
+                this.width = x2 - x1;
+                this.height = y2 - y1;
+            }
+        },
+        async move(e) {
+            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height } = this;
+            this.mouseX = e.touches[0].x;
+            this.mouseY = e.touches[0].y;
+
+            // 检测 鼠标位置
+            if (x1 < this.mouseX && this.mouseX < x2 && (y1 < this.mouseY && this.mouseY < y2)) {
+                console.log(1);
+                // 此时 鼠标在 选则区域内
+                this.x1 = this.mouseX - offsetX;
+                this.x2 = this.x1 + width;
+                this.y1 = this.mouseY - offsetY;
+                this.y2 = this.y1 + height;
+            }
+
+            await this.drawImg(this.imgUrl);
+            this.drawRect();
+            this.context.draw();
+        },
+        async end(e) {}
+    },
+    onReady: function(e) {
+        this.init();
+    }
 };
 </script>
 
-<style>
-.content {
-	background: rgba(255, 255, 255, 1);
+<style lang="scss">
+.canvas {
+    width: 750upx;
+    height: 100vh;
 }
 
-.head-list {
-	height: 43px;
-	width: 100%;
-	background: #ffffff;
-	justify-content: center;
-	align-items: center;
-	display: flex;
-	border-bottom: 1px solid rgba(244, 244, 244, 1);
-}
-
-.head-info {
-	text-align: center;
-	font-size: 18px;
-	color: #000000;
-	font-weight: bold;
-}
-
-.save-box {
-	position: absolute;
-	right: 0px;
-	width: 50px;
-	height: 43px;
-	line-height: 43px;
-}
-
-.save {
-	color: rgba(98, 111, 252, 1);
-	font-size: 16px;
-	font-weight: 400;
-}
-
-.icon-back {
-	margin-top: 11px;
-	width: 10px;
-	height: 18px;
-	color: #000000;
-	margin-left: 6px;
-}
-
-.icon-back-box {
-	display: block;
-	position: absolute;
-	left: 6px;
-	height: 43px;
-	width: 30px;
-	align-items: center;
-}
-.cropper {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.cropper-buttons {
-	background-color: rgba(0, 0, 0, 0.95);
-	color: #04b00f;
-}
-.cropper-wrapper {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	background-color: #F0F0F0;
-}
-
-.cropper-buttons {
-	width: 100vw;
-	height: 50px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	line-height: 50px;
-}
-
-.cropper-buttons .upload,
-.cropper-buttons .getCropperImage {
-	
+.title {
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 </style>
