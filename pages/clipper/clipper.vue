@@ -38,6 +38,15 @@ export default {
             width: 0,
             height: 0,
 
+            // 选择器
+            margin: 8,
+            long: 30,
+            onSizeChange: false,
+            leftTop: false,
+            rightTop: false,
+            leftBottom: false,
+            rightBottom: false,
+
             hidden: false
         };
     },
@@ -78,6 +87,7 @@ export default {
             this.clearRect();
             await this.drawImg(this.imgUrl);
             this.drawRect();
+            this.drawSelect();
 
             // 绘制 选择 区域
             console.log(this.imgWidth, this.imgHeight, this.windowWidth / this.windowHeight);
@@ -127,9 +137,42 @@ export default {
         },
 
         // 绘制 大小控制器
-        
-        drawSelect(){
-            
+
+        drawSelect() {
+            let { context, x1, x2, y1, y2, margin, long } = this;
+
+            context.setLineWidth(5);
+            context.setLineCap('round');
+            context.setStrokeStyle('white');
+            context.setLineJoin('round');
+
+            // 左上
+            context.beginPath();
+            context.moveTo(x1 + long, y1 - margin);
+            context.lineTo(x1 - margin, y1 - margin);
+            context.lineTo(x1 - margin, y1 + long);
+            context.stroke();
+
+            // 右上
+            context.beginPath();
+            context.moveTo(x2 - long, y1 - margin);
+            context.lineTo(x2 + margin, y1 - margin);
+            context.lineTo(x2 + margin, y1 + long);
+            context.stroke();
+
+            // 左下
+            context.beginPath();
+            context.moveTo(x1 + long, y2 + margin);
+            context.lineTo(x1 - margin, y2 + margin);
+            context.lineTo(x1 - margin, y2 - long);
+            context.stroke();
+
+            // 右下
+            context.beginPath();
+            context.moveTo(x2 - long, y2 + margin);
+            context.lineTo(x2 + margin, y2 + margin);
+            context.lineTo(x2 + margin, y2 - long);
+            context.stroke();
         },
 
         // 清除 绘画
@@ -140,7 +183,7 @@ export default {
         },
 
         async start(e) {
-            let { x1, y1, x2, y2, windowWidth, windowHeight } = this;
+            let { x1, y1, x2, y2, windowWidth, windowHeight, margin, onSizeChange, leftTop } = this;
             this.mouseX = e.touches[0].x;
             this.mouseY = e.touches[0].y;
 
@@ -151,28 +194,72 @@ export default {
                 this.offsetY = this.mouseY - y1;
                 this.width = x2 - x1;
                 this.height = y2 - y1;
+                return;
+            }
+
+            // 鼠标在 左上选择框内
+            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y1 - margin * 2 < this.mouseY && this.mouseY < y1) {
+                this.onSizeChange = true;
+                this.leftTop = true;
+                return;
+            }
+
+            // 鼠标在 右上选择框内
+            if (x2 < this.mouseX && this.mouseX < x2 + margin * 2 && y1 - margin * 2 < this.mouseY && this.mouseY < y1) {
+                this.onSizeChange = true;
+                this.rightTop = true;
+                return;
+            }
+
+            // 鼠标在 左上选择框内
+            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y1 - margin * 2 < this.mouseY && this.mouseY < y2) {
+                this.onSizeChange = true;
+                return;
+            }
+
+            // 鼠标在 左上选择框内
+            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y1 - margin * 2 < this.mouseY && this.mouseY < y2) {
+                this.onSizeChange = true;
+                return;
             }
         },
         async move(e) {
-            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height } = this;
+            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height, long, margin, onSizeChange, leftTop, rightTop } = this;
             this.mouseX = e.touches[0].x;
             this.mouseY = e.touches[0].y;
 
             // 检测 鼠标位置
-            if (x1 < this.mouseX && this.mouseX < x2 && (y1 < this.mouseY && this.mouseY < y2)) {
+            // 鼠标在 选则区域内
+            if (!onSizeChange && x1 < this.mouseX && this.mouseX < x2 && (y1 < this.mouseY && this.mouseY < y2)) {
                 console.log(1);
-                // 此时 鼠标在 选则区域内
                 this.x1 = this.mouseX - offsetX;
                 this.x2 = this.x1 + width;
                 this.y1 = this.mouseY - offsetY;
                 this.y2 = this.y1 + height;
             }
 
+            // 鼠标在选择框内
+            // 左上
+            if (leftTop) {
+                this.x1 = this.mouseX;
+                this.y1 = this.mouseY;
+            }
+            // 右上
+            if (rightTop) {
+                this.x2 = this.mouseX;
+                this.y1 = this.mouseY;
+            }
+
             await this.drawImg(this.imgUrl);
             this.drawRect();
+            this.drawSelect();
             this.context.draw();
         },
-        async end(e) {}
+        async end(e) {
+            this.onSizeChange = false;
+            this.leftTop = false;
+            this.rightTop = false;
+        }
     },
     onReady: function(e) {
         this.init();
