@@ -2,6 +2,8 @@
     <view class="clipper">
         <canvas canvas-id="clipper" disable-scroll="true" class="canvas" @touchstart="start" @touchmove="move" @touchend="end" @touchcancel=""></canvas>
         <view class="title">Coordinates: ({{ mouseX }}, {{ mouseY }})</view>
+
+        <view class="sure">确认图片</view>
     </view>
 </template>
 
@@ -264,6 +266,11 @@ export default {
                 this.y2 = this.mouseY;
             }
 
+            // 限制 选取大小
+            if (x2 - x1 < 2 * long || y2 - y1 < 2 * long) {
+                this.onSizeChange = false;
+            }
+
             await this.drawImg(this.imgUrl);
             this.drawRect();
             this.drawSelect();
@@ -284,14 +291,26 @@ export default {
 </script>
 
 <style lang="scss">
-.canvas {
-    width: 750upx;
-    height: 100vh;
-}
+.clipper {
+    .canvas {
+        width: 750upx;
+        height: 100vh;
+    }
 
-.title {
-    position: fixed;
-    bottom: 0;
-    right: 0;
+    .sure {
+        position: fixed;
+        bottom: 90upx;
+        text-align: center;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 700upx;
+        height: 80upx;
+        border-radius: 8upx;
+        line-height: 80upx;
+        color: #fff;
+        font-size: 28upx;
+        background: rgba(255, 255, 255, 0.3);
+    }
 }
 </style>
