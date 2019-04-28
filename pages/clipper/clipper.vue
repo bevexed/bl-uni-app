@@ -3,7 +3,7 @@
         <canvas canvas-id="clipper" disable-scroll="true" class="canvas" @touchstart="start" @touchmove="move" @touchend="end" @touchcancel=""></canvas>
         <view class="title">Coordinates: ({{ mouseX }}, {{ mouseY }})</view>
 
-        <view class="sure">确认图片</view>
+        <view class="sure" @tap="upload">确认图片</view>
     </view>
 </template>
 
@@ -41,9 +41,14 @@ export default {
             height: 0,
 
             // 选择器
+            // 两侧留白
             margin: 8,
+            // 长短
             long: 30,
+
+            // 是否允许改变大小
             onSizeChange: false,
+            // 单一控制 可以改变大小的控制器
             leftTop: false,
             rightTop: false,
             leftBottom: false,
@@ -228,18 +233,73 @@ export default {
             }
         },
         async move(e) {
-            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height, long, margin, onSizeChange, leftTop, rightTop, leftBottom, rightBottom } = this;
+            let {
+                x1,
+                y1,
+                x2,
+                y2,
+                windowWidth,
+                windowHeight,
+                offsetX,
+                offsetY,
+                width,
+                height,
+                long,
+                margin,
+                onSizeChange,
+                leftTop,
+                rightTop,
+                leftBottom,
+                rightBottom,
+                mouseX,
+                mouseY
+            } = this;
             this.mouseX = e.touches[0].x;
             this.mouseY = e.touches[0].y;
 
             // 检测 鼠标位置
             // 鼠标在 选则区域内
             if (!onSizeChange && x1 < this.mouseX && this.mouseX < x2 && (y1 < this.mouseY && this.mouseY < y2)) {
-                console.log(1);
                 this.x1 = this.mouseX - offsetX;
                 this.x2 = this.x1 + width;
+
                 this.y1 = this.mouseY - offsetY;
                 this.y2 = this.y1 + height;
+
+                //                 // 限制 选取 位置
+                //                 // 左
+                //                 if (x1 < 2 * margin) {
+                //                     this.x1 = 2 * margin;
+                //                     this.x2 = this.x1 + width;
+                //                     if (this.mouseX > mouseX) {
+                //                         return;
+                //                     }
+                //                 }
+                //                 // 右
+                //                 if (x2 > windowWidth + 2 * margin) {
+                //                     this.x2 = windowWidth - 2 * margin;
+                //                     this.x1 = this.x2 - width;
+                //                     if (this.mouseX < mouseX) {
+                //                         return;
+                //                     }
+                //                 }
+                //
+                //                 // 上
+                //                 if (y1 < 2 * margin) {
+                //                     this.y1 = 2 * margin;
+                //                     this.y2 = this.y1 + height;
+                //                     if (this.mouseY > mouseY) {
+                //                         return;
+                //                     }
+                //                 }
+                //                 // 下
+                //                 if (y2 > windowHeight + 2 * margin) {
+                //                     this.y2 = windowHeight - 2 * margin;
+                //                     this.y1 = this.y2 - height;
+                //                     if (this.mouseY < mouseY) {
+                //                         return;
+                //                     }
+                //                 }
             }
 
             // 鼠标在选择框内
@@ -267,7 +327,7 @@ export default {
             }
 
             // 限制 选取大小
-            if (x2 - x1 < 2 * long || y2 - y1 < 2 * long) {
+            if (x2 - x1 < 2 * long || y2 - y1 < 2 * long || x1 < 0 || x2 > windowWidth || y1 < 0 || y2 > windowHeight) {
                 this.onSizeChange = false;
             }
 
@@ -282,8 +342,46 @@ export default {
             this.rightTop = false;
             this.leftBottom = false;
             this.rightBottom = false;
+        },
+
+        upload() {
+            let {
+                x1,
+                y1,
+                x2,
+                y2,
+                windowWidth,
+                windowHeight,
+                offsetX,
+                offsetY,
+                width,
+                height,
+                long,
+                margin,
+                onSizeChange,
+                leftTop,
+                rightTop,
+                leftBottom,
+                rightBottom,
+                mouseX,
+                mouseY
+            } = this;
+            
+            uni.canvasToTempFilePath({
+                x: x1,
+                y: y1,
+                width: x2-x1,
+                height: y2-y1,
+                destWidth: x2-x1,
+                destHeight: y2-y1,
+                canvasId: 'clipper',
+                success: function(res) {
+                    console.log(res.tempFilePath);
+                }
+            });
         }
     },
+
     onReady: function(e) {
         this.init();
     }
