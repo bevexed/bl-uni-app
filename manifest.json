@@ -72,11 +72,11 @@
                     "secure" : false
                 }
             },
-            "https" : true
+            "https" : false
         },
         "title" : "wty-wx",
         "router" : {
-            "base" : "/xty-wx-web/h5/"
+            "base" : ""
         },
         "template" : ""
     }

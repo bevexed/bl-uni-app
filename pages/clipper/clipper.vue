@@ -1,9 +1,10 @@
 <template>
     <view class="clipper">
         <canvas canvas-id="clipper" disable-scroll="true" class="canvas" @touchstart="start" @touchmove="move" @touchend="end" @touchcancel=""></canvas>
-        <view class="title">Coordinates: ({{ mouseX }}, {{ mouseY }})</view>
 
-        <view class="sure" @tap="upload">确认图片</view>
+        <view class="sure" @tap="recognition" v-if="from === 'lining'">开始识别</view>
+
+        <view class="sure" @tap="upload" v-else>确认图片</view>
     </view>
 </template>
 
@@ -11,6 +12,9 @@
 export default {
     data() {
         return {
+            // 页面来源
+            from: '',
+
             // 画布
 
             // 视口
@@ -77,7 +81,7 @@ export default {
 
         async init(e) {
             // 获取图像路径
-            this.imgUrl = '/static/imgs/fitting/8.jpg';
+            this.imgUrl = e.imgUrl;
 
             this.context = uni.createCanvasContext('clipper');
 
@@ -345,45 +349,35 @@ export default {
         },
 
         upload() {
-            let {
-                x1,
-                y1,
-                x2,
-                y2,
-                windowWidth,
-                windowHeight,
-                offsetX,
-                offsetY,
-                width,
-                height,
-                long,
-                margin,
-                onSizeChange,
-                leftTop,
-                rightTop,
-                leftBottom,
-                rightBottom,
-                mouseX,
-                mouseY
-            } = this;
-            
+            let { x1, y1, x2, y2 } = this;
+
             uni.canvasToTempFilePath({
                 x: x1,
                 y: y1,
-                width: x2-x1,
-                height: y2-y1,
-                destWidth: x2-x1,
-                destHeight: y2-y1,
+                width: x2 - x1,
+                height: y2 - y1,
+                destWidth: x2 - x1,
+                destHeight: y2 - y1,
                 canvasId: 'clipper',
                 success: function(res) {
-                    console.log(res.tempFilePath);
+                    console.log(res);
                 }
+            });
+        },
+
+        recognition() {
+            uni.navigateTo({
+                url: '/pages/recognition/recognition'
             });
         }
     },
 
-    onReady: function(e) {
-        this.init();
+    onLoad(e) {
+        console.log(e);
+        this.init(e);
+        if (e.path) {
+            this.from = e.path;
+        }
     }
 };
 </script>

@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .custmer-phone {
-    z-index: 999;
+    z-index: 9;
     position: fixed;
     right: 48upx;
     bottom: 160upx;

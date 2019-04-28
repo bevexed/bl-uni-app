@@ -1,7 +1,7 @@
 import ajax from './ajax.js';
 
-// const BaseUrl = 'http://192.168.3.112:5003';
-const BaseUrl = '';
+const BaseUrl = 'http://192.168.3.112:5003';
+// const BaseUrl = '';
 // 3D 试衣接口
 
 export const reqTextile3dmix = ({

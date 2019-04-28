@@ -1,11 +1,11 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
-            "path": "pages/fitting/fitting",
-            "style": {}
-        },
+
         {
             "path": "pages/home/home"
+        }, {
+            "path": "pages/fitting/fitting",
+            "style": {}
         }, {
             "path": "pages/lining/lining"
 
@@ -22,6 +22,13 @@
         , {
             "path": "pages/clipper/clipper",
             "style": {}
+        }, {
+            "path": "pages/recognition/recognition",
+            "style": {}
+        }
+        ,{
+            "path" : "pages/shop-detail/shop-detail",
+            "style" : {}
         }
     ],
     "globalStyle": {
@@ -61,7 +68,7 @@
         "current": 0, //当前激活的模式(list 的索引项)
         "list": [{
             "name": "", //模式名称
-            "path": "pages/clipper/clipper", //启动页面，必选
+            "path": "pages/shop-detail/shop-detail", //启动页面，必选
             "query": "" //启动参数，在页面的onLoad函数里面得到
         }]
     }

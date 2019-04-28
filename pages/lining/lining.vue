@@ -7,16 +7,26 @@
         <view class="menus">
             <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
                 {{ menu }}
-                <image v-if="index === 2" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                <image v-if="index === 2" :src="index === menuCurrentSelect ? '../../static/icon/arrow-top.svg' : '../../static/icon/arrow-bottom.svg'" mode=""></image>
             </view>
         </view>
+
+        <view class="white-space"></view>
 
         <!-- 抽屉 -->
         <uni-drawer :visible="drawerShow" mode="right" @close="onDrawerClose" class="drawer">
             <view class="search-bar">
                 <image class="search" src="../../static/icon/search.svg" mode=""></image>
                 <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
-                <image class="camera" src="../../static/icon/camera.svg" mode=""></image>
+                <image
+                    class="camera"
+                    src="../../static/icon/camera.svg"
+                    mode=""
+                    @tap="
+                        drawerShow = false;
+                        sortShow = true;
+                    "
+                ></image>
             </view>
 
             <view class="weigh">
@@ -89,8 +99,8 @@
         </uni-drawer>
 
         <!-- 商品列表 -->
-        <view class="list">
-            <view class="item" v-for="i in 30" :key="i">
+        <view class="list" v-if="menuCurrentSelect !== 2">
+            <view class="item" v-for="i in 30" :key="i" @tap="toDetail">
                 <image src="../../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
                 <view class="name">G2560817</view>
                 <view class="price">
@@ -104,6 +114,51 @@
                         <text class="rest-red">600</text>
                         米
                     </text>
+                </view>
+            </view>
+        </view>
+
+        <!-- 排序 -->
+        <view class="sort" v-show="menuCurrentSelect === 2">
+            <view class="options">
+                <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
+                    <text>{{ option }}</text>
+                    <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
+                </view>
+            </view>
+        </view>
+
+        <!-- 选择 分类 弹窗 -->
+        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
+            <view class="my-pop">
+                <view class="pop-top">
+                    <text @tap="sortShow = false">取消</text>
+                    <text class="sure" @tap="sureSelect">选择</text>
+                </view>
+
+                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
+                    <picker-view-column>
+                        <view class="select" v-for="(sort, index) in sorts" :key="index">
+                            <view class="value">{{ sort }}</view>
+                        </view>
+                    </picker-view-column>
+                </picker-view>
+
+                <view class="line left"></view>
+                <view class="line right"></view>
+            </view>
+        </view>
+
+        <!-- 相机拍照 我的相册 弹窗 -->
+        <view class="pop-wrap" v-show="popShow" @touchmove.stop.prevent="moveHandle" @tap="popShow = false">
+            <view class="pop" @tap.stop="chooseImg">
+                <view @tap.stop="chooseImg('camera')">
+                    <image src="../../static/icon/photo.png"></image>
+                    <text>照相拍照</text>
+                </view>
+                <view @tap.stop="chooseImg('album')">
+                    <image src="../../static/icon/pic.png"></image>
+                    <text>我的相册</text>
                 </view>
             </view>
         </view>
@@ -149,7 +204,21 @@ export default {
             // 当前选中标签
             tagCurrentSelect: [],
             // 返回顶部显示
-            appear: false
+            appear: false,
+            // 分类弹窗
+            sortShow: false,
+            // 相机弹窗
+            popShow: false,
+            // 分类 - 弹出框
+            sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
+            // 当前分类值
+            defaultPicker: [2],
+            // 当前选择分类值
+            currentPickerValue: 2,
+            // 排序
+            sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
+            // 当前选择排序方式
+            currentSortState: 0
         };
     },
     methods: {
@@ -186,7 +255,7 @@ export default {
             if (this[currentState].includes(tag_name)) {
                 this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
                 return;
-            };
+            }
             this[currentState].push(tag_name);
         },
 
@@ -213,20 +282,60 @@ export default {
                     })
                     .exec();
             }, 300);
+        },
+        hidePopup() {},
+        bindChange(e) {
+            console.log(e);
+            const val = e.detail.value[0];
+            this.currentPickerValue = val;
+        },
+        moveHandle() {},
+        sureSelect() {
+            this.popShow = true;
+            this.sortShow = false;
+        },
+        chooseImg(sourceType) {
+            uni.chooseImage({
+                success(res) {
+                    console.log('选择图片完成', res);
+                    uni.navigateTo({
+                        url: '/pages/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
+                    });
+                },
+                count: 1,
+                sourceType: [sourceType],
+                sizeType: ['original']
+            });
+        },
+        selectSortType(index) {
+           this.currentSortState = index;
+        },
+        toDetail(){
+            uni.navigateTo({
+                url:'../shop-detail/shop-detail'
+            })
         }
     },
+
     onReady() {}
 };
 </script>
 
 <style lang="scss" scoped>
 .lining {
+    .white-space {
+        height: 120upx;
+    }
     .menus {
+        z-index: 99;
+        position: fixed;
         display: flex;
+        width: 750upx;
         justify-content: space-around;
         align-items: center;
         padding: 34upx 0;
         border-bottom: 2upx solid #eee;
+        background: #fff;
         font-family: 苹方 常规;
 
         .menu {
@@ -371,6 +480,45 @@ export default {
         }
     }
 
+    .sort {
+        .options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 $white-space;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 280upx;
+            height: 40upx;
+            font-size: 14px;
+            font-family: PingFang-SC-Medium;
+            margin-bottom: 20upx;
+            background: #eee;
+            border-radius: 8upx;
+            color: #999;
+            padding: 20upx;
+
+            &.active {
+                color: $theme-color;
+                background: rgba(191, 160, 101, 0.2);
+                font-weight: 500;
+            }
+
+            text {
+                width: 70%;
+            }
+
+            image {
+                width: 32upx;
+                height: 32upx;
+            }
+        }
+    }
+
     .list {
         padding: 20upx $white-space;
         display: flex;
@@ -412,6 +560,10 @@ export default {
                     font-weight: 300;
                     font-size: 20upx;
                     color: $uni-text-color-grey;
+
+                    .rest-red {
+                        color: #c50000;
+                    }
                 }
             }
         }
@@ -422,7 +574,7 @@ export default {
         width: 268upx;
         height: 60upx;
         position: fixed;
-        top: 126upx;
+        top: 226upx;
         left: 0;
         right: 0;
         margin: auto;
@@ -433,6 +585,100 @@ export default {
             width: 40upx;
             height: 40upx;
             margin: 10upx 0;
+        }
+    }
+
+    .pop-wrap {
+        z-index: 999;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 750upx;
+        height: 100vh;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.3);
+
+        .my-pop {
+            position: fixed;
+            bottom: 0upx;
+            width: 670upx;
+            height: 500upx;
+            background: #fff;
+            padding: 20upx 40upx;
+            .pop-top {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 0 20upx 0;
+                background: #fff;
+
+                text {
+                    font-size: 28upx;
+                    font-weight: 300;
+                    &.sure {
+                        color: $theme-color;
+                    }
+                }
+            }
+        }
+
+        .pick {
+            height: 380upx;
+            width: 100%;
+        }
+
+        .select {
+            text-align: center;
+            font-size: 32upx;
+            font-weight: 300;
+        }
+
+        .line {
+            position: absolute;
+            top: 0;
+            bottom: 30upx;
+            margin: auto;
+            width: 150upx;
+            height: 1upx;
+            background: #999;
+
+            &.left {
+                left: 30upx;
+            }
+            &.right {
+                right: 30upx;
+            }
+        }
+    }
+
+    .pop {
+        z-index: 999;
+        position: fixed;
+        height: 160upx;
+        width: 750upx;
+        bottom: 0;
+        background: #fff;
+        padding: 20upx 0;
+        border-radius: 8upx 8upx 0 0;
+        overflow: hidden;
+
+        view {
+            display: flex;
+            align-items: center;
+            height: 80upx;
+            padding: 0 32upx;
+            &:first-child {
+                border-bottom: 1upx solid #eeeeee;
+            }
+            image {
+                margin-right: 26upx;
+                width: 36upx;
+                height: 36upx;
+            }
+            text {
+                font-family: 苹方 中等;
+                color: $uni-text-color;
+                font-size: 28upx;
+            }
         }
     }
 }

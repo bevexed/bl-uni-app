@@ -19,7 +19,7 @@
                     </swiper-item>
 
                     <swiper-item>
-                        <view v-for="i in 3"><image src="" mode="aspectFill"></image></view>
+                        <view v-for="i in 3" :key="i"><image src="" mode="aspectFill"></image></view>
                     </swiper-item>
 
                     <!-- <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
