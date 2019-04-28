@@ -1,6 +1,10 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
+            "path": "pages/fitting/fitting",
+            "style": {}
+        },
+        {
             "path": "pages/home/home"
         }, {
             "path": "pages/lining/lining"
@@ -14,13 +18,10 @@
         }, {
             "path": "pages/contact/contact"
         }
-        ,{
-            "path" : "pages/fitting/fitting",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/clipper/clipper",
-            "style" : {}
+
+        , {
+            "path": "pages/clipper/clipper",
+            "style": {}
         }
     ],
     "globalStyle": {

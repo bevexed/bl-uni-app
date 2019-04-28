@@ -7,11 +7,27 @@
                 <view class="model-select-title"><text>模特选择</text></view>
                 <image class="before" src="../../static/icon/before.svg" mode=""></image>
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
-                    <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
+                    <swiper-item>
+                        <view :class="['swiper-item', { selected: 0 === currentModel }]" @tap="onModelChange(0)">
+                            <image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
+                        </view>
+                    </swiper-item>
+                    <swiper-item>
+                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)">
+                            <image src="../../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
+                        </view>
+                    </swiper-item>
+
+                    <swiper-item>
+                        <view v-for="i in 3"><image src="" mode="aspectFill"></image></view>
+                    </swiper-item>
+
+                    <!-- <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
                         <view :class="['swiper-item', { selected: index === currentModel }]" @tap="onModelChange(index, imgUrl)">
                             <image :src="'../../' + imgUrl" mode="aspectFill"></image>
                         </view>
-                    </swiper-item>
+                    </swiper-item> -->
+                    -->
                 </swiper>
                 <image class="next" src="../../static/icon/before.svg" mode=""></image>
             </view>
@@ -130,7 +146,7 @@ export default {
                 loc: '',
                 dx: 0,
                 dy: 0,
-                amp: 2,
+                amp: 1,
                 rotate: 0,
                 Rdpi: 40
             }

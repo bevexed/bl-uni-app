@@ -90,7 +90,7 @@ export default {
             this.drawSelect();
 
             // 绘制 选择 区域
-            console.log(this.imgWidth, this.imgHeight, this.windowWidth / this.windowHeight);
+            console.log(this.imgWidth, this.imgHeight, this.windowWidth, this.windowHeight);
             this.context.draw();
         },
 
@@ -125,8 +125,8 @@ export default {
             // 绘制 选择 区域
             this.context.drawImage(
                 imgUrl,
-                x1 / ((x2 - x1) / imgWidth),
-                y1 / ((y2 - y1) / imgWidth),
+                (x1 * realWidth) / imgWidth,
+                (y1 * realHeight) / imgHeight,
                 realWidth * ((x2 - x1) / imgWidth),
                 realHeight * ((y2 - y1) / imgHeight),
                 x1,
@@ -211,20 +211,22 @@ export default {
                 return;
             }
 
-            // 鼠标在 左上选择框内
-            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y1 - margin * 2 < this.mouseY && this.mouseY < y2) {
+            // 鼠标在 左下选择框内
+            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y2 + margin * 2 > this.mouseY && this.mouseY > y2) {
                 this.onSizeChange = true;
+                this.leftBottom = true;
                 return;
             }
 
-            // 鼠标在 左上选择框内
-            if (x1 - margin * 2 < this.mouseX && this.mouseX < x1 && y1 - margin * 2 < this.mouseY && this.mouseY < y2) {
+            // 鼠标在 右下选择框内
+            if (x2 < this.mouseX && this.mouseX < x2 + margin * 2 && y2 + margin * 2 > this.mouseY && this.mouseY > y2) {
                 this.onSizeChange = true;
+                this.rightBottom = true;
                 return;
             }
         },
         async move(e) {
-            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height, long, margin, onSizeChange, leftTop, rightTop } = this;
+            let { x1, y1, x2, y2, windowWidth, windowHeight, offsetX, offsetY, width, height, long, margin, onSizeChange, leftTop, rightTop, leftBottom, rightBottom } = this;
             this.mouseX = e.touches[0].x;
             this.mouseY = e.touches[0].y;
 
@@ -250,6 +252,18 @@ export default {
                 this.y1 = this.mouseY;
             }
 
+            // 左下
+            if (leftBottom) {
+                this.x1 = this.mouseX;
+                this.y2 = this.mouseY;
+            }
+
+            // 右下
+            if (rightBottom) {
+                this.x2 = this.mouseX;
+                this.y2 = this.mouseY;
+            }
+
             await this.drawImg(this.imgUrl);
             this.drawRect();
             this.drawSelect();
@@ -259,6 +273,8 @@ export default {
             this.onSizeChange = false;
             this.leftTop = false;
             this.rightTop = false;
+            this.leftBottom = false;
+            this.rightBottom = false;
         }
     },
     onReady: function(e) {
