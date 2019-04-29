@@ -4,7 +4,7 @@
         <view class="shop-pic">
             <uni-swiper-dot :info="banners" :current="current" mode="long" :dotsStyles="dotsStyles">
                 <swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" loop class="banner" @change="swiperChange">
-                    <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
+                    <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap.stop="showBig(bannerIndex)">
                         <view class="swiper-item"><image lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
                     </swiper-item>
                 </swiper>
@@ -54,7 +54,6 @@
             <text>商品选择</text>
             <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
         </view>
-
         <view class="shop-detail">
             商品详情
             <view class="list">
@@ -103,6 +102,11 @@
                 <view class="buy-now">立即购买</view>
             </view>
         </view>
+
+        <!-- // 下架按钮 -->
+
+        <view class="sold-out">该商品已下架</view>
+
         <view class="white-space"></view>
 
         <!--  弹窗 -->
@@ -146,6 +150,17 @@
                 <view class="button">确定</view>
             </view>
         </view>
+
+        <!-- 放大 -->
+        <!-- <view class="big" v-show="bigShow">
+            <swiper loop class="banner" @change="swiperChange">
+                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="big(bannerIndex)">
+                    <view :class="['swiper-item']">
+                        <image :class="{ 'big-img': currentBig === bannerIndex }" lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image>
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view> -->
     </view>
 </template>
 
@@ -176,14 +191,20 @@ export default {
             showButton: false,
 
             // 弹窗
-            selectShow: true,
+            selectShow: false,
 
             // 购买数量
             num: 0,
 
             tagsList: ['标样', '匹配', '码样'],
             // 当前选中标签
-            tagCurrentSelect: []
+            tagCurrentSelect: [],
+
+            // 显示大图
+            bigShow: -1,
+
+            // 图片当前是否放大
+            currentBig: 0
         };
     },
     methods: {
@@ -199,6 +220,15 @@ export default {
                 return;
             }
             this[currentState].push(tag_name);
+        },
+        showBig(index) {
+            console.log(index);
+            this.bigShow = index;
+        },
+        // 放大图片
+        big(index) {
+            console.log(index);
+            this.currentBig = index;
         },
         moveHandle() {}
     }
@@ -629,6 +659,32 @@ export default {
             padding: 0;
             text-align: center;
             font-size: 24upx;
+        }
+    }
+
+    .sold-out {
+        width: 100%;
+        height: 98upx;
+        position: fixed;
+        bottom: 98upx;
+        line-height: 98upx;
+        background: #666;
+        color: #fff;
+        text-align: center;
+        font-size: 28upx;
+    }
+
+    .big {
+        position: fixed;
+        top: 0;
+        background: black;
+        width: 100vw;
+        height: 100vh;
+        .banner {
+            margin-top: 90%;
+        }
+
+        .big-img {
         }
     }
 }

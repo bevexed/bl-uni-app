@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+import CustmerPhone from '../components/CustmerPhone/CustmerPhone.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 export default {

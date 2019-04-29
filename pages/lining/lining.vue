@@ -299,7 +299,7 @@ export default {
                 success(res) {
                     console.log('选择图片完成', res);
                     uni.navigateTo({
-                        url: '/pages/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
+                        url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
                     });
                 },
                 count: 1,
@@ -312,7 +312,7 @@ export default {
         },
         toDetail(){
             uni.navigateTo({
-                url:'../shop-detail/shop-detail'
+                url:'/shop-detail/shop-detail'
             })
         }
     },
