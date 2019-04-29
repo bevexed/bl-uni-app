@@ -1,6 +1,6 @@
 <template>
     <view class="recognition">
-        <view class="header"><image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image></view>
+        <view class="header"><image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image></view>
 
         <view class="similar">
             <view class="title">相似商品</view>
@@ -21,7 +21,7 @@
         <!-- 商品列表 -->
         <view class="list">
             <view class="item" v-for="i in 30" :key="i">
-                <image src="../../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
+                <image src="../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
                 <view class="name">G2560817</view>
                 <view class="price">
                     <text class="money">

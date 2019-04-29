@@ -211,6 +211,11 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.npm.taobao.org/hammerjs/download/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
+
 har-schema@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/har-schema/download/har-schema-2.0.0.tgz#a94c2224ebcac04782a0d9035521f24735b7ec92"
@@ -417,6 +422,11 @@ uuid@^3.3.2:
   version "3.3.2"
   resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE=
+
+v-finger-mk42@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npm.taobao.org/v-finger-mk42/download/v-finger-mk42-2.0.4.tgz#47d5fcdaa643937451e2bf8972c49e26c2830b4f"
+  integrity sha1-R9X82qZDk3RR4r+JcsSeJsKDC08=
 
 verror@1.10.0:
   version "1.10.0"

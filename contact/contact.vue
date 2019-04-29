@@ -8,7 +8,7 @@
 
         <view class="contact-type">
             <text>A：扫码关注公众号，掌握我们最新的信息</text>
-            <image src="../../static/imgs/contact/1555926754105.jpg"></image>
+            <image src="../static/imgs/contact/1555926754105.jpg"></image>
 
             <text>B：您还可以通过以下方式联系我们</text>
 

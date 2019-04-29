@@ -13,26 +13,26 @@
             <!-- 轮播图上的浮动按钮 -->
             <view class="buttons">
                 <view>
-                    <image src="../../static/icon/collect.png" mode=""></image>
+                    <image src="../static/icon/collect.png" mode=""></image>
                     <text>收藏</text>
                 </view>
 
                 <view>
-                    <image src="../../static/icon/share.png" mode=""></image>
+                    <image src="../static/icon/share.png" mode=""></image>
                     <text>分享</text>
                 </view>
             </view>
 
             <view class="add" @tap="showButton = !showButton">
-                <image src="../../static/icon/add.png" mode="" v-if="showButton"></image>
-                <image src="../../static/icon/reduce.png" mode="" v-else></image>
+                <image src="../static/icon/add.png" mode="" v-if="showButton"></image>
+                <image src="../static/icon/reduce.png" mode="" v-else></image>
                 <view :class="['add-show', { active: showButton }]">
                     <view class="fit">
-                        <image src="../../static/icon/3d@2x.png" mode=""></image>
+                        <image src="../static/icon/3d@2x.png" mode=""></image>
                         <text>试衣</text>
                     </view>
                     <view class="simalar">
-                        <image src="../../static/icon/s.png" mode=""></image>
+                        <image src="../static/icon/s.png" mode=""></image>
                         <text>相似</text>
                     </view>
                 </view>
@@ -52,7 +52,7 @@
 
         <view class="shop-select" @tap="selectShow = true">
             <text>商品选择</text>
-            <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+            <image src="../static/icon/arrow-bottom.svg" mode=""></image>
         </view>
         <view class="shop-detail">
             商品详情
@@ -72,7 +72,7 @@
 
         <view class="shop-list">
             <view class="shop-item" v-for="i in 10" :key="i">
-                <image src="../../static/imgs/fitting/2.jpg" mode=""></image>
+                <image src="../static/imgs/fitting/2.jpg" mode=""></image>
                 <view class="shop-name">
                     <text>G2560817</text>
                     <view class="sold">98人已购买</view>
@@ -83,16 +83,16 @@
         <view class="bottom">
             <view class="icons">
                 <view class="icon">
-                    <image src="../../static/icon/homepage_fill@2x.png" mode=""></image>
+                    <image src="../static/icon/homepage_fill@2x.png" mode=""></image>
                     <text>首页</text>
                 </view>
                 <view class="icon">
-                    <image src="../../static/icon/service_fill@2x.png" mode=""></image>
+                    <image src="../static/icon/service_fill@2x.png" mode=""></image>
                     <view class="badge">1</view>
                     <text>购物车</text>
                 </view>
                 <view class="icon">
-                    <image src="../../static/icon/phone.png" mode=""></image>
+                    <image src="../static/icon/phone.png" mode=""></image>
                     <text>客服</text>
                 </view>
             </view>
@@ -113,7 +113,7 @@
         <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
             <view class="my-pop" @tap.stop>
                 <view class="pop-header">
-                    <image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
+                    <image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
                     <view class="right">
                         <view class="name">BL245685837265854</view>
                         <view class="sold">月销 30000 米</view>
@@ -185,7 +185,7 @@ export default {
                 selectedBackgroundColor: 'rgba(0,0,0,.3)'
             },
             // banner数据
-            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png'],
+            banners: ['../static/imgs/home/banner.png', '../static/imgs/home/banner.png', '../static/imgs/home/banner.png'],
 
             // 轮播图 显示更过按钮
             showButton: false,
@@ -204,6 +204,7 @@ export default {
             bigShow: -1,
 
             // 图片当前是否放大
+            // todo: 图片 全屏放大
             currentBig: 0
         };
     },

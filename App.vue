@@ -31,7 +31,6 @@ image {
     color: #aaa;
 }
 
-
 /* 强行 修改 抽屉长 */
 .uni-drawer__content {
     width: 80% !important;
@@ -46,8 +45,8 @@ image {
     text-overflow: ellipsis;
 }
 
-.uni-numbox:after,.uni-numbox__value:after{
+.uni-numbox:after,
+.uni-numbox__value:after {
     border-color: #999 !important;
 }
-
 </style>
