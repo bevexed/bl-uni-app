@@ -23,7 +23,20 @@
                 </view>
             </view>
 
-            <view class="add"><image src="../../static/icon/add.png" mode=""></image></view>
+            <view class="add" @tap="showButton = !showButton">
+                <image src="../../static/icon/add.png" mode="" v-if="showButton"></image>
+                <image src="../../static/icon/reduce.png" mode="" v-else></image>
+                <view :class="['add-show', { active: showButton }]">
+                    <view class="fit">
+                        <image src="../../static/icon/3d@2x.png" mode=""></image>
+                        <text>试衣</text>
+                    </view>
+                    <view class="simalar">
+                        <image src="../../static/icon/s.png" mode=""></image>
+                        <text>相似</text>
+                    </view>
+                </view>
+            </view>
         </view>
 
         <view class="shop-name">BL245685837265854</view>
@@ -37,7 +50,7 @@
             </view>
         </view>
 
-        <view class="shop-select">
+        <view class="shop-select" @tap="selectShow = true">
             <text>商品选择</text>
             <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
         </view>
@@ -53,6 +66,60 @@
                 <view class="item">质量等级：国家一等品</view>
                 <view class="item">疵点率：2/100M</view>
                 <view class="item">备注提示：</view>
+            </view>
+        </view>
+
+        <view class="guess">猜您喜欢</view>
+
+        <view class="shop-list">
+            <view class="shop-item" v-for="i in 10" :key="i">
+                <image src="../../static/imgs/fitting/2.jpg" mode=""></image>
+                <view class="shop-name">
+                    <text>G2560817</text>
+                    <view class="sold">98人已购买</view>
+                </view>
+            </view>
+        </view>
+
+        <view class="bottom">
+            <view class="icons">
+                <view class="icon">
+                    <image src="../../static/icon/homepage_fill@2x.png" mode=""></image>
+                    <text>首页</text>
+                </view>
+                <view class="icon">
+                    <image src="../../static/icon/service_fill@2x.png" mode=""></image>
+                    <view class="badge">1</view>
+                    <text>购物车</text>
+                </view>
+                <view class="icon">
+                    <image src="../../static/icon/phone.png" mode=""></image>
+                    <text>客服</text>
+                </view>
+            </view>
+            <view class="buttons">
+                <view class="add-cart">加入购物车</view>
+
+                <view class="buy-now">立即购买</view>
+            </view>
+        </view>
+        <view class="white-space"></view>
+
+        <!--  弹窗 -->
+        <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectShow = false">
+            <view class="my-pop">
+                <view class="pop-header">
+                    <image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
+                    <view class="right">
+                        <view class="name">BL245685837265854</view>
+                        <view class="sold">月销 30000 米</view>
+
+                        <view class="price">
+                            ¥300
+                            <text>/米</text>
+                        </view>
+                    </view>
+                </view>
             </view>
         </view>
     </view>
@@ -77,7 +144,13 @@ export default {
                 selectedBackgroundColor: 'rgba(0,0,0,.3)'
             },
             // banner数据
-            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png']
+            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png'],
+
+            // 轮播图 显示更过按钮
+            showButton: false,
+
+            // 弹窗
+            selectShow: true
         };
     },
     methods: {
@@ -135,6 +208,52 @@ export default {
             image {
                 width: 40upx;
                 height: 40upx;
+            }
+
+            .add-show {
+                position: absolute;
+                width: 60upx;
+                height: 0upx;
+                top: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                background: #fff;
+                border-radius: 30upx;
+                overflow: hidden;
+                transition: all 0.3s ease;
+
+                &.active {
+                    top: -220upx;
+                    height: 206upx;
+                }
+
+                image {
+                    width: 30upx;
+                    height: 30upx;
+                }
+
+                view {
+                    width: 60upx;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                }
+
+                text {
+                    font-size: 16upx;
+                    line-height: 2;
+                }
+
+                .fit:after {
+                    position: absolute;
+                    top: 100upx;
+                    content: '';
+                    width: 28upx;
+                    height: 2upx;
+                    background: #333;
+                }
             }
         }
     }
@@ -199,6 +318,209 @@ export default {
                 color: #666;
                 &:before {
                     content: '· ';
+                }
+            }
+        }
+    }
+
+    .guess {
+        padding: 20upx $white-space;
+        font-size: 28upx;
+        font-family: PingFang-SC-Bold;
+    }
+
+    .shop-list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 750upx - 2 * $white-space;
+        padding: 0 $white-space;
+        .shop-item {
+            font-size: 28upx;
+            color: #333;
+            width: 330upx;
+            margin-bottom: 18upx;
+            image {
+                width: 330upx;
+                height: 360upx;
+            }
+            .shop-name {
+                display: flex;
+                padding: 10upx 0;
+                justify-content: space-between;
+                align-items: center;
+                .sold {
+                    color: #999;
+                    font-size: 20upx;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 750upx;
+        height: 98upx;
+        background: #fff;
+        box-shadow: 0 -2upx 6upx 0 rgba(204, 204, 204, 0.5);
+        .icons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 98upx;
+            width: 312upx;
+            .icon {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    width: 2upx;
+                    height: 30upx;
+                    background: #333333;
+                    top: 4upx;
+                    left: -30upx;
+                }
+                image {
+                    width: 34upx;
+                    height: 34upx;
+                }
+                text {
+                    font-size: 20upx;
+                    font-family: PingFang-SC-Regular;
+                    font-weight: 400;
+                    color: #333;
+                    line-height: 2;
+                }
+            }
+        }
+
+        .buttons {
+            width: 400upx;
+            height: 94upx;
+            display: flex;
+
+            border: 2upx solid $theme-color;
+            border-radius: 8upx 0 0 8upx;
+            font-family: PingFang-SC-Medium;
+            font-weight: 500;
+            font-size: 28upx;
+
+            view {
+                width: 50%;
+                line-height: 98upx;
+                text-align: center;
+            }
+
+            .add-cart {
+                color: $theme-color;
+                background: #fff;
+            }
+            .buy-now {
+                color: #fff;
+                background: $theme-color;
+            }
+        }
+    }
+
+    .white-space {
+        height: 98upx;
+    }
+
+    view.badge {
+        position: absolute;
+        height: 20upx;
+        min-width: 20upx;
+        text-align: center;
+        line-height: 20upx;
+        top: -5upx;
+        right: 5upx;
+        font-size: 10upx;
+        color: #fff;
+        background: #c50000;
+        border-radius: 10upx;
+    }
+
+    .pop-wrap {
+        z-index: 999;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 750upx;
+        height: 100vh;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.3);
+
+        .my-pop {
+            position: fixed;
+            bottom: 0upx;
+            width: 670upx;
+            height: 335px;
+            background: #fff;
+            padding: 80upx 40upx 0;
+            border-radius: 8upx;
+
+            &:before {
+                content: '';
+                position: absolute;
+                width: 48upx;
+                height: 8upx;
+                top: 20upx;
+                left: 50%;
+
+                margin-left: -24upx;
+                border-radius: 4upx;
+                background: #999;
+            }
+        }
+
+        .pop-header {
+            display: flex;
+            justify-content: flex-start;
+
+            image {
+                width: 200upx;
+                height: 200upx;
+            }
+            .right {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                width: 480upx;
+                height: 200upx;
+
+                view {
+                    margin-left: 40upx;
+                    width: 440upx;
+                    height: 40upx;
+                }
+
+                .name {
+                    font-size: 28upx;
+                    font-family: PingFang-SC-Bold;
+                    font-weight: bold;
+                    color: #333;
+                }
+                .sold {
+                    font-size: 20upx;
+                    font-family: PingFang-SC-Medium;
+                    color: #999;
+                    margin-top: -20upx;
+                }
+                .price {
+                    align-self: flex-end;
+                    color: #c50000;
+                    text {
+                        color: #999;
+                        font-size: 20upx;
+                    }
                 }
             }
         }
