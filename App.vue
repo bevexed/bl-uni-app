@@ -46,4 +46,8 @@ image {
     text-overflow: ellipsis;
 }
 
+.uni-numbox:after,.uni-numbox__value:after{
+    border-color: #999 !important;
+}
+
 </style>

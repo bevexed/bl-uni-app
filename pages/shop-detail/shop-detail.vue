@@ -106,8 +106,8 @@
         <view class="white-space"></view>
 
         <!--  弹窗 -->
-        <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectShow = false">
-            <view class="my-pop">
+        <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
+            <view class="my-pop" @tap.stop>
                 <view class="pop-header">
                     <image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
                     <view class="right">
@@ -120,16 +120,42 @@
                         </view>
                     </view>
                 </view>
+
+                <view class="select-much">
+                    <view class="title">数量选择</view>
+                    <view class="rest">库存 3000 米</view>
+                    <uni-number-box :min="0" :max="99999" :step="1" :value="num" @change="numChange"></uni-number-box>
+                    <view class="rest unit">米</view>
+                </view>
+
+                <view class="select-small">
+                    <view class="title">小样选择</view>
+                    <view :class="['tags']">
+                        <uni-tag
+                            class="tag"
+                            :text="tag"
+                            :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                            :inverted="true"
+                            v-for="(tag, index) in tagsList"
+                            :key="index"
+                            @click="selectTag('tagCurrentSelect', tag)"
+                        />
+                    </view>
+                </view>
+
+                <view class="button">确定</view>
             </view>
         </view>
     </view>
 </template>
 
 <script>
-import { uniSwiperDot } from '@dcloudio/uni-ui';
+import { uniSwiperDot, uniNumberBox, uniTag } from '@dcloudio/uni-ui';
 export default {
     components: {
-        uniSwiperDot
+        uniSwiperDot,
+        uniNumberBox,
+        uniTag
     },
     data() {
         return {
@@ -150,13 +176,31 @@ export default {
             showButton: false,
 
             // 弹窗
-            selectShow: true
+            selectShow: true,
+
+            // 购买数量
+            num: 0,
+
+            tagsList: ['标样', '匹配', '码样'],
+            // 当前选中标签
+            tagCurrentSelect: []
         };
     },
     methods: {
         swiperChange(e) {
             this.current = e.detail.current;
-        }
+        },
+        numChange(val) {
+            console.log(val);
+        },
+        selectTag(currentState, tag_name) {
+            if (this[currentState].includes(tag_name)) {
+                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+                return;
+            }
+            this[currentState].push(tag_name);
+        },
+        moveHandle() {}
     }
 };
 </script>
@@ -462,7 +506,7 @@ export default {
             position: fixed;
             bottom: 0upx;
             width: 670upx;
-            height: 335px;
+            height: 620upx;
             background: #fff;
             padding: 80upx 40upx 0;
             border-radius: 8upx;
@@ -523,6 +567,68 @@ export default {
                     }
                 }
             }
+        }
+
+        .select-much {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40upx;
+            .rest {
+                font-size: 20upx;
+                font-family: PingFang-SC-Regular;
+                color: #999;
+            }
+
+            .unit {
+                margin-left: -80upx;
+            }
+        }
+
+        .select-small {
+            margin-top: 64upx;
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            $height: 80upx;
+            width: 100%;
+            height: $height;
+            line-height: $height;
+            text-align: center;
+            background: $theme-color;
+            font-size: 28upx;
+            font-family: PingFang-SC-Medium;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 8upx;
+            margin-top: 64upx;
+        }
+    }
+
+    .title {
+        font-size: 28upx;
+        font-family: PingFang-SC-Medium;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .tags {
+        width: 75%;
+        height: 64upx;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-left: 30upx;
+        transition: max-height 0.3s ease-in-out;
+
+        .tag {
+            margin: 0 0 30upx;
+            width: 140upx;
+            padding: 0;
+            text-align: center;
+            font-size: 24upx;
         }
     }
 }

@@ -594,7 +594,7 @@ export default {
         top: 0;
         left: 0;
         width: 750upx;
-        height: 100vh;
+        height: 200000upx;
         overflow: hidden;
         background: rgba(0, 0, 0, 0.3);
 
