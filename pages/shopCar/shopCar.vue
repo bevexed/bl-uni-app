@@ -85,7 +85,8 @@
             <view class="tips">您的购物车内无商品</view>
             <view class="button">前往选购</view>
         </view>
-
+        
+<!-- 底部按钮 -->
         <view class="shop-car-footer" v-if="goods.length">
             <view class="select-all" @tap="selectAllgoods">
                 <view :class="['select', { active: currentSelect === goods.length }]"><view class="selected"></view></view>
@@ -96,7 +97,7 @@
                 ￥350.00
             </view>
             <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
-            <view v-else :class="['button', { active: currentSelect }]">付款({{ currentSelect }})</view>
+            <view v-else @tap="to('../../account-cart/account-cart')" :class="['button', { active: currentSelect }]">付款({{ currentSelect }})</view>
         </view>
 
         <view class="white-space"></view>
@@ -182,6 +183,12 @@ export default {
 
         numChange(val) {
             console.log(val);
+        },
+
+        to(url) {
+            uni.navigateTo({
+                url
+            });
         }
     }
 };

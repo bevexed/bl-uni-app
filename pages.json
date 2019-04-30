@@ -39,6 +39,11 @@
             "pages": [{
                 "path": "contact"
             }]
+        }, {
+            "root": "account-cart",
+            "pages": [{
+                "path": "account-cart"
+            }]
         }
 
     ],
@@ -55,23 +60,23 @@
         "backgroundColor": "#fff",
         "list": [{
             "pagePath": "pages/home/home",
-            "iconPath": "static/tab-bar-icons/homepage.png",
-            "selectedIconPath": "static/tab-bar-icons/homepage-s.png",
+            "iconPath": "static/tab-bar-icons/homepage.svg",
+            "selectedIconPath": "static/tab-bar-icons/homepage-s.svg",
             "text": "首页"
         }, {
             "pagePath": "pages/lining/lining",
-            "iconPath": "static/tab-bar-icons/lining.png",
-            "selectedIconPath": "static/tab-bar-icons/lining-s.png",
+            "iconPath": "static/tab-bar-icons/lining.svg",
+            "selectedIconPath": "static/tab-bar-icons/lining-s.svg",
             "text": "面料"
         }, {
             "pagePath": "pages/shopCar/shopCar",
-            "iconPath": "static/tab-bar-icons/shopcar.png",
-            "selectedIconPath": "static/tab-bar-icons/shopcar-s.png",
+            "iconPath": "static/tab-bar-icons/shopcar.svg",
+            "selectedIconPath": "static/tab-bar-icons/shopcar-s.svg",
             "text": "购物车"
         }, {
             "pagePath": "pages/my/my",
-            "iconPath": "static/tab-bar-icons/my.png",
-            "selectedIconPath": "static/tab-bar-icons/my-s.png",
+            "iconPath": "static/tab-bar-icons/my.svg",
+            "selectedIconPath": "static/tab-bar-icons/my-s.svg",
             "text": "我的"
         }]
 
@@ -80,7 +85,7 @@
         "current": 0, //当前激活的模式(list 的索引项)
         "list": [{
             "name": "", //模式名称
-            "path": "pages/shopCar/shopCar", //启动页面，必选
+            "path": "account-cart/account-cart", //启动页面，必选
             "query": "" //启动参数，在页面的onLoad函数里面得到
         }]
     }

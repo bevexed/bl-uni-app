@@ -24,8 +24,8 @@
             </view>
 
             <view class="add" @tap="showButton = !showButton">
-                <image src="../static/icon/add.png" mode="" v-if="showButton"></image>
-                <image src="../static/icon/reduce.png" mode="" v-else></image>
+                <image src="../static/icon/reduce.png" mode="" v-if="showButton"></image>
+                <image src="../static/icon/add.png" mode="" v-else></image>
                 <view :class="['add-show', { active: showButton }]">
                     <view class="fit">
                         <image src="../static/icon/3d@2x.png" mode=""></image>
@@ -247,7 +247,7 @@ export default {
         }
         .buttons {
             position: absolute;
-            top: 10upx;
+            top: 0upx;
             width: 750upx;
             height: 60upx;
             display: flex;
@@ -256,12 +256,13 @@ export default {
             color: white;
             font-size: 14px;
             font-family: PingFang-SC-Bold;
-
+            background: linear-gradient(360deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.46) 100%);
             view {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 50%;
+                margin-top: 5upx;
                 image {
                     width: 32upx;
                     height: 32upx;
