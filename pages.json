@@ -17,12 +17,14 @@
             "pages": [{
                 "path": "shop-detail"
             }]
-        }, {
+        }, 
+        {
             "root": "fitting",
             "pages": [{
                 "path": "fitting"
             }]
-        }, {
+        }, 
+        {
             "root": "recognition",
             "pages": [{
                 "path": "recognition"
@@ -48,9 +50,9 @@
         "backgroundColor": "#fff"
     },
     "tabBar": {
-        "color": "black",
+        "color": "#333",
         "selectedColor": "#BFA065",
-        "backgroundColor": "white",
+        "backgroundColor": "#fff",
         "list": [{
             "pagePath": "pages/home/home",
             "iconPath": "static/tab-bar-icons/homepage.png",

@@ -1,51 +1,105 @@
 <template>
     <view class="shop-car">
-        <!-- // 购物车 为空 -->
-        <view class="null">
-            <view class="title">购物车(0)</view>
-            <view class="tips">您的购物车内无商品</view>
-            <view class="button">前往选购</view>
-        </view>
-
         <!-- 购物车不为空 -->
-        <view class="has-goods">
+        <view class="has-goods" v-if="goods.length">
             <view class="menus title">
-                <view class="menu">清空下架</view>
+                <view class="menu" v-if="edit">取消</view>
+                <view class="menu" v-else>清空下架</view>
+
                 <view class="menu">购物车(2)</view>
-                <view class="menu">
+
+                <view class="menu" v-if="edit" @tap="edit = !edit">
+                    <image src="../../static/icon/save.svg" mode=""></image>
+                    <text>保存</text>
+                </view>
+                <view class="menu" v-else @tap="edit = !edit">
                     <image src="../../static/icon/edit.svg" mode=""></image>
                     <text>修改</text>
                 </view>
             </view>
 
+            <!-- 商品 -->
             <view class="goods">
-                <view class="good" v-for="(v,i) in [1,2,3,4,5]" :key="i">
-                    <view :class="['select', { active: currentSelect.includes(i) }]" @tap="selectGood(i)"><view class="selected"></view></view>
+                <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods" :key="i">
+                    <view class="good">
+                        <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
 
-                    <image class="shop-img" src="../../static/imgs/fitting/5.jpg" mode=""></image>
+                        <image class="shop-img" src="../../static/imgs/fitting/5.jpg" mode=""></image>
 
-                    <view class="detail">
-                        <view class="detail-header">
-                            <view class="shop-name">ML2395730185473123</view>
-                            <image src="../../static/icon/del.svg" mode=""></image>
-                        </view>
-                        <view class="detail-footer">
-                            <view class="options">
-                                <view class="option">
-                                    <view class="label">标样：￥0</view>
-                                    <view class="value">*1</view>
-                                </view>
-                                <view class="option">
-                                    <view class="label">商品：￥50/米</view>
-                                    <view class="value">*40</view>
-                                </view>
+                        <view class="detail">
+                            <view class="detail-header">
+                                <view class="shop-name">ML2395730185473123</view>
+                                <image v-if="!edit" src="../../static/icon/del.svg" mode=""></image>
                             </view>
-                            <view class="price">￥2000.00</view>
+                            <view class="detail-footer">
+                                <view v-if="!edit" :class="['options']">
+                                    <view class="option">
+                                        <view class="label">标样：￥0</view>
+                                        <view class="value">*1</view>
+                                    </view>
+                                    <view class="option">
+                                        <view class="label">商品：￥50/米</view>
+                                        <view class="value">*40</view>
+                                    </view>
+                                </view>
+
+                                <view v-else class="options del-active" @tap="selectWillChang(i)">
+                                    <view class="option"><view class="label">匹样：*0</view></view>
+                                    <view class="option"><view class="label">数量：*40</view></view>
+
+                                    <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                                </view>
+
+                                <view class="price">￥2000.00</view>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="select-much" v-if="good.willChange && edit">
+                        <view class="title">数量选择</view>
+                        <uni-number-box :min="0" :max="99999" :step="1" :value="good.num" @change="numChange"></uni-number-box>
+                        <view class="rest unit">米</view>
+                    </view>
+
+                    <view class="select-small" v-if="good.willChange && edit">
+                        <view class="title">小样选择</view>
+                        <view :class="['tags']">
+                            <uni-tag
+                                class="tag"
+                                :text="tag"
+                                :type="good.tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                                :inverted="true"
+                                v-for="(tag, index) in good.tagsList"
+                                :key="index"
+                                @click="selectTag('tagCurrentSelect', tag, i)"
+                            />
                         </view>
                     </view>
                 </view>
             </view>
         </view>
+
+        <!-- 购物车 为空 -->
+        <view class="null" v-else>
+            <view class="title">购物车(0)</view>
+            <view class="tips">您的购物车内无商品</view>
+            <view class="button">前往选购</view>
+        </view>
+
+        <view class="shop-car-footer" v-if="goods.length">
+            <view class="select-all" @tap="selectAllgoods">
+                <view :class="['select', { active: currentSelect === goods.length }]"><view class="selected"></view></view>
+                <text>全选</text>
+            </view>
+            <view class="total">
+                <text>总计：</text>
+                ￥350.00
+            </view>
+            <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
+            <view v-else :class="['button', { active: currentSelect }]">付款({{ currentSelect }})</view>
+        </view>
+
+        <view class="white-space"></view>
 
         <custmer-phone />
     </view>
@@ -53,25 +107,81 @@
 
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-
+import { uniSwiperDot, uniNumberBox, uniTag } from '@dcloudio/uni-ui';
 export default {
     components: {
-        CustmerPhone
+        CustmerPhone,
+        uniNumberBox,
+        uniTag
     },
     data() {
         return {
-            // 当前选中商品
-            currentSelect: []
+            // 所有商品
+            goods: [
+                {
+                    willBuy: false, // 是否要买
+                    willDel: false, // 是否要删
+                    willChange: false, // 是否改变 当前商品数量 小样数量
+                    num: 0, // 购买数量，
+                    tagsList: ['标样', '匹配', '码样'],
+                    tagCurrentSelect: []
+                },
+                {
+                    willBuy: false,
+                    willDel: false,
+                    willChange: false, // 是否改变 当前商品数量 小样数量
+                    num: 0, // 购买数量，
+                    tagsList: ['标样', '码样'],
+                    tagCurrentSelect: []
+                }
+            ],
+            // 是否处于修改状态
+            edit: false,
+            // 当前要删除的商品
+            willDelGoods: ''
         };
+    },
+    computed: {
+        currentSelect() {
+            const { edit, goods } = this;
+            let state = edit ? 'willDel' : 'willBuy';
+            let stateLength = goods.filter(good => good[state] === true).length;
+            return stateLength;
+        }
     },
     methods: {
         selectGood(i) {
-            if (this.currentSelect.includes(i)) {
-                this.currentSelect.splice(this.currentSelect.findIndex(item => item === i), 1);
-                return
+            const { edit, goods } = this;
+            let state = edit ? 'willDel' : 'willBuy';
+            this.goods[i][state] = !this.goods[i][state];
+        },
+
+        selectAllgoods() {
+            const { edit, goods, currentSelect } = this;
+            let state = edit ? 'willDel' : 'willBuy';
+            if (currentSelect === goods.length) {
+                // 说明已全选
+                this.goods.map(good => (good[state] = false));
+                return;
             }
-            this.currentSelect.push(i)
-            
+            this.goods.map(good => (good[state] = true));
+        },
+
+        selectWillChang(i) {
+            const { goods } = this;
+            this.goods[i].willChange = !this.goods[i].willChange;
+        },
+
+        selectTag(currentState, tag_name, i) {
+            if (this.goods[i][currentState].includes(tag_name)) {
+                this.goods[i][currentState].splice(this.goods[i][currentState].findIndex(item => item === tag_name), 1);
+                return;
+            }
+            this.goods[i][currentState].push(tag_name);
+        },
+
+        numChange(val) {
+            console.log(val);
         }
     }
 };
@@ -117,6 +227,13 @@ export default {
             .menu {
                 display: flex;
                 align-items: center;
+                &:first-child {
+                    width: 33.3%;
+                }
+                &:nth-child(2) {
+                    width: 33.3%;
+                }
+
                 image {
                     width: 26upx;
                     height: 26upx;
@@ -133,24 +250,7 @@ export default {
                 align-items: center;
                 padding: $white-space 0;
                 border-bottom: 2upx solid #eeeeee;
-                .select {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 30upx;
-                    height: 30upx;
-                    border-radius: 50%;
-                    border: 1px solid rgba(204, 204, 204, 1);
-                    &.active {
-                        border-color: $theme-color;
-                        .selected {
-                            width: 18upx;
-                            height: 18upx;
-                            background: $theme-color;
-                            border-radius: 50%;
-                        }
-                    }
-                }
+
                 .shop-img {
                     width: 128upx;
                     height: 160upx;
@@ -187,7 +287,19 @@ export default {
                         font-family: PingFang-SC-Regular;
                         color: rgba(102, 102, 102, 1);
                         .options {
+                            position: relative;
                             width: 290upx;
+
+                            &.del-active {
+                                width: 210upx;
+                                border: 2upx solid #ccc;
+                                border-radius: 8upx;
+                                padding: 5upx;
+
+                                .option {
+                                    margin-left: 5upx;
+                                }
+                            }
 
                             .option {
                                 display: flex;
@@ -196,6 +308,16 @@ export default {
                                 .label {
                                     width: 70%;
                                 }
+                            }
+
+                            image {
+                                position: absolute;
+                                width: 26upx;
+                                height: 26upx;
+                                top: 0;
+                                bottom: 0;
+                                right: 16upx;
+                                margin: auto;
                             }
                         }
                         .price {
@@ -208,6 +330,136 @@ export default {
                 }
             }
         }
+    }
+
+    .select {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30upx;
+        height: 30upx;
+        border-radius: 50%;
+        border: 1px solid rgba(204, 204, 204, 1);
+        &.active {
+            border-color: $theme-color;
+            .selected {
+                width: 18upx;
+                height: 18upx;
+                background: $theme-color;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .shop-car-footer {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 80upx;
+        background: #fff;
+        border-top: 2upx solid #eeeeee;
+        bottom: 98upx;
+        /* #ifdef MP-WEIXIN */
+        bottom: 0;
+        /* #endif */
+
+        .select-all {
+            width: 25%;
+            display: flex;
+            align-items: center;
+            font-size: 28upx;
+            color: #333;
+            margin: 0 0 0 $white-space;
+            text {
+                margin-left: 16upx;
+            }
+        }
+
+        .total {
+            flex-grow: 1;
+            font-size: 32upx;
+            text {
+                font-size: 28upx;
+                color: #333;
+            }
+        }
+
+        .button {
+            width: 220upx;
+            height: 80upx;
+            line-height: 80upx;
+            text-align: center;
+            align-self: flex-end;
+            font-size: 28upx;
+            color: #fff;
+            background: #ccc;
+            &.active {
+                background: $theme-color;
+            }
+            &.del-active {
+                background: #666;
+            }
+        }
+    }
+
+    .white-space {
+        height: 80upx;
+    }
+
+    .select-much {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 40upx;
+
+        .title {
+            padding: 0 30upx 0 60upx;
+        }
+
+        .rest {
+            font-size: 20upx;
+            font-family: PingFang-SC-Regular;
+            color: #999;
+        }
+
+        .unit {
+            margin-left: 20upx;
+        }
+    }
+
+    .select-small {
+        margin-top: 64upx;
+        margin-bottom: 40upx;
+        display: flex;
+        align-items: center;
+
+        .title {
+            padding: 0 0 0 60upx;
+        }
+    }
+
+    .tags {
+        flex-grow: 1;
+        height: 64upx;
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-left: 30upx;
+        transition: max-height 0.3s ease-in-out;
+
+        .tag {
+            margin: 0 10upx 30upx 0;
+            width: 140upx;
+            padding: 0;
+            text-align: center;
+            font-size: 24upx;
+        }
+    }
+
+    .good-wrap {
+        border: 0 solid #666;
+        border-width: 2upx 0 2upx 0;
     }
 }
 </style>
