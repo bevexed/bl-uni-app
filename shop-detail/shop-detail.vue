@@ -83,7 +83,7 @@
         <view class="bottom">
             <view class="icons">
                 <view class="icon">
-                    <image src="../static/icon/homepage_fill@2x.png" mode=""></image>
+                    <image src="../static/icon/homepage_fill.svg" mode=""></image>
                     <text>首页</text>
                 </view>
                 <view class="icon">
@@ -462,7 +462,7 @@ export default {
                     height: 30upx;
                     background: #333333;
                     top: 4upx;
-                    left: -30upx;
+                    left: -32upx;
                 }
                 image {
                     width: 34upx;
