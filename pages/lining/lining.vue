@@ -144,8 +144,8 @@
                     </picker-view-column>
                 </picker-view>
 
-                <view class="line left"></view>
-                <view class="line right"></view>
+                <!--              <view class="line left"></view>
+                <view class="line right"></view> -->
             </view>
         </view>
 
@@ -308,12 +308,12 @@ export default {
             });
         },
         selectSortType(index) {
-           this.currentSortState = index;
+            this.currentSortState = index;
         },
-        toDetail(){
+        toDetail() {
             uni.navigateTo({
-                url:'/shop-detail/shop-detail'
-            })
+                url: '/shop-detail/shop-detail'
+            });
         }
     },
 

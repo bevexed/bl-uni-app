@@ -13,7 +13,7 @@
                 </view>
                 <view class="info-bottom">
                     <view class="phone">188213123</view>
-                    <image src="../../static/icon/set.png" mode=""></image>
+                    <image src="../../static/icon/set.png" mode="" @tap="to('/personal-information/personal-information')"></image>
                 </view>
             </view>
         </view>
@@ -56,6 +56,13 @@
 export default {
     data() {
         return {};
+    },
+    methods: {
+        to(url) {
+            uni.navigateTo({
+                url
+            });
+        }
     }
 };
 </script>

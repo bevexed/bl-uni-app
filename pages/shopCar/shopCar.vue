@@ -422,6 +422,7 @@ export default {
 
         .title {
             padding: 0 30upx 0 60upx;
+            border: none;
         }
 
         .rest {
@@ -443,6 +444,7 @@ export default {
 
         .title {
             padding: 0 0 0 60upx;
+            border: none;
         }
     }
 
