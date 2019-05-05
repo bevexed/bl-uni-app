@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="10px" viewBox="0 0 16 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>勾</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="购物车-订单确认-收货地址闭合" transform="translate(-343.000000, -162.000000)">
+            <g id="勾" transform="translate(343.000000, 159.000000)">
+                <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                <polygon id="路径" fill="#FFFFFF" points="15.1944 4.2912 6.2872 12.7944 0.8056 7.5752 1.9472 6.48 6.2856 10.6112 14.0528 3.2"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

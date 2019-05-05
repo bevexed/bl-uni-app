@@ -3,10 +3,10 @@
         <view class="title">结算付款</view>
 
         <!-- 地址 -->
-        <view class="address">
+        <view :class="['address', { active: addressList.length === 0 }]">
             <view class="label">
                 收货地址
-                <text>（0/10）</text>
+                <text>（{{ addressList.length }}/10）</text>
             </view>
             <view class="add-new-address">
                 <image src="../static/icon/add.png" mode=""></image>
@@ -14,11 +14,52 @@
             </view>
         </view>
 
+        <!--已存在的收货地址-->
+        <view :class="['select-address', { active: showMoreAddress }]">
+            <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
+                <image class="gou" src="../static/icon/gou.svg" mode=""></image>
+                <view class="header">
+                    <view class="label">收件人：</view>
+                    <view class="value">
+                        路人甲
+                        <text class="phone">139 **** 9875</text>
+                    </view>
+                </view>
+
+                <view class="content">
+                    <view class="label">地址：</view>
+                    <text class="value">
+                        浙江省 杭州市 西湖区
+                        <br />
+                        西溪首座A1-1-310室
+                    </text>
+                </view>
+
+                <view class="footer">
+                    <view class="default" v-if="address.default">默认地址</view>
+                    <view class="empty" v-else></view>
+                    <view class="icon">
+                        <image src="../static/icon/edit.svg" mode=""></image>
+                        <image src="../static/icon/del2.svg" mode=""></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 收起更多地址 -->
+        <view class="show-more-address" v-if="addressList.length > 1" @tap="showMoreAddress = !showMoreAddress">
+            <image :class="{ active: showMoreAddress }" src="../static/icon/arrow-bottom.svg" mode=""></image>
+            <text v-if="showMoreAddress">收起更多地址</text>
+            <text v-else>展开更多地址</text>
+        </view>
+
+        <image v-if="addressList.length > 1" class="split" src="../static/icon/1557025928925.jpg" mode=""></image>
+
         <!-- 商品信息 -->
         <view class="goods-title title">商品信息</view>
         <!-- 收起 -->
         <view class="preview" v-if="preview">
-            <image v-for="(good, i) in goods" v-show="i < 4" src="../static/imgs/fitting/1.jpg" mode=""></image>
+            <image v-for="(good, i) in goods" :key="i" v-show="i < 4" src="../static/imgs/fitting/1.jpg" mode=""></image>
             <image class="more" @tap="preview = false" src="../static/icon/more.svg" mode=""></image>
         </view>
 
@@ -75,7 +116,7 @@
             </view>
         </view>
 
-        <view :class="['pay-button', { active: agreement }]">立即支付</view>
+        <view :class="['pay-button', { active: agreement }]" @click="toPay">立即支付</view>
     </view>
 </template>
 
@@ -83,6 +124,25 @@
 export default {
     data() {
         return {
+            // 地址列表
+            addressList: [
+                {
+                    default: true //默认地址
+                },
+                {
+                    default: false
+                },
+                {
+                    default: false
+                },
+                {
+                    default: false
+                }
+            ],
+            // 查看更多地址状态
+
+            showMoreAddress: false,
+
             // 商品 列表
             goods: [
                 {
@@ -107,7 +167,16 @@ export default {
             agreement: false
         };
     },
-    methods: {}
+    methods: {
+        toPay() {
+            const { agreement } = this;
+            if (agreement) {
+                uni.navigateTo({
+                    url: '../pay/pay'
+                });
+            }
+        }
+    }
 };
 </script>
 
@@ -126,8 +195,11 @@ export default {
     .address {
         display: flex;
         justify-content: space-between;
-        border-bottom: 2upx solid #eeeeee;
         padding: $white-space 0;
+
+        &.active {
+            border-bottom: 2upx solid #eeeeee;
+        }
         .label {
             font-size: 28upx;
             text {
@@ -151,6 +223,128 @@ export default {
             height: 34upx;
             margin-right: 10upx;
         }
+    }
+
+    .select-address {
+        margin: 17upx 0;
+        max-height: 270upx;
+        overflow: hidden;
+        transition: all 0.6s ease-in-out;
+        &.active {
+            max-height: 5400upx;
+        }
+
+        .address-detail {
+            position: relative;
+            padding: 32upx 0 18upx 32upx;
+            margin-bottom: 24upx;
+            border: 2upx solid #cccccc;
+            border-radius: 8upx;
+            font-size: 24upx;
+            color: #333;
+            overflow: hidden;
+
+            &:before {
+                position: absolute;
+                width: 164upx;
+                height: 164upx;
+                right: -100upx;
+                top: -100upx;
+                content: '';
+                transform: rotate(45deg);
+                background: #cccccc;
+            }
+
+            &.active {
+                &:before {
+                    background: $theme-color;
+                }
+            }
+
+            .gou {
+                z-index: 999;
+                position: absolute;
+                width: 32upx;
+                height: 32upx;
+                right: 8upx;
+                top: 8upx;
+                content: '';
+            }
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 34upx;
+        }
+
+        .content {
+            display: flex;
+            margin-bottom: 34upx;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .label {
+            width: 18%;
+        }
+
+        .value {
+            width: 60%;
+        }
+
+        .phone {
+            margin-left: 30%;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .icon {
+            margin-right: 32upx;
+            image {
+                width: 32upx;
+                height: 32upx;
+                margin-left: 32upx;
+            }
+        }
+
+        .default {
+            color: $theme-color;
+        }
+    }
+    .show-more-address {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        image {
+            width: 16upx;
+            height: 16upx;
+            margin-right: 16upx;
+            transition: all 0.3s ease;
+        }
+
+        .active {
+            transform: rotate(180deg);
+        }
+
+        text {
+            font-size: 20upx;
+            font-family: PingFang-SC-Medium;
+            font-weight: 500;
+            color: #333;
+        }
+    }
+
+    .split {
+        width: 100%;
+        height: 8upx;
     }
 
     .goods-title {
@@ -333,12 +527,12 @@ export default {
         width: 692upx;
         margin: 226upx auto 68upx;
         text-align: center;
-        background: #CCCCCC;
+        background: #cccccc;
         border-radius: 8upx;
         color: #fff;
         font-size: 28upx;
-        &.active{
-           background: $theme-color; 
+        &.active {
+            background: $theme-color;
         }
     }
 }
