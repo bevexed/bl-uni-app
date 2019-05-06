@@ -31,7 +31,7 @@
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item">
+            <view class="set-item" @tap="to('/ticket/ticket')">
                 <image class="icon" src="../../static/icon/kp.svg" mode=""></image>
                 <text>开票信息维护</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
