@@ -2,7 +2,7 @@
     <view class="add-ticket">
         <view class="title">开票状态</view>
         <view class="wrap">
-            <view class="state" v-for="(state, i) in stateList" @tap="changeState(i)">
+            <view class="state" v-for="(state, i) in stateList" @tap="changeState(i)" :key="i">
                 <view :class="['select', { active: currentState === i }]"><view class="selected"></view></view>
                 <text :class="[{ active: currentState === i }]">{{ state.label }}</text>
             </view>
