@@ -21,8 +21,8 @@
                     <view class="label">企业税号：</view>
                     <view class="value">QYSH9473725596743839</view>
                 </view>
-                
-                 <view class="content">
+
+                <view class="content">
                     <view class="label">注册电话：</view>
                     <view class="value">158 **** 8888</view>
                 </view>
@@ -192,6 +192,8 @@ export default {
             color: $theme-color;
         }
     }
+
+   
 
     .select {
         display: flex;
