@@ -119,7 +119,7 @@
         </view>
 
         <!-- 排序 -->
-        <view class="sort" v-show="menuCurrentSelect === 2">
+        <view class="sort" v-if="menuCurrentSelect === 2">
             <view class="options">
                 <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
                     <text>{{ option }}</text>
