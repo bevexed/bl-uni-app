@@ -43,7 +43,7 @@
             </view>
         </view>
 
-        <view class="button">
+        <view class="button" @tap="toAddAddress">
             <image src="../static/icon/addw.png" mode=""></image>
             <text>添加新地址</text>
         </view>
@@ -85,6 +85,11 @@ export default {
             });
 
             this.addressList[i].default = true;
+        },
+        toAddAddress(){
+            uni.navigateTo({
+                url:'add-address'
+            })
         }
     }
 };
@@ -107,22 +112,6 @@ export default {
                 font-size: 20upx;
                 color: #999;
             }
-        }
-
-        .add-new-address {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28upx;
-            font-family: PingFang-SC-Regular;
-            font-weight: 400;
-            color: #333;
-        }
-
-        image {
-            width: 34upx;
-            height: 34upx;
-            margin-right: 10upx;
         }
     }
 
