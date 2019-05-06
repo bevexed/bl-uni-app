@@ -53,6 +53,11 @@
             <view :class="['select', { active: defaultAddress }]" @tap="defaultAddress = !defaultAddress"><view class="selected"></view></view>
             <text>设为默认地址</text>
         </view>
+
+        <view class="buttons">
+            <view class="cancel">取消</view>
+            <view class="save">保存</view>
+        </view>
     </view>
 </template>
 
@@ -176,6 +181,34 @@ export default {
         image {
             width: 18upx;
             height: 20upx;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 122px;
+
+        > view {
+            width: 326upx;
+            height: 80upx;
+            line-height: 80upx;
+            text-align: center;
+            font-size: 28upx;
+            font-family: PingFang-SC-Medium;
+            font-weight: 500;
+            border-radius: 8upx;
+        }
+
+        .cancel {
+            border:2upx solid $theme-color;
+            color: $theme-color;
+        }
+
+        .save {
+            border: 2upx solid transparent;
+            color: #fff;
+            background: $theme-color;
         }
     }
 }
