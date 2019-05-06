@@ -19,7 +19,7 @@
         </view>
 
         <view class="set-list">
-            <view class="set-item">
+            <view class="set-item" @tap="to('/address-book/address-book')">
                 <image class="icon" src="../../static/icon/adb.svg" mode=""></image>
                 <text>我的地址薄</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>

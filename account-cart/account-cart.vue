@@ -28,11 +28,11 @@
 
                 <view class="content">
                     <view class="label">地址：</view>
-                    <text class="value">
+                    <view class="value">
                         浙江省 杭州市 西湖区
-                        <br />
-                        西溪首座A1-1-310室
-                    </text>
+
+                        <view>西溪首座A1-1-310室</view>
+                    </view>
                 </view>
 
                 <view class="footer">
@@ -318,6 +318,7 @@ export default {
             color: $theme-color;
         }
     }
+
     .show-more-address {
         display: flex;
         align-items: center;
