@@ -77,7 +77,7 @@
 
                         <view class="button  pay" v-if="order.state === '待收货'">确认收货</view>
 
-                        <view class="button  cancel" v-if="order.state === '售后处理'">查看详情</view>
+                        <view class="button  cancel" v-if="order.state === '售后处理'" :data-order-id="order.id" @tap="toSaleAfterDetail($event)">查看详情</view>
 
                         <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toOrderDetail($event)">查看详情</view>
                         <view class="button  cancel" v-if="order.state === '交易完成'">获取合同</view>
@@ -305,6 +305,13 @@ export default {
         toSaleAfter() {
             uni.navigateTo({
                 url: 'sale-after'
+            });
+        },
+
+        toSaleAfterDetail(e) {
+            const { orderId } = e.currentTarget.dataset;
+            uni.navigateTo({
+                url: 'sale-after-detail?orderId=' + orderId
             });
         },
 

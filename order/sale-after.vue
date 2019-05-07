@@ -179,7 +179,7 @@ export default {
             currentSelectSaleAfterShow: 1,
 
             // 数量 选择 弹窗
-            selectShow: true,
+            selectShow: false,
 
             // 购买数量
             num: 0,
