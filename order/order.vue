@@ -31,7 +31,7 @@
 
                                     <!-- 售后状态 -->
                                     <view class="shop-after" v-if="order.state === '交易完成' && good.afterState === '处理中'">处理中</view>
-                                    <view class="shop-after-button" v-if="order.state === '交易完成' && good.afterState !== '处理中'">售后</view>
+                                    <view class="shop-after-button" v-if="order.state === '交易完成' && good.afterState !== '处理中'" @tap="toSaleAfter">售后</view>
 
                                     <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '审核中'">审核中</view>
                                     <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '已审核'">已审核</view>
@@ -66,28 +66,28 @@
                     </view>
 
                     <view class="buttons">
-                        <view class="button cancel" v-if="order.state === '待付款'">取消订单</view>
+                        <view class="button cancel" v-if="order.state === '待付款'" :data-order-id="order.id" @tap="cancalOrder($event)">取消订单</view>
                         <view class="button pay" v-if="order.state === '待付款'">付款</view>
 
                         <view class="button  cancel" v-if="order.state === '交易关闭'">删除订单</view>
                         <view class="button  cancel" v-if="order.state === '交易关闭'">订单详情</view>
 
-                        <view class="button  cancel" v-if="order.state === '待发货'">取消订单</view>
+                        <view class="button  cancel" v-if="order.state === '待发货'" :data-order-id="order.id" @tap="toBackMoney($event)">取消订单</view>
                         <view class="button  cancel" v-if="order.state === '待发货'">催单</view>
 
                         <view class="button  pay" v-if="order.state === '待收货'">确认收货</view>
 
                         <view class="button  cancel" v-if="order.state === '售后处理'">查看详情</view>
 
-                        <view class="button  cancel" v-if="order.state === '交易完成'">查看详情</view>
+                        <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toOrderDetail($event)">查看详情</view>
                         <view class="button  cancel" v-if="order.state === '交易完成'">获取合同</view>
                         <view class="button  cancel" v-if="order.state === '交易完成'">申请开票</view>
                     </view>
                 </view>
             </swiper-item>
         </swiper>
-        
-        <!-- 选择 分类 弹窗 -->
+
+        <!-- 退款 原因 弹窗 -->
         <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
             <view class="my-pop">
                 <view class="pop-top">
@@ -97,7 +97,7 @@
 
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
                     <picker-view-column>
-                        <view class="select" v-for="(sort, index) in sorts" :key="index">
+                        <view class="selecter" v-for="(sort, index) in sorts" :key="index">
                             <view class="value">{{ sort }}</view>
                         </view>
                     </picker-view-column>
@@ -107,7 +107,6 @@
                 <view class="line right"></view> -->
             </view>
         </view>
-
     </view>
 </template>
 
@@ -123,7 +122,7 @@ export default {
             orderList: [
                 // 全部订单
                 [
-                    { id: 1, state: '待付款', goodList: [{}, {}, {}, {}, {}] },
+                    { id: 100, state: '待付款', goodList: [{}, {}, {}, {}, {}] },
                     {
                         id: 2,
                         state: '交易关闭',
@@ -248,14 +247,13 @@ export default {
             // 是否同意
             agreement: false,
             // 弹窗
-            sortShow: true,
-            // 分类 - 弹出框
-            sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
-            // 当前分类值
+            sortShow: false,
+            // 退款原因
+            sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
+            // 默认退款原因
             defaultPicker: [2],
-            // 当前选择分类值
-            currentPickerValue: 2,
-         
+            // 当前选择退款原因
+            currentPickerValue: 2
         };
     },
 
@@ -276,6 +274,42 @@ export default {
         toPreview(id) {
             this.preview = id;
             setTimeout(() => this.height('.wrap' + this.TabCur));
+        },
+
+        bindChange(e) {
+            console.log(e);
+            const val = e.detail.value[0];
+            this.currentPickerValue = val;
+        },
+        moveHandle() {},
+
+        cancalOrder(e) {
+            const { orderId } = e.currentTarget.dataset;
+            this.sortShow = true;
+        },
+
+        toBackMoney(e) {
+            const { orderId } = e.currentTarget.dataset;
+            uni.navigateTo({
+                url: 'back-money?orderId=' + orderId
+            });
+        },
+
+        toOrderDetail(e) {
+            const { orderId } = e.currentTarget.dataset;
+            uni.navigateTo({
+                url: 'order-detail?orderId=' + orderId
+            });
+        },
+
+        toSaleAfter() {
+            uni.navigateTo({
+                url: 'sale-after'
+            });
+        },
+
+        sureSelect() {
+            this.sortShow = false;
         },
 
         height(current) {
@@ -538,7 +572,7 @@ export default {
             background: $theme-color;
         }
     }
-    
+
     .pop-wrap {
         z-index: 999;
         position: absolute;
@@ -575,12 +609,11 @@ export default {
         .pick {
             height: 380upx;
             width: 100%;
-        }
-
-        .select {
-            text-align: center;
-            font-size: 32upx;
-            font-weight: 300;
+            .selecter {
+                text-align: center;
+                font-size: 32upx;
+                font-weight: 300;
+            }
         }
 
         .line {
@@ -600,8 +633,5 @@ export default {
             }
         }
     }
-
-    
-    
 }
 </style>
