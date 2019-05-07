@@ -5,16 +5,16 @@
             <view class="select-model">
                 <!-- 模特选择标题 -->
                 <view class="model-select-title"><text>模特选择</text></view>
-                <image class="before" src="../../static/icon/before.svg" mode=""></image>
+                <image class="before" src="../static/icon/before.svg" mode=""></image>
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
                     <swiper-item>
                         <view :class="['swiper-item', { selected: 0 === currentModel }]" @tap="onModelChange(0)">
-                            <image src="../../static/imgs/fitting/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
+                            <image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
                         </view>
                     </swiper-item>
                     <swiper-item>
                         <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)">
-                            <image src="../../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
+                            <image src="../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
                         </view>
                     </swiper-item>
 
@@ -24,12 +24,12 @@
 
                     <!-- <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
                         <view :class="['swiper-item', { selected: index === currentModel }]" @tap="onModelChange(index, imgUrl)">
-                            <image :src="'../../' + imgUrl" mode="aspectFill"></image>
+                            <image :src="'../' + imgUrl" mode="aspectFill"></image>
                         </view>
                     </swiper-item> -->
                     -->
                 </swiper>
-                <image class="next" src="../../static/icon/before.svg" mode=""></image>
+                <image class="next" src="../static/icon/before.svg" mode=""></image>
             </view>
 
             <!-- 模特实体图 -->
@@ -38,20 +38,20 @@
             <!-- 控制器 -->
             <view class="controll">
                 <view class="dircetion">
-                    <image src="../../static/icon/dir.svg" mode="" class="dirction-top"></image>
-                    <image src="../../static/icon/dir.svg" mode="" class="dirction-right"></image>
-                    <image src="../../static/icon/dir.svg" mode="" class="dirction-left"></image>
-                    <image src="../../static/icon/dir.svg" mode="" class="dirction-bottom"></image>
+                    <image src="../static/icon/dir.svg" mode="" class="dirction-top"></image>
+                    <image src="../static/icon/dir.svg" mode="" class="dirction-right"></image>
+                    <image src="../static/icon/dir.svg" mode="" class="dirction-left"></image>
+                    <image src="../static/icon/dir.svg" mode="" class="dirction-bottom"></image>
                 </view>
 
                 <view class="touchbar">
-                    <image class="add" src="../../static/icon/add.png" mode="" @tap="onTouchBarButton('add')"></image>
+                    <image class="add" src="../static/icon/add.png" mode="" @tap="onTouchBarButton('add')"></image>
                     <view class="my-slider">
                         <view class="my-slider-background"></view>
                         <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
                         <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove="onChangeBar($event)" @touchend="onChangeBarEnd()"></view>
                     </view>
-                    <image class="reduce" src="../../static/icon/reduce.png" mode="" @tap="onTouchBarButton('reduce')"></image>
+                    <image class="reduce" src="../static/icon/reduce.png" mode="" @tap="onTouchBarButton('reduce')"></image>
                 </view>
             </view>
         </view>
@@ -61,17 +61,17 @@
             <text>花样选择</text>
             <view class="detail">
                 <text>花形详情</text>
-                <image class="more" src="../../static/icon/more.png" mode=""></image>
+                <image class="more" src="../static/icon/more.png" mode=""></image>
             </view>
         </view>
 
         <!-- 样式选择轮播 -->
         <view class="select-style">
-            <image class="before" src="../../static/icon/before.svg" mode=""></image>
+            <image class="before" src="../static/icon/before.svg" mode=""></image>
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(imgUrl, index) in defaultStyle" :key="index">
                     <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)">
-                        <image :src="'../../' + imgUrl" mode="aspectFill"></image>
+                        <image :src="'../' + imgUrl" mode="aspectFill"></image>
                     </view>
                 </swiper-item>
 
@@ -128,7 +128,7 @@ export default {
             currentStyle: 0,
 
             // 展示区图片
-            currentImage: '../../static/imgs/fitting/5.jpg',
+            currentImage: '../static/imgs/fitting/5.jpg',
 
             // 滑块初始位置
             barStartY: 0,

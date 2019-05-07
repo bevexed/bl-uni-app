@@ -1,5 +1,5 @@
 <template>
-    <div class="order">
+    <view class="order">
         <view class="navs">
             <view class="" v-for="(item, index) in tabList" :key="index" @tap="tabSelect(index, $event)">
                 <view :class="['nav', { active: TabCur === index }]">{{ item.name }}</view>
@@ -7,26 +7,36 @@
         </view>
         <view class="white-space"></view>
 
-        <swiper :current="TabCur" class="swiper" :circular="true" @change="swiperChange">
+        <swiper :current="TabCur" class="swiper" :style="{ height: maxHeight + 20 + 'px' }" :circular="true" @change="swiperChange">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <view class="wrap">
+                <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in orderList[index]" :key="orderIndex">
                     <view class="order-header">
                         <view class="order-num">订单编号：952738179214</view>
-                        <view class="order-state">待付款</view>
+                        <view class="order-state">{{ order.state }}</view>
                     </view>
                     <!-- 收起 -->
-                    <view class="preview" v-if="preview && goods.length >= 4">
-                        <image v-for="(good, i) in goods" :key="i" v-show="i < 4" src="../static/imgs/fitting/1.jpg" mode=""></image>
-                        <image class="more" @tap="preview = false" src="../static/icon/more.svg" mode=""></image>
+                    <view class="preview" v-if="preview !== order.id && order.goodList.length >= 4">
+                        <view v-for="(good, goodIndex) in order.goodList" :key="goodIndex"><image v-show="goodIndex < 4" src="../static/imgs/fitting/1.jpg" mode=""></image></view>
+                        <image class="more" @tap="toPreview(order.id)" src="../static/icon/more.svg" mode=""></image>
                     </view>
 
                     <view class="goods" v-else>
-                        <view class="good" v-for="(good, i) in goods" :key="i">
+                        <view :class="['good']" v-for="(good, goodIndex) in order.goodList" :key="goodIndex">
                             <!-- 展开 -->
                             <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
 
                             <view class="detail">
-                                <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
+                                <view class="detail-header">
+                                    <view class="shop-name">ML2395730185473123</view>
+
+                                    <!-- 售后状态 -->
+                                    <view class="shop-after" v-if="order.state === '交易完成' && good.afterState === '处理中'">处理中</view>
+                                    <view class="shop-after-button" v-if="order.state === '交易完成' && good.afterState !== '处理中'">售后</view>
+
+                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '审核中'">审核中</view>
+                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '已审核'">已审核</view>
+                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '退款中'">退款中</view>
+                                </view>
                                 <view class="detail-footer">
                                     <view :class="['options']">
                                         <view class="option">
@@ -44,55 +54,208 @@
                             </view>
                         </view>
 
-                        <image @tap="preview = true" class="hr" src="../static/icon/all.svg" v-if="preview && goods.length >= 4" mode=""></image>
+                        <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg" v-if="preview === order.id && order.goodList.length >= 4" mode=""></image>
                     </view>
 
                     <view class="pay-detail">
                         <view class="real-pay">
-                            <view class="num">共4件商品</view>
+                            <view class="num">共{{ order.goodList.length }}件商品</view>
                             <view class="label">实付</view>
                             <view class="value">￥6050.00</view>
                         </view>
                     </view>
 
                     <view class="buttons">
-                        <view class="button cancel">取消订单</view>
-                        <view class="button pay">付款</view>
+                        <view class="button cancel" v-if="order.state === '待付款'">取消订单</view>
+                        <view class="button pay" v-if="order.state === '待付款'">付款</view>
+
+                        <view class="button  cancel" v-if="order.state === '交易关闭'">删除订单</view>
+                        <view class="button  cancel" v-if="order.state === '交易关闭'">订单详情</view>
+
+                        <view class="button  cancel" v-if="order.state === '待发货'">取消订单</view>
+                        <view class="button  cancel" v-if="order.state === '待发货'">催单</view>
+
+                        <view class="button  pay" v-if="order.state === '待收货'">确认收货</view>
+
+                        <view class="button  cancel" v-if="order.state === '售后处理'">查看详情</view>
+
+                        <view class="button  cancel" v-if="order.state === '交易完成'">查看详情</view>
+                        <view class="button  cancel" v-if="order.state === '交易完成'">获取合同</view>
+                        <view class="button  cancel" v-if="order.state === '交易完成'">申请开票</view>
                     </view>
                 </view>
             </swiper-item>
         </swiper>
-    </div>
+        
+        <!-- 选择 分类 弹窗 -->
+        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
+            <view class="my-pop">
+                <view class="pop-top">
+                    <text @tap="sortShow = false">取消</text>
+                    <text class="sure" @tap="sureSelect">选择</text>
+                </view>
+
+                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
+                    <picker-view-column>
+                        <view class="select" v-for="(sort, index) in sorts" :key="index">
+                            <view class="value">{{ sort }}</view>
+                        </view>
+                    </picker-view-column>
+                </picker-view>
+
+                <!-- <view class="line left"></view>
+                <view class="line right"></view> -->
+            </view>
+        </view>
+
+    </view>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            tabList: [{ name: '全部' }, { name: '待付款' }, { name: '待发货' }, { name: '待收货' }, { name: '售后' }],
+            // 页面最大高度
+            maxHeight: '',
+            tabList: [{ name: '全部', value: 0 }, { name: '待付款', value: 1 }, { name: '待发货', value: 2 }, { name: '待收货', value: 3 }, { name: '售后', value: 4 }],
             TabCur: 0,
             // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                }
+            orderList: [
+                // 全部订单
+                [
+                    { id: 1, state: '待付款', goodList: [{}, {}, {}, {}, {}] },
+                    {
+                        id: 2,
+                        state: '交易关闭',
+                        goodList: [{}, {}, {}]
+                    },
+                    {
+                        id: 3,
+                        state: '待发货',
+                        goodList: [{}, {}, {}, {}]
+                    },
+                    {
+                        id: 4,
+                        state: '待收货',
+                        goodList: [{}, {}]
+                    },
+                    {
+                        id: 5,
+                        state: '交易完成',
+                        goodList: [
+                            {
+                                afterState: '处理中'
+                            },
+                            {
+                                afterState: '处理中'
+                            },
+                            {}
+                        ]
+                    }
+                ],
+                [
+                    { id: 1, state: '待付款', goodList: [{}, {}, {}] },
+                    {
+                        id: 2,
+                        state: '待付款',
+                        goodList: [{}, {}, {}, {}]
+                    },
+                    {
+                        id: 3,
+                        state: '待付款',
+                        goodList: [{}]
+                    },
+                    {
+                        id: 4,
+                        state: '待付款',
+                        goodList: [{}, {}]
+                    }
+                ],
+                [
+                    { id: 1, state: '待发货', goodList: [{}, {}] },
+                    {
+                        id: 2,
+                        state: '待发货',
+                        goodList: [{}, {}, {}]
+                    },
+                    {
+                        id: 3,
+                        state: '待发货',
+                        goodList: [{}, {}, {}, {}]
+                    },
+                    {
+                        id: 4,
+                        state: '待发货',
+                        goodList: [{}, {}]
+                    }
+                ],
+                [
+                    { id: 1, state: '待收货', goodList: [{}, {}] },
+                    {
+                        id: 2,
+                        state: '待收货',
+                        goodList: [{}, {}, {}, {}, {}, {}]
+                    },
+                    {
+                        id: 3,
+                        state: '待收货',
+                        goodList: [{}, {}, {}, {}]
+                    },
+                    {
+                        id: 4,
+                        state: '待收货',
+                        goodList: [{}, {}]
+                    }
+                ],
+                [
+                    {
+                        id: 1,
+                        state: '售后处理',
+                        goodList: [{}]
+                    },
+                    {
+                        id: 2,
+                        state: '售后处理',
+                        goodList: [
+                            {
+                                afterState: '审核中'
+                            },
+                            {
+                                afterState: '已审核'
+                            },
+                            {
+                                afterState: '退款中'
+                            },
+                            {},
+                            {},
+                            {}
+                        ]
+                    },
+                    {
+                        id: 3,
+                        state: '售后处理',
+                        goodList: [{}, {}, {}, {}]
+                    },
+                    {
+                        id: 4,
+                        state: '售后处理',
+                        goodList: [{}, {}]
+                    }
+                ]
             ],
-            // 是否 预览
-            preview: true,
+            // 是否 预览 通过 当前订单id来判断 当前订单是否处于 预览状态
+            preview: -1,
             // 是否同意
-            agreement: false
+            agreement: false,
+            // 弹窗
+            sortShow: true,
+            // 分类 - 弹出框
+            sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
+            // 当前分类值
+            defaultPicker: [2],
+            // 当前选择分类值
+            currentPickerValue: 2,
+         
         };
     },
 
@@ -102,14 +265,34 @@ export default {
         swiperChange(e) {
             let { current } = e.target;
             this.TabCur = current;
+            this.height('.wrap' + current);
         },
         tabSelect(index, e) {
             if (this.currentTab === index) return false;
             this.TabCur = index;
+            this.height('.wrap' + index);
+        },
+
+        toPreview(id) {
+            this.preview = id;
+            setTimeout(() => this.height('.wrap' + this.TabCur));
+        },
+
+        height(current) {
+            let view = uni.createSelectorQuery().selectAll(current);
+            setTimeout(() => {
+                view.boundingClientRect(data => {
+                    console.log('高' + data.map(item => item.height).reduce((total, num) => total + num, 0));
+                    this.maxHeight = data.map(item => item.height).reduce((total, num) => total + num, 0) + data.length * 20;
+                    console.log(this.maxHeight);
+                }).exec();
+            });
         }
     },
 
-    onReady() {}
+    onReady() {
+        this.height('.wrap0');
+    }
 };
 </script>
 <style lang="scss">
@@ -118,6 +301,7 @@ export default {
         height: 80upx;
     }
     .navs {
+        z-index: 999;
         position: fixed;
         width: 750upx;
         height: 80upx;
@@ -140,10 +324,6 @@ export default {
                 border-bottom: 4upx solid $theme-color;
             }
         }
-    }
-
-    .swiper {
-        min-height: 100000upx;
     }
 
     .wrap {
@@ -187,7 +367,7 @@ export default {
                 display: flex;
                 flex-wrap: wrap;
                 width: 520upx;
-                height: 160upx;
+                height: 120upx;
                 margin-left: 25upx;
                 .detail-header {
                     display: flex;
@@ -198,6 +378,27 @@ export default {
                     .shop-name {
                         font-size: 28upx;
                     }
+
+                    .shop-after-button {
+                        width: 92upx;
+                        height: 42upx;
+                        line-height: 42upx;
+                        text-align: center;
+                        font-size: 24upx;
+                        font-family: PingFang-SC-Medium;
+                        font-weight: 500;
+                        color: rgba(191, 160, 101, 1);
+                        background: rgba(191, 160, 101, 0.2);
+                        border-radius: 8upx;
+                    }
+
+                    .shop-after {
+                        font-size: 24upx;
+                        font-family: PingFang-SC-Medium;
+                        font-weight: 500;
+                        color: rgba(191, 160, 101, 1);
+                    }
+
                     image {
                         width: 24upx;
                         height: 26upx;
@@ -238,7 +439,8 @@ export default {
                         }
                     }
                     .price {
-                        font-size: 36upx;
+                        max-width: 118upx;
+                        font-size: 24upx;
                         font-family: DINAlternate-Bold;
                         font-weight: bold;
                         color: rgba(51, 51, 51, 1);
@@ -336,5 +538,70 @@ export default {
             background: $theme-color;
         }
     }
+    
+    .pop-wrap {
+        z-index: 999;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 750upx;
+        height: 200000upx;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.3);
+
+        .my-pop {
+            position: fixed;
+            bottom: 0upx;
+            width: 670upx;
+            height: 500upx;
+            background: #fff;
+            padding: 20upx 40upx;
+            .pop-top {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 0 20upx 0;
+                background: #fff;
+
+                text {
+                    font-size: 28upx;
+                    font-weight: 300;
+                    &.sure {
+                        color: $theme-color;
+                    }
+                }
+            }
+        }
+
+        .pick {
+            height: 380upx;
+            width: 100%;
+        }
+
+        .select {
+            text-align: center;
+            font-size: 32upx;
+            font-weight: 300;
+        }
+
+        .line {
+            position: absolute;
+            top: 0;
+            bottom: 30upx;
+            margin: auto;
+            width: 150upx;
+            height: 1upx;
+            background: #999;
+
+            &.left {
+                left: 30upx;
+            }
+            &.right {
+                right: 30upx;
+            }
+        }
+    }
+
+    
+    
 }
 </style>

@@ -27,7 +27,7 @@
                 <image src="../static/icon/reduce.png" mode="" v-if="showButton"></image>
                 <image src="../static/icon/add.png" mode="" v-else></image>
                 <view :class="['add-show', { active: showButton }]">
-                    <view class="fit">
+                    <view class="fit" @tap="toFit">
                         <image src="../static/icon/3d@2x.png" mode=""></image>
                         <text>试衣</text>
                     </view>
@@ -230,6 +230,11 @@ export default {
         big(index) {
             console.log(index);
             this.currentBig = index;
+        },
+        toFit(){
+            uni.navigateTo({
+                url:'../fitting/fitting'
+            })
         },
         moveHandle() {}
     }
