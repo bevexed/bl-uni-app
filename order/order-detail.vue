@@ -88,7 +88,7 @@
             </view>
         </view>
 
-        <view class="button">
+        <view class="button-bottom">
             <text>联系客服</text>
         </view>
         <view class="white-space"></view>
@@ -294,7 +294,7 @@ export default {
         }
     }
 
-    .button {
+    .button-bottom {
         z-index: 999;
         display: flex;
         justify-content: center;

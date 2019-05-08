@@ -56,7 +56,7 @@
                         <image src="../static/icon/calord.svg" mode=""></image>
                         <text>取消申请</text>
                     </view>
-                    <view class="button" v-if="good.afterState === '待寄回'">
+                    <view class="button" v-if="good.afterState === '待寄回'" @tap="toPostInformation">
                         <image src="../static/icon/edit.svg" mode=""></image>
                         <text>填写快递信息</text>
                     </view>
@@ -98,7 +98,17 @@ export default {
         };
     },
 
-    computed: {}
+    computed: {},
+    
+    methods:{
+        toPostInformation(){
+            uni.navigateTo({
+                url:'post-information'
+            })
+        }
+    }
+    
+    
 };
 </script>
 
@@ -124,7 +134,7 @@ export default {
                 justify-content: space-between;
                 align-items: center;
                 border-bottom: 2upx dashed #eeeeee;
-                padding: 0 18upx;
+                padding: 0 18upx 18upx;
             }
 
             .shop-img {

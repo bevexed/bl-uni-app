@@ -81,7 +81,7 @@
 
                         <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toOrderDetail($event)">查看详情</view>
                         <view class="button  cancel" v-if="order.state === '交易完成'">获取合同</view>
-                        <view class="button  cancel" v-if="order.state === '交易完成'">申请开票</view>
+                        <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toApplyTicket($event)">申请开票</view>
                     </view>
                 </view>
             </swiper-item>
@@ -312,6 +312,13 @@ export default {
             const { orderId } = e.currentTarget.dataset;
             uni.navigateTo({
                 url: 'sale-after-detail?orderId=' + orderId
+            });
+        },
+
+        toApplyTicket(e) {
+            const { orderId } = e.currentTarget.dataset;
+            uni.navigateTo({
+                url: 'apply-ticket?orderId=' + orderId
             });
         },
 
