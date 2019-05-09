@@ -96,13 +96,14 @@
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
 import { reqTextile3dmix } from '../static/api';
+// import { myImage } from '../static/unit';
 
 export default {
     components: {},
     data() {
         return {
             // 默认模特数量,最小数量为5
-            defaultModel: ['static/imgs/fitting/1.jpg', 'static/imgs/fitting/2.jpg'],
+            defaultModel: ['http://qxintechoffice.f3322.net:5007/micro/241556421365_.pic_hd.jpg', 'http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg'],
             // 当前选中模特
             currentModel: 0,
             // 默认花纹数量,最小数量为5

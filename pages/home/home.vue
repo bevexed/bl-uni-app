@@ -4,9 +4,18 @@
 
         <!-- 轮播图 -->
         <uni-swiper-dot :info="banners" :current="current" mode="long" :dotsStyles="dotsStyles">
-            <swiper :indicator-dots="false" :autoplay="true" :interval="3000" :duration="1000" loop class="banner" @change="swiperChange">
+            <swiper
+                :indicator-dots="false"
+                :autoplay="true"
+                :interval="3000"
+                :duration="1000"
+                loop
+                class="banner"
+                :style="{ height: windowHeight - 72 + 'px' }"
+                @change="swiperChange"
+            >
                 <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
-                    <view class="swiper-item"><image lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
+                    <view class="swiper-item"><image  :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
                 </swiper-item>
             </swiper>
         </uni-swiper-dot>
@@ -94,7 +103,13 @@
         <!-- 第四屏 -->
         <view class="video">
             <view class="title">SINOTY</view>
-            <video class="my-video" poster="../../static/imgs/home/1555917485604.jpg" src="" controls loop></video>
+            <video
+                class="my-video"
+                poster="../../static/imgs/home/1555917485604.jpg"
+                src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
+                controls
+                loop
+            ></video>
             <view class="tel">如果您在选购中有疑问，请致电：0571-88888888</view>
         </view>
 
@@ -124,11 +139,21 @@ export default {
                 selectedBackgroundColor: 'rgba(0,0,0,.3)'
             },
             // banner数据
-            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png']
+            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png'],
+            // banner高度
+            windowHeight: 0
         };
     },
     onLoad() {
         this.getdata();
+        let _this = this;
+        uni.getSystemInfo({
+            success: res => {
+                console.log(res);
+                _this.windowHeight = res.windowHeight;
+                _this.windowWidth = res.windowWidth;
+            }
+        });
     },
     methods: {
         swiperChange(e) {
