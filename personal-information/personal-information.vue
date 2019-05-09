@@ -3,7 +3,7 @@
         <view class="list">
             <view class="item">
                 <view class="label">我的头像</view>
-                <view class="value"><image class="avatar" src="../static/imgs/fitting/3.jpg" mode=""></image></view>
+                <view class="value"><image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image></view>
             </view>
 
             <view class="item">
@@ -14,7 +14,7 @@
             <view class="item">
                 <view class="label">绑定手机号</view>
                 <view class="value">
-                    <text class="phone">CCTV9527</text>
+                    <text class="phone">139 **** 1234</text>
                     <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
@@ -22,7 +22,7 @@
             <view class="item">
                 <view class="label">我的昵称</view>
                 <view class="value">
-                    <text class="name">139 **** 1234</text>
+                    <text class="name">CCTV9527</text>
                     <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
@@ -77,13 +77,14 @@ export default {};
 
 <style lang="scss">
 .information {
+    padding: 20upx 0;
     .list {
-        padding: $white-space;
         .item {
+            padding: 42upx $white-space;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 68upx;
+            border-bottom: 2upx solid #eee;
             .label {
                 height: 38upx;
                 font-size: 32upx;

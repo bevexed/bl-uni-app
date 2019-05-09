@@ -63,7 +63,9 @@ export default {
     }
 
     .contact-type {
-        text-align: center;
+        width: 262px;
+        text-align: left;
+        margin: 0 auto;
         > text {
             font-family: 平方 粗体;
             font-weight: bold;
@@ -80,7 +82,7 @@ export default {
 
         .contact-detail {
             width: 420upx;
-            margin: 46upx auto;
+            margin: 46upx 0 0 40upx;
             text-align: left;
             view {
                 display: flex;

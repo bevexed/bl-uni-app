@@ -82,16 +82,16 @@
 
         <view class="bottom">
             <view class="icons">
-                <view class="icon">
+                <view class="icon" @tap="toHome">
                     <image src="../static/icon/homepage_fill.svg" mode=""></image>
                     <text>首页</text>
                 </view>
-                <view class="icon">
+                <view class="icon" @tap="toShopCar">
                     <image src="../static/icon/service_fill@2x.png" mode=""></image>
                     <view class="badge">1</view>
                     <text>购物车</text>
                 </view>
-                <view class="icon">
+                <view class="icon" @tap="toContact">
                     <image src="../static/icon/phone.png" mode=""></image>
                     <text>客服</text>
                 </view>
@@ -114,7 +114,7 @@
             <view class="my-pop" @tap.stop>
                 <view class="close" @tap.stop="selectShow = false"></view>
                 <view class="pop-header">
-                    <image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
+                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                     <view class="right">
                         <view class="name">BL245685837265854</view>
                         <view class="sold">月销 30000 米</view>
@@ -238,6 +238,21 @@ export default {
             uni.navigateTo({
                 url: '/recognition/recognition'
             });
+        },
+        toHome(){
+            uni.switchTab({
+                url:'/pages/home/home'
+            })
+        },
+        toShopCar(){
+          uni.switchTab({
+              url:'/pages/shopCar/shopCar'
+          })  
+        },
+        toContact(){
+           uni.navigateTo({
+               url:'/contact/contact'
+           }) 
         },
         moveHandle() {}
     }

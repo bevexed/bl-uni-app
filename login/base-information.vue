@@ -2,7 +2,7 @@
     <view class="base-information">
         <view class="title">基本信息填写</view>
         <view class="form">
-            <input type="text" v-model="name" placeholder="真实姓名" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
+            <input type="text" v-model="name" placeholder="昵称" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
             <input type="text" v-model="company" placeholder="公司名称" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
             <input type="text" v-model="occupation" placeholder="您的职务" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
         </view>

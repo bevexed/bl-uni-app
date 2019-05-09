@@ -1,7 +1,7 @@
 <template>
-    <view class="my" :style="{ height: windowHeight - 55 + 'px' }">
+    <view class="my" :style="{ height: windowHeight - 50 + 'px' }">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
-        <view class="header">
+        <view class="header"  @tap="to('/personal-information/personal-information')">
             <image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
             <view class="info">
                 <view class="info-header">
@@ -13,7 +13,7 @@
                 </view>
                 <view class="info-bottom">
                     <view class="phone">188213123</view>
-                    <image src="../../static/icon/set.png" mode="" @tap="to('/personal-information/personal-information')"></image>
+                    <image src="../../static/icon/set.png" mode=""></image>
                 </view>
             </view>
         </view>
@@ -97,7 +97,7 @@ export default {
         height: 184upx;
 
         /* #ifdef MP-WEIXIN */
-        top: 40upx;
+        top: -50upx;
         /* #endif */
 
         image {
@@ -216,6 +216,14 @@ export default {
     }
 
     .button {
+        position: fixed;
+        bottom: 180upx;
+        /* #ifdef MP-WEIXIN */
+        bottom: 80upx;
+        /* #endif */
+        left: 0;
+        right: 0;
+        margin: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -223,7 +231,6 @@ export default {
         height: 80upx;
         border: 2upx solid $theme-color;
         border-radius: 8upx;
-        margin: 146upx auto;
         image {
             width: 16px;
             height: 16px;

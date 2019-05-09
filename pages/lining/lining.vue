@@ -100,6 +100,7 @@
 
                     <view class="my-button">确定</view>
                 </view>
+                <view class="white-space"></view>
             </scroll-view>
         </uni-drawer>
 
@@ -459,7 +460,7 @@ export default {
             justify-content: space-around;
             align-items: center;
             padding: 0 0 28upx;
-            border-bottom: 4upx solid #eee;
+            border-bottom: 2upx solid #eee;
             > .input {
                 text-align: center;
             }
@@ -477,7 +478,7 @@ export default {
             max-height: 60upx;
             overflow: hidden;
             padding: 0 0 28upx;
-            border-bottom: 4upx solid #eee;
+            border-bottom: 2upx solid #eee;
             transition: max-height 0.3s ease-in-out;
             &.active {
                 max-height: 1200upx;
@@ -509,9 +510,15 @@ export default {
         }
 
         .buttons {
+            z-index: 999;
+            position: fixed;
+            width: 536upx;
+            height: 100upx;
+            bottom: 0;
             display: flex;
             justify-content: space-between;
             padding: $white-space;
+            background: #fff;
             .my-button {
                 $height: 60upx;
                 width: 240upx;
@@ -528,6 +535,10 @@ export default {
                     color: $theme-color;
                 }
             }
+        }
+        
+        .white-space{
+            height: 140upx;
         }
     }
 
@@ -666,7 +677,7 @@ export default {
                 justify-content: space-between;
                 padding: 0 0 20upx 0;
                 background: #fff;
-                border-bottom: 1px solid #eee;
+                border-bottom: 2upx solid #eee;
 
                 text {
                     font-size: 28upx;

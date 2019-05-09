@@ -37,12 +37,12 @@
                 <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="item flex" @tap="selectShow = true">
-                <text class="label">退货数量</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+            <view :class="['item', 'flex']" @tap="selectNum">
+                <text :class="['label', { 'current-picker': currentSelectSaleAfterShow !== 1 }]">退货数量</text>
+                <!-- <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image> -->
             </view>
 
-            <view class="item flex" @tap="cancalOrder">
+            <view class="item flex" @tap="selectReason">
                 <text class="label">退款原因</text>
                 <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
@@ -73,7 +73,7 @@
                     <text class="sure" @tap="sureSelect">选择</text>
                 </view>
 
-                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultSelectSaleAfterShow" @change="selectChange">
+                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="selectChange">
                     <picker-view-column>
                         <view class="selecter" v-for="(sort, index) in sorts" :key="index">
                             <view class="value">{{ sort }}</view>
@@ -94,9 +94,9 @@
                     <text class="sure" @tap="sureSelect">选择</text>
                 </view>
 
-                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
+                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultSelectSaleAfterShow" @change="bindChange">
                     <picker-view-column>
-                        <view class="selecter"><view class="value">仅退货</view></view>
+                        <view class="selecter"><view class="value">仅退款</view></view>
                         <view class="selecter"><view class="value">退货退款</view></view>
                     </picker-view-column>
                 </picker-view>
@@ -123,7 +123,7 @@
                     </view>
                 </view>
 
-                <view class="select-small">
+                <!-- <view class="select-small">
                     <view class="title">退货小样</view>
                     <view class="select-small-tap rest">点击选择</view>
                     <view :class="['tags']">
@@ -137,7 +137,7 @@
                             @click="selectTag('tagCurrentSelect', tag)"
                         />
                     </view>
-                </view>
+                </view> -->
             </view>
         </view>
     </view>
@@ -170,13 +170,13 @@ export default {
             // 默认退款原因
             defaultPicker: [2],
             // 当前选择退款原因
-            currentPickerValue: 2,
+            currentPickerValue: 1,
             // 售后服务类型弹窗
             selectSaleAfterShow: false,
             // 默认售后类型
-            defaultSelectSaleAfterShow: [1],
+            defaultSelectSaleAfterShow: [0],
             // 当前选择类型
-            currentSelectSaleAfterShow: 1,
+            currentSelectSaleAfterShow: 0,
 
             // 数量 选择 弹窗
             selectShow: false,
@@ -194,21 +194,27 @@ export default {
             this.sortShow = false;
             this.selectSaleAfterShow = false;
         },
-        bindChange(e) {
+        selectChange(e) {
             console.log(e);
             const val = e.detail.value[0];
             this.currentPickerValue = val;
         },
-        cancalOrder(e) {
+        selectNum() {
+            if (this.currentSelectSaleAfterShow !== 1) {
+                return;
+            }
+            this.selectShow = true;
+        },
+        selectReason(e) {
             this.sortShow = true;
         },
         selectSaleAfter() {
             this.selectSaleAfterShow = true;
         },
-        selectChange(e) {
-            console.log(e);
+        bindChange(e) {
+            console.log('sale-after-type', e);
             const val = e.detail.value[0];
-            this.currentPickerValue = val;
+            this.currentSelectSaleAfterShow = val;
         },
         numChange(val) {
             console.log(val);
@@ -351,7 +357,10 @@ export default {
             .text-area-length {
                 position: relative;
                 top: -60upx;
+                left: 600upx;
+                /* #ifdef MP-WEIXIN */
                 left: 570upx;
+                /* #endif */
                 font-size: 20upx;
                 font-family: PingFang-SC-Regular;
                 font-weight: 400;
@@ -402,7 +411,7 @@ export default {
             position: fixed;
             bottom: 0upx;
             width: 750upx;
-            height: 500upx;
+            height: 250upx;
             background: #fff;
             padding: 20upx 0;
             .pop-top {
@@ -468,7 +477,7 @@ export default {
         .my-pop {
             position: fixed;
             bottom: 0upx;
-            height: 460upx;
+            height: 500upx;
             background: #fff;
             border-radius: 8upx;
         }
@@ -534,6 +543,10 @@ export default {
             text-align: center;
             font-size: 24upx;
         }
+    }
+
+    .current-picker {
+        color: #999 !important;
     }
 }
 </style>

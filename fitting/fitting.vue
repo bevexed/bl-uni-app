@@ -77,19 +77,19 @@
                 </swiper-item>
 
                 <!-- 上传图片 -->
-                <swiper-item key="add">
+               <!-- <swiper-item key="add">
                     <view class="swiper-item upload-style"><image src="../static/icon/adds.png" mode="center" @tap="popShow = true"></image></view>
-                </swiper-item>
+                </swiper-item> -->
             </swiper>
             <image class="next" src="../static/icon/before.svg" mode=""></image>
         </view>
 
-        <view :class="['pop-wrap']" v-show="popShow" @touchmove.prevent.stop @tap="popShow = false">
+        <!-- <view :class="['pop-wrap']" v-show="popShow" @touchmove.prevent.stop @tap="popShow = false">
             <view :class="['pop']" @tap.stop="chooseImg">
                 <image src="../static/icon/com.png" mode="aspectFill"></image>
                 <text>本地上传</text>
             </view>
-        </view>
+        </view> -->
     </view>
 </template>
 
