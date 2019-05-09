@@ -71,7 +71,7 @@
                     </view>
 
                     <view class="value">
-                        <input class="input" type="number" placeholder="最底价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                        <input class="input" type="number" placeholder="最低价" placeholder-class="placehoder" placeholder-style="text-align:center" />
                         <view class="hr"></view>
                         <input class="input" type="number" placeholder="最高价" placeholder-class="placehoder" placeholder-style="text-align:center" />
                     </view>

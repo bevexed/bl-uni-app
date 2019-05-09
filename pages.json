@@ -1,6 +1,9 @@
 {
     "pages": [{
-            "path": "pages/home/home"
+            "path": "pages/home/home",
+            "style": {
+                "navigationBarTitleText": ""
+            }
         },
         {
             "path": "pages/lining/lining"
@@ -53,8 +56,70 @@
             "root": "login",
             "pages": [{
                 "path": "login"
-            },{
+            }, {
                 "path": "base-information"
+            }]
+        }, {
+            "root": "personal-information",
+            "pages": [{
+                "path": "personal-information",
+                "style": {
+                    "navigationBarTitleText": "个人资料"
+                }
+            }]
+        }, {
+            "root": "address-book",
+            "pages": [{
+                "path": "address-book",
+                "style": {
+                    "navigationBarTitleText": "我的地址薄"
+                }
+            }, {
+                "path": "add-address",
+                "style": {
+                    "navigationBarTitleText": "我的地址薄"
+                }
+            }]
+        }, {
+            "root": "my-collection",
+            "pages": [{
+                "path": "my-collection",
+                "style": {
+                    "navigationBarTitleText": "我的收藏"
+                }
+            }]
+        }, {
+            "root": "ticket",
+            "pages": [{
+                "path": "ticket",
+                "style": {
+                    "navigationBarTitleText": "开票信息"
+                }
+            }, {
+                "path": "add-ticket",
+                "style": {
+                    "navigationBarTitleText": "添加开票信息"
+                }
+            }]
+        }, {
+            "root": "order",
+            "pages": [{
+                "path": "order",
+                "style": {
+                    "navigationBarTitleText": "我的订单"
+                }
+            }, {
+                "path": "order-detail"
+            }, {
+                "path": "back-money"
+            }, {
+                "path": "sale-after"
+            }, {
+                "path": "sale-after-detail"
+            }, {
+                "path": "post-information"
+            }, {
+                "path": "apply-ticket"
             }]
         }
 
@@ -97,7 +162,7 @@
         "current": 0, //当前激活的模式(list 的索引项)
         "list": [{
             "name": "", //模式名称
-            "path": "pages/my/my", //启动页面，必选
+            "path": "clipper/clipper", //启动页面，必选
             "query": "" //启动参数，在页面的onLoad函数里面得到
         }]
     }

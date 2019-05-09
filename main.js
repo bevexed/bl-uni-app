@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import App from './App'
 
-import vfinger from 'v-finger-mk42';
-Vue.use(vfinger);
-
 Vue.config.productionTip = false;
 
 App.mpType = 'app';

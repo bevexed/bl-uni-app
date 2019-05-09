@@ -1,5 +1,5 @@
 <template>
-    <view class="my">
+    <view class="my" :style="{ height: windowHeight - 55 + 'px' }">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
         <view class="header">
             <image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
@@ -60,7 +60,9 @@
 <script>
 export default {
     data() {
-        return {};
+        return {
+            windowHeight: 0
+        };
     },
     methods: {
         to(url) {
@@ -68,6 +70,16 @@ export default {
                 url
             });
         }
+    },
+    onLoad() {
+        let _this = this;
+        uni.getSystemInfo({
+            success: res => {
+                console.log(res);
+                _this.windowHeight = res.windowHeight;
+                _this.windowWidth = res.windowWidth;
+            }
+        });
     }
 };
 </script>
@@ -77,7 +89,6 @@ export default {
     position: relative;
     z-index: 1;
     background: #f7f7f7;
-    height: 83vh;
     .background {
         z-index: 2;
         position: absolute;

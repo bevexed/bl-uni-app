@@ -70,7 +70,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/dpc" : {
-                    "target" : "http://192.168.3.112",
+                    "target" : "http://192.168.3.64",
                     "changeOrigin" : true,
                     "secure" : false
                 }

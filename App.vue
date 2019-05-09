@@ -2,6 +2,9 @@
 export default {
     onLaunch: function() {
         console.log('App Launch');
+        // uni.navigateTo({
+        //     url:'login/login'
+        // })
     },
     onShow: function() {
         console.log('App Show');
@@ -43,10 +46,5 @@ image {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.uni-numbox:after,
-.uni-numbox__value:after {
-    border-color: #999 !important;
 }
 </style>
