@@ -94,7 +94,7 @@ export default {
 
 <style lang="scss">
 .my-collection {
-    padding: $white-space;
+    padding: $white-space 0;
     .menu {
         display: flex;
         justify-content: space-between;
@@ -103,6 +103,8 @@ export default {
         font-family: PingFang-SC-Bold;
         font-weight: bold;
         color: rgba(51, 51, 51, 1);
+        padding: 0 $white-space $white-space;
+        border-bottom: 2upx solid #eee;
         .state {
             display: flex;
             align-items: center;
@@ -126,7 +128,7 @@ export default {
     }
 
     .tile {
-        margin-top: 64upx;
+        margin-top: 32upx;
         .list {
             display: flex;
             justify-content: space-between;
@@ -167,7 +169,8 @@ export default {
     }
 
     .detail {
-        margin-top: 64upx;
+        margin-top: 32upx;
+        padding: 0 $white-space $white-space;
         .list {
             display: flex;
             justify-content: space-between;

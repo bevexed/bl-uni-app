@@ -3,7 +3,7 @@
         <!-- 购物车不为空 -->
         <view class="has-goods" v-if="goods.length">
             <view class="menus title">
-                <view class="menu" v-if="edit">取消</view>
+                <view class="menu" v-if="edit" @tap="edit = !edit">取消</view>
                 <view class="menu" v-else>清空下架</view>
 
                 <view class="menu">购物车(2)</view>
@@ -108,7 +108,8 @@
 
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-import { uniSwiperDot, uniNumberBox, uniTag } from '@dcloudio/uni-ui';
+import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
+import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
 export default {
     components: {
         CustmerPhone,
@@ -421,7 +422,7 @@ export default {
         margin-top: 40upx;
 
         .title {
-            padding: 0 30upx 0 60upx;
+            padding: 0 0 0 60upx;
             border: none;
         }
 

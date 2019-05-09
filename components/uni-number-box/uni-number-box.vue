@@ -118,7 +118,7 @@ $uni-font-size-xxl: 40upx;
         left: -50%;
         right: -50%;
         bottom: -50%;
-        border: 1px solid $uni-border-color;
+        border: 1px solid #999;
         border-radius: 8upx;
         transform: scale(0.5);
     }
@@ -126,7 +126,6 @@ $uni-font-size-xxl: 40upx;
     &__minus,
     &__plus {
         margin: 0;
-        background-color: $uni-bg-color-grey;
         width: $numbox-btn-width;
         font-size: $uni-font-size-xxl;
         height: 100%;
@@ -134,6 +133,7 @@ $uni-font-size-xxl: 40upx;
         text-align: center;
         color: $uni-text-color;
         position: relative;
+        
     }
 
     &__value {
@@ -155,7 +155,7 @@ $uni-font-size-xxl: 40upx;
             right: -50%;
             bottom: -50%;
             border-style: solid;
-            border-color: $uni-border-color;
+            border-color: #999;
             border-left-width: 1px;
             border-right-width: 1px;
             border-top-width: 0;

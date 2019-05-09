@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import uniNumberBox from './uni-number-box.vue';
+import uniNumberBox from '../components/uni-number-box/uni-number-box.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 export default {

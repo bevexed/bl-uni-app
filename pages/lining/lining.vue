@@ -16,8 +16,11 @@
         <!-- 抽屉 -->
         <uni-drawer :visible="drawerShow" mode="right" @close="onDrawerClose" class="drawer">
             <view class="search-bar">
-                <image class="search" src="../../static/icon/search.svg" mode=""></image>
-                <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
+                <view class="left">
+                    <image class="search" src="../../static/icon/search.svg" mode=""></image>
+                    <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
+                </view>
+
                 <image
                     class="camera"
                     src="../../static/icon/camera.svg"
@@ -43,9 +46,9 @@
             </view>
 
             <view class="color">
-                <view class="label">
+                <view class="label" @touchend="showColorMore = !showColorMore">
                     颜色
-                    <image :class="{ active: showColorMore }" @touchend="showColorMore = !showColorMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                    <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
                 <view :class="['tags', { active: showColorMore }]">
                     <uni-tag
@@ -74,9 +77,9 @@
             </view>
 
             <view class="real-tags">
-                <view class="label">
+                <view class="label" @touchend="showTagsMore = !showTagsMore">
                     标签
-                    <image :class="{ active: showTagsMore }" @touchend="showTagsMore = !showTagsMore" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                    <image :class="{ active: showTagsMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
                 <view :class="['tags', { active: showTagsMore }]">
                     <uni-tag
@@ -362,12 +365,23 @@ export default {
             }
         }
     }
+
     .drawer {
-        .search-bar {
+        .left {
+            width: 380upx;
+            height: 72upx;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             margin: 60upx $white-space;
+            padding: 0 20upx;
+            background: #f5f5f5;
+            border-radius: 8upx;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
             image.search {
                 width: 32upx;
                 height: 32upx;
@@ -378,6 +392,8 @@ export default {
                 width: 46upx;
                 height: 46upx;
                 margin-right: 20upx;
+                box-shadow: 0px 0px 8px 0px rgba(204, 204, 204, 0.5);
+                padding: 13upx 20upx;
             }
         }
 
@@ -575,6 +591,11 @@ export default {
         height: 60upx;
         position: fixed;
         top: 226upx;
+
+        /* #ifdef MP-WEIXIN */
+        top: 140upx;
+        /* #endif */
+
         left: 0;
         right: 0;
         margin: auto;
@@ -627,6 +648,9 @@ export default {
         }
 
         .select {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
             font-size: 32upx;
             font-weight: 300;
@@ -680,6 +704,13 @@ export default {
                 font-size: 28upx;
             }
         }
+    }
+
+    input {
+        background: #f5f5f5;
+        border-radius: 8upx;
+        width: 220upx;
+        font-size: 24upx;
     }
 }
 </style>

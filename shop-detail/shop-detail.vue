@@ -31,7 +31,7 @@
                         <image src="../static/icon/3d@2x.png" mode=""></image>
                         <text>试衣</text>
                     </view>
-                    <view class="simalar">
+                    <view class="simalar" @tap="toRecognition">
                         <image src="../static/icon/s.png" mode=""></image>
                         <text>相似</text>
                     </view>
@@ -42,7 +42,7 @@
         <view class="shop-name">BL245685837265854</view>
 
         <view class="shop-sales">
-            <text>月销 3000 米</text>
+            <text class="sale">月销 3000 米</text>
 
             <view class="price">
                 ￥300
@@ -112,6 +112,7 @@
         <!--  弹窗 -->
         <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
             <view class="my-pop" @tap.stop>
+                <view class="close" @tap.stop="selectShow = false"></view>
                 <view class="pop-header">
                     <image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image>
                     <view class="right">
@@ -150,22 +151,12 @@
                 <view class="button">确定</view>
             </view>
         </view>
-
-        <!-- 放大 -->
-        <!-- <view class="big" v-show="bigShow">
-            <swiper loop class="banner" @change="swiperChange">
-                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="big(bannerIndex)">
-                    <view :class="['swiper-item']">
-                        <image :class="{ 'big-img': currentBig === bannerIndex }" lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image>
-                    </view>
-                </swiper-item>
-            </swiper>
-        </view> -->
     </view>
 </template>
 
 <script>
-import { uniSwiperDot, uniNumberBox, uniTag } from '@dcloudio/uni-ui';
+import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
+import uniNumberBox from '../components/uni-number-box/uni-number-box.vue';
 export default {
     components: {
         uniSwiperDot,
@@ -185,7 +176,11 @@ export default {
                 selectedBackgroundColor: 'rgba(0,0,0,.3)'
             },
             // banner数据
-            banners: ['../static/imgs/home/banner.png', '../static/imgs/home/banner.png', '../static/imgs/home/banner.png'],
+            banners: [
+                'https://img.cdn.aliyun.dcloud.net.cn/stream/plugin_screens/5a21ffe0-6714-11e9-a3ca-cd5672f184bc_0.jpg?v=1556173709',
+                '/static/imgs/home/banner.png',
+                '/static/imgs/home/banner.png'
+            ],
 
             // 轮播图 显示更过按钮
             showButton: false,
@@ -222,19 +217,27 @@ export default {
             }
             this[currentState].push(tag_name);
         },
+
+        // 放大图片
         showBig(index) {
             console.log(index);
-            this.bigShow = index;
-        },
-        // 放大图片
-        big(index) {
-            console.log(index);
             this.currentBig = index;
+            uni.previewImage({
+                current: index + '',
+                urls: this.banners,
+                indicator: true,
+                loop: true
+            });
         },
-        toFit(){
+        toFit() {
             uni.navigateTo({
-                url:'../fitting/fitting'
-            })
+                url: '/fitting/fitting'
+            });
+        },
+        toRecognition() {
+            uni.navigateTo({
+                url: '/recognition/recognition'
+            });
         },
         moveHandle() {}
     }
@@ -279,43 +282,44 @@ export default {
             position: absolute;
             right: 30upx;
             bottom: 30upx;
-            width: 60upx;
-            height: 60upx;
+            width: 80upx;
+            height: 80upx;
             background: rgba(255, 255, 255, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
             image {
-                width: 40upx;
-                height: 40upx;
+                width: 60upx;
+                height: 60upx;
             }
 
             .add-show {
                 position: absolute;
-                width: 60upx;
+                width: 80upx;
                 height: 0upx;
                 top: 0;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
                 background: #fff;
-                border-radius: 30upx;
+                border-radius: 40upx;
                 overflow: hidden;
                 transition: all 0.3s ease;
 
                 &.active {
                     top: -220upx;
                     height: 206upx;
+                    background: rgba(255, 255, 255, 0.8);
                 }
 
                 image {
-                    width: 30upx;
-                    height: 30upx;
+                    width: 40upx;
+                    height: 40upx;
                 }
 
                 view {
-                    width: 60upx;
+                    width: 80upx;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
@@ -349,20 +353,28 @@ export default {
 
     .shop-sales {
         display: flex;
+        padding: 30upx $white-space;
         justify-content: space-between;
-        height: 28upx;
+        height: 64upx;
         font-size: 20upx;
         font-family: PingFang-SC-Medium;
         font-weight: 500;
         color: #999;
         padding: 0 $white-space;
         letter-spacing: 0.01em;
+        
+        .sale{
+            margin-top: 10upx;
+        }
         .price {
+            height: 128upx;
             font-family: DINAlternate-Bold;
             font-size: 48upx;
             color: #c50000;
+            margin-top: -16upx;
 
             text {
+                height: 128upx;
                 font-family: PingFang-SC;
                 font-weight: 300;
                 font-size: 20upx;
@@ -375,9 +387,12 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 60upx $white-space;
+        padding: 30upx 0;
+        margin: 0 $white-space;
         font-size: 28upx;
         font-family: PingFang-SC-Bold;
+        border-top:2upx solid #EEEEEE; 
+        border-bottom:2upx solid #EEEEEE; 
         image {
             height: 14upx;
             width: 26upx;
@@ -386,7 +401,7 @@ export default {
     }
 
     .shop-detail {
-        padding: 10upx $white-space;
+        margin: 30upx $white-space;
         font-size: 28upx;
         font-family: PingFang-SC-Bold;
 
@@ -548,8 +563,7 @@ export default {
             padding: 80upx 40upx 0;
             border-radius: 8upx;
 
-            &:before {
-                content: '';
+            .close {
                 position: absolute;
                 width: 48upx;
                 height: 8upx;
@@ -608,24 +622,27 @@ export default {
 
         .select-much {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             margin-top: 40upx;
+            margin-bottom: 32upx;
             .rest {
                 font-size: 20upx;
                 font-family: PingFang-SC-Regular;
                 color: #999;
+                margin-left: 30upx;
             }
 
             .unit {
-                margin-left: -80upx;
+                margin-left: 10upx;
             }
         }
 
         .select-small {
-            margin-top: 64upx;
+            padding-top: 32upx;
             display: flex;
             align-items: center;
+            border-top: 2upx solid #eee;
         }
 
         .button {

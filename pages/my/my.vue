@@ -49,6 +49,11 @@
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
         </view>
+
+        <view class="button">
+            <image src="../../static/icon/close.svg" mode=""></image>
+            <view>退出</view>
+        </view>
     </view>
 </template>
 
@@ -69,8 +74,12 @@ export default {
 
 <style lang="scss">
 .my {
+    position: relative;
+    z-index: 1;
+    background: #f7f7f7;
+    height: 83vh;
     .background {
-        z-index: -999;
+        z-index: 2;
         position: absolute;
         top: -50upx;
         width: 750upx;
@@ -90,6 +99,8 @@ export default {
     }
 
     .header {
+        z-index: 3;
+        position: relative;
         display: flex;
         width: 690upx;
         height: 140upx;
@@ -165,12 +176,16 @@ export default {
     }
 
     .set-list {
-        padding: 0 56upx;
+        padding: 0 28upx;
         .set-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 66upx;
+            background: #fff;
+            padding: 28upx;
+            border-radius: 8upx;
+            margin-bottom: 6upx;
+
             .icon {
                 width: 36upx;
                 height: 36upx;
@@ -186,6 +201,28 @@ export default {
                 height: 28upx;
                 transform: rotate(270deg);
             }
+        }
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 690upx;
+        height: 80upx;
+        border: 2upx solid $theme-color;
+        border-radius: 8upx;
+        margin: 146upx auto;
+        image {
+            width: 16px;
+            height: 16px;
+            margin-right: 8upx;
+        }
+        view {
+            font-size: 28upx;
+            font-family: PingFang-SC-Medium;
+            font-weight: 500;
+            color: rgba(191, 160, 101, 1);
         }
     }
 }

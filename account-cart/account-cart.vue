@@ -17,7 +17,7 @@
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-                <image class="gou" src="../static/icon/gou.svg" mode=""></image>
+                <image class="gou" src="../static/icon/gou.svg" mode="" @tap="setAddressDefault(i)"></image>
                 <view class="header">
                     <view class="label">收件人：</view>
                     <view class="value">
@@ -175,6 +175,10 @@ export default {
                     url: '../pay/pay'
                 });
             }
+        },
+        setAddressDefault(i) {
+            this.addressList.map(address => (address.default = false));
+            this.addressList[i].default = true;
         }
     }
 };
@@ -182,7 +186,7 @@ export default {
 
 <style lang="scss" scoped>
 .account-cart {
-    padding: 0 $white-space;
+    padding: 0 $white-space 64upx;
     .title {
         color: #333;
         font-size: 32upx;
@@ -227,16 +231,17 @@ export default {
 
     .select-address {
         margin: 17upx 0;
-        max-height: 270upx;
+        max-height: 290upx;
         overflow: hidden;
-        transition: all 0.6s ease-in-out;
+        // transition: all 0.3s ease-in-out;
         &.active {
             max-height: 5400upx;
         }
 
         .address-detail {
+            box-sizing: border-box;
             position: relative;
-            padding: 32upx 0 18upx 32upx;
+            padding: 32upx 0 0 0;
             margin-bottom: 24upx;
             border: 2upx solid #cccccc;
             border-radius: 8upx;
@@ -264,10 +269,11 @@ export default {
             .gou {
                 z-index: 999;
                 position: absolute;
+                padding: 20upx;
                 width: 32upx;
                 height: 32upx;
-                right: 8upx;
-                top: 8upx;
+                right: -10upx;
+                top: -10upx;
                 content: '';
             }
         }
@@ -276,17 +282,21 @@ export default {
             display: flex;
             align-items: center;
             margin-bottom: 34upx;
+            padding-left: 32upx;
         }
 
         .content {
             display: flex;
-            margin-bottom: 34upx;
+            padding-bottom: 34upx;
+            padding-left: 32upx;
+            border-bottom: 2upx solid #eee;
         }
 
         .footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 18upx 0 18upx 32upx;
         }
 
         .label {
@@ -323,6 +333,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 4upx 0;
 
         image {
             width: 16upx;
@@ -526,7 +537,7 @@ export default {
         height: $height;
         line-height: $height;
         width: 692upx;
-        margin: 226upx auto 68upx;
+        margin: 226upx auto 0;
         text-align: center;
         background: #cccccc;
         border-radius: 8upx;

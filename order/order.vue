@@ -23,7 +23,7 @@
                     <view class="goods" v-else>
                         <view :class="['good']" v-for="(good, goodIndex) in order.goodList" :key="goodIndex">
                             <!-- 展开 -->
-                            <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+                            <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" src="../static/imgs/fitting/5.jpg" mode=""></image>
 
                             <view class="detail">
                                 <view class="detail-header">
@@ -171,11 +171,19 @@ export default {
                     }
                 ],
                 [
-                    { id: 1, state: '待发货', goodList: [{}, {}] },
+                    { id: 1, state: '待发货', goodList: [{
+                        notSendGood: true
+                    }, {}] },
                     {
                         id: 2,
                         state: '待发货',
-                        goodList: [{}, {}, {}]
+                        goodList: [
+                            {
+                                notSendGood: true
+                            },
+                            {},
+                            {}
+                        ]
                     },
                     {
                         id: 3,
@@ -345,6 +353,7 @@ export default {
 </script>
 <style lang="scss">
 .order {
+    background: #f7f7f7;
     .white-space {
         height: 80upx;
     }
@@ -376,7 +385,6 @@ export default {
 
     .wrap {
         margin: $white-space;
-        padding: 20upx;
         border-radius: 8upx;
         box-shadow: 0 2upx 16upx 0 rgba(0, 0, 0, 0.3);
     }
@@ -384,6 +392,8 @@ export default {
     .order-header {
         display: flex;
         justify-content: space-between;
+        padding: 20upx;
+        background: #fff;
         .order-num {
             font-size: 24upx;
             font-family: PingFang-SC-Regular;
@@ -400,16 +410,35 @@ export default {
     }
 
     .goods {
+        background: #f9f9f9;
         .good {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: $white-space 0;
+            margin: 0 20upx;
+            padding: 20upx 0;
+            border-bottom: 2upx solid #eee;
 
             .shop-img {
+                position: relative;
                 width: 120upx;
                 height: 120upx;
                 border-radius: 8upx;
+                overflow: hidden;
+
+                &.not-send-good:after {
+                    position: absolute;
+                    bottom: 0;
+                    content: '未发货';
+                    font-size: 20upx;
+                    font-family: PingFang-SC-Bold;
+                    font-weight: bold;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 1);
+                    background: rgba(0, 0, 0, 0.5);
+                    width: 120upx;
+                    height: 30upx;
+                }
             }
             .detail {
                 display: flex;
@@ -503,10 +532,22 @@ export default {
     }
 
     .preview {
+        position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 40upx 0;
+        padding: 40upx 20upx;
+
+        background: #f7f7f7;
+
+        &:after {
+            position: absolute;
+            content: '';
+            width: 648upx;
+            height: 2upx;
+            background: #eee;
+            top: 200upx;
+        }
         image {
             width: 120upx;
             height: 120upx;
@@ -518,13 +559,12 @@ export default {
     }
 
     .pay-detail {
-        padding: 0 0 32upx 0;
-
         .real-pay {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            padding: 9upx 0;
+            background: #f9f9f9;
+            padding: 20upx;
 
             .num {
                 margin-right: 80upx;
@@ -564,6 +604,8 @@ export default {
     .buttons {
         display: flex;
         justify-content: flex-end;
+        padding: 20upx;
+        background: #fff;
         .button {
             height: 50upx;
             width: 160upx;
@@ -624,6 +666,9 @@ export default {
             height: 380upx;
             width: 100%;
             .selecter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
                 font-size: 32upx;
                 font-weight: 300;

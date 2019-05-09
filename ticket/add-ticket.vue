@@ -168,6 +168,14 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        height: 40upx;
+
+        border-bottom: 2upx solid #eee;
+        margin: 20upx 0;
+        input {
+            margin-top: 15px;
+            border: none;
+        }
     }
 
     .save {

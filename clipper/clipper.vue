@@ -46,7 +46,7 @@ export default {
 
             // 选择器
             // 两侧留白
-            margin: 8,
+            margin: 16,
             // 长短
             long: 30,
 
@@ -367,7 +367,7 @@ export default {
 
         recognition() {
             uni.navigateTo({
-                url: '/pages/recognition/recognition'
+                url: '/recognition/recognition'
             });
         }
     },
@@ -384,12 +384,15 @@ export default {
 
 <style lang="scss">
 .clipper {
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
     .canvas {
         width: 750upx;
-        height: 100vh;
+        height: 80vh;
     }
 
     .sure {
+        z-index: 9999;
         position: fixed;
         bottom: 90upx;
         text-align: center;

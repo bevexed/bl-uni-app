@@ -13,27 +13,28 @@
                         </view>
                     </swiper-item>
                     <swiper-item>
-                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)">
-                            <image src="../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
-                        </view>
+                        <view :class="['swiper-item']" @tap=""><image src="../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image></view>
                     </swiper-item>
 
-                    <swiper-item>
-                        <view v-for="i in 3" :key="i"><image src="" mode="aspectFill"></image></view>
+                    <swiper-item v-for="i in 3">
+                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)"><image src="" mode="aspectFill"></image></view>
                     </swiper-item>
-
-                    <!-- <swiper-item v-for="(imgUrl, index) in defaultModel" :key="index">
-                        <view :class="['swiper-item', { selected: index === currentModel }]" @tap="onModelChange(index, imgUrl)">
-                            <image :src="'../' + imgUrl" mode="aspectFill"></image>
-                        </view>
-                    </swiper-item> -->
-                    -->
                 </swiper>
                 <image class="next" src="../static/icon/before.svg" mode=""></image>
             </view>
 
             <!-- 模特实体图 -->
-            <view class="model-show"><image :src="currentImage" mode="aspectFill"></image></view>
+            <view
+                class="model-show"
+                :style="{ transform: 'scale(' + touch.new.scale + ') ' + 'translate(' + touch.new.left + 'px,' + touch.new.top + 'px)' }"
+                @touchstart.stop.prevent="resizeStart($event)"
+                @touchmove.stop.prevent="risizing($event)"
+                @touchend.stop.prevent="resizeEnd($event)"
+            >
+                <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=234634259,4236876085&fm=27&gp=0.jpg" mode=""></image>
+                <!-- <image :src="currentImage" mode="aspectFill"></image> -->
+            </view>
+            <!-- {{ touch }} -->
 
             <!-- 控制器 -->
             <view class="controll">
@@ -49,7 +50,7 @@
                     <view class="my-slider">
                         <view class="my-slider-background"></view>
                         <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
-                        <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove="onChangeBar($event)" @touchend="onChangeBarEnd()"></view>
+                        <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove.stop.prevent="onChangeBar($event)" @touchend.stop.prevent="onChangeBarEnd()"></view>
                     </view>
                     <image class="reduce" src="../static/icon/reduce.png" mode="" @tap="onTouchBarButton('reduce')"></image>
                 </view>
@@ -95,7 +96,6 @@
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
 import { reqTextile3dmix } from '../static/api';
-
 export default {
     components: {},
     data() {
@@ -149,10 +149,84 @@ export default {
                 amp: 1,
                 rotate: 0,
                 Rdpi: 40
+            },
+
+            // 触屏
+            touch: {
+                old: {
+                    touchStartX1: 0,
+                    touchStartY1: 0,
+                    touchStartX2: 0,
+                    touchStartY2: 0,
+                    oldD: 0,
+                    top: 0,
+                    left: 0,
+                    scale: 1
+                },
+                new: {
+                    touchStartX1: 0,
+                    touchStartY1: 0,
+                    touchStartX2: 0,
+                    touchStartY2: 0,
+                    newD: 0,
+                    top: 0,
+                    left: 0,
+                    scale: 1
+                }
             }
         };
     },
     methods: {
+        resizeStart(e) {
+            // console.log(e);
+            this.touch.old.touchStartX1 = e.touches[0].clientX;
+            this.touch.old.touchStartY1 = e.touches[0].clientY;
+
+            // 双指
+            if (e.touches[1]) {
+                this.touch.old.touchStartX2 = e.touches[1].clientX;
+                this.touch.old.touchStartY2 = e.touches[1].clientY;
+                let oldD = Math.sqrt(
+                    Math.pow(this.touch.old.touchStartX1 - this.touch.old.touchStartX2, 2) + Math.pow(this.touch.old.touchStartY1 - this.touch.old.touchStartY2, 2)
+                );
+                this.touch.old.oldD = oldD;
+            }
+        },
+
+        risizing(e) {
+            this.touch.new.touchStartX1 = e.touches[0].clientX;
+            this.touch.new.touchStartY1 = e.touches[0].clientY;
+            if (e.touches[1]) {
+                this.touch.new.touchStartX2 = e.touches[1].clientX;
+                this.touch.new.touchStartY2 = e.touches[1].clientY;
+
+                let newD = Math.sqrt(
+                    Math.pow(this.touch.new.touchStartX1 - this.touch.new.touchStartX2, 2) + Math.pow(this.touch.new.touchStartY1 - this.touch.new.touchStartY2, 2)
+                );
+
+                this.touch.new.newD = newD;
+                this.touch.new.scale = (this.touch.old.scale * this.touch.new.newD) / this.touch.old.oldD;
+            } else {
+                this.touch.new.top = this.touch.old.top + (this.touch.new.touchStartY1 - this.touch.old.touchStartY1) / this.touch.new.scale;
+                this.touch.new.left = this.touch.old.left + (this.touch.new.touchStartX1 - this.touch.old.touchStartX1) / this.touch.new.scale;
+            }
+        },
+
+        resizeEnd(e) {
+            this.touch.old.top = this.touch.new.top;
+
+            // if (Math.abs(this.touch.new.left) > 300) {
+            //     this.touch.new.left = 300;
+            // }
+
+            this.touch.old.left = this.touch.new.left;
+
+            if (this.touch.new.scale < 1) {
+                this.touch.new.scale = 1;
+            }
+            this.touch.old.scale = this.touch.new.scale;
+        },
+
         // 请求 3d 试衣结果
         async getTextile3dmix() {
             uni.showLoading({
@@ -277,7 +351,6 @@ export default {
     },
 
     onReady() {
-        console.log(1);
         this.onStyleChange(0, this.defaultStyle[1]);
     }
 };
@@ -285,6 +358,9 @@ export default {
 
 <style lang="scss">
 .fitting {
+    width: 750upx - 2 * $white-space;
+    height: 100vh;
+    overflow: hidden;
     padding: $white-space;
     .model-select-title {
         display: flex;
@@ -366,13 +442,15 @@ export default {
             }
         }
         .model-show {
+            position: relative;
+            z-index: 999;
             width: 440upx;
             height: 928upx;
             text-align: center;
             align-self: flex-end;
+
+            // transform: scale(3);
             image {
-                width: 314upx;
-                height: 928upx;
             }
         }
 
@@ -557,6 +635,12 @@ export default {
                 font-size: 28upx;
             }
         }
+    }
+
+    .movable {
+        width: 750upx;
+        height: 1200upx;
+        background: transparent;
     }
 }
 </style>

@@ -86,10 +86,10 @@ export default {
 
             this.addressList[i].default = true;
         },
-        toAddAddress(){
+        toAddAddress() {
             uni.navigateTo({
-                url:'add-address'
-            })
+                url: 'add-address'
+            });
         }
     }
 };
@@ -97,11 +97,11 @@ export default {
 
 <style lang="scss">
 .address-book {
-    padding: $white-space;
+    background: #f7f7f7;
     .address {
         display: flex;
         justify-content: space-between;
-        padding: $white-space 0;
+        padding: $white-space;
 
         &.active {
             border-bottom: 2upx solid #eeeeee;
@@ -120,20 +120,22 @@ export default {
         max-height: 270upx;
         overflow: hidden;
         transition: all 0.6s ease-in-out;
+        padding: $white-space;
         &.active {
             max-height: 5400upx;
         }
 
         .address-detail {
             position: relative;
-            padding: 32upx 0 18upx 32upx;
+            padding: 32upx 0 18upx 0;
             margin-bottom: 24upx;
             border-radius: 8upx;
             font-size: 24upx;
             color: #333;
             overflow: hidden;
+            background: #fff;
             // border: 2upx solid #cccccc;
-            box-shadow: -2upx 4upx 20upx 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0upx 2upx 10upx 0 rgba(0, 0, 0, 0.1);
 
             //             &:before {
             //                 position: absolute;
@@ -167,11 +169,13 @@ export default {
             display: flex;
             align-items: center;
             margin-bottom: 34upx;
+            padding: 0 0 0 32upx;
         }
 
         .content {
             display: flex;
             margin-bottom: 34upx;
+            padding: 0 0 0 32upx;
         }
 
         .footer {
@@ -179,7 +183,7 @@ export default {
             justify-content: space-between;
             align-items: center;
             border-top: 2upx solid #eeeeee;
-            padding-top: 16upx;
+            padding: 16upx 0 0 32upx;
         }
 
         .label {
@@ -263,10 +267,9 @@ export default {
             margin-right: 20upx;
             margin-top: -4upx;
         }
-        
     }
-    
-    .white-space{
+
+    .white-space {
         height: 98upx;
     }
 }

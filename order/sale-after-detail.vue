@@ -122,12 +122,16 @@ export default {
         padding: 12upx;
         color: rgba(51, 51, 51, 1);
         border-bottom: 2upx solid #eeeeee;
+        overflow: hidden;
     }
 
     .goods {
         padding: 4upx 0;
+        margin-top: 10upx;
         .good {
             padding: $white-space 0 0 0;
+            background: #f9f9f9;
+            margin-bottom: 8upx;
 
             .good-header {
                 display: flex;
@@ -197,7 +201,7 @@ export default {
             font-size: 20upx;
             font-family: PingFang-SC-Regular;
             font-weight: 400;
-            padding: 0 18upx;
+            padding: 20upx 18upx;
             color: rgba(153, 153, 153, 1);
             .item {
                 display: flex;
@@ -211,8 +215,7 @@ export default {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 692upx;
-                border-radius: 8upx;
+                width: 686upx;
 
                 text-align: center;
                 font-size: 24upx;

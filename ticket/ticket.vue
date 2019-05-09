@@ -95,11 +95,12 @@ export default {
 
 <style lang="scss">
 .ticket {
-    padding: $white-space;
+    padding: $white-space 0;
+    background: #f7f7f7;
     .ticket {
         display: flex;
         justify-content: space-between;
-        padding: $white-space 0;
+        padding: 0 $white-space;
 
         &.active {
             border-bottom: 2upx solid #eeeeee;
@@ -117,7 +118,8 @@ export default {
         margin: 17upx 0;
         max-height: 270upx;
         overflow: hidden;
-        transition: all 0.6s ease-in-out;
+        padding: 0 $white-space;
+        // transition: all 0.6s ease-in-out;
         &.active {
             max-height: 5400upx;
         }
@@ -130,8 +132,8 @@ export default {
             font-size: 24upx;
             color: #333;
             overflow: hidden;
-            box-shadow: -2upx 4upx 20upx 0 rgba(0, 0, 0, 0.2);
-
+            box-shadow: 0upx 4upx 10upx 0 rgba(0, 0, 0, 0.2);
+            background: #fff;
             .gou {
                 z-index: 999;
                 position: absolute;
@@ -192,8 +194,6 @@ export default {
             color: $theme-color;
         }
     }
-
-   
 
     .select {
         display: flex;
