@@ -16,14 +16,14 @@
                     </view>
                     <!-- 收起 -->
                     <view class="preview" v-if="preview !== order.id && order.goodList.length >= 4">
-                        <view v-for="(good, goodIndex) in order.goodList" :key="goodIndex"><image v-show="goodIndex < 4" src="../static/imgs/fitting/1.jpg" mode=""></image></view>
+                        <view v-for="(good, goodIndex) in order.goodList" :key="goodIndex"><image v-show="goodIndex < 4" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image></view>
                         <image class="more" @tap="toPreview(order.id)" src="../static/icon/more.svg" mode=""></image>
                     </view>
 
                     <view class="goods" v-else>
                         <view :class="['good']" v-for="(good, goodIndex) in order.goodList" :key="goodIndex">
                             <!-- 展开 -->
-                            <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" src="../static/imgs/fitting/5.jpg" mode=""></image>
+                            <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
 
                             <view class="detail">
                                 <view class="detail-header">

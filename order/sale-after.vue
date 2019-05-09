@@ -341,14 +341,17 @@ export default {
 
             .text-area {
                 padding: 28upx;
+                width: 630upx;
+                min-height: 230upx;
                 margin-top: 34upx;
                 font-size: 12px;
+                background: #f9f9f9;
             }
 
             .text-area-length {
                 position: relative;
-                top: 134upx;
-                left: 600upx;
+                top: -60upx;
+                left: 570upx;
                 font-size: 20upx;
                 font-family: PingFang-SC-Regular;
                 font-weight: 400;
@@ -398,19 +401,21 @@ export default {
         .my-pop {
             position: fixed;
             bottom: 0upx;
-            width: 670upx;
+            width: 750upx;
             height: 500upx;
             background: #fff;
-            padding: 20upx 40upx;
+            padding: 20upx 0;
             .pop-top {
                 display: flex;
                 justify-content: space-between;
                 padding: 0 0 20upx 0;
                 background: #fff;
+                border-bottom: 1px solid #eee;
 
                 text {
                     font-size: 28upx;
                     font-weight: 300;
+                    padding: 0 40upx;
                     &.sure {
                         color: $theme-color;
                     }
@@ -421,7 +426,11 @@ export default {
         .pick {
             height: 380upx;
             width: 100%;
+
             .selecter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
                 font-size: 32upx;
                 font-weight: 300;
@@ -472,7 +481,7 @@ export default {
         .select-much {
             display: flex;
             align-items: center;
-            margin-top: 114upx;
+            margin: 114upx 40upx 0;
 
             .nums {
                 display: flex;
@@ -486,9 +495,9 @@ export default {
         }
 
         .select-small {
-            margin-top: 64upx;
             display: flex;
             align-items: center;
+            margin: 64upx 40upx 0;
         }
 
         .title {

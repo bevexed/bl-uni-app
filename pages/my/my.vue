@@ -2,7 +2,7 @@
     <view class="my">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
         <view class="header">
-            <image class="avatar" src="../../static/imgs/fitting/2.jpg" mode=""></image>
+            <image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
             <view class="info">
                 <view class="info-header">
                     <view class="name">Helvetica</view>

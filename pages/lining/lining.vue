@@ -609,7 +609,7 @@ export default {
         }
     }
 
-    .pop-wrap {
+   .pop-wrap {
         z-index: 999;
         position: absolute;
         top: 0;
@@ -622,19 +622,21 @@ export default {
         .my-pop {
             position: fixed;
             bottom: 0upx;
-            width: 670upx;
+            width: 750upx;
             height: 500upx;
             background: #fff;
-            padding: 20upx 40upx;
+            padding: 20upx 0;
             .pop-top {
                 display: flex;
                 justify-content: space-between;
                 padding: 0 0 20upx 0;
                 background: #fff;
+                border-bottom: 1px solid #eee;
 
                 text {
                     font-size: 28upx;
                     font-weight: 300;
+                    padding: 0 40upx;
                     &.sure {
                         color: $theme-color;
                     }
@@ -645,15 +647,15 @@ export default {
         .pick {
             height: 380upx;
             width: 100%;
-        }
 
-        .select {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-size: 32upx;
-            font-weight: 300;
+            .select {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-size: 32upx;
+                font-weight: 300;
+            }
         }
 
         .line {

@@ -38,7 +38,7 @@
                             </view>
                         </view>
 
-                        <view class="button">售后</view>
+                        <view class="button" @tap="toSaleAfter">售后</view>
                     </view>
                 </view>
             </view>
@@ -107,7 +107,13 @@ export default {
             ]
         };
     },
-    methods: {},
+    methods: {
+        toSaleAfter(){
+            uni.navigateTo({
+                url:'sale-after'
+            })
+        }
+    },
     onLoad(e) {
         console.log(e);
     }

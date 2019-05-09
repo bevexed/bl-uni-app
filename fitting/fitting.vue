@@ -9,11 +9,11 @@
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
                     <swiper-item>
                         <view :class="['swiper-item', { selected: 0 === currentModel }]" @tap="onModelChange(0)">
-                            <image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
+                            <image src="http://qxintechoffice.f3322.net:5007/micro/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
                         </view>
                     </swiper-item>
                     <swiper-item>
-                        <view :class="['swiper-item']" @tap=""><image src="../static/imgs/fitting/251556421372_.pic_hd.jpg" mode="aspectFill"></image></view>
+                        <view :class="['swiper-item']" @tap=""><image src="http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg" mode="aspectFill"></image></view>
                     </swiper-item>
 
                     <swiper-item v-for="i in 3">
@@ -47,11 +47,11 @@
 
                 <view class="touchbar">
                     <image class="add" src="../static/icon/add.png" mode="" @tap="onTouchBarButton('add')"></image>
-                    <view class="my-slider">
+                   <!-- <view class="my-slider">
                         <view class="my-slider-background"></view>
                         <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
                         <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove.stop.prevent="onChangeBar($event)" @touchend.stop.prevent="onChangeBarEnd()"></view>
-                    </view>
+                    </view> -->
                     <image class="reduce" src="../static/icon/reduce.png" mode="" @tap="onTouchBarButton('reduce')"></image>
                 </view>
             </view>
@@ -72,7 +72,7 @@
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(imgUrl, index) in defaultStyle" :key="index">
                     <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)">
-                        <image :src="'../' + imgUrl" mode="aspectFill"></image>
+                        <image :src="imgUrl" mode="aspectFill"></image>
                     </view>
                 </swiper-item>
 
@@ -104,25 +104,19 @@ export default {
             defaultModel: [
                 'static/imgs/fitting/1.jpg',
                 'static/imgs/fitting/2.jpg',
-                'static/imgs/fitting/3.jpg',
-                'static/imgs/fitting/4.jpg',
-                'static/imgs/fitting/5.jpg',
-                'static/imgs/fitting/6.jpg',
-                'static/imgs/fitting/7.jpg',
-                'static/imgs/fitting/8.jpg'
             ],
             // 当前选中模特
             currentModel: 0,
             // 默认花纹数量,最小数量为5
             defaultStyle: [
-                'static/imgs/fitting/1.jpg',
-                'static/imgs/fitting/2.jpg',
-                'static/imgs/fitting/3.jpg',
-                'static/imgs/fitting/4.jpg',
-                'static/imgs/fitting/5.jpg',
-                'static/imgs/fitting/6.jpg',
-                'static/imgs/fitting/7.jpg',
-                'static/imgs/fitting/8.jpg'
+                'http://qxintechoffice.f3322.net:5007/micro/1.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/2.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/3.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/4.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/5.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/6.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/7.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/8.jpg'
             ],
             // 当前样式
             currentStyle: 0,
@@ -410,7 +404,7 @@ export default {
                 position: absolute;
                 height: 14px;
                 width: 14px;
-                top: 80upx;
+                top: 90upx;
                 left: 0;
                 right: 0;
                 margin: auto;

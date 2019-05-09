@@ -26,7 +26,7 @@
         <view class="tile" v-if="preview && !sortState">
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i">
-                    <image src="../static/imgs/fitting/3.jpg" mode=""></image>
+                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                     <view :class="['badge', { unefficacy: good.badge === '失效' }]">{{ good.badge }}</view>
                 </view>
             </view>
@@ -36,7 +36,7 @@
         <view class="detail" v-if="!preview && !sortState">
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i">
-                    <image src="../static/imgs/fitting/3.jpg" mode=""></image>
+                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                     <view class="shop-detail">
                         <view class="shop-name">HJGF123123457876541</view>
 
@@ -58,7 +58,7 @@
 
         <view class="shop-list" v-if="!sortState">
             <view class="shop-item" v-for="i in 10" :key="i">
-                <image src="../static/imgs/fitting/2.jpg" mode=""></image>
+                <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                 <view class="shop-name">
                     <text>G2560817</text>
                     <view class="sold">98人已购买</view>
@@ -128,6 +128,7 @@ export default {
     }
 
     .tile {
+        padding: 0 $white-space;
         margin-top: 32upx;
         .list {
             display: flex;
@@ -169,6 +170,7 @@ export default {
     }
 
     .detail {
+        
         margin-top: 32upx;
         padding: 0 $white-space $white-space;
         .list {
@@ -238,7 +240,7 @@ export default {
     }
 
     .guess {
-        padding: 74upx 0 24upx;
+        padding: 20upx $white-space 24upx;
         font-size: 28upx;
         font-family: PingFang-SC-Bold;
     }
@@ -248,6 +250,7 @@ export default {
         justify-content: space-between;
         flex-wrap: wrap;
         width: 750upx - 2 * $white-space;
+        padding: 0 $white-space;
         .shop-item {
             font-size: 28upx;
             color: #333;

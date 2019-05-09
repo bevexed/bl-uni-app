@@ -116,11 +116,10 @@ export default {
     }
 
     .select-address {
-        margin: 17upx 0;
         max-height: 270upx;
         overflow: hidden;
         transition: all 0.6s ease-in-out;
-        padding: $white-space;
+        padding: 0 $white-space;
         &.active {
             max-height: 5400upx;
         }

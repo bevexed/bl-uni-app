@@ -24,7 +24,7 @@
                     <view class="good">
                         <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
 
-                        <image class="shop-img" src="../../static/imgs/fitting/5.jpg" mode=""></image>
+                        <image class="shop-img" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
 
                         <view class="detail">
                             <view class="detail-header">
