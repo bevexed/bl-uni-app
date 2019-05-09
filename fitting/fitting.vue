@@ -13,11 +13,13 @@
                         </view>
                     </swiper-item>
                     <swiper-item>
-                        <view :class="['swiper-item']" @tap=""><image src="http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg" mode="aspectFill"></image></view>
+                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)">
+                            <image src="http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
+                        </view>
                     </swiper-item>
 
                     <swiper-item v-for="i in 3">
-                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)"><image src="" mode="aspectFill"></image></view>
+                        <view :class="['swiper-item']" @tap="onModelChange(1)"><image src="" mode="aspectFill"></image></view>
                     </swiper-item>
                 </swiper>
                 <image class="next" src="../static/icon/before.svg" mode=""></image>
@@ -46,13 +48,13 @@
                 </view>
 
                 <view class="touchbar">
-                    <image class="add" src="../static/icon/add.png" mode="" @tap="onTouchBarButton('add')"></image>
-                   <!-- <view class="my-slider">
+                    <image class="add" src="../static/icon/add.svg" mode="" @tap="onTouchBarButton('add')"></image>
+                    <!-- <view class="my-slider">
                         <view class="my-slider-background"></view>
                         <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
                         <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove.stop.prevent="onChangeBar($event)" @touchend.stop.prevent="onChangeBarEnd()"></view>
                     </view> -->
-                    <image class="reduce" src="../static/icon/reduce.png" mode="" @tap="onTouchBarButton('reduce')"></image>
+                    <image class="reduce" src="../static/icon/reduce.svg" mode="" @tap="onTouchBarButton('reduce')"></image>
                 </view>
             </view>
         </view>
@@ -71,9 +73,7 @@
             <image class="before" src="../static/icon/before.svg" mode=""></image>
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(imgUrl, index) in defaultStyle" :key="index">
-                    <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)">
-                        <image :src="imgUrl" mode="aspectFill"></image>
-                    </view>
+                    <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)"><image :src="imgUrl" mode="aspectFill"></image></view>
                 </swiper-item>
 
                 <!-- 上传图片 -->
@@ -96,15 +96,13 @@
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
 import { reqTextile3dmix } from '../static/api';
+
 export default {
     components: {},
     data() {
         return {
             // 默认模特数量,最小数量为5
-            defaultModel: [
-                'static/imgs/fitting/1.jpg',
-                'static/imgs/fitting/2.jpg',
-            ],
+            defaultModel: ['static/imgs/fitting/1.jpg', 'static/imgs/fitting/2.jpg'],
             // 当前选中模特
             currentModel: 0,
             // 默认花纹数量,最小数量为5
@@ -215,9 +213,9 @@ export default {
 
             this.touch.old.left = this.touch.new.left;
 
-            if (this.touch.new.scale < 1) {
-                this.touch.new.scale = 1;
-            }
+            // if (this.touch.new.scale < 1) {
+            //     this.touch.new.scale = 1;
+            // }
             this.touch.old.scale = this.touch.new.scale;
         },
 
