@@ -15,90 +15,92 @@
 
         <!-- 抽屉 -->
         <uni-drawer :visible="drawerShow" mode="right" @close="onDrawerClose" class="drawer">
-            <view class="search-bar">
-                <view class="left">
-                    <image class="search" src="../../static/icon/search.svg" mode=""></image>
-                    <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
+            <scroll-view scroll-y class="drawer-wrap">
+                <view class="search-bar">
+                    <view class="left">
+                        <image class="search" src="../../static/icon/search.svg" mode=""></image>
+                        <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
+                    </view>
+
+                    <image
+                        class="camera"
+                        src="../../static/icon/camera.svg"
+                        mode=""
+                        @tap="
+                            drawerShow = false;
+                            sortShow = true;
+                        "
+                    ></image>
                 </view>
 
-                <image
-                    class="camera"
-                    src="../../static/icon/camera.svg"
-                    mode=""
-                    @tap="
-                        drawerShow = false;
-                        sortShow = true;
-                    "
-                ></image>
-            </view>
+                <view class="weigh">
+                    <view class="label">
+                        克重
+                        <text>（克/立方米）</text>
+                    </view>
 
-            <view class="weigh">
-                <view class="label">
-                    克重
-                    <text>（克/立方米）</text>
+                    <view class="value">
+                        <input class="input" type="number" placeholder="最小值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                        <view class="hr"></view>
+                        <input class="input" type="number" placeholder="最大值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                    </view>
                 </view>
 
-                <view class="value">
-                    <input class="input" type="number" placeholder="最小值" placeholder-class="placehoder" placeholder-style="text-align:center" />
-                    <view class="hr"></view>
-                    <input class="input" type="number" placeholder="最大值" placeholder-class="placehoder" placeholder-style="text-align:center" />
-                </view>
-            </view>
-
-            <view class="color">
-                <view class="label" @touchend="showColorMore = !showColorMore">
-                    颜色
-                    <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
-                </view>
-                <view :class="['tags', { active: showColorMore }]">
-                    <uni-tag
-                        class="tag"
-                        :text="color"
-                        :type="colorCurrentSelect.includes(color) ? 'success' : 'primary'"
-                        :inverted="true"
-                        v-for="(color, index) in colorList"
-                        :key="index"
-                        @click="selectTag('colorCurrentSelect', color)"
-                    />
-                </view>
-            </view>
-
-            <view class="price">
-                <view class="label">
-                    价格
-                    <text>（元/米）</text>
+                <view class="color">
+                    <view class="label" @touchend="showColorMore = !showColorMore">
+                        颜色
+                        <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                    </view>
+                    <view :class="['tags', { active: showColorMore }]">
+                        <uni-tag
+                            class="tag"
+                            :text="color"
+                            :type="colorCurrentSelect.includes(color) ? 'success' : 'primary'"
+                            :inverted="true"
+                            v-for="(color, index) in colorList"
+                            :key="index"
+                            @click="selectTag('colorCurrentSelect', color)"
+                        />
+                    </view>
                 </view>
 
-                <view class="value">
-                    <input class="input" type="number" placeholder="最底价" placeholder-class="placehoder" placeholder-style="text-align:center" />
-                    <view class="hr"></view>
-                    <input class="input" type="number" placeholder="最高价" placeholder-class="placehoder" placeholder-style="text-align:center" />
-                </view>
-            </view>
+                <view class="price">
+                    <view class="label">
+                        价格
+                        <text>（元/米）</text>
+                    </view>
 
-            <view class="real-tags">
-                <view class="label" @touchend="showTagsMore = !showTagsMore">
-                    标签
-                    <image :class="{ active: showTagsMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                    <view class="value">
+                        <input class="input" type="number" placeholder="最底价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                        <view class="hr"></view>
+                        <input class="input" type="number" placeholder="最高价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                    </view>
                 </view>
-                <view :class="['tags', { active: showTagsMore }]">
-                    <uni-tag
-                        class="tag"
-                        :text="tag"
-                        :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
-                        :inverted="true"
-                        v-for="(tag, index) in tagsList"
-                        :key="index"
-                        @click="selectTag('tagCurrentSelect', tag)"
-                    />
+
+                <view class="real-tags">
+                    <view class="label" @touchend="showTagsMore = !showTagsMore">
+                        标签
+                        <image :class="{ active: showTagsMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                    </view>
+                    <view :class="['tags', { active: showTagsMore }]">
+                        <uni-tag
+                            class="tag"
+                            :text="tag"
+                            :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                            :inverted="true"
+                            v-for="(tag, index) in tagsList"
+                            :key="index"
+                            @click="selectTag('tagCurrentSelect', tag)"
+                        />
+                    </view>
                 </view>
-            </view>
 
-            <view class="buttons">
-                <view class="my-button plain">重置</view>
+                <view class="buttons">
+                    <view class="my-button plain">重置</view>
 
-                <view class="my-button">确定</view>
-            </view>
+                    <view class="my-button">确定</view>
+                </view>
+            </scroll-view>
         </uni-drawer>
 
         <!-- 商品列表 -->
@@ -197,7 +199,40 @@ export default {
             // 显示更多颜色
             showColorMore: false,
             // 颜色标签列表
-            colorList: ['红色', '黄色', '蓝色', '黑色', '白色', '湖蓝', '藏青', '杨红'],
+            colorList: [
+                '红色',
+                '黄色',
+                '蓝色',
+                '黑色',
+                '白色',
+                '湖蓝',
+                '藏青',
+                '杨红',
+                '红色',
+                '黄色',
+                '蓝色',
+                '黑色',
+                '白色',
+                '湖蓝',
+                '藏青',
+                '杨红',
+                '红色',
+                '黄色',
+                '蓝色',
+                '黑色',
+                '白色',
+                '湖蓝',
+                '藏青',
+                '杨红',
+                '红色',
+                '黄色',
+                '蓝色',
+                '黑色',
+                '白色',
+                '湖蓝',
+                '藏青',
+                '杨红'
+            ],
             // 当前选中颜色
             colorCurrentSelect: [],
             // 显示更多颜色
@@ -609,7 +644,7 @@ export default {
         }
     }
 
-   .pop-wrap {
+    .pop-wrap {
         z-index: 999;
         position: absolute;
         top: 0;
@@ -706,6 +741,11 @@ export default {
                 font-size: 28upx;
             }
         }
+    }
+
+    .drawer-wrap {
+        max-height: 100vh;
+        overflow-y: scroll-y;
     }
 
     input {
