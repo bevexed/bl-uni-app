@@ -270,40 +270,40 @@ export default {
                 this.y1 = this.mouseY - offsetY;
                 this.y2 = this.y1 + height;
 
-                //                 // 限制 选取 位置
-                //                 // 左
-                //                 if (x1 < 2 * margin) {
-                //                     this.x1 = 2 * margin;
-                //                     this.x2 = this.x1 + width;
-                //                     if (this.mouseX > mouseX) {
-                //                         return;
-                //                     }
-                //                 }
-                //                 // 右
-                //                 if (x2 > windowWidth + 2 * margin) {
-                //                     this.x2 = windowWidth - 2 * margin;
-                //                     this.x1 = this.x2 - width;
-                //                     if (this.mouseX < mouseX) {
-                //                         return;
-                //                     }
-                //                 }
-                //
-                //                 // 上
-                //                 if (y1 < 2 * margin) {
-                //                     this.y1 = 2 * margin;
-                //                     this.y2 = this.y1 + height;
-                //                     if (this.mouseY > mouseY) {
-                //                         return;
-                //                     }
-                //                 }
-                //                 // 下
-                //                 if (y2 > windowHeight + 2 * margin) {
-                //                     this.y2 = windowHeight - 2 * margin;
-                //                     this.y1 = this.y2 - height;
-                //                     if (this.mouseY < mouseY) {
-                //                         return;
-                //                     }
-                //                 }
+                // 限制 选取 位置
+                // 左
+                if (x1 < 2 * margin) {
+                    this.x1 = 2 * margin;
+                    this.x2 = this.x1 + width;
+                    if (this.mouseX > mouseX) {
+                        return;
+                    }
+                }
+                // 右
+                if (x2 > windowWidth + 2 * margin) {
+                    this.x2 = windowWidth - 2 * margin;
+                    this.x1 = this.x2 - width;
+                    if (this.mouseX < mouseX) {
+                        return;
+                    }
+                }
+
+                // 上
+                if (y1 < 2 * margin) {
+                    this.y1 = 2 * margin;
+                    this.y2 = this.y1 + height;
+                    if (this.mouseY > mouseY) {
+                        return;
+                    }
+                }
+                // 下
+                if (y2 > windowHeight + 2 * margin) {
+                    this.y2 = windowHeight - 2 * margin;
+                    this.y1 = this.y2 - height;
+                    if (this.mouseY < mouseY) {
+                        return;
+                    }
+                }
             }
 
             // 鼠标在选择框内

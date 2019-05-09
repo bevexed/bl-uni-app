@@ -2,7 +2,7 @@
     <view class="fitting">
         <!-- 模特选择轮播 -->
         <view class="model">
-            <view class="select-model">
+            <view :class="['select-model',{open}]">
                 <!-- 模特选择标题 -->
                 <view class="model-select-title"><text>模特选择</text></view>
                 <image class="before" src="../static/icon/before.svg" mode=""></image>
@@ -19,7 +19,7 @@
                     </swiper-item>
 
                     <swiper-item v-for="i in 3">
-                        <view :class="['swiper-item']" @tap="onModelChange(1)"><image src="" mode="aspectFill"></image></view>
+                        <view :class="['swiper-item']"><image src="" mode="aspectFill"></image></view>
                     </swiper-item>
                 </swiper>
                 <image class="next" src="../static/icon/before.svg" mode=""></image>
@@ -165,7 +165,10 @@ export default {
                     left: 0,
                     scale: 1
                 }
-            }
+            },
+
+            // 模特打开
+            open: true
         };
     },
     methods: {
@@ -235,6 +238,11 @@ export default {
 
         // 更换模特
         async onModelChange(index, imgUrl) {
+            if(this.currentModel===0 && index === 0){
+                this.open = !this.open;
+                return
+            }
+            
             this.currentModel = index;
             this.data_upload.model_id = (index + 1).toString();
             // 向服务器发送请求
@@ -332,7 +340,7 @@ export default {
                 success(res) {
                     console.log('选择图片完成', res);
                     uni.navigateTo({
-                        url: '/pages/clipper/clipper?imgUrl=' + res.tempFiles[0].path
+                        url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path
                     });
                 },
                 count: 1,
@@ -396,7 +404,11 @@ export default {
         .select-model {
             position: relative;
             width: 120upx;
-            height: 928upx;
+            height: 250upx;
+            overflow: hidden;
+            &.open {
+                height: 928upx;
+            }
             .before {
                 z-index: 1;
                 position: absolute;
@@ -595,7 +607,7 @@ export default {
     }
 
     .pop-wrap {
-        z-index: 99;
+        z-index: 9999;
         position: absolute;
         top: 0;
         left: 0;
@@ -605,7 +617,7 @@ export default {
         background: rgba(0, 0, 0, 0.3);
 
         .pop {
-            z-index: 999;
+            z-index: 99999;
             position: fixed;
             width: 750upx - 32upx * 2;
             bottom: 0;
