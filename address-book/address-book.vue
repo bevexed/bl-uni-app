@@ -30,8 +30,8 @@
 
                 <view class="footer">
                     <view class="default" v-if="address.default">默认地址</view>
-                    <view class="set-default" v-else>
-                        <view :class="['select', { active: address.default }]" @tap="selectAddress(i)"><view class="selected"></view></view>
+                    <view class="set-default" v-else  @tap="selectAddress(i)">
+                        <view :class="['select', { active: address.default }]"><view class="selected"></view></view>
                         <text>设为默认地址</text>
                     </view>
                     <view class="empty" v-else></view>

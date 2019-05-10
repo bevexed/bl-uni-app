@@ -8,7 +8,7 @@
                 收货地址
                 <text>（{{ addressList.length }}/10）</text>
             </view>
-            <view class="add-new-address">
+            <view class="add-new-address" @tap="toAddAddress">
                 <image src="../static/icon/add.png" mode=""></image>
                 <text>添加新地址</text>
             </view>
@@ -18,7 +18,7 @@
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
                 <image class="gou" src="../static/icon/gou.svg" mode="" @tap="setAddressDefault(i)"></image>
-                <view class="header">
+                <view class="header" @tap="setAddressDefault(i)">
                     <view class="label">收件人：</view>
                     <view class="value">
                         路人甲
@@ -26,7 +26,7 @@
                     </view>
                 </view>
 
-                <view class="content">
+                <view class="content" @tap="setAddressDefault(i)">
                     <view class="label">地址：</view>
                     <view class="value">
                         浙江省 杭州市 西湖区
@@ -179,6 +179,11 @@ export default {
         setAddressDefault(i) {
             this.addressList.map(address => (address.default = false));
             this.addressList[i].default = true;
+        },
+        toAddAddress(){
+            uni.navigateTo({
+                url:"/address-book/add-address"
+            })
         }
     }
 };

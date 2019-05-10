@@ -29,8 +29,8 @@
 
                 <view class="footer">
                     <view class="default" v-if="ticket.default">默认信息</view>
-                    <view class="set-default" v-else>
-                        <view :class="['select', { active: ticket.default }]" @tap="selectticket(i)"><view class="selected"></view></view>
+                    <view class="set-default" v-else @tap="selectticket(i)">
+                        <view :class="['select', { active: ticket.default }]" ><view class="selected"></view></view>
                         <text>设为默认信息</text>
                     </view>
                     <view class="empty" v-else></view>

@@ -70,9 +70,9 @@
 
         <view class="guess">猜您喜欢</view>
 
-        <view class="shop-list">
+        <view class="shop-list" v-if="!selectShow">
             <view class="shop-item" v-for="i in 10" :key="i">
-                <image src="../static/imgs/fitting/2.jpg" mode=""></image>
+                <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                 <view class="shop-name">
                     <text>G2560817</text>
                     <view class="sold">98人已购买</view>
@@ -112,7 +112,7 @@
         <!--  弹窗 -->
         <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
             <view class="my-pop" @tap.stop>
-                <view class="close" @tap.stop="selectShow = false"></view>
+                <view class="close" @tap.stop="selectShow = false"><view class="close-button"></view></view>
                 <view class="pop-header">
                     <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
                     <view class="right">
@@ -239,20 +239,20 @@ export default {
                 url: '/recognition/recognition'
             });
         },
-        toHome(){
+        toHome() {
             uni.switchTab({
-                url:'/pages/home/home'
-            })
+                url: '/pages/home/home'
+            });
         },
-        toShopCar(){
-          uni.switchTab({
-              url:'/pages/shopCar/shopCar'
-          })  
+        toShopCar() {
+            uni.switchTab({
+                url: '/pages/shopCar/shopCar'
+            });
         },
-        toContact(){
-           uni.navigateTo({
-               url:'/contact/contact'
-           }) 
+        toContact() {
+            uni.navigateTo({
+                url: '/contact/contact'
+            });
         },
         moveHandle() {}
     }
@@ -377,8 +377,8 @@ export default {
         color: #999;
         padding: 0 $white-space;
         letter-spacing: 0.01em;
-        
-        .sale{
+
+        .sale {
             margin-top: 10upx;
         }
         .price {
@@ -406,8 +406,8 @@ export default {
         margin: 0 $white-space;
         font-size: 28upx;
         font-family: PingFang-SC-Bold;
-        border-top:2upx solid #EEEEEE; 
-        border-bottom:2upx solid #EEEEEE; 
+        border-top: 2upx solid #eeeeee;
+        border-bottom: 2upx solid #eeeeee;
         image {
             height: 14upx;
             width: 26upx;
@@ -570,6 +570,7 @@ export default {
         background: rgba(0, 0, 0, 0.3);
 
         .my-pop {
+            z-index: 99999;
             position: fixed;
             bottom: 0upx;
             width: 670upx;
@@ -580,14 +581,22 @@ export default {
 
             .close {
                 position: absolute;
-                width: 48upx;
-                height: 8upx;
-                top: 20upx;
-                left: 50%;
+                top: 0;
+                left: 0;
+                width: 750upx;
+                height: 60upx;
+                // background: #c50000;
 
-                margin-left: -24upx;
-                border-radius: 4upx;
-                background: #999;
+                .close-button {
+                    position: absolute;
+                    top: 20upx;
+                    left: 50%;
+                    width: 48upx;
+                    height: 8upx;
+                    margin-left: -24upx;
+                    border-radius: 4upx;
+                    background: #999;
+                }
             }
         }
 
