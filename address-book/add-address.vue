@@ -49,8 +49,8 @@
             </view>
         </view>
 
-        <view class="set-default">
-            <view :class="['select', { active: defaultAddress }]" @tap="defaultAddress = !defaultAddress"><view class="selected"></view></view>
+        <view class="set-default" @tap="defaultAddress = !defaultAddress">
+            <view :class="['select', { active: defaultAddress }]" ><view class="selected"></view></view>
             <text>设为默认地址</text>
         </view>
 

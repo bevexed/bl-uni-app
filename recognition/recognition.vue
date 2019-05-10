@@ -1,6 +1,6 @@
 <template>
     <view class="recognition">
-        <view class="header"><image src="../static/imgs/fitting/241556421365_.pic_hd.jpg" mode=""></image></view>
+        <view class="header"><image src="../static/imgs/home/right.png" mode=""></image></view>
 
         <view class="similar">
             <view class="title">相似商品</view>
@@ -57,7 +57,7 @@ export default {
     },
     data() {
         return {
-            tagsList: ['标签一', '标签二', '标签三', '标签四', '标签一'],
+            tagsList: ['标签一', '标签二', '标签三', '标签四', '标签五'],
             // 当前选中标签
             tagCurrentSelect: []
         };

@@ -1,5 +1,5 @@
 <template>
-    <view class="custmer-phone"><image @click="link('/contact/contact')" src="/static/icon/phone.png" mode=""></image></view>
+    <view class="custmer-phone"  @tap="link('/contact/contact')"><image class="phone" src="/static/icon/phone.png" mode=""></image></view>
 </template>
 
 <script>
@@ -26,7 +26,8 @@ export default {
     width: 74upx;
     height: 74upx;
     box-shadow: 0 4upx 8upx 0 rgba(0, 0, 0, 0.15);
-    image {
+    overflow: hidden;
+    .phone {
         position: absolute;
         left: 0;
         right: 0;
@@ -36,6 +37,11 @@ export default {
         width: 40upx;
         height: 40upx;
         opacity: 1;
+        background: #fff;
+        padding: 16upx;
+        border-radius: 50%; 
+        box-shadow: 0 4upx 8upx 0 rgba(0, 0, 0, 0.15);
+        
     }
 }
 </style>
