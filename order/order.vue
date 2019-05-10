@@ -386,7 +386,8 @@ export default {
     .wrap {
         margin: $white-space;
         border-radius: 8upx;
-        box-shadow: 0 2upx 16upx 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2upx 16upx 0 rgba(0, 0, 0, 0.2);
+        overflow: hidden;
     }
 
     .order-header {

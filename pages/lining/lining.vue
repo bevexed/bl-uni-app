@@ -94,14 +94,13 @@
                         />
                     </view>
                 </view>
-
-                <view class="buttons">
-                    <view class="my-button plain">重置</view>
-
-                    <view class="my-button">确定</view>
-                </view>
                 <view class="white-space"></view>
             </scroll-view>
+            <view class="buttons">
+                <view class="my-button plain">重置</view>
+
+                <view class="my-button">确定</view>
+            </view>
         </uni-drawer>
 
         <!-- 商品列表 -->
@@ -536,8 +535,8 @@ export default {
                 }
             }
         }
-        
-        .white-space{
+
+        .white-space {
             height: 140upx;
         }
     }

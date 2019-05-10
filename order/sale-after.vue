@@ -52,12 +52,14 @@
                 <text class="bedge">(选填)</text>
                 <textarea
                     class="text-area"
+                    v-if="!selectNumShow&&!selectReasonShow&&!selectSaleAfterShow"
                     auto-height
                     maxlength="200"
                     placeholder-style="font-size:12px;color:#999;"
                     v-model="textArea"
                     placeholder="请描述您的问题，以便我们尽快为您服务"
                 />
+                <view class="text-area" :style="{fontSize:12+'px',color:'#999'}" v-else>{{textArea || "请描述您的问题，以便我们尽快为您服务"}}</view>
                 <text class="text-area-length">{{ textArea.length }}/200</text>
             </view>
         </view>
@@ -66,11 +68,11 @@
         <custmer-phone class="custmer" />
 
         <!-- 退款 原因 弹窗 -->
-        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
+        <view class="pop-wrap" v-show="selectReasonShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectReasonShow = false">
             <view class="my-pop">
                 <view class="pop-top">
-                    <text @tap="sortShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
+                    <text @tap.stop.prevent="selectReasonShow = false">取消</text>
+                    <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="selectChange">
@@ -87,11 +89,11 @@
         </view>
 
         <!-- 售后 服务类型 弹窗-->
-        <view class="pop-wrap" v-show="selectSaleAfterShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
+        <view class="pop-wrap" v-show="selectSaleAfterShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectReasonShow = false">
             <view class="my-pop">
                 <view class="pop-top">
-                    <text @tap="selectSaleAfterShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
+                    <text @tap.stop.prevent="selectSaleAfterShow = false">取消</text>
+                    <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultSelectSaleAfterShow" @change="bindChange">
@@ -107,11 +109,11 @@
         </view>
 
         <!-- 数量 选择 弹窗 -->
-        <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
+        <view class="pop-wrap" v-show="selectNumShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectNumShow = false">
             <view class="my-pop" @tap.stop>
                 <view class="pop-top">
-                    <text @tap="selectShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
+                    <text @tap.stop.prevent="selectNumShow = false">取消</text>
+                    <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
                 <view class="select-much">
@@ -164,7 +166,7 @@ export default {
             ],
             // 用户反馈信息
             textArea: '',
-            sortShow: false,
+            selectReasonShow: false,
             // 退款原因
             sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
             // 默认退款原因
@@ -179,7 +181,7 @@ export default {
             currentSelectSaleAfterShow: 0,
 
             // 数量 选择 弹窗
-            selectShow: false,
+            selectNumShow: false,
 
             // 购买数量
             num: 0,
@@ -191,8 +193,9 @@ export default {
     },
     methods: {
         sureSelect() {
-            this.sortShow = false;
+            this.selectReasonShow = false;
             this.selectSaleAfterShow = false;
+            this.selectNumShow = false;
         },
         selectChange(e) {
             console.log(e);
@@ -203,10 +206,10 @@ export default {
             if (this.currentSelectSaleAfterShow !== 1) {
                 return;
             }
-            this.selectShow = true;
+            this.selectNumShow = true;
         },
         selectReason(e) {
-            this.sortShow = true;
+            this.selectReasonShow = true;
         },
         selectSaleAfter() {
             this.selectSaleAfterShow = true;
@@ -359,7 +362,7 @@ export default {
                 top: -60upx;
                 left: 600upx;
                 /* #ifdef MP-WEIXIN */
-                left: 570upx;
+                left: 600upx;
                 /* #endif */
                 font-size: 20upx;
                 font-family: PingFang-SC-Regular;
@@ -398,7 +401,7 @@ export default {
     }
 
     .pop-wrap {
-        z-index: 999;
+        z-index: 9999;
         position: absolute;
         top: 0;
         left: 0;
@@ -408,6 +411,7 @@ export default {
         background: rgba(0, 0, 0, 0.3);
 
         .my-pop {
+            z-index: 999;
             position: fixed;
             bottom: 0upx;
             width: 750upx;

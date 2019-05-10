@@ -80,7 +80,7 @@
             </view>
         </view>
 
-        <view class="bottom">
+        <view class="bottom" v-if="!selectShow">
             <view class="icons">
                 <view class="icon" @tap="toHome">
                     <image src="../static/icon/homepage_fill.svg" mode=""></image>
@@ -178,8 +178,8 @@ export default {
             // banner数据
             banners: [
                 'https://img.cdn.aliyun.dcloud.net.cn/stream/plugin_screens/5a21ffe0-6714-11e9-a3ca-cd5672f184bc_0.jpg?v=1556173709',
-                '/static/imgs/home/banner.png',
-                '/static/imgs/home/banner.png'
+                'http://qxintechoffice.f3322.net:5007/micro/1.jpg',
+                'http://qxintechoffice.f3322.net:5007/micro/2.jpg',
             ],
 
             // 轮播图 显示更过按钮
@@ -211,11 +211,15 @@ export default {
             console.log(val);
         },
         selectTag(currentState, tag_name) {
+            // 直接修改数组会卡。。。
             if (this[currentState].includes(tag_name)) {
-                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
                 return;
+            } else {
+                this[currentState] = [];
+                this[currentState].push(tag_name);
             }
-            this[currentState].push(tag_name);
+
+            // this[currentState][0] = tag_name;
         },
 
         // 放大图片
@@ -223,7 +227,7 @@ export default {
             console.log(index);
             this.currentBig = index;
             uni.previewImage({
-                current: index + '',
+                current: this.banners[index],
                 urls: this.banners,
                 indicator: true,
                 loop: true
