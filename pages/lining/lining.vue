@@ -336,9 +336,9 @@ export default {
             uni.chooseImage({
                 success(res) {
                     console.log('选择图片完成', res);
-                    uni.navigateTo({
-                        url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
-                    });
+                    // uni.navigateTo({
+                    //     url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
+                    // });
                 },
                 count: 1,
                 sourceType: [sourceType],
