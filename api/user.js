@@ -38,3 +38,8 @@ export const reqLogin = ({ job, custName, phone, verify, avatar, nickname, compa
  * 实时获取用户信息
  * */
 export const reqCurrentUserDetail = () => ajax('/user/currentUserDetail',{},'GET');
+
+/**
+ * 刷新 token
+ * */
+export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');

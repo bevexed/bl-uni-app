@@ -23,7 +23,9 @@
             </view>
         </view>
 
-        <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @click="toBaseInformation">登录</view>
+      <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @click="toHome">
+        登录
+      </view>
     </view>
 </template>
 
@@ -85,11 +87,13 @@
           }
         }, 1000);
         },
-        toBaseInformation() {
+
+      toHome() {
             let { phone, code, agreement } = this;
             if (agreement && phone.length === 11 && code.length >= 4) {
-                uni.navigateTo({
-                    url:'base-information'
+              this.doLogin({ phone, verify: code });
+              uni.switchTab({
+                url: '/pages/home/home'
                 })
             }
         }

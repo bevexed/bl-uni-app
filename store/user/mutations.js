@@ -1,4 +1,5 @@
 import {
+  GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
   LOGIN
@@ -14,6 +15,10 @@ export default {
   },
 
   [GET_CURRENT_USER_DETAIL](state, data) {
+    state = { ...state, ...data }
+  },
+
+  [GET_REFRESH_TOKEN](state, data) {
     state = { ...state, ...data }
   }
 };

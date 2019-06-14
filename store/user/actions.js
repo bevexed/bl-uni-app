@@ -1,4 +1,5 @@
 import {
+  GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
   LOGIN
@@ -7,7 +8,8 @@ import {
   reqVerify,
   reqLogin,
   reqIsExist,
-  reqCurrentUserDetail
+  reqCurrentUserDetail,
+  reqRefreshToken
 } from "../../api/user";
 
 export default {
@@ -59,6 +61,9 @@ export default {
         data: res.data.token,
         success(res) {
           console.log('token',res);
+          uni.switchTab({
+            url: '/pages/home/home'
+          })
         }
       })
     }
@@ -87,6 +92,28 @@ export default {
           },2000)
         }
       })
+    }
+  },
+
+  // 刷新 用户 token
+  async getRefreshToken({ commit }) {
+    let res = await reqRefreshToken();
+    if (res.code === 200) {
+      uni.setStorage({
+        key: 'token',
+        data: res.data.userInfo.token,
+        success() {
+          commit(GET_REFRESH_TOKEN, res.data.userInfo)
+          uni.switchTab({
+            url: '/pages/home/home'
+          })
+        },
+        fail(res) {
+          uni.navigateTo({
+            url:'/pages/login/login'
+          })
+        }
+      });
     }
   }
 

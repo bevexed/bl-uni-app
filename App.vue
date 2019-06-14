@@ -9,10 +9,16 @@ export default {
         success(res) {
           console.log('token', res);
           that.getCurrentUserInfo();
+
+          setTimeout(()=>{
+            that.getRefreshToken();
+          })
         },
         fail(res) {
           console.log('no-token', res);
-
+          uni.navigateTo({
+            url:'/pages/login/login'
+          })
         }
       });
 
@@ -28,7 +34,7 @@ export default {
         console.log('App Hide');
     },
   methods: {
-    ...mapActions('User', ['getCurrentUserInfo'])
+    ...mapActions('User', ['getCurrentUserInfo', 'getRefreshToken'])
   }
 };
 </script>
