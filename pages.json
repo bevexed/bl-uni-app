@@ -16,6 +16,12 @@
             "style": {
                 "backgroundColor": "#f7f7f7"
             }
+        },
+        {
+            "path": "pages/login/login"
+        },
+        {
+            "path": "pages/login/base-information"
         }
     ],
     "subPackages": [{
@@ -57,11 +63,7 @@
             }]
         }, {
             "root": "login",
-            "pages": [{
-                "path": "login"
-            }, {
-                "path": "base-information"
-            }]
+            "pages": []
         }, {
             "root": "personal-information",
             "pages": [{

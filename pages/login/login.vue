@@ -28,7 +28,9 @@
 </template>
 
 <script>
-export default {
+  import { mapActions } from 'vuex'
+
+  export default {
     data() {
         return {
             // 是否同意
@@ -47,8 +49,10 @@ export default {
     },
     computed: {},
     methods: {
-        sendMsg() {
-            let { phone, send, time, timer } = this;
+      ...mapActions('User', ['getVerify']),
+      async sendMsg() {
+
+        let { phone, send, time, timer } = this;
             if (!phone) {
                 return;
             }
@@ -66,16 +70,20 @@ export default {
             }
 
             this.send = true;
-            this.timer = setInterval(() => {
-                time--;
-                this.time = time;
-                if (time === 0) {
-                    this.time = 60;
-                    this.send = false;
-                    clearInterval(this.timer);
-                    this.timer = null;
-                }
-            }, 1000);
+
+        // 发送信息获取验证码
+        this.getVerify(phone);
+
+        this.timer = setInterval(() => {
+          time--;
+          this.time = time;
+          if (time === 0) {
+            this.time = 60;
+            this.send = false;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
         },
         toBaseInformation() {
             let { phone, code, agreement } = this;

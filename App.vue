@@ -1,17 +1,29 @@
 <script>
 export default {
     onLaunch: function() {
+      // 检验token
+      uni.getStorage({
+        key:'token',
+        success(res) {
+          console.log('token', res);
+        },
+        fail(res) {
+          console.log('no-token', res);
+
+        }
+      });
+
         console.log('App Launch');
-        // uni.navigateTo({
-        //     url:'login/login'
-        // })
+        uni.navigateTo({
+            url:'/pages/login/login'
+        })
     },
     onShow: function() {
         console.log('App Show');
     },
     onHide: function() {
         console.log('App Hide');
-    }
+    },
 };
 </script>
 
