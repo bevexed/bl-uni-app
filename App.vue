@@ -14,9 +14,9 @@ export default {
       });
 
         console.log('App Launch');
-        uni.navigateTo({
-            url:'/pages/login/login'
-        })
+        // uni.navigateTo({
+        //     url:'/pages/login/login'
+        // })
     },
     onShow: function() {
         console.log('App Show');
@@ -31,7 +31,7 @@ export default {
 /*每个页面公共css */
 view,
 text {
-    font-family: Helvetica;
+    font-family: Helvetica,serif;
 }
 
 image {

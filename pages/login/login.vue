@@ -4,11 +4,11 @@
 
         <view class="form">
             <view class="phone">
-                <image src="../static/icon/phone.svg" mode=""></image>
-                <input type="number" v-model="phone" maxlength="11" placeholder="请输入11位电话号码" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
+                <image src="../../static/icon/phone.svg" mode=""></image>
+                <input type="number" @blur="getIsExist(phone)" v-model="phone" maxlength="11" placeholder="请输入11位电话号码" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
             </view>
             <view class="code">
-                <image src="../static/icon/AK.svg" mode=""></image>
+                <image src="../../static/icon/AK.svg" mode=""></image>
                 <input type="password" v-model="code" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
                 <view :class="['button', { active: phone.length === 11 && !send }, { sended: send }]" @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</view>
             </view>
@@ -32,24 +32,24 @@
 
   export default {
     data() {
-        return {
-            // 是否同意
-            agreement: false,
-            // 电话号
-            phone: '',
-            // 验证码
-            code: '',
-            // 是否 已发送 短信
-            send: false,
-            // 倒计时
-            time: 5,
-            // 定时器，
-            timer: null
-        };
+      return {
+        // 是否同意
+        agreement: false,
+        // 电话号
+        phone: '',
+        // 验证码
+        code: '',
+        // 是否 已发送 短信
+        send: false,
+        // 倒计时
+        time: 60,
+        // 定时器，
+        timer: null
+      };
     },
     computed: {},
     methods: {
-      ...mapActions('User', ['getVerify']),
+      ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin']),
       async sendMsg() {
 
         let { phone, send, time, timer } = this;

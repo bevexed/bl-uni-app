@@ -39,7 +39,7 @@ export default function ajax(url, data = {}, type = "POST", loading = true) {
                 uni.showToast({
                     icon:'none',
                     title: '服务器错误'
-                })
+                });
                 reject('ajax-error', error)
             }
         );
