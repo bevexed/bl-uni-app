@@ -3,7 +3,13 @@ import uniRequest from 'uni-request';
 
 // 全局配置
 uniRequest.defaults.baseURL = 'http://192.168.3.108:7100/micro';
-// uniRequest.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
+uni.getStorage({
+  key:'token',
+  success(res) {
+    uniRequest.defaults.headers.common['Authorization'] = res.data;
+  }
+});
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
 
 // 请求别名

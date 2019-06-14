@@ -1,19 +1,14 @@
 <script>
+  import { mapActions } from 'vuex'
 export default {
     onLaunch: function() {
-
-      uni.login({
-        provider: 'weixin',
-        success(loginRes) {
-          console.log(loginRes);
-        }
-      });
-
+      const that = this;
       // 检验token
       uni.getStorage({
         key:'token',
         success(res) {
           console.log('token', res);
+          that.getCurrentUserInfo();
         },
         fail(res) {
           console.log('no-token', res);
@@ -32,6 +27,9 @@ export default {
     onHide: function() {
         console.log('App Hide');
     },
+  methods: {
+    ...mapActions('User', ['getCurrentUserInfo'])
+  }
 };
 </script>
 

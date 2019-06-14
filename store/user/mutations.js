@@ -1,4 +1,5 @@
 import {
+  GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
   LOGIN
 } from '../mutation-types';
@@ -10,6 +11,9 @@ export default {
 
   [LOGIN](state, data) {
     state = {...state, ...data};
-    console.log(state);
+  },
+
+  [GET_CURRENT_USER_DETAIL](state, data) {
+    state = { ...state, ...data }
   }
 };

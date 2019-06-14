@@ -145,7 +145,6 @@ export default {
         };
     },
     onLoad() {
-        this.getdata();
         let _this = this;
         uni.getSystemInfo({
             success: res => {
@@ -163,19 +162,7 @@ export default {
             console.log(e, val);
             this['val' + val] = e;
         },
-        getdata() {
-            uni.request({
-                url: 'http://admin.xingyiguan.cn/api/login/get_user', //仅为示例，并非真实接口地址。
-                method: 'post',
-                data: {
-                    name: 'name',
-                    age: 18
-                },
-                success(res) {
-                    console.log(res.data);
-                }
-            });
-        }
+
     }
 };
 </script>

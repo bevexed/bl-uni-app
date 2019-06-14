@@ -33,3 +33,8 @@ export const reqVerify = ({ phone, companyId = 4 }) => ajax('/user/verify', {
 export const reqLogin = ({ job, custName, phone, verify, avatar, nickname, companyId = 4 }) => ajax('/user/login', {
   job, custName, companyId, phone, verify, avatar, nickname
 });
+
+/**
+ * 实时获取用户信息
+ * */
+export const reqCurrentUserDetail = () => ajax('/user/currentUserDetail',{},'GET');
