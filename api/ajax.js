@@ -2,7 +2,7 @@ import uniRequest from 'uni-request';
 
 
 // 全局配置
-uniRequest.defaults.baseURL = 'http://192.168.3.108:7100/micro';
+uniRequest.defaults.baseURL = 'https://www.chengqj.com/micro';
 
 uni.getStorage({
   key:'token',
