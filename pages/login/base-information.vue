@@ -9,7 +9,8 @@
       </view>
       <view class="code">
         <image src="../../static/icon/AK.svg" mode=""></image>
-        <input type="password" v-model="code" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
+        <input type="number" v-model="verify" placeholder="请输入验证码"
+               placeholder-style="color:#cccccc;font-weight:300;font-size:16px"/>
         <view :class="['button', { active: phone.length === 11 && !send }, { sended: send }]" @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</view>
       </view>
 
@@ -19,7 +20,7 @@
       </view>
 
        <view class="phone">
-        <image src="../../static/icon/phone.svg" mode=""></image>
+         <image src="../../static/icon/job.svg" mode=""></image>
         <input type="number" v-model="job"  placeholder="您的职务" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
       </view>
 
@@ -34,7 +35,12 @@
       </view>
     </view>
 
-    <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @click="toBaseInformation">登录</view>
+    <button
+      :class="['pay-button', { active: agreement && phone.length === 11 && verify.length >= 4 && job && custName}]"
+      open-type="getUserInfo"
+      @getuserinfo="login"
+    >注册并登录
+    </button>
   </view>
 </template>
 
@@ -49,7 +55,7 @@
         // 电话号
         phone: '',
         // 验证码
-        code: '',
+        verify: '',
         // 是否 已发送 短信
         job: '',
         custName: '',
@@ -62,7 +68,7 @@
     },
     computed: {},
     methods: {
-      ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin']),
+      ...mapActions('User', ['getVerify', 'doLogin']),
       async sendMsg() {
 
         let { phone, send, time, timer } = this;
@@ -98,12 +104,15 @@
           }
         }, 1000);
       },
-      toBaseInformation() {
-        let { phone, code, agreement } = this;
-        if (agreement && phone.length === 11 && code.length >= 4) {
-          uni.navigateTo({
-            url:'base-information'
-          })
+      login(e) {
+        console.log(e);
+        if (e.detail.errMsg.includes('fail')) {
+          return;
+        }
+        const { nickName, avatarUrl } = e.detail.userInfo;
+        let { phone, verify, agreement, job, custName } = this;
+        if (agreement && phone.length === 11 && verify.length >= 4 && job && custName) {
+          this.doLogin({ verify, phone, job, custName, avatar: avatarUrl, nickName })
         }
       }
     }

@@ -17,6 +17,13 @@ uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
 // uniRequest.patch(url[, data[, config]])
 
 export default function ajax(url, data = {}, type = "POST", loading = true) {
+
+  if (loading) {
+    uni.showLoading({
+      title: 'loading'
+    })
+  }
+
     return new Promise((resolve, reject) => {
         let promise;
         if (type === 'GET') {

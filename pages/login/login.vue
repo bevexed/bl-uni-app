@@ -9,7 +9,7 @@
             </view>
             <view class="code">
                 <image src="../../static/icon/AK.svg" mode=""></image>
-                <input type="password" v-model="code" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
+                <input type="number" v-model="code" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
                 <view :class="['button', { active: phone.length === 11 && !send }, { sended: send }]" @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</view>
             </view>
         </view>

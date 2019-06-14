@@ -1,6 +1,14 @@
 <script>
 export default {
     onLaunch: function() {
+
+      uni.login({
+        provider: 'weixin',
+        success(loginRes) {
+          console.log(loginRes);
+        }
+      });
+
       // 检验token
       uni.getStorage({
         key:'token',

@@ -9,6 +9,7 @@ import {
 } from "../../api/user";
 
 export default {
+  // 检验用户是否存在
   async getIsExist({ commit }, phone) {
     if (phone.length < 11) {
       uni.showToast({
@@ -43,11 +44,22 @@ export default {
         icon: "none"
       })
     }
-  }
-  ,
+  },
 
+  // 用户登录
   async doLogin({ commit }, data) {
-    let res = await reqLogin(data)
+    let res = await reqLogin(data);
+    if (res.code === 200) {
+      commit(LOGIN, res.data);
+      // 同步写入 token
+      uni.setStorage({
+        key: 'token',
+        data: res.data.token,
+        success(res) {
+          console.log('token',res);
+        }
+      })
+    }
   }
 
 
