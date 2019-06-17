@@ -1,3 +1,5 @@
 export default {
-    productList:[]
+  productList: [],
+  page: 1,
+  total: 100
 }

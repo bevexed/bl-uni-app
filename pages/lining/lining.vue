@@ -187,7 +187,21 @@ export default {
         uniCollapseItem,
         CustmerPhone
     },
-  computed: mapState('Products', ['productList']),
+  computed: mapState('Products', ['productList', 'total', 'page']),
+  onReady() {
+    this.getProducts({
+      page: this.page,
+      pageSize: 10,
+      companyId: 4,
+    })
+  },
+  onReachBottom() {
+    this.getProducts({
+      page: this.page,
+      pageSize: 10,
+      companyId: 4,
+    })
+  },
     data() {
         return {
             menuData: ['全部', '筛选', '排序'],
@@ -260,9 +274,11 @@ export default {
             currentSortState: 0
         };
     },
-    methods: {
+
+  methods: {
       ...mapActions('Products', ['getProducts']),
-      /** 方法说明
+
+    /** 方法说明
          * @method 改变按钮样式
          * @for
          * @param{number} index 当前按钮 索引
@@ -355,13 +371,6 @@ export default {
         }
     },
 
-  onReady() {
-    this.getProducts({
-      page: 1,
-      pageSize: 10,
-      companyId: 4,
-    })
-  }
 };
 </script>
 
