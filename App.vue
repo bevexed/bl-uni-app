@@ -10,9 +10,10 @@ export default {
           console.log('token', res);
           that.getCurrentUserInfo();
 
-          setTimeout(()=>{
-            that.getRefreshToken();
-          })
+          //  刷新token
+          // setTimeout(()=>{
+          //   that.getRefreshToken();
+          // })
         },
         fail(res) {
           console.log('no-token', res);
