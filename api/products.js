@@ -1,6 +1,12 @@
 import ajax from './ajax'
 
 /**
+ * @function 商品分类
+ * */
+
+export const reqCategories = () => ajax('/categories','GET');
+
+/**
  * 商品列表
  * @param page {number} 当前页
  * @param pageSize {number} 每页条数
@@ -14,9 +20,9 @@ import ajax from './ajax'
  * @param sort {string}  composite_desc, shelves_desc, sale_asc, price_asc, price_desc
  * */
 // categoryId, hasStock, pno, price, weight, width, sort
-export const reqProducts = ({ page = 1, pageSize = 10, companyId = 4, ...data }) => ajax('/products', {
+export const reqProducts = ({ page = 1, pageSize = 10, companyId = 4, ...rest }) => ajax('/products', {
   page,
   pageSize,
   companyId,
-  ...data
+  ...rest
 }, "GET");

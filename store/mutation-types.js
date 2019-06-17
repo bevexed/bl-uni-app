@@ -8,3 +8,4 @@ export const GET_REFRESH_TOKEN = 'get_refresh_token';
 
 // products
 export const GET_PRODUCTS = 'get_products';
+export const GET_CATEGORIES = 'get_categories'

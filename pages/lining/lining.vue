@@ -187,12 +187,17 @@ export default {
         uniCollapseItem,
         CustmerPhone
     },
-  computed: mapState('Products', ['productList', 'total', 'page']),
+  computed: {
+    ...mapState('Products', ['productList', 'total', 'page']),
+    ...mapState('User', ['userInfo'])
+  },
   onReady() {
     this.getProducts({
       page: this.page,
       pageSize: 10,
       companyId: 4,
+
+      status: this.userInfo.status
     })
   },
   onReachBottom() {
@@ -200,6 +205,8 @@ export default {
       page: this.page,
       pageSize: 10,
       companyId: 4,
+
+      status: this.userInfo.status
     })
   },
     data() {
