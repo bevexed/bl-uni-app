@@ -139,7 +139,7 @@ export default {
                 selectedBackgroundColor: 'rgba(0,0,0,.3)'
             },
             // banner数据
-            banners: ['../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png', '../../static/imgs/home/banner.png'],
+            banners: [],
             // banner高度
             windowHeight: 0
         };

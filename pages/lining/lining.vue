@@ -144,25 +144,25 @@
         </view>
 
         <!-- 选择 分类 弹窗 -->
-        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
-            <view class="my-pop">
-                <view class="pop-top">
-                    <text @tap="sortShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
-                </view>
+<!--        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">-->
+<!--            <view class="my-pop">-->
+<!--                <view class="pop-top">-->
+<!--                    <text @tap="sortShow = false">取消</text>-->
+<!--                    <text class="sure" @tap="sureSelect">选择</text>-->
+<!--                </view>-->
 
-                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
-                    <picker-view-column>
-                        <view class="select" v-for="(sort, index) in sorts" :key="index">
-                            <view class="value">{{ sort }}</view>
-                        </view>
-                    </picker-view-column>
-                </picker-view>
+<!--                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">-->
+<!--                    <picker-view-column>-->
+<!--                        <view class="select" v-for="(sort, index) in sorts" :key="index">-->
+<!--                            <view class="value">{{ sort }}</view>-->
+<!--                        </view>-->
+<!--                    </picker-view-column>-->
+<!--                </picker-view>-->
 
-                <!--              <view class="line left"></view>
-                <view class="line right"></view> -->
-            </view>
-        </view>
+<!--                &lt;!&ndash;              <view class="line left"></view>-->
+<!--                <view class="line right"></view> &ndash;&gt;-->
+<!--            </view>-->
+<!--        </view>-->
 
         <!-- 相机拍照 我的相册 弹窗 -->
         <view class="pop-wrap" v-show="popShow" @touchmove.stop.prevent="moveHandle" @tap="popShow = false">
@@ -575,6 +575,39 @@ export default {
         .white-space {
             height: 140upx;
         }
+
+      .agreement {
+        display: flex;
+        align-items: center;
+        font-size: 24upx;
+        color: #666;
+        .select {
+          margin-right: 20upx;
+        }
+        .star {
+          font-weight: bold;
+          color: #c50000;
+        }
+      }
+
+      .select {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30upx;
+        height: 30upx;
+        border-radius: 50%;
+        border: 1px solid rgba(204, 204, 204, 1);
+        &.active {
+          border-color: $theme-color;
+          .selected {
+            width: 18upx;
+            height: 18upx;
+            background: $theme-color;
+            border-radius: 50%;
+          }
+        }
+      }
     }
 
     .sort {
@@ -800,38 +833,5 @@ export default {
         width: 220upx;
         font-size: 24upx;
     }
-
-  .agreement {
-    display: flex;
-    align-items: center;
-    font-size: 24upx;
-    color: #666;
-    .select {
-      margin-right: 20upx;
-    }
-    .star {
-      font-weight: bold;
-      color: #c50000;
-    }
-  }
-
-  .select {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30upx;
-    height: 30upx;
-    border-radius: 50%;
-    border: 1px solid rgba(204, 204, 204, 1);
-    &.active {
-      border-color: $theme-color;
-      .selected {
-        width: 18upx;
-        height: 18upx;
-        background: $theme-color;
-        border-radius: 50%;
-      }
-    }
-  }
 }
 </style>
