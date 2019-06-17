@@ -73,12 +73,12 @@
                     <view :class="['tags', { active: showColorMore }]">
                         <uni-tag
                             class="tag"
-                            :text="color"
-                            :type="colorCurrentSelect.includes(color) ? 'success' : 'primary'"
+                            :text="category.name"
+                            :type="categoryId.includes(category.id) ? 'success' : 'primary'"
                             :inverted="true"
-                            v-for="(color, index) in colorList"
+                            v-for="(category, index) in categories"
                             :key="index"
-                            @click="selectTag('colorCurrentSelect', color)"
+                            @click="selectTag('categoryId', category.id)"
                         />
                     </view>
                 </view>
@@ -199,7 +199,7 @@ export default {
         CustmerPhone
     },
   computed: {
-    ...mapState('Products', ['productList', 'total', 'page']),
+    ...mapState('Products', ['productList', 'total', 'page', 'categories']),
     ...mapState('User', ['userInfo'])
   },
   onReady() {
@@ -233,49 +233,10 @@ export default {
             shopList: [{}],
             // 显示更多颜色
             showColorMore: false,
-            // 颜色标签列表
-            colorList: [
-                '红色',
-                '黄色',
-                '蓝色',
-                '黑色',
-                '白色',
-                '湖蓝',
-                '藏青',
-                '杨红',
-                '红色',
-                '黄色',
-                '蓝色',
-                '黑色',
-                '白色',
-                '湖蓝',
-                '藏青',
-                '杨红',
-                '红色',
-                '黄色',
-                '蓝色',
-                '黑色',
-                '白色',
-                '湖蓝',
-                '藏青',
-                '杨红',
-                '红色',
-                '黄色',
-                '蓝色',
-                '黑色',
-                '白色',
-                '湖蓝',
-                '藏青',
-                '杨红'
-            ],
-            // 当前选中颜色
-            colorCurrentSelect: [],
+            // 当前选分类
+            categoryId: [],
             // 显示更多颜色
             showTagsMore: false,
-            // 颜色标签列表
-            tagsList: ['标签一', '标签二', '标签三', '标签四', '标签一', '标签一', '标签一', '标签一'],
-            // 当前选中标签
-            tagCurrentSelect: [],
             // 返回顶部显示
             appear: false,
             // 分类弹窗
@@ -292,12 +253,20 @@ export default {
             sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
             // 当前选择排序方式
             currentSortState: 0,
-            agreement:false
+            agreement: false
         };
     },
 
   methods: {
       ...mapActions('Products', ['getProducts','getCategories']),
+
+    selectTag(currentState, tag_name) {
+      if (this[currentState].includes(tag_name)) {
+        this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+        return;
+      }
+      this[currentState].push(tag_name);
+    },
 
     /** 方法说明
          * @method 改变按钮样式
@@ -324,14 +293,6 @@ export default {
             this.drawerShow = false;
             //重置 按钮 状态
             this.menuCurrentSelect = 0;
-        },
-
-        selectTag(currentState, tag_name) {
-            if (this[currentState].includes(tag_name)) {
-                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-                return;
-            }
-            this[currentState].push(tag_name);
         },
 
         // 返回顶部
@@ -508,7 +469,6 @@ export default {
 
         .tags {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
             max-height: 60upx;
             overflow: hidden;
@@ -519,7 +479,7 @@ export default {
                 max-height: 1200upx;
             }
             .tag {
-                margin: 0 0 30upx;
+                margin: 0 4upx 30upx 0;
                 width: 24%;
                 padding: 0;
                 text-align: center;

@@ -27,4 +27,7 @@ export const getProducts = async ({ commit, state }, data) => {
 
 export const getCategories = async ({ commit }) => {
   let res = await reqCategories();
-}
+  if (res.code === 200) {
+      commit(GET_CATEGORIES,res.data)
+  }
+};
