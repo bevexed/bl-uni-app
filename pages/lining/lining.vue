@@ -1,7 +1,6 @@
 <template>
     <view class="lining" @touchmove="toTopShow">
         <!-- 切换 按钮 -->
-
         <view class="to-top" v-show="appear" @tap="toTop"><image src="../../static/icon/top.png" mode=""></image></view>
 
         <view class="menus">
@@ -105,19 +104,19 @@
 
         <!-- 商品列表 -->
         <view class="list" v-if="menuCurrentSelect !== 2">
-            <view class="item" v-for="i in 30" :key="i" @tap="toDetail">
-                <image src="../../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
-                <view class="name">G2560817</view>
+            <view class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
+                <image :src="product.imageShow" mode="aspectFill" lazy-load></image>
+                <view class="name">{{ product.pno }}</view>
                 <view class="price">
                     <text class="money">
-                        ￥69
-                        <text class="per">/米</text>
+                        ￥{{ product.price }}
+                        <text class="per">/ {{ product.unit }}</text>
                     </text>
 
                     <text class="rest">
                         仅剩
-                        <text class="rest-red">600</text>
-                        米
+                        <text class="rest-red">{{ product.stock }}</text>
+                        {{ product.unit }}
                     </text>
                 </view>
             </view>
@@ -174,6 +173,7 @@
 
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+import { mapActions,mapState } from 'vuex'
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 let observer = null;
@@ -187,6 +187,7 @@ export default {
         uniCollapseItem,
         CustmerPhone
     },
+  computed: mapState('Products', ['productList']),
     data() {
         return {
             menuData: ['全部', '筛选', '排序'],
@@ -260,7 +261,8 @@ export default {
         };
     },
     methods: {
-        /* 方法说明
+      ...mapActions('Products', ['getProducts']),
+      /** 方法说明
          * @method 改变按钮样式
          * @for
          * @param{number} index 当前按钮 索引
@@ -276,11 +278,9 @@ export default {
             }
         },
 
-        /* 方法说明
+      /**
+       *  方法说明
          * @method 抽屉关闭
-         * @for
-         * @param{null}
-         * @return {null}
          */
         onDrawerClose() {
             // 重新 设置 抽屉状态
@@ -355,7 +355,13 @@ export default {
         }
     },
 
-    onReady() {}
+  onReady() {
+    this.getProducts({
+      page: 1,
+      pageSize: 10,
+      companyId: 4,
+    })
+  }
 };
 </script>
 

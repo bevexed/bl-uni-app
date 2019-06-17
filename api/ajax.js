@@ -25,7 +25,7 @@ uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
 // uniRequest.put(url[, data[, config]])
 // uniRequest.patch(url[, data[, config]])
 
-export default function ajax(url, data = {}, type = "POST", loading = true) {
+export default function ajax(url, data = {}, type, loading = true) {
 
   if (loading) {
     uni.showLoading({
@@ -35,16 +35,21 @@ export default function ajax(url, data = {}, type = "POST", loading = true) {
 
     return new Promise((resolve, reject) => {
         let promise;
-        if (type === 'GET') {
-            promise = uniRequest.get(url, {
-                params: data
-            })
-        } else {
-            promise = uniRequest.post(url, data)
-        }
+      switch (type) {
+        case "POST":
+          promise = uniRequest.post(url, data);
+          break;
+        case 'GET':
+          promise = uniRequest.get(url, {
+            params: data
+          });
+          break;
+        case "PUT":
+          promise = uniRequest.put(url, data)
+      }
 
 
-        promise.then(
+      promise.then(
             response => {
                 uni.hideLoading();
                 console.log('ajax-success', response.data);

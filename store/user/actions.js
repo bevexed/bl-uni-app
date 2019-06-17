@@ -105,9 +105,6 @@ export default {
         data: res.data.userInfo.token,
         success() {
           commit(GET_REFRESH_TOKEN, res.data.userInfo);
-          uni.switchTab({
-            url: '/pages/home/home'
-          })
         },
         fail(res) {
           uni.navigateTo({

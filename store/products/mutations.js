@@ -1,7 +1,7 @@
-import {GET_PRODUCTS} from '../mutation-types';
+import { GET_PRODUCTS } from '../mutation-types';
 
 export default {
-    [GET_PRODUCTS](state, { data }) {
-        state.data = data;
+  [GET_PRODUCTS](state, data) {
+    state.productList = data;
     },
 };

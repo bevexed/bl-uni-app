@@ -17,7 +17,7 @@ export const reqIsExist = ({ phone, companyId = 4 }) => ajax(`/user/isExist/${ c
 export const reqVerify = ({ phone, companyId = 4 }) => ajax('/user/verify', {
   companyId,
   phone
-});
+}, 'POST');
 
 /**
  * 用户登录
@@ -32,7 +32,7 @@ export const reqVerify = ({ phone, companyId = 4 }) => ajax('/user/verify', {
 
 export const reqLogin = ({ job, custName, phone, verify, avatar, nickname, companyId = 4 }) => ajax('/user/login', {
   job, custName, companyId, phone, verify, avatar, nickname
-});
+}, 'POST');
 
 /**
  * 实时获取用户信息
@@ -43,3 +43,9 @@ export const reqCurrentUserDetail = () => ajax('/user/currentUserDetail',{},'GET
  * 刷新 token
  * */
 export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');
+
+/**
+ * 修改用户信息
+ * */
+// todo:修改 用户信息
+export const reqUser = () => ajax('/user',{},'PUT');
