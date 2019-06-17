@@ -11,14 +11,14 @@ export default {
     },
 
   [LOGIN](state, data) {
-    state = {...state, ...data};
+    state.userInfo = data;
   },
 
   [GET_CURRENT_USER_DETAIL](state, data) {
-    state = { ...state, ...data }
+    state.userInfo = data;
   },
 
   [GET_REFRESH_TOKEN](state, data) {
-    state = { ...state, ...data }
+    state.userInfo = data;
   }
 };

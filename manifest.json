@@ -70,7 +70,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/dpc" : {
-                    "target" : "http://192.168.3.64",
+                    "target" : "https://www.chengqj.com/",
                     "changeOrigin" : true,
                     "secure" : false
                 }

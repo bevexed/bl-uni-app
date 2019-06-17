@@ -2,17 +2,17 @@
     <view class="my" :style="{ height: windowHeight - 50 + 'px' }">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
         <view class="header"  @tap="to('/personal-information/personal-information')">
-            <image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+          <image class="avatar" :src="userInfo.avatar" mode=""></image>
             <view class="info">
                 <view class="info-header">
-                    <view class="name">Helvetica</view>
+                    <view class="name">{{ userInfo.username }}</view>
                     <view class="vip">
                         <image src="../../static/icon/reat.svg" mode=""></image>
                         <text>未激活</text>
                     </view>
                 </view>
                 <view class="info-bottom">
-                    <view class="phone">188213123</view>
+                    <view class="phone">{{ userInfo.phone }}</view>
                     <image src="../../static/icon/set.png" mode=""></image>
                 </view>
             </view>
@@ -58,30 +58,36 @@
 </template>
 
 <script>
-export default {
+  import { mapState } from 'vuex'
+
+  export default {
     data() {
-        return {
-            windowHeight: 0
-        };
+      return {
+        windowHeight: 0
+      };
     },
+    computed: mapState('User', ['userInfo']),
     methods: {
-        to(url) {
-            uni.navigateTo({
-                url
-            });
-        }
+      to(url) {
+        uni.navigateTo({
+          url
+        });
+      }
+    },
+    onReady() {
+      console.log(this.$store);
     },
     onLoad() {
-        let _this = this;
-        uni.getSystemInfo({
-            success: res => {
-                console.log(res);
-                _this.windowHeight = res.windowHeight;
-                _this.windowWidth = res.windowWidth;
-            }
-        });
+      let _this = this;
+      uni.getSystemInfo({
+        success: res => {
+          console.log(res);
+          _this.windowHeight = res.windowHeight;
+          _this.windowWidth = res.windowWidth;
+        }
+      });
     }
-};
+  };
 </script>
 
 <style lang="scss">

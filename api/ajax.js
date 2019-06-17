@@ -8,8 +8,11 @@ uni.getStorage({
   key:'token',
   success(res) {
     uniRequest.defaults.headers.common['Authorization'] = res.data;
+  },
+  fail(res) {
   }
 });
+
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
 
 // 请求别名

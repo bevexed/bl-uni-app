@@ -84,6 +84,7 @@ export default {
         title: res.msg,
         mask: true,
         duration: 2000,
+        icon: "none",
         success(res) {
           setTimeout(()=>{
             uni.navigateTo({
@@ -103,7 +104,7 @@ export default {
         key: 'token',
         data: res.data.userInfo.token,
         success() {
-          commit(GET_REFRESH_TOKEN, res.data.userInfo)
+          commit(GET_REFRESH_TOKEN, res.data.userInfo);
           uni.switchTab({
             url: '/pages/home/home'
           })
