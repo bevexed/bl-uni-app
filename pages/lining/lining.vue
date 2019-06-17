@@ -32,6 +32,10 @@
                     ></image>
                 </view>
 
+
+                <!-- 克重-->
+                <!-- 克重-->
+                <!-- 克重-->
                 <view class="weigh">
                     <view class="label">
                         克重
@@ -45,9 +49,25 @@
                     </view>
                 </view>
 
+                <!-- 幅宽-->
+                <!-- 幅宽-->
+                <!-- 幅宽-->
+                <view class="weigh">
+                    <view class="label">
+                      幅宽
+                        <text>（厘米）</text>
+                    </view>
+
+                    <view class="value">
+                        <input class="input" type="number" placeholder="最小值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                        <view class="hr"></view>
+                        <input class="input" type="number" placeholder="最大值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                    </view>
+                </view>
+
                 <view class="color">
                     <view class="label" @touchend="showColorMore = !showColorMore">
-                        颜色
+                        分类
                         <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                     </view>
                     <view :class="['tags', { active: showColorMore }]">
@@ -76,23 +96,14 @@
                     </view>
                 </view>
 
-                <view class="real-tags">
-                    <view class="label" @touchend="showTagsMore = !showTagsMore">
-                        标签
-                        <image :class="{ active: showTagsMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
-                    </view>
-                    <view :class="['tags', { active: showTagsMore }]">
-                        <uni-tag
-                            class="tag"
-                            :text="tag"
-                            :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
-                            :inverted="true"
-                            v-for="(tag, index) in tagsList"
-                            :key="index"
-                            @click="selectTag('tagCurrentSelect', tag)"
-                        />
-                    </view>
+              <view class="price agreement">
+                <view :class="['select', { active: agreement }]" @tap="agreement = !agreement"><view class="selected"></view></view>
+                <view>
+                  <text class="star"></text>
+                  仅显示有库存
                 </view>
+              </view>
+
                 <view class="white-space"></view>
             </scroll-view>
             <view class="buttons">
@@ -198,7 +209,9 @@ export default {
       companyId: 4,
 
       status: this.userInfo.status
-    })
+    });
+
+    this.getCategories();
   },
   onReachBottom() {
     this.getProducts({
@@ -215,7 +228,7 @@ export default {
             // 当前选中 按钮
             menuCurrentSelect: 0,
             // 抽屉 显示控制
-            drawerShow: false,
+            drawerShow: true,
             // 商品列表
             shopList: [{}],
             // 显示更多颜色
@@ -278,12 +291,13 @@ export default {
             // 排序
             sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
             // 当前选择排序方式
-            currentSortState: 0
+            currentSortState: 0,
+            agreement:false
         };
     },
 
   methods: {
-      ...mapActions('Products', ['getProducts']),
+      ...mapActions('Products', ['getProducts','getCategories']),
 
     /** 方法说明
          * @method 改变按钮样式
@@ -786,5 +800,38 @@ export default {
         width: 220upx;
         font-size: 24upx;
     }
+
+  .agreement {
+    display: flex;
+    align-items: center;
+    font-size: 24upx;
+    color: #666;
+    .select {
+      margin-right: 20upx;
+    }
+    .star {
+      font-weight: bold;
+      color: #c50000;
+    }
+  }
+
+  .select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30upx;
+    height: 30upx;
+    border-radius: 50%;
+    border: 1px solid rgba(204, 204, 204, 1);
+    &.active {
+      border-color: $theme-color;
+      .selected {
+        width: 18upx;
+        height: 18upx;
+        background: $theme-color;
+        border-radius: 50%;
+      }
+    }
+  }
 }
 </style>

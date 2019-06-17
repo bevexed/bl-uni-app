@@ -4,7 +4,7 @@ import ajax from './ajax'
  * @function 商品分类
  * */
 
-export const reqCategories = () => ajax('/categories','GET');
+export const reqCategories = () => ajax('/categories', {}, 'GET');
 
 /**
  * 商品列表
