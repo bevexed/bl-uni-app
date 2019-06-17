@@ -22,14 +22,12 @@
         },
         {
             "path": "pages/login/base-information"
-        }
-    ],
-    "subPackages": [{
-            "root": "shop-detail",
-            "pages": [{
-                "path": "shop-detail"
-            }]
         },
+      {
+        "path": "pages/shop-detail/shop-detail"
+      }
+    ],
+  "subPackages": [
         {
             "root": "fitting",
             "pages": [{
@@ -173,6 +171,11 @@
           "name": "register",
           "path": "pages/login/base-information",
           "query": ""
+        },
+          {
+            "name": "shop-detail",
+            "path": "pages/shop-detail/shop-detail",
+            "query": "id=2693"
         }]
     }
 }

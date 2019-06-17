@@ -13,86 +13,91 @@
             <!-- 轮播图上的浮动按钮 -->
             <view class="buttons">
                 <view>
-                    <image src="../static/icon/collect.png" mode=""></image>
+                  <image src="../../static/icon/collect.png" mode=""></image>
                     <text>收藏</text>
                 </view>
 
                 <view>
-                    <image src="../static/icon/share.png" mode=""></image>
+                  <image src="../../static/icon/share.png" mode=""></image>
                     <text>分享</text>
                 </view>
             </view>
 
             <view class="add" @tap="showButton = !showButton">
-                <image src="../static/icon/reduce.png" mode="" v-if="showButton"></image>
-                <image src="../static/icon/add.png" mode="" v-else></image>
+              <image src="../../static/icon/reduce.png" mode="" v-if="showButton"></image>
+              <image src="../../static/icon/add.png" mode="" v-else></image>
                 <view :class="['add-show', { active: showButton }]">
                     <view class="fit" @tap="toFit">
-                        <image src="../static/icon/3d@2x.png" mode=""></image>
+                      <image src="../../static/icon/3d@2x.png" mode=""></image>
                         <text>试衣</text>
                     </view>
                     <view class="simalar" @tap="toRecognition">
-                        <image src="../static/icon/s.png" mode=""></image>
+                      <image src="../../static/icon/s.png" mode=""></image>
                         <text>相似</text>
                     </view>
                 </view>
             </view>
         </view>
 
-        <view class="shop-name">BL245685837265854</view>
+      <view class="shop-name">{{ product.pno }}</view>
 
         <view class="shop-sales">
-            <text class="sale">月销 3000 米</text>
+          <text class="sale">月销 {{ product.monthlySales }} 米</text>
 
             <view class="price">
-                ￥300
-                <text>/米</text>
+              ￥{{ product.price }}
+              <text>/{{ product.unit }}</text>
             </view>
         </view>
 
         <view class="shop-select" @tap="selectShow = true">
             <text>商品选择</text>
-            <image src="../static/icon/arrow-bottom.svg" mode=""></image>
+          <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
         </view>
         <view class="shop-detail">
             商品详情
             <view class="list">
-                <view class="item">面料成分：100%Cotton</view>
-                <view class="item">面料门幅：159CM</view>
-                <view class="item">面料克重：5000g/m</view>
-                <view class="item">干磨/湿磨：Lv.5/Lv.5</view>
-                <view class="item">顶破强度：500N</view>
-                <view class="item">质量等级：国家一等品</view>
-                <view class="item">疵点率：2/100M</view>
-                <view class="item">备注提示：</view>
+              <view v-for="(value,key) of product.parameters" :key="key" class="item">
+                {{ key }}：{{ value }}
+              </view>
             </view>
         </view>
+
+      <image
+        class="ad-img"
+        :src="pic"
+        :key="key"
+        mode="widthFix"
+        v-for="(pic,key) in product.adPicture"></image>
 
         <view class="guess">猜您喜欢</view>
 
         <view class="shop-list" v-if="!selectShow">
-            <view class="shop-item" v-for="i in 10" :key="i">
-                <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+          <view class="shop-item" v-for="(value,key) in product.similar"
+                :key="key"
+                @tap="toDetail(value.id)"
+          >
+            <image :src="value.imageShow" mode=""></image>
                 <view class="shop-name">
-                    <text>G2560817</text>
-                    <view class="sold">98人已购买</view>
+                  <text>{{ value.pno }}</text>
+                  <view class="sold">{{ value.purchaseNum }}人已购买</view>
                 </view>
             </view>
         </view>
 
-        <view class="bottom" v-if="!selectShow">
+      <view class="bottom" v-if="!selectShow && product.status === 1">
             <view class="icons">
                 <view class="icon" @tap="toHome">
-                    <image src="../static/icon/homepage_fill.svg" mode=""></image>
+                  <image src="../../static/icon/homepage_fill.svg" mode=""></image>
                     <text>首页</text>
                 </view>
                 <view class="icon" @tap="toShopCar">
-                    <image src="../static/icon/service_fill@2x.png" mode=""></image>
+                  <image src="../../static/icon/service_fill@2x.png" mode=""></image>
                     <view class="badge">1</view>
                     <text>购物车</text>
                 </view>
                 <view class="icon" @tap="toContact">
-                    <image src="../static/icon/phone.png" mode=""></image>
+                  <image src="../../static/icon/phone.png" mode=""></image>
                     <text>客服</text>
                 </view>
             </view>
@@ -105,7 +110,7 @@
 
         <!-- // 下架按钮 -->
 
-        <view class="sold-out">该商品已下架</view>
+      <view class="sold-out" v-if="product.status === 0">该商品已下架</view>
 
         <view class="white-space"></view>
 
@@ -114,21 +119,21 @@
             <view class="my-pop" @tap.stop>
                 <view class="close" @tap.stop="selectShow = false"><view class="close-button"></view></view>
                 <view class="pop-header">
-                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+                    <image :src="product.imageShow" mode="widthFix"></image>
                     <view class="right">
-                        <view class="name">BL245685837265854</view>
-                        <view class="sold">月销 30000 米</view>
+                        <view class="name">{{ product.pno }}</view>
+                        <view class="sold">月销 {{ product.monthlySales }} 米</view>
 
                         <view class="price">
-                            ¥300
-                            <text>/米</text>
+                            ¥{{ product.price }}
+                            <text>/{{ product.unit }}</text>
                         </view>
                     </view>
                 </view>
 
                 <view class="select-much">
                     <view class="title">数量选择</view>
-                    <view class="rest">库存 3000 米</view>
+                    <view class="rest">库存 {{ product.stock }} 米</view>
                     <uni-number-box :min="0" :max="99999" :step="1" :value="num" @change="numChange"></uni-number-box>
                     <view class="rest unit">米</view>
                 </view>
@@ -139,11 +144,10 @@
                         <uni-tag
                             class="tag"
                             :text="tag"
-                            :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                            :type="'success'"
                             :inverted="true"
                             v-for="(tag, index) in tagsList"
                             :key="index"
-                            @click="selectTag('tagCurrentSelect', tag)"
                         />
                     </view>
                 </view>
@@ -155,112 +159,121 @@
 </template>
 
 <script>
-import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
-import uniNumberBox from '../components/uni-number-box/uni-number-box.vue';
-export default {
+  import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
+  import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
+  import { mapActions, mapState } from 'vuex';
+
+  export default {
     components: {
-        uniSwiperDot,
-        uniNumberBox,
-        uniTag
+      uniSwiperDot,
+      uniNumberBox,
+      uniTag
+    },
+    onLoad(query) {
+      let id = query.id
+      this.getProduct(id)
     },
     data() {
-        return {
-            title: 'SINOTY',
-            // 当前 swiper 索引
-            current: 0,
-            // 轮播图 指示器样式
-            dotsStyles: {
-                border: 'none',
-                backgroundColor: 'rgba(0,0,0,.3)',
-                selectedBorder: 'none',
-                selectedBackgroundColor: 'rgba(0,0,0,.3)'
-            },
-            // banner数据
-            banners: [
-                'https://img.cdn.aliyun.dcloud.net.cn/stream/plugin_screens/5a21ffe0-6714-11e9-a3ca-cd5672f184bc_0.jpg?v=1556173709',
-                'http://qxintechoffice.f3322.net:5007/micro/1.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/2.jpg',
-            ],
+      return {
+        title: 'SINOTY',
+// 当前 swiper 索引
+        current: 0,
+// 轮播图 指示器样式
+        dotsStyles: {
+          border: 'none',
+          backgroundColor: 'rgba(0,0,0,.3)',
+          selectedBorder: 'none',
+          selectedBackgroundColor: 'rgba(0,0,0,.3)'
+        },
 
-            // 轮播图 显示更过按钮
-            showButton: false,
+        // 轮播图 显示更过按钮
+        showButton: false,
 
-            // 弹窗
-            selectShow: false,
+        // 弹窗
+        selectShow: false,
 
-            // 购买数量
-            num: 0,
+        // 购买数量
+        num: 0,
 
-            tagsList: ['标样', '匹配', '码样'],
-            // 当前选中标签
-            tagCurrentSelect: [],
+        tagsList: ['标样'],
+        // 当前选中标签
+        tagCurrentSelect: [],
 
-            // 显示大图
-            bigShow: -1,
-
-            // 图片当前是否放大
-            // todo: 图片 全屏放大
-            currentBig: 0
-        };
+        // 显示大图
+        bigShow: -1,
+      };
+    },
+    computed: {
+      ...mapState('Products', {
+        banners: state => state.product.carouselFigure,
+      }),
+      ...mapState('Products', ['product'])
     },
     methods: {
-        swiperChange(e) {
-            this.current = e.detail.current;
-        },
-        numChange(val) {
-            console.log(val);
-        },
-        selectTag(currentState, tag_name) {
-            // 直接修改数组会卡。。。
-            if (this[currentState].includes(tag_name)) {
-                return;
-            } else {
-                this[currentState] = [];
-                this[currentState].push(tag_name);
-            }
+      ...mapActions('Products', ['getProduct']),
+      swiperChange(e) {
+        this.current = e.detail.current;
+      },
+      numChange(val) {
+        console.log(val);
+      },
+      selectTag(currentState, tag_name) {
+        // 直接修改数组会卡。。。
+        if (this[currentState].includes(tag_name)) {
+          return;
+        } else {
+          this[currentState] = [];
+          this[currentState].push(tag_name);
+        }
 
-            // this[currentState][0] = tag_name;
-        },
+        // this[currentState][0] = tag_name;
+      },
 
-        // 放大图片
-        showBig(index) {
-            console.log(index);
-            this.currentBig = index;
-            uni.previewImage({
-                current: this.banners[index],
-                urls: this.banners,
-                indicator: true,
-                loop: true
-            });
-        },
-        toFit() {
-            uni.navigateTo({
-                url: '/fitting/fitting'
-            });
-        },
-        toRecognition() {
-            uni.navigateTo({
-                url: '/recognition/recognition'
-            });
-        },
-        toHome() {
-            uni.switchTab({
-                url: '/pages/home/home'
-            });
-        },
-        toShopCar() {
-            uni.switchTab({
-                url: '/pages/shopCar/shopCar'
-            });
-        },
-        toContact() {
-            uni.navigateTo({
-                url: '/contact/contact'
-            });
-        },
-        moveHandle() {}
+      // 放大图片
+      showBig(index) {
+        console.log(index);
+        this.currentBig = index;
+        uni.previewImage({
+          current: this.banners[index],
+          urls: this.banners,
+          indicator: true,
+          loop: true
+        });
+      },
+      toFit() {
+        uni.navigateTo({
+          url: '/fitting/fitting'
+        });
+      },
+      toRecognition() {
+        uni.navigateTo({
+          url: '/recognition/recognition'
+        });
+      },
+      toHome() {
+        uni.switchTab({
+          url: '/pages/home/home'
+        });
+      },
+      toShopCar() {
+        uni.switchTab({
+          url: '/pages/shopCar/shopCar'
+        });
+      },
+      toContact() {
+        uni.navigateTo({
+          url: '/contact/contact'
+        });
+      },
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
+      },
+      moveHandle() {
+      }
     }
-};
+  };
 </script>
 
 <style scoped lang="scss">
@@ -368,6 +381,13 @@ export default {
         font-weight: bold;
         color: #333;
         padding: $white-space $white-space 0;
+
+      text {
+        max-width: 65%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .shop-sales {
@@ -739,5 +759,9 @@ export default {
         .big-img {
         }
     }
+
+  .ad-img{
+    width: 100%;
+  }
 }
 </style>

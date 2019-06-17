@@ -26,3 +26,10 @@ export const reqProducts = ({ page = 1, pageSize = 10, companyId = 4, ...rest })
   companyId,
   ...rest
 }, "GET");
+
+/**
+ * @function 商品详情
+ * @param id {Number} 商品ID
+ * */
+
+export const reqProduct = (id) => ajax(`/products/${ id }`, {}, 'GET');

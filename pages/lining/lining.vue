@@ -109,7 +109,7 @@
             <view class="buttons">
                 <view class="my-button plain">重置</view>
 
-                <view class="my-button">确定</view>
+              <view class="my-button" @tap="doSearch">确定</view>
             </view>
         </uni-drawer>
 
@@ -183,177 +183,192 @@
 </template>
 
 <script>
-import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-import { mapActions,mapState } from 'vuex'
-import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+  import { mapActions, mapState } from 'vuex'
+  import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
-let observer = null;
+  let observer = null;
 
-export default {
+  export default {
     components: {
-        uniDrawer,
-        uniNavBar,
-        uniTag,
-        uniCollapse,
-        uniCollapseItem,
-        CustmerPhone
+      uniDrawer,
+      uniNavBar,
+      uniTag,
+      uniCollapse,
+      uniCollapseItem,
+      CustmerPhone
     },
-  computed: {
-    ...mapState('Products', ['productList', 'total', 'page', 'categories']),
-    ...mapState('User', ['userInfo'])
-  },
-  onReady() {
-    this.getProducts({
-      page: this.page,
-      pageSize: 10,
-      companyId: 4,
+    computed: {
+      ...mapState('Products', ['productList', 'total', 'page', 'categories']),
+      ...mapState('User', ['userInfo'])
+    },
+    onReady() {
+      this.getProducts({
+        page: this.page,
+        pageSize: 10,
+        companyId: 4,
 
-      status: this.userInfo.status
-    });
+        status: this.userInfo.status
+      });
 
-    this.getCategories();
-  },
-  onReachBottom() {
-    this.getProducts({
-      page: this.page,
-      pageSize: 10,
-      companyId: 4,
+      this.getCategories();
+    },
+    onReachBottom() {
+      this.getProducts({
+        page: this.page,
+        pageSize: 10,
+        companyId: 4,
 
-      status: this.userInfo.status
-    })
-  },
+        status: this.userInfo.status
+      })
+    },
     data() {
-        return {
-            menuData: ['全部', '筛选', '排序'],
-            // 当前选中 按钮
-            menuCurrentSelect: 0,
-            // 抽屉 显示控制
-            drawerShow: true,
-            // 商品列表
-            shopList: [{}],
-            // 显示更多颜色
-            showColorMore: false,
-            // 当前选分类
-            categoryId: [],
-            // 显示更多颜色
-            showTagsMore: false,
-            // 返回顶部显示
-            appear: false,
-            // 分类弹窗
-            sortShow: false,
-            // 相机弹窗
-            popShow: false,
-            // 分类 - 弹出框
-            sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
-            // 当前分类值
-            defaultPicker: [2],
-            // 当前选择分类值
-            currentPickerValue: 2,
-            // 排序
-            sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
-            // 当前选择排序方式
-            currentSortState: 0,
-            agreement: false
-        };
+      return {
+        menuData: ['全部', '筛选', '排序'],
+        // 当前选中 按钮
+        menuCurrentSelect: 0,
+        // 抽屉 显示控制
+        drawerShow: true,
+        // 商品列表
+        shopList: [{}],
+        // 显示更多颜色
+        showColorMore: false,
+        // 当前选分类
+        categoryId: [],
+        // 显示更多颜色
+        showTagsMore: false,
+        // 返回顶部显示
+        appear: false,
+        // 分类弹窗
+        sortShow: false,
+        // 相机弹窗
+        popShow: false,
+        // 分类 - 弹出框
+        sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
+        // 当前分类值
+        defaultPicker: [2],
+        // 当前选择分类值
+        currentPickerValue: 2,
+        // 排序
+        sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
+        // 当前选择排序方式
+        currentSortState: 0,
+        agreement: false
+      };
     },
 
-  methods: {
-      ...mapActions('Products', ['getProducts','getCategories']),
+    methods: {
+      ...mapActions('Products', ['getProducts', 'getCategories']),
 
-    selectTag(currentState, tag_name) {
-      if (this[currentState].includes(tag_name)) {
-        this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-        return;
-      }
-      this[currentState].push(tag_name);
-    },
+      selectTag(currentState, tag_name) {
+        if (this[currentState].includes(tag_name)) {
+          this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+          return;
+        }
+        this[currentState].push(tag_name);
+      },
 
-    /** 方法说明
-         * @method 改变按钮样式
-         * @for
-         * @param{number} index 当前按钮 索引
-         * @return {null}
-         */
-        changeMenu(index) {
-            // 改变 当前 按钮 样式
-            this.menuCurrentSelect = index;
+      doSearch() {
+        // todo:分类搜索
+        let { categoryId } = this;
+        this.getProducts({
+          page: this.page,
+          pageSize: 10,
+          companyId: 4,
+          categoryId: JSON.stringify(categoryId),
 
-            // 如果点了 筛选 则 弹出抽屉
-            if (index === 1) {
-                this.drawerShow = true;
-            }
-        },
+          status: this.userInfo.status
+        });
+      },
+
+      /** 方法说明
+       * @method 改变按钮样式
+       * @for
+       * @param{number} index 当前按钮 索引
+       * @return {null}
+       */
+      changeMenu(index) {
+        // 改变 当前 按钮 样式
+        this.menuCurrentSelect = index;
+
+        // 如果点了 筛选 则 弹出抽屉
+        if (index === 1) {
+          this.drawerShow = true;
+        }
+      },
 
       /**
        *  方法说明
-         * @method 抽屉关闭
-         */
-        onDrawerClose() {
-            // 重新 设置 抽屉状态
-            this.drawerShow = false;
-            //重置 按钮 状态
-            this.menuCurrentSelect = 0;
-        },
+       * @method 抽屉关闭
+       */
+      onDrawerClose() {
+        // 重新 设置 抽屉状态
+        this.drawerShow = false;
+        //重置 按钮 状态
+        this.menuCurrentSelect = 0;
+      },
 
-        // 返回顶部
-        toTop() {
-            uni.pageScrollTo({
-                scrollTop: 0,
-                duration: 300
-            });
-        },
+      // 返回顶部
+      toTop() {
+        uni.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        });
+      },
 
-        // 监听 totop 显示
-        toTopShow() {
-            observer = setInterval(() => {
-                let view = uni.createSelectorQuery().select('.lining');
-                uni.createSelectorQuery()
-                    .selectViewport()
-                    .scrollOffset(res => {
-                        if (res.scrollTop > 100) {
-                            this.appear = true;
-                        } else {
-                            this.appear = false;
-                        }
-                    })
-                    .exec();
-            }, 300);
-        },
-        hidePopup() {},
-        bindChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        moveHandle() {},
-        sureSelect() {
-            this.popShow = true;
-            this.sortShow = false;
-        },
-        chooseImg(sourceType) {
-            uni.chooseImage({
-                success(res) {
-                    console.log('选择图片完成', res);
-                    // uni.navigateTo({
-                    //     url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
-                    // });
-                },
-                count: 1,
-                sourceType: [sourceType],
-                sizeType: ['original']
-            });
-        },
-        selectSortType(index) {
-            this.currentSortState = index;
-        },
-        toDetail() {
-            uni.navigateTo({
-                url: '/shop-detail/shop-detail'
-            });
-        }
+      // 监听 totop 显示
+      toTopShow() {
+        observer = setInterval(() => {
+          let view = uni.createSelectorQuery().select('.lining');
+          uni.createSelectorQuery()
+            .selectViewport()
+            .scrollOffset(res => {
+              if (res.scrollTop > 100) {
+                this.appear = true;
+              } else {
+                this.appear = false;
+              }
+            })
+            .exec();
+        }, 300);
+      },
+      hidePopup() {
+      },
+      bindChange(e) {
+        console.log(e);
+        const val = e.detail.value[0];
+        this.currentPickerValue = val;
+      },
+      moveHandle() {
+      },
+      sureSelect() {
+        this.popShow = true;
+        this.sortShow = false;
+      },
+      chooseImg(sourceType) {
+        uni.chooseImage({
+          success(res) {
+            console.log('选择图片完成', res);
+            // uni.navigateTo({
+            //     url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
+            // });
+          },
+          count: 1,
+          sourceType: [sourceType],
+          sizeType: ['original']
+        });
+      },
+      selectSortType(index) {
+        this.currentSortState = index;
+      },
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
+      }
     },
 
-};
+  };
 </script>
 
 <style lang="scss" scoped>

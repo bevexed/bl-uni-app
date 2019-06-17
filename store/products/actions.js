@@ -1,11 +1,13 @@
 import {
   GET_PRODUCTS,
-  GET_CATEGORIES
+  GET_CATEGORIES,
+  GET_PRODUCT
 } from '../mutation-types';
 
 import {
   reqProducts,
-  reqCategories
+  reqCategories,
+  reqProduct
 } from "../../api/products";
 
 export const getProducts = async ({ commit, state }, data) => {
@@ -29,5 +31,12 @@ export const getCategories = async ({ commit }) => {
   let res = await reqCategories();
   if (res.code === 200) {
       commit(GET_CATEGORIES,res.data)
+  }
+};
+
+export const getProduct = async ({ commit }, id) => {
+  let res = await reqProduct(id);
+  if (res.code === 200) {
+    commit(GET_PRODUCT, res.data)
   }
 };
