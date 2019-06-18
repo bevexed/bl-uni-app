@@ -7,7 +7,7 @@ import ajax from './ajax'
 export const reqCategories = () => ajax('/categories', {}, 'GET');
 
 /**
- * 商品列表
+ * @function 商品列表
  * @param page {number} 当前页
  * @param pageSize {number} 每页条数
  * @param categoryId {array} 分类
