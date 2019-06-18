@@ -17,7 +17,17 @@ import ajax from './ajax'
  * @param userId {Number}
  */
 
-export const reqAddCart = ({ shoppingNum = 1, productId }) => ajax('/cart', { shoppingNum, productId }, 'POST');
+export const reqAddCart = ({ shoppingNum = 1, productId, sampleType }) => ajax('/cart', {
+  shoppingNum,
+  productId,
+  sampleType
+}, 'POST');
+
+/**
+ * @function 更新购物车数据
+ * */
+// todo: 购物车更新数据接口
+export const reqPutCart = data => ajax('/cart', data, 'PUT');
 
 /**
  * @function 查询购物车详情
@@ -36,3 +46,4 @@ export const reqDetele = id => ajax('/cart/' + id, {}, 'DELETE');
  * @function 清空失效商品
  * */
 export const reqDeleteInvalid = () => ajax('/cart/deleteInvalid', {}, 'DELETE');
+

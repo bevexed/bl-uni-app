@@ -104,7 +104,11 @@
                 </view>
             </view>
             <view class="buttons">
-              <view class="add-cart" @tap="addCart({productId:product.id})">加入购物车</view>
+              <view
+                class="add-cart"
+                @tap="addCart({productId:product.id})"
+              >加入购物车
+              </view>
 
                 <view class="buy-now">立即购买</view>
             </view>
@@ -121,7 +125,7 @@
             <view class="my-pop" @tap.stop>
                 <view class="close" @tap.stop="selectShow = false"><view class="close-button"></view></view>
                 <view class="pop-header">
-                    <image :src="product.imageShow" mode="widthFix"></image>
+                  <image :src="product.imageShow" mode=""></image>
                     <view class="right">
                         <view class="name">{{ product.pno }}</view>
                         <view class="sold">月销 {{ product.monthlySales }} 米</view>
@@ -149,12 +153,13 @@
                     <view class="title">小样选择</view>
                     <view :class="['tags']">
                         <uni-tag
-                            class="tag"
-                            :text="tag"
-                            :type="'success'"
-                            :inverted="true"
-                            v-for="(tag, index) in tagsList"
-                            :key="index"
+                          class="tag"
+                          :text="tag"
+                          :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                          :inverted="true"
+                          v-for="(tag, index) in tagsList"
+                          :key="index"
+                          @click="selectTag('tagCurrentSelect', tag)"
                         />
                     </view>
                 </view>
@@ -243,8 +248,12 @@
       ...mapActions('Products', ['getProduct']),
       ...mapActions('Cart', ['addCart']),
       async addCartByNum() {
-        const { product, num } = this;
-        let res = await this.addCart({ productId: product.id, shoppingNum: num });
+        const { product, num, tagCurrentSelect } = this;
+        let res = await this.addCart({
+          productId: product.id,
+          shoppingNum: num,
+          sampleType: tagCurrentSelect.length
+        });
         if (res) {
           this.selectShow = false;
         }
@@ -258,13 +267,14 @@
       selectTag(currentState, tag_name) {
         // 直接修改数组会卡。。。
         if (this[currentState].includes(tag_name)) {
-          return;
-        } else {
           this[currentState] = [];
+        } else {
           this[currentState].push(tag_name);
         }
 
-        // this[currentState][0] = tag_name;
+        console.log(this[currentState]);
+
+
       },
 
       // 放大图片

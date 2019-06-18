@@ -3,7 +3,7 @@
         <!-- 购物车不为空 -->
         <view class="has-goods" v-if="goods.length">
             <view class="menus title">
-                <view class="menu" v-if="edit" @tap="edit = !edit">取消</view>
+              <view class="menu" v-if="edit" @tap="cancel">取消</view>
                 <view class="menu" v-else @tap="doDeleteInvalid">清空下架</view>
 
                 <view class="menu">购物车({{ goods.length }})</view>
@@ -40,9 +40,9 @@
                             </view>
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">
-                                    <view class="option">
+                                  <view class="option" v-if="good.sampleType">
                                         <view class="label">标样：￥0</view>
-                                        <view class="value">*1</view>
+                                    <view class="value">*{{ good.sampleType }}</view>
                                     </view>
                                     <view class="option">
                                       <view class="label">商品：￥{{ good.price }}/米</view>
@@ -51,8 +51,12 @@
                                 </view>
 
                                 <view v-else class="options del-active" @tap="selectWillChang(i)">
-                                    <view class="option"><view class="label">匹样：*0</view></view>
-                                    <view class="option"><view class="label">数量：*40</view></view>
+                                  <view class="option" v-if="good.sampleType">
+                                    <view class="label">标样：*{{ good.sampleType }}</view>
+                                  </view>
+                                  <view class="option">
+                                    <view class="label">数量：*{{ good.shoppingNum }}</view>
+                                  </view>
 
                                     <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                                 </view>
@@ -65,7 +69,8 @@
                   <!-- 编辑状态 -->
                     <view class="select-much" v-if="good.willChange && edit">
                         <view class="title">数量选择</view>
-                        <uni-number-box :min="0" :max="99999" :step="1" :value="good.num" @change="numChange"></uni-number-box>
+                      <uni-number-box :min="1" :max="99999" :step="1" :value="good.shoppingNum"
+                                      @change="numChange($event,i)"></uni-number-box>
                         <view class="rest unit">米</view>
                     </view>
 
@@ -73,12 +78,12 @@
                         <view class="title">小样选择</view>
                         <view :class="['tags']">
                             <uni-tag
-                                class="tag"
-                                :text="tag"
-                                :type="good.tagCurrentSelect.includes(tag) ? 'success' : 'success'"
-                                :inverted="true"
-                                v-for="(tag, index) in good.tagsList"
-                                :key="index"
+                              class="tag"
+                              :text="tag"
+                              :type="good.sampleType? 'success' : 'primary'"
+                              :inverted="true"
+                              v-for="(tag, index) in good.tagsList"
+                              :key="index"
                             />
                         </view>
                     </view>
@@ -90,22 +95,29 @@
         <view class="null" v-else>
             <view class="title">购物车(0)</view>
             <view class="tips">您的购物车内无商品</view>
-            <view class="button">前往选购</view>
+          <view class="button" @tap="toLining">前往选购</view>
         </view>
-        
-<!-- 底部按钮 -->
-        <view class="shop-car-footer" v-if="goods.length">
-            <view class="select-all" @tap="selectAllgoods">
-                <view :class="['select', { active: currentSelect === goods.length }]"><view class="selected"></view></view>
-                <text>全选</text>
-            </view>
-            <view class="total">
-                <text>总计：</text>
-              ￥{{ total }}
-            </view>
-            <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
-            <view v-else @tap="to('../../account-cart/account-cart')" :class="['button', { active: currentSelect }]">付款({{ currentSelect }})</view>
+
+      <!-- 底部按钮 -->
+      <view class="shop-car-footer" v-if="goods.length">
+        <view class="select-all" @tap="selectAllgoods">
+          <view :class="['select', { active: currentSelect === goods.length }]">
+            <view class="selected"></view>
+          </view>
+          <text>全选</text>
         </view>
+        <view class="total">
+          <text>总计：</text>
+          ￥{{ total }}
+        </view>
+        <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
+        <view
+          v-else
+          @tap="to('../../account-cart/account-cart')"
+          :class="['button', { active: currentSelect }]">
+          付款({{currentSelect }})
+        </view>
+      </view>
 
         <view class="white-space"></view>
 
@@ -144,7 +156,7 @@
         return stateLength;
       }
     },
-    onLoad() {
+    onShow() {
       this.getCartAll()
     },
     methods: {
@@ -153,6 +165,14 @@
         const { edit, goods } = this;
         let state = edit ? 'willDel' : 'willBuy';
         this.goods[i][state] = !this.goods[i][state];
+      },
+
+      cancel() {
+        this.getCartAll().then(
+          () => {
+            this.edit = false;
+          }
+        )
       },
 
       selectAllgoods() {
@@ -167,7 +187,6 @@
       },
 
       selectWillChang(i) {
-        const { goods } = this;
         this.goods[i].willChange = !this.goods[i].willChange;
       },
 
@@ -179,14 +198,21 @@
         this.goods[i][currentState].push(tag_name);
       },
 
-      numChange(val) {
-        console.log(val);
+      numChange(val, i) {
+        console.log(val, i);
+        this.goods[i].shoppingNum = val;
       },
 
       to(url) {
         uni.navigateTo({
           url
         });
+      },
+
+      toLining() {
+        uni.switchTab({
+          url: '/pages/lining/lining'
+        })
       }
     }
   };

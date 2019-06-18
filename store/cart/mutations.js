@@ -16,7 +16,6 @@ export default {
       willBuy: false, // 是否要买
       willDel: false, // 是否要删
       willChange: false, // 是否改变 当前商品数量 小样数量
-      num: 0, // 购买数量，
       tagsList: ['标样'],
       tagCurrentSelect: []
     };
