@@ -6,7 +6,7 @@
                 <view class="menu" v-if="edit" @tap="edit = !edit">取消</view>
                 <view class="menu" v-else @tap="doDeleteInvalid">清空下架</view>
 
-                <view class="menu">购物车(2)</view>
+                <view class="menu">购物车({{ goods.length }})</view>
 
                 <view class="menu" v-if="edit" @tap="edit = !edit">
                     <image src="../../static/icon/save.svg" mode=""></image>

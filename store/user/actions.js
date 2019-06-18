@@ -79,25 +79,6 @@ export default {
     let res = await reqCurrentUserDetail();
     if (res.code === 200) {
       commit(GET_CURRENT_USER_DETAIL, res.data)
-    } else {
-      /*
-       * 只有token存在是才会进入此状态，
-       * 所以此时 token 必定失效,
-       * 需要跳转到登录页面
-       */
-      uni.showToast({
-        title: res.msg,
-        mask: true,
-        duration: 2000,
-        icon: "none",
-        success(res) {
-          setTimeout(()=>{
-            uni.navigateTo({
-              url:'/pages/login/login'
-            })
-          },2000)
-        }
-      })
     }
   },
 
@@ -110,11 +91,6 @@ export default {
         data: res.data.userInfo.token,
         success() {
           commit(GET_REFRESH_TOKEN, res.data.userInfo);
-        },
-        fail(res) {
-          uni.navigateTo({
-            url:'/pages/login/login'
-          })
         }
       });
     }

@@ -66,6 +66,25 @@ export default async function ajax(url, data = {}, type, loading = true) {
       response => {
         uni.hideLoading();
         console.log('ajax-success', response.data);
+        // 全局拦截 权限
+        if (response.data.code === 403) {
+          uni.showModal({
+            title: '权限不足',
+            content: '用户未登录，无法操作，是否跳转登录？',
+            confirmColor: '#BFA065',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定');
+                uni.navigateTo({
+                  url: '/pages/login/login'
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          });
+          return
+        }
 
         resolve(response.data);
 
