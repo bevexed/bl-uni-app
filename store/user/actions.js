@@ -66,6 +66,11 @@ export default {
           })
         }
       })
+    } else {
+      uni.showToast({
+        title: res.msg,
+        icon: "none"
+      })
     }
   },
 

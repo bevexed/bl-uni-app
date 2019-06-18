@@ -4,6 +4,7 @@ export default {
     onLaunch: function() {
       const that = this;
       // 检验token
+      // token 存在说明以前登录过
       uni.getStorage({
         key:'token',
         success(res) {

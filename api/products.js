@@ -32,11 +32,18 @@ export const reqProducts = ({ page = 1, pageSize = 10, companyId = 4, ...rest })
  * @param id {Number} 商品ID
  * */
 
-export const reqProduct = (id) => ajax(`/products/${ id }`, {}, 'GET');
+export const reqProduct = id => ajax(`/products/${ id }`, {}, 'GET');
 
 
 /**
  * @function 相似商品
  * @param id {Number} 商品ID
  */
-export const reqSimilar = (id) => ajax(`/products/similar/${ id }`, {}, 'GET');
+export const reqSimilar = id => ajax(`/products/similar/${ id }`, {}, 'GET');
+
+/**
+ * @function 分享
+ * @param id {Number} 商品ID
+ * */
+
+export const reqShare = id => ajax('/products/share/' + id, {}, 'GET');

@@ -19,8 +19,10 @@
 
                 <view>
                   <image src="../../static/icon/share.png" mode=""></image>
-                    <text>分享</text>
+                  <button open-type="share">分享</button>
                 </view>
+
+
             </view>
 
             <view class="add" @tap="showButton = !showButton">
@@ -162,6 +164,7 @@
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
+  import {reqShare} from "../../api/products";
 
   export default {
     components: {
@@ -170,11 +173,33 @@
       uniTag
     },
     onLoad(query) {
-      let id = query.id
-      this.getProduct(id)
+      let id = query.id;
+      this.getProduct(id);
+
+      uni.showShareMenu({
+        withShareTicket: true,
+        success(res) {
+          console.log('显示分享按钮', res);
+        }
+      })
+    },
+    onShareAppMessage(res) {
+      if (res.from === 'button') {// 来自页面内分享按钮
+        console.log(res.target)
+      }
+      return {
+        title: 'SINOTY',
+        path: '/pages/shop-detail/shop-detail?id=' + this.id,
+        async success(res) {
+          // FixMe: 线上测试
+         let result =  await reqShare(this.id);
+          console.log('分享成功', res, result);
+        }
+      }
     },
     data() {
       return {
+        id: '',
         title: 'SINOTY',
 // 当前 swiper 索引
         current: 0,
@@ -764,4 +789,20 @@
     width: 100%;
   }
 }
+
+button::after {
+  border: none;
+}
+
+button {
+  background-color: transparent;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  font-size: 28upx;
+}
+
+
 </style>
