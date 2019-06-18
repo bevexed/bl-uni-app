@@ -12,7 +12,8 @@ export const addCart = async ({ commit }, data) => {
     uni.showToast({
       mask:true,
       title:'已加入购物车'
-    })
+    });
+    commit(ADD_CART, { data });
+    return true;
   }
-  commit(ADD_CART, { data });
 };

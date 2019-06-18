@@ -136,7 +136,12 @@
                 <view class="select-much">
                     <view class="title">数量选择</view>
                     <view class="rest">库存 {{ product.stock }} 米</view>
-                    <uni-number-box :min="0" :max="99999" :step="1" :value="num" @change="numChange"></uni-number-box>
+                  <uni-number-box
+                    :min="1"
+                    :max="product.stock"
+                    :step="1"
+                    :value="num"
+                    @change="numChange"></uni-number-box>
                     <view class="rest unit">米</view>
                 </view>
 
@@ -154,7 +159,7 @@
                     </view>
                 </view>
 
-                <view class="button">确定</view>
+              <view class="button" @tap="addCartByNum">确定</view>
             </view>
         </view>
     </view>
@@ -218,7 +223,7 @@
         selectShow: false,
 
         // 购买数量
-        num: 0,
+        num: 1,
 
         tagsList: ['标样'],
         // 当前选中标签
@@ -237,11 +242,18 @@
     methods: {
       ...mapActions('Products', ['getProduct']),
       ...mapActions('Cart', ['addCart']),
+      async addCartByNum() {
+        const { product, num } = this;
+        let res = await this.addCart({ productId: product.id, shoppingNum: num });
+        if (res) {
+          this.selectShow = false;
+        }
+      },
       swiperChange(e) {
         this.current = e.detail.current;
       },
       numChange(val) {
-        console.log(val);
+        this.num = val;
       },
       selectTag(currentState, tag_name) {
         // 直接修改数组会卡。。。
