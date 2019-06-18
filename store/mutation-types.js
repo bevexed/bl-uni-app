@@ -16,4 +16,5 @@ export const GET_SIMILAR = 'get_similar';
 // cart
 export const ADD_CART = 'add_cart';
 export const GET_CART_ALL = 'get_cart_all';
-export const DELECR_CART = 'delete_cart';
+export const DELETE_CART = 'delete_cart';
+export const DELETE_INVALID = 'delete_invalid';

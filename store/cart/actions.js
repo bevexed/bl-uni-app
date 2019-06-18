@@ -1,13 +1,15 @@
 import {
   ADD_CART,
   GET_CART_ALL,
-  DELECR_CART
+  DELETE_CART,
+  DELETE_INVALID
 } from '../mutation-types';
 
 import {
   reqAddCart,
   reqSelectAll,
-  reqDetele
+  reqDetele,
+  reqDeleteInvalid
 } from "../../api/cart";
 
 export const addCart = async ({ commit }, data) => {
@@ -33,3 +35,15 @@ export const doDeleteCart = async ({ commit }, id) => {
   let res = await reqDetele(id);
 };
 
+export const doDeleteInvalid = async ({ dispatch }) => {
+  let res = await reqDeleteInvalid();
+  if (res.code === 200) {
+    dispatch('getCartAll').then(
+      result => {
+       uni.showToast({
+         title:'已清空下架商品'
+       })
+      }
+    )
+  }
+};

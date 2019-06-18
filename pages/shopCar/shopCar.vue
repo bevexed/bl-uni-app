@@ -4,7 +4,7 @@
         <view class="has-goods" v-if="goods.length">
             <view class="menus title">
                 <view class="menu" v-if="edit" @tap="edit = !edit">取消</view>
-                <view class="menu" v-else>清空下架</view>
+                <view class="menu" v-else @tap="doDeleteInvalid">清空下架</view>
 
                 <view class="menu">购物车(2)</view>
 
@@ -148,7 +148,7 @@
       this.getCartAll()
     },
     methods: {
-      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart']),
+      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart','doDeleteInvalid']),
       selectGood(i) {
         const { edit, goods } = this;
         let state = edit ? 'willDel' : 'willBuy';

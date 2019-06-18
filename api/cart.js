@@ -31,3 +31,8 @@ export const reqSelectAll = () => ajax('/cart/selectAll', {}, 'GET');
  * */
 
 export const reqDetele = id => ajax('/cart/' + id, {}, 'DELETE');
+
+/**
+ * @function 清空失效商品
+ * */
+export const reqDeleteInvalid = () => ajax('/cart/deleteInvalid', {}, 'DELETE');
