@@ -26,12 +26,17 @@
                     <view class="good">
                         <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
 
-                        <image class="shop-img" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+                      <image class="shop-img" src="" mode=""></image>
 
                         <view class="detail">
                             <view class="detail-header">
-                                <view class="shop-name">ML2395730185473123</view>
-                                <image v-if="!edit" src="../../static/icon/del.svg" mode=""></image>
+                              <view class="shop-name">{{ good.pno }}</view>
+                              <!--  删除  -->
+                              <!--todo: 商品删除待确认-->
+                              <image
+                                v-if="!edit" src="../../static/icon/del.svg"
+                                mode=""
+                                @tap="doDeleteCart(good.id)"></image>
                             </view>
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">
@@ -40,8 +45,8 @@
                                         <view class="value">*1</view>
                                     </view>
                                     <view class="option">
-                                        <view class="label">商品：￥50/米</view>
-                                        <view class="value">*40</view>
+                                      <view class="label">商品：￥{{ good.price }}/米</view>
+                                      <view class="value">* {{ good.shoppingNum }}</view>
                                     </view>
                                 </view>
 
@@ -52,11 +57,12 @@
                                     <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                                 </view>
 
-                                <view class="price">￥2000.00</view>
+                              <view class="price">￥{{ good.totalAmount }}</view>
                             </view>
                         </view>
                     </view>
 
+                  <!-- 编辑状态 -->
                     <view class="select-much" v-if="good.willChange && edit">
                         <view class="title">数量选择</view>
                         <uni-number-box :min="0" :max="99999" :step="1" :value="good.num" @change="numChange"></uni-number-box>
@@ -95,7 +101,7 @@
             </view>
             <view class="total">
                 <text>总计：</text>
-                ￥350.00
+              ￥{{ total }}
             </view>
             <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
             <view v-else @tap="to('../../account-cart/account-cart')" :class="['button', { active: currentSelect }]">付款({{ currentSelect }})</view>
@@ -108,7 +114,8 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
+  // todo:购物车商品图片
+  import { mapActions, mapGetters, mapState } from 'vuex'
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
@@ -128,6 +135,7 @@
       };
     },
     computed: {
+      ...mapGetters('Cart', ['total']),
       ...mapState('Cart', ['goods']),
       currentSelect() {
         const { edit, goods } = this;
@@ -140,7 +148,7 @@
       this.getCartAll()
     },
     methods: {
-      ...mapActions('Cart', ['getCartAll']),
+      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart']),
       selectGood(i) {
         const { edit, goods } = this;
         let state = edit ? 'willDel' : 'willBuy';

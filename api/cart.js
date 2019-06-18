@@ -24,3 +24,10 @@ export const reqAddCart = ({ shoppingNum = 1, productId }) => ajax('/cart', { sh
  * */
 
 export const reqSelectAll = () => ajax('/cart/selectAll', {}, 'GET');
+
+/**
+ * @function 删除购物车商品
+ * @param id {Number} 商品 ID
+ * */
+
+export const reqDetele = id => ajax('/cart/' + id, {}, 'DELETE');

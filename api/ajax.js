@@ -55,7 +55,10 @@ export default async function ajax(url, data = {}, type, loading = true) {
         });
         break;
       case "PUT":
-        promise = uniRequest.put(url, data)
+        promise = uniRequest.put(url, data);
+        break;
+      case "DELETE":
+        promise = uniRequest.delete(url, data);
     }
 
 

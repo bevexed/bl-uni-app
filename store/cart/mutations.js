@@ -1,6 +1,7 @@
 import {
   ADD_CART,
-  GET_CART_ALL
+  GET_CART_ALL,
+  DELECR_CART
 } from '../mutation-types';
 
 export default {

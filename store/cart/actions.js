@@ -1,11 +1,13 @@
 import {
   ADD_CART,
-  GET_CART_ALL
+  GET_CART_ALL,
+  DELECR_CART
 } from '../mutation-types';
 
 import {
   reqAddCart,
-  reqSelectAll
+  reqSelectAll,
+  reqDetele
 } from "../../api/cart";
 
 export const addCart = async ({ commit }, data) => {
@@ -26,3 +28,8 @@ export const getCartAll = async ({ commit }) => {
     commit(GET_CART_ALL, res.data)
   }
 };
+
+export const doDeleteCart = async ({ commit }, id) => {
+  let res = await reqDetele(id);
+};
+
