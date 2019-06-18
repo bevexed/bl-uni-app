@@ -26,7 +26,7 @@
                     <view class="good">
                         <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
 
-                      <image class="shop-img" src="" mode=""></image>
+                      <image class="shop-img" :src="good.imageShow" mode=""></image>
 
                         <view class="detail">
                             <view class="detail-header">
@@ -36,7 +36,7 @@
                               <image
                                 v-if="!edit" src="../../static/icon/del.svg"
                                 mode=""
-                                @tap="doDeleteCart(good.id)"></image>
+                                @tap="doDeleteCart(good.productId)"></image>
                             </view>
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">

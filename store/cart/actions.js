@@ -31,8 +31,17 @@ export const getCartAll = async ({ commit }) => {
   }
 };
 
-export const doDeleteCart = async ({ commit }, id) => {
+export const doDeleteCart = async ({ dispatch }, id) => {
   let res = await reqDetele(id);
+  if (res.code === 200) {
+    dispatch('getCartAll').then(
+      result => {
+        uni.showToast({
+          title:'删除成功'
+        })
+      }
+    )
+  }
 };
 
 export const doDeleteInvalid = async ({ dispatch }) => {
