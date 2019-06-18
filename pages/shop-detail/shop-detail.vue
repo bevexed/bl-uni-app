@@ -12,7 +12,7 @@
 
             <!-- 轮播图上的浮动按钮 -->
             <view class="buttons">
-                <view>
+                <view @tap="addCollect(product.id)">
                   <image src="../../static/icon/collect.png" mode=""></image>
                     <text>收藏</text>
                 </view>
@@ -247,6 +247,7 @@
     methods: {
       ...mapActions('Products', ['getProduct']),
       ...mapActions('Cart', ['addCart']),
+      ...mapActions('Collect', ['addCollect']),
       async addCartByNum() {
         const { product, num, tagCurrentSelect } = this;
         let res = await this.addCart({
