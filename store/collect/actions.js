@@ -18,5 +18,6 @@ export const addCollect = async ({ commit }, id) => {
       icon: "none"
     })
   }
+
   commit(ADD_COLLECT, { data });
 };

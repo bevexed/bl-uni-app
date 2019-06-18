@@ -32,7 +32,6 @@
                             <view class="detail-header">
                               <view class="shop-name">{{ good.pno }}</view>
                               <!--  删除  -->
-                              <!--todo: 商品删除待确认-->
                               <image
                                 v-if="!edit" src="../../static/icon/del.svg"
                                 mode=""
@@ -69,14 +68,19 @@
                   <!-- 编辑状态 -->
                     <view class="select-much" v-if="good.willChange && edit">
                         <view class="title">数量选择</view>
-                      <uni-number-box :min="1" :max="99999" :step="1" :value="good.shoppingNum"
-                                      @change="numChange($event,i)"></uni-number-box>
+                      <uni-number-box
+                        :min="1"
+                        :max="good.stock"
+                        :step="10"
+                        :value="good.shoppingNum"
+                        @change="numChange($event,i)"></uni-number-box>
                         <view class="rest unit">米</view>
                     </view>
 
                     <view class="select-small" v-if="good.willChange && edit">
                         <view class="title">小样选择</view>
                         <view :class="['tags']">
+                          <!--todo: step 接口-->
                             <uni-tag
                               class="tag"
                               :text="tag"
@@ -126,7 +130,6 @@
 </template>
 
 <script>
-  // todo:购物车商品图片
   import { mapActions, mapGetters, mapState } from 'vuex'
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
