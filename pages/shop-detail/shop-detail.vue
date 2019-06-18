@@ -31,7 +31,7 @@
                       <image src="../../static/icon/3d@2x.png" mode=""></image>
                         <text>试衣</text>
                     </view>
-                    <view class="simalar" @tap="toRecognition">
+                  <view class="simalar" @tap="toRecognition(product.id,product.imageShow)">
                       <image src="../../static/icon/s.png" mode=""></image>
                         <text>相似</text>
                     </view>
@@ -245,9 +245,9 @@
           url: '/fitting/fitting'
         });
       },
-      toRecognition() {
+      toRecognition(id, imgUrl) {
         uni.navigateTo({
-          url: '/recognition/recognition'
+          url: '/pages/recognition/recognition?id=' + id + '&imgUrl=' + imgUrl
         });
       },
       toHome() {

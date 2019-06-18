@@ -1,8 +1,11 @@
 <template>
     <view class="recognition">
-        <view class="header"><image src="../static/imgs/home/right.png" mode=""></image></view>
+<!--  todo: 相似商品 图片    -->
+        <view class="header">
+          <image :src="imgUrl"></image>
+        </view>
 
-        <view class="similar">
+      <view class="similar" v-if="false">
             <view class="title">相似商品</view>
 
             <view :class="['tags']">
@@ -20,19 +23,19 @@
 
         <!-- 商品列表 -->
         <view class="list">
-            <view class="item" v-for="i in 30" :key="i">
-                <image src="../static/imgs/home/right.png" mode="aspectFill" lazy-load></image>
-                <view class="name">G2560817</view>
+          <view class="item" v-for="(value,key) in similar" :key="key" @tap="toDetail(value.id)">
+            <image :src="value.imageShow" mode="aspectFill" lazy-load></image>
+            <view class="name">{{ value.pno }}</view>
                 <view class="price">
                     <text class="money">
-                        ￥69
-                        <text class="per">/米</text>
+                      ￥{{ value.price}}
+                      <text class="per">/{{ value.unit }}</text>
                     </text>
 
                     <text class="rest">
                         仅剩
-                        <text class="rest-red">600</text>
-                        米
+                      <text class="rest-red">{{ value.stock }}</text>
+                      {{ value.unit }}
                     </text>
                 </view>
             </view>
@@ -43,34 +46,48 @@
 </template>
 
 <script>
-import CustmerPhone from '../components/CustmerPhone/CustmerPhone.vue';
-import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { mapActions, mapState } from 'vuex'
+  import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+  import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 export default {
-    components: {
-        uniDrawer,
-        uniNavBar,
-        uniTag,
-        uniCollapse,
-        uniCollapseItem,
-        CustmerPhone
+  components: {
+    uniDrawer,
+    uniNavBar,
+    uniTag,
+    uniCollapse,
+    uniCollapseItem,
+    CustmerPhone
+  },
+  onLoad(query) {
+    let id = query.id;
+    this.imgUrl = query.imgUrl;
+    this.getSimilar(id)
+  },
+  data() {
+    return {
+      imgUrl: '',
+      tagsList: ['标签一', '标签二', '标签三', '标签四', '标签五'],
+      // 当前选中标签
+      tagCurrentSelect: []
+    };
+  },
+  computed: mapState('Products', ['similar']),
+  methods: {
+    ...mapActions('Products', ['getSimilar']),
+    selectTag(currentState, tag_name) {
+      if (this[currentState].includes(tag_name)) {
+        this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+        return;
+      }
+      this[currentState].push(tag_name);
     },
-    data() {
-        return {
-            tagsList: ['标签一', '标签二', '标签三', '标签四', '标签五'],
-            // 当前选中标签
-            tagCurrentSelect: []
-        };
-    },
-    methods: {
-        selectTag(currentState, tag_name) {
-            if (this[currentState].includes(tag_name)) {
-                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-                return;
-            }
-            this[currentState].push(tag_name);
-        }
+    toDetail(id) {
+      uni.navigateTo({
+        url: '/pages/shop-detail/shop-detail?id=' + id
+      });
     }
+  }
 };
 </script>
 

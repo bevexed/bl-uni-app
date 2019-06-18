@@ -1,7 +1,7 @@
 import {
   GET_CATEGORIES,
   GET_PRODUCTS,
-  GET_PRODUCT
+  GET_PRODUCT, GET_SIMILAR
 } from '../mutation-types';
 
 export default {
@@ -15,5 +15,8 @@ export default {
   },
   [GET_PRODUCT](state,data){
     state.product = data
+  },
+  [GET_SIMILAR](state,data){
+    state.similar = data
   }
 };

@@ -1,13 +1,15 @@
 import {
   GET_PRODUCTS,
   GET_CATEGORIES,
-  GET_PRODUCT
+  GET_PRODUCT,
+  GET_SIMILAR
 } from '../mutation-types';
 
 import {
   reqProducts,
   reqCategories,
-  reqProduct
+  reqProduct,
+  reqSimilar
 } from "../../api/products";
 
 export const getProducts = async ({ commit, state }, data) => {
@@ -38,5 +40,12 @@ export const getProduct = async ({ commit }, id) => {
   let res = await reqProduct(id);
   if (res.code === 200) {
     commit(GET_PRODUCT, res.data)
+  }
+};
+
+export const getSimilar = async ({ commit }, id) => {
+  let res =await reqSimilar(id)
+  if (res.code === 200){
+    commit(GET_SIMILAR,res.data)
   }
 };

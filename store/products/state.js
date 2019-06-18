@@ -3,5 +3,7 @@ export default {
   categories:[],
   page: 1,
   total: 100,
-  product: {}
+  product: {},
+
+  similar: []
 }
