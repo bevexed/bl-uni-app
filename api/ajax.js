@@ -14,7 +14,8 @@ const header = () => {
         resolve(res.data)
       },
       fail(err) {
-        reject(err)
+        uniRequest.defaults.headers.common['Authorization'] = '';
+        resolve(err);
       }
     });
   })
@@ -63,9 +64,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
         uni.hideLoading();
         console.log('ajax-success', response.data);
 
-
         resolve(response.data);
-
 
       },
       error => {

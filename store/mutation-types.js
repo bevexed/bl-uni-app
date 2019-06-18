@@ -11,3 +11,7 @@ export const GET_PRODUCTS = 'get_products';
 export const GET_PRODUCT = 'get_product';
 export const GET_CATEGORIES = 'get_categories';
 export const GET_SIMILAR = 'get_similar';
+
+
+// cart
+export const ADD_CART = 'add_cart';

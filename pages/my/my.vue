@@ -50,7 +50,7 @@
             </view>
         </view>
 
-        <view class="button">
+        <view class="button" @tap="loginOut">
             <image src="../../static/icon/close.svg" mode=""></image>
             <view>退出</view>
         </view>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     data() {
@@ -68,6 +68,7 @@
     },
     computed: mapState('User', ['userInfo']),
     methods: {
+      ...mapActions('User',['loginOut']),
       to(url) {
         uni.navigateTo({
           url
@@ -75,7 +76,7 @@
       }
     },
     onReady() {
-      console.log(this.$store);
+
     },
     onLoad() {
       let _this = this;

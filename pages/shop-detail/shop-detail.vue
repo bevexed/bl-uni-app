@@ -104,7 +104,7 @@
                 </view>
             </view>
             <view class="buttons">
-                <view class="add-cart">加入购物车</view>
+              <view class="add-cart" @tap="addCart({productId:product.id})">加入购物车</view>
 
                 <view class="buy-now">立即购买</view>
             </view>
@@ -201,9 +201,9 @@
       return {
         id: '',
         title: 'SINOTY',
-// 当前 swiper 索引
+        // 当前 轮播图 索引
         current: 0,
-// 轮播图 指示器样式
+        // 轮播图 指示器样式
         dotsStyles: {
           border: 'none',
           backgroundColor: 'rgba(0,0,0,.3)',
@@ -236,6 +236,7 @@
     },
     methods: {
       ...mapActions('Products', ['getProduct']),
+      ...mapActions('Cart', ['addCart']),
       swiperChange(e) {
         this.current = e.detail.current;
       },

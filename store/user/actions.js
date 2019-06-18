@@ -118,8 +118,14 @@ export default {
         }
       });
     }
+  },
+
+  // todo：退出逻辑
+  async loginOut({commit}) {
+    uni.clearStorage();
+    uni.showToast({
+      title:'已退出登录',
+    })
   }
-
-
 }
 
