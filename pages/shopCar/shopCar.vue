@@ -18,6 +18,8 @@
                 </view>
             </view>
 
+          <view class="white-space"></view>
+
             <!-- 商品 -->
             <view class="goods">
                 <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods" :key="i">
@@ -67,11 +69,10 @@
                             <uni-tag
                                 class="tag"
                                 :text="tag"
-                                :type="good.tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
+                                :type="good.tagCurrentSelect.includes(tag) ? 'success' : 'success'"
                                 :inverted="true"
                                 v-for="(tag, index) in good.tagsList"
                                 :key="index"
-                                @click="selectTag('tagCurrentSelect', tag, i)"
                             />
                         </view>
                     </view>
@@ -107,92 +108,80 @@
 </template>
 
 <script>
-import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
-import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
-export default {
+  import { mapActions, mapState } from 'vuex'
+  import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+  import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
+  import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
+
+  export default {
     components: {
-        CustmerPhone,
-        uniNumberBox,
-        uniTag
+      CustmerPhone,
+      uniNumberBox,
+      uniTag
     },
     data() {
-        return {
-            // 所有商品
-            goods: [
-                {
-                    willBuy: false, // 是否要买
-                    willDel: false, // 是否要删
-                    willChange: false, // 是否改变 当前商品数量 小样数量
-                    num: 0, // 购买数量，
-                    tagsList: ['标样', '匹配', '码样'],
-                    tagCurrentSelect: []
-                },
-                {
-                    willBuy: false,
-                    willDel: false,
-                    willChange: false, // 是否改变 当前商品数量 小样数量
-                    num: 0, // 购买数量，
-                    tagsList: ['标样', '码样'],
-                    tagCurrentSelect: []
-                }
-            ],
-            // 是否处于修改状态
-            edit: false,
-            // 当前要删除的商品
-            willDelGoods: ''
-        };
+      return {
+        // 是否处于修改状态
+        edit: false,
+        // 当前要删除的商品
+        willDelGoods: ''
+      };
     },
     computed: {
-        currentSelect() {
-            const { edit, goods } = this;
-            let state = edit ? 'willDel' : 'willBuy';
-            let stateLength = goods.filter(good => good[state] === true).length;
-            return stateLength;
-        }
+      ...mapState('Cart', ['goods']),
+      currentSelect() {
+        const { edit, goods } = this;
+        let state = edit ? 'willDel' : 'willBuy';
+        let stateLength = goods.filter(good => good[state] === true).length;
+        return stateLength;
+      }
+    },
+    onLoad() {
+      this.getCartAll()
     },
     methods: {
-        selectGood(i) {
-            const { edit, goods } = this;
-            let state = edit ? 'willDel' : 'willBuy';
-            this.goods[i][state] = !this.goods[i][state];
-        },
+      ...mapActions('Cart', ['getCartAll']),
+      selectGood(i) {
+        const { edit, goods } = this;
+        let state = edit ? 'willDel' : 'willBuy';
+        this.goods[i][state] = !this.goods[i][state];
+      },
 
-        selectAllgoods() {
-            const { edit, goods, currentSelect } = this;
-            let state = edit ? 'willDel' : 'willBuy';
-            if (currentSelect === goods.length) {
-                // 说明已全选
-                this.goods.map(good => (good[state] = false));
-                return;
-            }
-            this.goods.map(good => (good[state] = true));
-        },
-
-        selectWillChang(i) {
-            const { goods } = this;
-            this.goods[i].willChange = !this.goods[i].willChange;
-        },
-
-        selectTag(currentState, tag_name, i) {
-            if (this.goods[i][currentState].includes(tag_name)) {
-                this.goods[i][currentState].splice(this.goods[i][currentState].findIndex(item => item === tag_name), 1);
-                return;
-            }
-            this.goods[i][currentState].push(tag_name);
-        },
-
-        numChange(val) {
-            console.log(val);
-        },
-
-        to(url) {
-            uni.navigateTo({
-                url
-            });
+      selectAllgoods() {
+        const { edit, goods, currentSelect } = this;
+        let state = edit ? 'willDel' : 'willBuy';
+        if (currentSelect === goods.length) {
+          // 说明已全选
+          this.goods.map(good => (good[state] = false));
+          return;
         }
+        this.goods.map(good => (good[state] = true));
+      },
+
+      selectWillChang(i) {
+        const { goods } = this;
+        this.goods[i].willChange = !this.goods[i].willChange;
+      },
+
+      selectTag(currentState, tag_name, i) {
+        if (this.goods[i][currentState].includes(tag_name)) {
+          this.goods[i][currentState].splice(this.goods[i][currentState].findIndex(item => item === tag_name), 1);
+          return;
+        }
+        this.goods[i][currentState].push(tag_name);
+      },
+
+      numChange(val) {
+        console.log(val);
+      },
+
+      to(url) {
+        uni.navigateTo({
+          url
+        });
+      }
     }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -230,6 +219,10 @@ export default {
 
     .has-goods {
         .menus {
+          z-index: 999;
+          position: fixed;
+          width: 686upx;
+          background: #fff;
             display: flex;
             justify-content: space-between;
             .menu {
@@ -471,5 +464,9 @@ export default {
         border: 0 solid #666;
         border-width: 2upx 0 2upx 0;
     }
+
+  .white-space{
+    height: 100upx;
+  }
 }
 </style>

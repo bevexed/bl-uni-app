@@ -18,3 +18,9 @@ import ajax from './ajax'
  */
 
 export const reqAddCart = ({ shoppingNum = 1, productId }) => ajax('/cart', { shoppingNum, productId }, 'POST');
+
+/**
+ * @function 查询购物车详情
+ * */
+
+export const reqSelectAll = () => ajax('/cart/selectAll', {}, 'GET');

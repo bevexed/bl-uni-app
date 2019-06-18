@@ -1,9 +1,11 @@
 import {
-  ADD_CART
+  ADD_CART,
+  GET_CART_ALL
 } from '../mutation-types';
 
 import {
-  reqAddCart
+  reqAddCart,
+  reqSelectAll
 } from "../../api/cart";
 
 export const addCart = async ({ commit }, data) => {
@@ -15,5 +17,12 @@ export const addCart = async ({ commit }, data) => {
     });
     commit(ADD_CART, { data });
     return true;
+  }
+};
+
+export const getCartAll = async ({ commit }) => {
+  let res = await reqSelectAll();
+  if (res.code === 200) {
+    commit(GET_CART_ALL, res.data)
   }
 };
