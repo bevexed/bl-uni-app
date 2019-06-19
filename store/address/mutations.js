@@ -1,9 +1,10 @@
 import {
-  ADD_ADDRESS
+  ADD_ADDRESS,
+  GET_ALL_ADDRESS
 } from '../mutation-types';
 
 export default {
-  [ADD_ADDRESS](state, { data }) {
-    state.data = data;
+  [GET_ALL_ADDRESS](state, { data }) {
+    state.addressList = data;
   },
 };

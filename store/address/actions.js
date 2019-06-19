@@ -1,9 +1,12 @@
 import {
-  ADD_ADDRESS
+  ADD_ADDRESS,
+  GET_ALL_ADDRESS
 } from '../mutation-types';
 
 import {
-  reqAddAddress
+  reqAddAddress,
+  reqAllAddress,
+  reqDeleteAddress
 } from "../../api/address";
 
 const SMG = title => uni.showToast({
@@ -50,4 +53,35 @@ export const addAddress = async ({ dispatch }, data) => {
       }
     })
   }
+};
+
+export const getAllAddress = async ({ commit }) => {
+  let res = await reqAllAddress();
+  if (res.code === 200) {
+    commit(GET_ALL_ADDRESS, res)
+  }
+};
+
+export const deleteAddress = async ({ dispatch }, id) => {
+  uni.showModal({
+    title: '删除地址',
+    content: '确认删除地址？',
+    confirmColor: '#BFA065',
+    async success(res) {
+      if (res.confirm) {
+        console.log('用户点击确定');
+        let res = await reqDeleteAddress(id);
+        if (res.code === 200) {
+          await dispatch('getAllAddress');
+          uni.showToast({
+            title: '删除成功'
+          })
+        }
+      } else if (res.cancel) {
+        console.log('用户点击取消');
+      }
+    }
+  });
+
+
 };

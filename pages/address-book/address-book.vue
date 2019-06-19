@@ -14,17 +14,16 @@
                 <view class="header">
                     <view class="label">收件人：</view>
                     <view class="value">
-                        路人甲
-                        <text class="phone">139 **** 9875</text>
+                      {{ address.addressee }}
+                      <text class="phone">{{ address.phone.slice(0,3) }} **** {{ address.phone.slice(7) }}</text>
                     </view>
                 </view>
 
                 <view class="content">
                     <view class="label">地址：</view>
                     <view class="value">
-                        浙江省 杭州市 西湖区
-
-                        <view>西溪首座A1-1-310室</view>
+                        {{ address.province }} {{ address.city }} {{ address.county }}
+                        <view>{{ address.other }}</view>
                     </view>
                 </view>
 
@@ -37,7 +36,7 @@
                     <view class="empty" v-else></view>
                     <view class="icon">
                         <image src="../../static/icon/edit.svg" mode=""></image>
-                        <image src="../../static/icon/del2.svg" mode=""></image>
+                        <image src="../../static/icon/del2.svg" mode="" @tap="deleteAddress(address.id)"></image>
                     </view>
                 </view>
             </view>
@@ -52,47 +51,35 @@
 </template>
 
 <script>
-export default {
+  import { mapActions, mapGetters } from "vuex";
+
+  export default {
     data() {
-        return {
-            // 地址列表
-            addressList: [
-                {
-                    default: true //默认地址
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                }
-            ],
-            // 查看更多地址状态
-
-            showMoreAddress: true
-        };
+      return {
+        // 查看更多地址状态
+        showMoreAddress: true
+      };
     },
+    onShow() {
+      this.getAllAddress();
+    },
+    computed: mapGetters('Address', ['addressList']),
     methods: {
-        selectAddress(i) {
-            this.addressList.map(address => {
-                address.default = false;
-            });
+      ...mapActions('Address', ['getAllAddress','deleteAddress']),
+      selectAddress(i) {
+        this.addressList.map(address => {
+          address.default = false;
+        });
 
-            this.addressList[i].default = true;
-        },
-        toAddAddress() {
-            uni.navigateTo({
-              url: '/pages/address-book/add-address'
-            });
-        }
+        this.addressList[i].default = true;
+      },
+      toAddAddress() {
+        uni.navigateTo({
+          url: '/pages/address-book/add-address'
+        });
+      }
     }
-};
+  };
 </script>
 
 <style lang="scss">

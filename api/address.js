@@ -15,3 +15,16 @@ import ajax from './ajax'
 
 export const reqAddAddress = ({ addressee, city, county, companyId = 4, isMain, other, phone, province, userId }) =>
   ajax('/address', { addressee, city, county, companyId, isMain, other, phone, province, userId }, 'POST');
+
+/**
+ * @function 查询所有收货地址
+ */
+
+export const reqAllAddress = () => ajax('/address', {}, 'GET');
+
+/**
+ * @function 删除收货地址
+ * @param id {num} 地址id
+ * */
+
+export const reqDeleteAddress = id => ajax('/address/' + id, {}, 'DELETE');
