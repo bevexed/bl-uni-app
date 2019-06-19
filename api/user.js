@@ -20,14 +20,14 @@ export const reqVerify = ({ phone, companyId = 4 }) => ajax('/user/verify', {
 }, 'POST');
 
 /**
- * 用户登录
- * @param {Number} companyId
- * @param {String} custName
- * @param {String} job
- * @param {String} phone
- * @param {String} verify
- * @param {String} avatar
- * @param {String} nickname
+ * @function 用户登录
+ * @param  companyId {Number}
+ * @param  custName  {String}
+ * @param  job       {String}
+ * @param  phone     {String}
+ * @param  verify    {String}
+ * @param  avatar    {String}
+ * @param  nickname  {String}
  * */
 
 export const reqLogin = ({ job, custName, phone, verify, avatar, nickname, companyId = 4 }) => ajax('/user/login', {
@@ -35,17 +35,25 @@ export const reqLogin = ({ job, custName, phone, verify, avatar, nickname, compa
 }, 'POST');
 
 /**
- * 实时获取用户信息
+ * @function 实时获取用户信息
  * */
 export const reqCurrentUserDetail = () => ajax('/user/currentUserDetail',{},'GET');
 
 /**
- * 刷新 token
+ * @function 刷新 token
  * */
 export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');
 
 /**
- * 修改用户信息
+ * @function 修改用户信息
+ * @param  companyId {Number}
+ * @param  custName  {String}
+ * @param  job       {String}
+ * @param  phone     {String}
+ * @param  verify    {String}
+ * @param  avatar    {String}
+ * @param  nickname  {String}
  * */
+
 // todo:修改 用户信息
-export const reqUser = () => ajax('/user',{},'PUT');
+export const reqUser = ({ data }) => ajax('/user', { data }, 'PUT');
