@@ -14,8 +14,8 @@
                 :style="{ height: windowHeight - 72 + 'px' }"
                 @change="swiperChange"
             >
-              <!--fixMe: 缺少商品ID-->
-                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="toDetail(banner.id)">
+              <!--fixMe: 缺少商品ID -> 临死算他解决了吧-->
+                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="toDetail(banner.pno)">
                   <view class="swiper-item">
                     <image :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img"
                            :src="banner.url" alt=""></image>

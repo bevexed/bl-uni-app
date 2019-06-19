@@ -35,6 +35,18 @@
       "style": {
         "navigationBarTitleText": "我的收藏"
       }
+    },
+    {
+      "path": "pages/address-book/address-book",
+      "style": {
+        "navigationBarTitleText": "我的地址薄"
+      }
+    },
+    {
+      "path": "pages/address-book/add-address",
+      "style": {
+        "navigationBarTitleText": "添加新地址"
+      }
     }
   ],
   "subPackages": [
@@ -89,23 +101,6 @@
           "path": "personal-information",
           "style": {
             "navigationBarTitleText": "个人资料"
-          }
-        }
-      ]
-    },
-    {
-      "root": "address-book",
-      "pages": [
-        {
-          "path": "address-book",
-          "style": {
-            "navigationBarTitleText": "我的地址薄"
-          }
-        },
-        {
-          "path": "add-address",
-          "style": {
-            "navigationBarTitleText": "我的地址薄"
           }
         }
       ]

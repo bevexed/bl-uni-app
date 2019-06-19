@@ -36,15 +36,15 @@
                     </view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../static/icon/edit.svg" mode=""></image>
-                        <image src="../static/icon/del2.svg" mode=""></image>
+                        <image src="../../static/icon/edit.svg" mode=""></image>
+                        <image src="../../static/icon/del2.svg" mode=""></image>
                     </view>
                 </view>
             </view>
         </view>
 
         <view class="button" @tap="toAddAddress">
-            <image src="../static/icon/addw.png" mode=""></image>
+            <image src="../../static/icon/addw.png" mode=""></image>
             <text>添加新地址</text>
         </view>
         <view class="white-space"></view>
@@ -88,7 +88,7 @@ export default {
         },
         toAddAddress() {
             uni.navigateTo({
-                url: 'add-address'
+              url: '/pages/address-book/add-address'
             });
         }
     }

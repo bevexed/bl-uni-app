@@ -13,7 +13,12 @@
                     收件人姓名
                     <text>*</text>
                 </view>
-                <view class="value"><input type="text" value="" placeholder="请输入收件人姓名(必填)" placeholder-style="font-size:10px;color:#aaaaaa;" /></view>
+              <view class="value">
+                <input
+                  type="text"
+                  placeholder="请输入收件人姓名(必填)"
+                  placeholder-style="font-size:10px;color:#aaaaaa;"
+                  v-model="addressee"/></view>
             </view>
 
             <view class="item">
@@ -21,32 +26,55 @@
                     手机号
                     <text>*</text>
                 </view>
-                <view class="value"><input type="text" value="" placeholder="请输入正确的手机号码(必填)" placeholder-style="font-size:10px;color:#aaaaaa;" /></view>
+              <view class="value">
+                <input
+                  type="text"
+                  placeholder="请输入正确的手机号码(必填)"
+                  placeholder-style="font-size:10px;color:#aaaaaa;"
+                  v-model="phone"
+                  maxlength="11"
+                /></view>
             </view>
 
-            <view class="item">
-                <view class="label">
-                    地址
-                    <text>*</text>
-                </view>
-                <view class="address-picker">
-                    <view>
-                        <text>省</text>
-                        <image src="../static/icon/arrow-bottom.svg" mode=""></image>
-                    </view>
-                    <view>
-                        <text>市</text>
-                        <image src="../static/icon/arrow-bottom.svg" mode=""></image>
-                    </view>
-                    <view>
-                        <text>区</text>
-                        <image src="../static/icon/arrow-bottom.svg" mode=""></image>
-                    </view>
-                </view>
-                <view class="value">
-                    <input type="text" value="" placeholder="请输入详细地址，并精确到街道、单元、门牌等(必填)" placeholder-style="font-size:10px;color:#aaaaaa;" />
-                </view>
+          <view class="uni-title uni-common-pl">地区选择器</view>
+
+
+          <view class="item">
+            <view class="label">
+              地址
+              <text>*</text>
             </view>
+
+            <picker
+              @change="bindPickerChange"
+              mode="region"
+              @cancel=""
+            >
+              <view class="address-picker">
+                <view>
+                  <text>{{ addressList[0] || '省'}}</text>
+                  <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
+                <view>
+                  <text>{{ addressList[1]|| '市' }}</text>
+                  <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
+                <view>
+                  <text>{{ addressList[2] || '区'}}</text>
+                  <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
+              </view>
+            </picker>
+
+            <view class="value">
+              <input
+                type="text"
+                placeholder="请输入详细地址，并精确到街道、单元、门牌等(必填)"
+                placeholder-style="font-size:10px;color:#aaaaaa;"
+                v-model="other"
+              />
+            </view>
+          </view>
         </view>
 
         <view class="set-default" @tap="defaultAddress = !defaultAddress">
@@ -56,37 +84,41 @@
 
         <view class="buttons">
             <view class="cancel">取消</view>
-            <view class="save">保存</view>
+          <view class="save" @tap="addAddress({
+            addressee,
+            city:addressList[1],
+            county:addressList[2],
+            province:addressList[0],
+            phone,
+            isMain:defaultAddress,
+            other
+            })">保存
+          </view>
         </view>
     </view>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            // 地址列表
-            addressList: [
-                {
-                    default: true //默认地址
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                }
-            ],
-            // 查看更多地址状态
+  import { mapActions } from 'vuex'
 
-            defaultAddress: false
-        };
+  export default {
+    data() {
+      return {
+        addressee: '',
+        phone: '',
+        other: '',
+        // 查看更多地址状态
+        addressList: [],
+        defaultAddress: false,
+
+      };
+    },
+    methods: {
+      ...mapActions('Address', ['addAddress']),
+      bindPickerChange(e) {
+        console.log('picker发送选择改变，携带值为', e.target.value);
+        this.addressList = e.target.value
+      },
     }
 };
 </script>
@@ -99,9 +131,9 @@ export default {
         justify-content: space-between;
         padding: $white-space 0 58upx;
 
-        &.active {
-            border-bottom: 2upx solid #eeeeee;
-        }
+        /*&.active {*/
+        /*    border-bottom: 2upx solid #eeeeee;*/
+        /*}*/
         .label {
             font-size: 28upx;
             text {

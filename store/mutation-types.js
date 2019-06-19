@@ -26,3 +26,6 @@ export const GET_COLLECT = 'get_collect';
 
 // home页面
 export const GET_HOME_BANNER = 'get_home_banner';
+
+// address 地址
+export const ADD_ADDRESS = 'add_address';
