@@ -122,7 +122,7 @@ export const changeAddress = async ({ dispatch }, data) => {
   let res = await reqChangeAddress(data);
   if (res.code === 200) {
     uni.showToast({
-      title: '添加成功',
+      title: '修改成功',
       mask: true,
       duration: 2000,
       success(res) {

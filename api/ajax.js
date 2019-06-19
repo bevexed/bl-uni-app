@@ -23,6 +23,7 @@ const header = () => {
 };
 
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
+uniRequest.defaults.headers.put['Content-Type'] = 'application/json';
 
 // 请求别名
 // uniRequest.request(config)

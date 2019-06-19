@@ -48,6 +48,12 @@
       "style": {
         "navigationBarTitleText": "添加新地址"
       }
+    },
+    {
+      "path": "pages/personal-information/personal-information",
+      "style": {
+        "navigationBarTitleText": "个人资料"
+      }
     }
   ],
   "subPackages": [
@@ -94,17 +100,6 @@
     {
       "root": "login",
       "pages": []
-    },
-    {
-      "root": "personal-information",
-      "pages": [
-        {
-          "path": "personal-information",
-          "style": {
-            "navigationBarTitleText": "个人资料"
-          }
-        }
-      ]
     },
     {
       "root": "ticket",

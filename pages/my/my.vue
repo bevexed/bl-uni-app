@@ -1,12 +1,12 @@
 <template>
     <view class="my" :style="{ height: windowHeight - 50 + 'px' }">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
-        <view class="header"  @tap="to('/personal-information/personal-information')">
+        <view class="header"  @tap="to('/pages/personal-information/personal-information')">
           <image class="avatar" :src="userInfo.avatar" mode=""></image>
             <view class="info">
                 <view class="info-header">
                     <view class="name">{{ userInfo.username }}</view>
-                    <view class="vip">
+                    <view class="vip" v-if="userInfo.status !== 2">
                         <image src="../../static/icon/reat.svg" mode=""></image>
                         <text>未激活</text>
                     </view>

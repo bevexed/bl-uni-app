@@ -3,27 +3,31 @@
         <view class="list">
             <view class="item">
                 <view class="label">我的头像</view>
-                <view class="value"><image class="avatar" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image></view>
+              <view class="value">
+                <image class="avatar" :src="userInfo.avatar" mode=""></image>
+              </view>
             </view>
 
             <view class="item">
                 <view class="label">我的会员</view>
-                <view class="value"><text class="vip-num">SINOTY0278</text></view>
+              <view class="value">
+                <text class="vip-num">{{ userInfo.memberId }}</text>
+              </view>
             </view>
 
             <view class="item">
                 <view class="label">绑定手机号</view>
                 <view class="value">
-                    <text class="phone">139 **** 1234</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <text class="phone">{{ userInfo.phone.slice(0,3) }} **** {{ userInfo.phone.slice(7)}}</text>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
             <view class="item">
                 <view class="label">我的昵称</view>
                 <view class="value">
-                    <text class="name">CCTV9527</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <text class="name">{{ userInfo.username }}</text>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
@@ -31,7 +35,7 @@
                 <view class="label">性别</view>
                 <view class="value">
                     <text class="pick-male">请选择性别</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
@@ -39,14 +43,14 @@
                 <view class="label">生日</view>
                 <view class="value">
                     <text class="pick-birth">1900-01-01</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
             <view class="item">
                 <view class="label">企业名称</view>
                 <view class="value">
-                    <text class="name">淘淘淘服装有限公司</text>
+                  <text class="name">{{ userInfo.custName }}</text>
                     <view class="bedge">已授权</view>
                 </view>
             </view>
@@ -54,8 +58,8 @@
             <view class="item">
                 <view class="label">我的职位</view>
                 <view class="value">
-                    <text class="name">职员</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <text class="name">{{ userInfo.job }}</text>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
@@ -63,7 +67,7 @@
                 <view class="label">我的邮箱</view>
                 <view class="value">
                     <text class="name">491291234@qq.com</text>
-                    <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                  <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
         </view>
@@ -72,7 +76,11 @@
 
 <script>
 // to-fix 底部导航
-export default {};
+import { mapState } from "vuex";
+
+export default {
+  computed: mapState('User', ['userInfo'])
+};
 </script>
 
 <style lang="scss">

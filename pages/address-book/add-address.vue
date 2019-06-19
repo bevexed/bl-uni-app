@@ -139,7 +139,6 @@
           this.addAddress(data)
         } else {
           // 修改地址
-          // fixMe: 520
           this.changeAddress({ ...data, id })
         }
       },
