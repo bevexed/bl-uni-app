@@ -29,14 +29,14 @@
 
                 <view class="footer">
                     <view class="default" v-if="address.default">默认地址</view>
-                    <view class="set-default" v-else  @tap="selectAddress(i)">
+                    <view class="set-default" v-else  @tap="defaultAddress(address.id)">
                         <view :class="['select', { active: address.default }]"><view class="selected"></view></view>
                         <text>设为默认地址</text>
                     </view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../../static/icon/edit.svg" mode=""></image>
-                        <image src="../../static/icon/del2.svg" mode="" @tap="deleteAddress(address.id)"></image>
+                      <image src="../../static/icon/edit.svg" mode=""></image>
+                      <image src="../../static/icon/del2.svg" mode="" @tap="deleteAddress(address.id)"></image>
                     </view>
                 </view>
             </view>
@@ -65,14 +65,7 @@
     },
     computed: mapGetters('Address', ['addressList']),
     methods: {
-      ...mapActions('Address', ['getAllAddress','deleteAddress']),
-      selectAddress(i) {
-        this.addressList.map(address => {
-          address.default = false;
-        });
-
-        this.addressList[i].default = true;
-      },
+      ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
       toAddAddress() {
         uni.navigateTo({
           url: '/pages/address-book/add-address'

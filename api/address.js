@@ -23,8 +23,15 @@ export const reqAddAddress = ({ addressee, city, county, companyId = 4, isMain, 
 export const reqAllAddress = () => ajax('/address', {}, 'GET');
 
 /**
- * @function 删除收货地址
- * @param id {num} 地址id
+ * @function  删除收货地址
+ * @param id {number} 地址id
  * */
 
 export const reqDeleteAddress = id => ajax('/address/' + id, {}, 'DELETE');
+
+/**
+ * @function 设置当前地址为默认地址
+ * @param id {number}
+ */
+
+export const reqAddressDefault = id => ajax('/address/default/' + id, {}, 'PUT');

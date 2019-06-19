@@ -5,6 +5,7 @@ import {
 
 import {
   reqAddAddress,
+  reqAddressDefault,
   reqAllAddress,
   reqDeleteAddress
 } from "../../api/address";
@@ -82,6 +83,14 @@ export const deleteAddress = async ({ dispatch }, id) => {
       }
     }
   });
+};
 
-
+export const defaultAddress = async ({ dispatch }, id) => {
+  let res = await reqAddressDefault(id);
+  if (res.code === 200) {
+    await dispatch('getAllAddress');
+    uni.showToast({
+      title: '修改成功'
+    })
+  }
 };
