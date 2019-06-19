@@ -48,7 +48,7 @@
                               ￥{{ good.price }}
                               <text class="per">/{{ good.unit }}</text>
                             </view>
-                          <image src="../../static/icon/del.svg" mode=""></image>
+                          <image src="../../static/icon/del.svg" mode="" @tap="deleteCollect(good.productId)"></image>
                         </view>
                     </view>
                 </view>
@@ -90,7 +90,7 @@
     },
     computed: mapGetters('Collect', ['goodList']),
     methods: {
-      ...mapActions('Collect', ['getCollect']),
+      ...mapActions('Collect', ['getCollect','deleteCollect']),
       async selectSortType(index) {
         this.currentSortState = index;
         switch (this.sortList[index]) {
