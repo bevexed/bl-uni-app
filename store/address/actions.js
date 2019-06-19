@@ -7,7 +7,8 @@ import {
   reqAddAddress,
   reqAddressDefault,
   reqAllAddress,
-  reqDeleteAddress
+  reqDeleteAddress,
+  reqChangeAddress
 } from "../../api/address";
 
 const SMG = title => uni.showToast({
@@ -91,6 +92,46 @@ export const defaultAddress = async ({ dispatch }, id) => {
     await dispatch('getAllAddress');
     uni.showToast({
       title: '修改成功'
+    })
+  }
+};
+
+export const changeAddress = async ({ dispatch }, data) => {
+  let { addressee, city, county, phone, province, other } = data;
+  if (!addressee) {
+    SMG('请填写收件人姓名');
+    return
+  }
+
+  let p = /^1\d{10}$/;
+  if (!p.test(phone)) {
+    SMG('请检测手机号');
+    return
+  }
+
+  if (!city || !county || !province) {
+    SMG('请选择地址');
+    return
+  }
+
+  if (!other) {
+    SMG('请填写详细地址');
+    return
+  }
+
+  let res = await reqChangeAddress(data);
+  if (res.code === 200) {
+    uni.showToast({
+      title: '添加成功',
+      mask: true,
+      duration: 2000,
+      success(res) {
+        setTimeout(() => {
+          uni.navigateTo({
+            url: '/pages/address-book/address-book'
+          })
+        }, 2000)
+      }
     })
   }
 };

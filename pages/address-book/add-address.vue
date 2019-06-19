@@ -52,15 +52,15 @@
             >
               <view class="address-picker">
                 <view>
-                  <text>{{ addressList[0] || '省'}}</text>
+                  <text>{{ addressDataList[0] || '省'}}</text>
                   <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
                 <view>
-                  <text>{{ addressList[1]|| '市' }}</text>
+                  <text>{{ addressDataList[1]|| '市' }}</text>
                   <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
                 <view>
-                  <text>{{ addressList[2] || '区'}}</text>
+                  <text>{{ addressDataList[2] || '区'}}</text>
                   <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
               </view>
@@ -84,22 +84,16 @@
 
         <view class="buttons">
             <view class="cancel">取消</view>
-          <view class="save" @tap="addAddress({
-            addressee,
-            city:addressList[1],
-            county:addressList[2],
-            province:addressList[0],
-            phone,
-            isMain:defaultAddress,
-            other
-            })">保存
+
+          <view class="save" @tap="doChange">保存
+          </view>
           </view>
         </view>
     </view>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     data() {
@@ -108,16 +102,50 @@
         phone: '',
         other: '',
         // 查看更多地址状态
-        addressList: [],
+        addressDataList: [],
         defaultAddress: false,
 
       };
     },
+    computed: mapGetters('Address', ['addressList']),
+    onLoad(query) {
+      console.log(query);
+      let { id } = query;
+      this.id = id;
+      if (id !== 'null') {
+        let { addressee, phone, other, city, county, isMain, province } = this.addressList.filter(item => item.id === Number(id))[0];
+        this.addressee = addressee;
+        this.phone = phone;
+        this.other = other;
+        this.defaultAddress = isMain;
+        this.addressDataList = [province, city, county];
+      }
+    },
     methods: {
-      ...mapActions('Address', ['addAddress']),
+      ...mapActions('Address', ['addAddress', 'changeAddress']),
+      doChange() {
+        let { addressee, phone, other, defaultAddress, id, addressDataList } = this;
+        let data = {
+          addressee,
+          city: addressDataList[1],
+          county: addressDataList[2],
+          province: addressDataList[0],
+          phone,
+          isMain: defaultAddress,
+          other,
+        };
+        if (id === 'null') {
+          // 新增 地址
+          this.addAddress(data)
+        } else {
+          // 修改地址
+          // fixMe: 520
+          this.changeAddress({ ...data, id })
+        }
+      },
       bindPickerChange(e) {
         console.log('picker发送选择改变，携带值为', e.target.value);
-        this.addressList = e.target.value
+        this.addressDataList = e.target.value
       },
     }
 };

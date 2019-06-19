@@ -86,6 +86,15 @@ export default async function ajax(url, data = {}, type, loading = true) {
           return
         }
 
+        // 全局 520
+        if (response.data.code === 520) {
+          uni.showToast({
+            title: response.data.msg,
+            icon: "none",
+            mask: true
+          })
+        }
+
         resolve(response.data);
 
       },

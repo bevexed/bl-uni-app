@@ -35,18 +35,19 @@
                     </view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                      <image src="../../static/icon/edit.svg" mode=""></image>
+                      <image src="../../static/icon/edit.svg" mode="" @tap="toAddAddress(address.id)"></image>
                       <image src="../../static/icon/del2.svg" mode="" @tap="deleteAddress(address.id)"></image>
                     </view>
                 </view>
             </view>
         </view>
 
-        <view class="button" @tap="toAddAddress">
+        <view class="button" @tap="toAddAddress(null)">
             <image src="../../static/icon/addw.png" mode=""></image>
             <text>添加新地址</text>
         </view>
-        <view class="white-space"></view>
+
+      <view class="white-space"></view>
     </view>
 </template>
 
@@ -66,9 +67,9 @@
     computed: mapGetters('Address', ['addressList']),
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
-      toAddAddress() {
+      toAddAddress(id) {
         uni.navigateTo({
-          url: '/pages/address-book/add-address'
+          url: '/pages/address-book/add-address?id=' + id
         });
       }
     }

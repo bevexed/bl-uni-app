@@ -40,8 +40,7 @@
                   <image :src="good.imageShow" mode=""></image>
                     <view class="shop-detail">
                       <view class="shop-name">{{ good.pno }}</view>
-                      <!--todo: 收藏字段-->
-                      <view class="collect"></view>
+                      <view class="collect">{{ good.collectNum }} 人收藏</view>
 
                         <view class="bottom">
                             <view class="price">
@@ -59,7 +58,7 @@
         <view class="guess" v-if="!sortState">猜您喜欢</view>
 
         <view class="shop-list" v-if="!sortState">
-          <view class="shop-item" v-for="(good,i) in productList" v-show="i < 10" :key="i">
+          <view class="shop-item" v-for="(good,i) in productList" v-show="i < 10" :key="i" @tap="toDetail(good.id)">
             <image :src="good.imageShow" mode=""></image>
                 <view class="shop-name">
                   <text>{{ good.pno }}</text>
@@ -104,6 +103,12 @@
     methods: {
       ...mapActions('Collect', ['getCollect','deleteCollect']),
       ...mapActions('Products', ['getProducts']),
+      toDetail(id) {
+        console.log(id);
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
+      },
       async selectSortType(index) {
         this.currentSortState = index;
         switch (this.sortList[index]) {
