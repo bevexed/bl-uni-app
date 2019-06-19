@@ -27,7 +27,7 @@
         <!-- 第二屏 -->
         <view class="picture-presentation second">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="../../static/imgs/home/second-top.png" alt=""></image></view>
+            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -37,7 +37,7 @@
                     <!-- 左部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/left.png" alt=""></image>
+                        <image lazy-load mode="aspectFill" :src="second[0].url" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Gyms Wome</text>
@@ -50,7 +50,7 @@
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">FASHION BRANFDS</view>
-                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/right.png" alt=""></image>
+                        <image lazy-load mode="aspectFill" :src="second[1].url" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
@@ -67,7 +67,7 @@
         <!-- 第三屏 -->
         <view class="picture-presentation third">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="../../static/imgs/home/1555916144469.jpg" alt=""></image></view>
+            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="" alt=""></image></view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -77,7 +77,7 @@
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">WOVEN FABIC</view>
-                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/1555917371557.jpg" alt=""></image>
+                        <image lazy-load mode="aspectFill" :src="third[0].url" alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
@@ -91,7 +91,7 @@
                     <!-- 右部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image lazy-load mode="aspectFill" src="../../static/imgs/home/1555917485604.jpg" alt=""></image>
+                        <image lazy-load mode="aspectFill" :src="third[1].url" alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Beauty Dres</text>
@@ -109,7 +109,7 @@
             <view class="title">SINOTY</view>
             <video
                 class="my-video"
-                poster="../../static/imgs/home/1555917485604.jpg"
+                poster=""
                 src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
                 controls
                 loop
@@ -163,7 +163,9 @@
       this.getHomeBanner(3);
     },
     computed: mapState('Home', {
-      banners: state => state.homeData[1]
+      banners: state => state.homeData[1],
+      second: state => state.homeData[2],
+      third: state => state.homeData[3]
     }),
     methods: {
       ...mapActions('Home', ['getHomeBanner']),
