@@ -29,6 +29,12 @@
     },
     {
       "path": "pages/recognition/recognition"
+    },
+    {
+      "path": "pages/my-collection/my-collection",
+      "style": {
+        "navigationBarTitleText": "我的收藏"
+      }
     }
   ],
   "subPackages": [
@@ -100,17 +106,6 @@
           "path": "add-address",
           "style": {
             "navigationBarTitleText": "我的地址薄"
-          }
-        }
-      ]
-    },
-    {
-      "root": "my-collection",
-      "pages": [
-        {
-          "path": "my-collection",
-          "style": {
-            "navigationBarTitleText": "我的收藏"
           }
         }
       ]

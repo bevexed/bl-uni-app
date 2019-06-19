@@ -1,9 +1,11 @@
 import {
-  ADD_COLLECT
+  ADD_COLLECT,
+  GET_COLLECT
 } from '../mutation-types';
 
 import {
-  reqAddCollect
+  reqAddCollect,
+  reqCollect
 } from "../../api/collect";
 
 export const addCollect = async ({ commit }, id) => {
@@ -18,6 +20,11 @@ export const addCollect = async ({ commit }, id) => {
       icon: "none"
     })
   }
+};
 
-  commit(ADD_COLLECT, { data });
+export const getCollect = async ({ commit }, status) => {
+  let res = await reqCollect(status);
+  if (res.code === 200) {
+    commit(GET_COLLECT, res)
+  }
 };

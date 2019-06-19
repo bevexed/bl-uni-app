@@ -1,7 +1,9 @@
-import MUTATE from '../mutation-types';
+import {
+  GET_COLLECT
+} from '../mutation-types';
 
 export default {
-    [MUTATE](state, { data }) {
-        state.data = data;
+    [GET_COLLECT](state, { data }) {
+        state.goodList = data;
     },
 };

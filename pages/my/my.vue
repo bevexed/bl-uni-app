@@ -37,7 +37,7 @@
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item" @tap="to('/my-collection/my-collection')">
+            <view class="set-item" @tap="to('/pages/my-collection/my-collection')">
                 <image class="icon" src="../../static/icon/sc.svg" mode=""></image>
                 <text>我的收藏</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>

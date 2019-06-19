@@ -130,6 +130,7 @@
 </template>
 
 <script>
+  // todo: 已下架商品样式
   import { mapActions, mapGetters, mapState } from 'vuex'
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';

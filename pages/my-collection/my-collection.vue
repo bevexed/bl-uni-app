@@ -3,12 +3,12 @@
         <view class="menu">
             <view class="state" @tap="sortState = !sortState">
                 <text>全部状态</text>
-                <image :class="['arrow', { active: sortState }]" src="../static/icon/arrow-bottom.svg" mode=""></image>
+              <image :class="['arrow', { active: sortState }]" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
             <view class="preview" @tap="preview = !preview">
-                <image src="../static/icon/sc.jpg" mode="" v-if="preview"></image>
-                <image src="../static/icon/det.jpg" mode="" v-else></image>
+              <image src="../../static/icon/sc.jpg" mode="" v-if="preview"></image>
+              <image src="../../static/icon/det.jpg" mode="" v-else></image>
             </view>
         </view>
 
@@ -17,7 +17,7 @@
             <view class="options">
                 <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
                     <text>{{ option }}</text>
-                    <image v-show="currentSortState === index" src="../static/icon/select.png" mode=""></image>
+                  <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
                 </view>
             </view>
         </view>
@@ -26,8 +26,9 @@
         <view class="tile" v-if="preview && !sortState">
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i">
-                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
-                    <view :class="['badge', { unefficacy: good.badge === '失效' }]">{{ good.badge }}</view>
+                  <image :src="good.imageShow" mode=""></image>
+                  <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge">{{ good.badge }}
+                  </view>
                 </view>
             </view>
         </view>
@@ -36,18 +37,18 @@
         <view class="detail" v-if="!preview && !sortState">
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i">
-                    <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+                  <image :src="good.imageShow" mode=""></image>
                     <view class="shop-detail">
-                        <view class="shop-name">HJGF123123457876541</view>
-
-                        <view class="collect">210人收藏</view>
+                      <view class="shop-name">{{ good.pno }}</view>
+                      <!--todo: 收藏字段-->
+                      <view class="collect"></view>
 
                         <view class="bottom">
                             <view class="price">
-                                ￥300
-                                <text class="per">/米</text>
+                              ￥{{ good.price }}
+                              <text class="per">/{{ good.unit }}</text>
                             </view>
-                            <image src="../static/icon/del.svg" mode=""></image>
+                          <image src="../../static/icon/del.svg" mode=""></image>
                         </view>
                     </view>
                 </view>
@@ -69,27 +70,44 @@
 </template>
 
 <script>
-export default {
+  import { mapGetters, mapActions } from 'vuex'
+
+  export default {
     data() {
-        return {
-            // 预览模式
-            preview: false,
-            // 收藏商品列表
-            goodList: [{ badge: '失效' }, { badge: '降价' }, { badge: '低库存' }, { badge: '低库存' }, { badge: '失效' }, { badge: '失效' }, { badge: '失效' }],
-            // 排序是否显示
-            sortState: false,
-            // 排序
-            sortList: ['全部状态', '降价中', '低库存', '失效'],
-            // 当前选择排序方式
-            currentSortState: 0
-        };
+      return {
+        // 预览模式
+        preview: false,
+        // 排序是否显示
+        sortState: false,
+        // 排序
+        sortList: ['全部状态', '低库存', '失效'],
+        // 当前选择排序方式
+        currentSortState: 0
+      };
     },
+    onShow() {
+      this.getCollect();
+    },
+    computed: mapGetters('Collect', ['goodList']),
     methods: {
-        selectSortType(index) {
-            this.currentSortState = index;
+      ...mapActions('Collect', ['getCollect']),
+      async selectSortType(index) {
+        this.currentSortState = index;
+        switch (this.sortList[index]) {
+          case '全部状态':
+            await this.getCollect(1);
+            break;
+          case '低库存':
+            await this.getCollect(2);
+            break;
+          case '失效':
+            await this.getCollect(9);
+            break;
         }
+        this.sortState = false;
+      }
     }
-};
+  };
 </script>
 
 <style lang="scss">
@@ -132,12 +150,16 @@ export default {
         margin-top: 32upx;
         .list {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
             .item {
                 position: relative;
                 border-radius: 8upx;
                 margin-bottom: 20upx;
+              margin-right: 18upx;
+
+              &:nth-child(3n) {
+                margin-right: 0;
+              }
                 image {
                     width: 216upx;
                     height: 234upx;
@@ -276,6 +298,7 @@ export default {
 
     .sort {
         margin-top: 60upx;
+      padding: $white-space;
         .options {
             display: flex;
             align-items: center;

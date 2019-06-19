@@ -22,3 +22,4 @@ export const DELETE_INVALID = 'delete_invalid';
 
 // collect
 export const ADD_COLLECT = 'add_collect';
+export const GET_COLLECT = 'get_collect';
