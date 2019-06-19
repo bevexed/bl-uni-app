@@ -120,6 +120,7 @@
 <script>
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
 import { uniSwiperDot } from '@dcloudio/uni-ui';
+import { mapActions } from "vuex";
 
 export default {
     components: {
@@ -153,8 +154,13 @@ export default {
                 _this.windowWidth = res.windowWidth;
             }
         });
+
+        this.getHomeBanner(1);
+        this.getHomeBanner(2);
+        this.getHomeBanner(3);
     },
     methods: {
+      ...mapActions('Home', ['getHomeBanner']),
         swiperChange(e) {
             this.current = e.detail.current;
         },

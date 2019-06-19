@@ -55,14 +55,16 @@
             </view>
         </view>
 
+      <!--fixME: 此处有坑，猜你喜欢的数据 其实是 面料页面商品列表的数据-->
         <view class="guess" v-if="!sortState">猜您喜欢</view>
 
         <view class="shop-list" v-if="!sortState">
-            <view class="shop-item" v-for="i in 10" :key="i">
-                <image src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+          <view class="shop-item" v-for="(good,i) in productList" v-show="i < 10" :key="i">
+            <image :src="good.imageShow" mode=""></image>
                 <view class="shop-name">
-                    <text>G2560817</text>
-                    <view class="sold">98人已购买</view>
+                  <text>{{ good.pno }}</text>
+                  <!-- fixMe：多少人已购买 -->
+                  <!-- <view class="sold">{{ good }}人已购买</view> -->
                 </view>
             </view>
         </view>
@@ -70,7 +72,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions, mapState } from 'vuex'
 
   export default {
     data() {
@@ -87,10 +89,21 @@
     },
     onShow() {
       this.getCollect();
+      this.getProducts({
+        page: this.page,
+        pageSize: 10,
+        companyId: 4,
+
+        status: 2
+      });
     },
-    computed: mapGetters('Collect', ['goodList']),
+    computed: {
+      ...mapGetters('Collect', ['goodList']),
+      ...mapState('Products', ['productList'])
+    },
     methods: {
       ...mapActions('Collect', ['getCollect','deleteCollect']),
+      ...mapActions('Products', ['getProducts']),
       async selectSortType(index) {
         this.currentSortState = index;
         switch (this.sortList[index]) {

@@ -5,7 +5,6 @@ export const GET_CURRENT_USER_DETAIL = 'get_current_user_detail';
 export const GET_REFRESH_TOKEN = 'get_refresh_token';
 
 
-
 // products
 export const GET_PRODUCTS = 'get_products';
 export const GET_PRODUCT = 'get_product';
@@ -23,3 +22,7 @@ export const DELETE_INVALID = 'delete_invalid';
 // collect
 export const ADD_COLLECT = 'add_collect';
 export const GET_COLLECT = 'get_collect';
+
+
+// home页面
+export const GET_HOME_BANNER = 'get_home_banner';

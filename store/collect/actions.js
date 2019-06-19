@@ -33,13 +33,10 @@ export const getCollect = async ({ commit }, status) => {
 export const deleteCollect = async ({ dispatch }, id) => {
   let res = await reqDeleteCollect(id);
   if (res.code === 200) {
-    dispatch('getCollect').then(
-      () => {
-        uni.showToast({
-          title: '删除成功',
-          mask: true
-        })
-      }
-    )
+    await dispatch('getCollect');
+    uni.showToast({
+      title: '删除成功',
+      mask: true
+    })
   }
 };

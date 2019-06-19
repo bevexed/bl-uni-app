@@ -5,6 +5,7 @@ import User from './user'
 import Products from './products'
 import Cart from './cart'
 import Collect from './collect'
+import Home from './home'
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     User,
     Products,
     Cart,
-    Collect
+    Collect,
+    Home
   }
 })
