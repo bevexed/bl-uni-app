@@ -14,8 +14,12 @@
                 :style="{ height: windowHeight - 72 + 'px' }"
                 @change="swiperChange"
             >
-                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
-                    <view class="swiper-item"><image  :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img" :src="banner" alt=""></image></view>
+              <!--fixMe: 缺少商品ID-->
+                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="toDetail(banner.id)">
+                  <view class="swiper-item">
+                    <image :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img"
+                           :src="banner.url" alt=""></image>
+                  </view>
                 </swiper-item>
             </swiper>
         </uni-swiper-dot>
@@ -118,59 +122,66 @@
 </template>
 
 <script>
-import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
-import { uniSwiperDot } from '@dcloudio/uni-ui';
-import { mapActions } from "vuex";
+  import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+  import { uniSwiperDot } from '@dcloudio/uni-ui';
+  import { mapActions, mapState } from "vuex";
 
-export default {
+  export default {
     components: {
-        CustmerPhone,
-        uniSwiperDot
+      CustmerPhone,
+      uniSwiperDot
     },
     data() {
-        return {
-            title: 'SINOTY',
-            // 当前 swiper 索引
-            current: 0,
-            // 轮播图 指示器样式
-            dotsStyles: {
-                border: 'none',
-                backgroundColor: 'rgba(0,0,0,.3)',
-                selectedBorder: 'none',
-                selectedBackgroundColor: 'rgba(0,0,0,.3)'
-            },
-            // banner数据
-            banners: [],
-            // banner高度
-            windowHeight: 0
-        };
+      return {
+        title: 'SINOTY',
+        // 当前 swiper 索引
+        current: 0,
+        // 轮播图 指示器样式
+        dotsStyles: {
+          border: 'none',
+          backgroundColor: 'rgba(0,0,0,.3)',
+          selectedBorder: 'none',
+          selectedBackgroundColor: 'rgba(0,0,0,.3)'
+        },
+        // banner高度
+        windowHeight: 0
+      };
     },
     onLoad() {
-        let _this = this;
-        uni.getSystemInfo({
-            success: res => {
-                console.log(res);
-                _this.windowHeight = res.windowHeight;
-                _this.windowWidth = res.windowWidth;
-            }
-        });
+      let _this = this;
+      uni.getSystemInfo({
+        success: res => {
+          console.log(res);
+          _this.windowHeight = res.windowHeight;
+          _this.windowWidth = res.windowWidth;
+        }
+      });
 
-        this.getHomeBanner(1);
-        this.getHomeBanner(2);
-        this.getHomeBanner(3);
+      //fixMe:真的不会炸吗
+      this.getHomeBanner(1);
+      this.getHomeBanner(2);
+      this.getHomeBanner(3);
     },
+    computed: mapState('Home', {
+      banners: state => state.homeData[1]
+    }),
     methods: {
       ...mapActions('Home', ['getHomeBanner']),
-        swiperChange(e) {
-            this.current = e.detail.current;
-        },
-        toSearch(e, val) {
-            console.log(e, val);
-            this['val' + val] = e;
-        },
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
+      },
+      swiperChange(e) {
+        this.current = e.detail.current;
+      },
+      toSearch(e, val) {
+        console.log(e, val);
+        this['val' + val] = e;
+      },
 
     }
-};
+  };
 </script>
 
 <style lang="scss" scoped>

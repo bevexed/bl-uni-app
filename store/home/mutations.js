@@ -1,7 +1,9 @@
-import MUTATE from '../mutation-types';
+import {
+  GET_HOME_BANNER
+} from '../mutation-types';
 
 export default {
-    [MUTATE](state, { data }) {
-        state.data = data;
-    },
+  [GET_HOME_BANNER](state, data) {
+    state.homeData = { ...state.homeData, ...data };
+  },
 };

@@ -15,7 +15,8 @@ export const getAd = ({ company = 4 }) => ajax('/configure/banner/ad', { company
 
 /**
  * @function 获取首页 banner 图
+ * @param companyId {number} 4
  * @param type {Number} 通过type获取banner图,1：首页banner图；2：第二屏banner图；3：第三屏banner图
  */
 
-export const reqHomeBanner = type => ajax('/homeBanner',{type},'GET');
+export const reqHomeBanner = ({ companyId = 4, type }) => ajax('/homeBanner', { companyId, type }, 'GET');
