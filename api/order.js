@@ -21,4 +21,5 @@ export const reqOrderList = ({ page, pageSize = 10, status }) => ajax('/order/or
  * @returns {Promise<*>}
  */
 
+// todo:生成订单
 export const reqCreateOrder = ({ addressId, item }) => ajax('/order/createOrder', { addressId, item }, 'POST');

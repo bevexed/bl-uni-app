@@ -26,7 +26,7 @@
                     <view class="good">
                         <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
 
-                      <image class="shop-img" :src="good.imageShow" mode=""></image>
+                      <image class="shop-img" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
 
                         <view class="detail">
                             <view class="detail-header">
@@ -169,7 +169,7 @@
     methods: {
       ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct']),
       selectGood(i) {
-        const { edit, currentSelect } = this;
+        const { edit } = this;
         let state = edit ? 'willDel' : 'willBuy';
         this.goods[i][state] = !this.goods[i][state];
       },
@@ -237,6 +237,11 @@
           url: '/pages/account-cart/account-cart'
         })
 
+      },
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
       }
     }
   };

@@ -66,7 +66,7 @@
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" :src="good.imageShow" mode=""></image>
+              <image class="shop-img" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
 
                 <view class="detail">
                     <view class="detail-header"><view class="shop-name">{{ good.pno }}</view></view>
@@ -134,11 +134,7 @@
         agreement: false
       };
     },
-    // let data = currentSelect.data.map(item => ({
-    //   count: item.shoppingNum,
-    //   productId: item.productId,
-    //   sampleType: item.sampleType
-    // }));
+
     computed: {
       ...mapState('Cart', {
         goods: state => state.item
@@ -149,19 +145,28 @@
     },
     onShow() {
       this.getAllAddress();
-      console.log(this.goods);
+      this.preview = this.goods.length >= 4
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
+      ...mapActions('Order', ['createOrder']),
       toPay() {
-        const { agreement } = this;
+        const { agreement, goods, addressList } = this;
+        let item = goods.map(item => ({
+          count: item.shoppingNum,
+          productId: item.productId,
+          sampleType: item.sampleType
+        }));
+        let addressId = addressList.filter(item => item.isMain)[0].id;
         if (agreement) {
-          uni.navigateTo({
-            url: '../pay/pay'
-          });
+          this.createOrder({ addressId, item:JSON.stringify(item) });
         }
-      }
-      ,
+      },
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
+        });
+      },
       toAddAddress(id) {
         uni.navigateTo({
           url: "/pages/address-book/add-address?id=" + id

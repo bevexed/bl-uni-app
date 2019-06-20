@@ -63,6 +63,9 @@
     },
     {
       "path": "pages/account-cart/account-cart"
+    },
+    {
+      "path": "pages/pay/pay"
     }
   ],
   "subPackages": [
@@ -87,14 +90,6 @@
       "pages": [
         {
           "path": "contact"
-        }
-      ]
-    },
-    {
-      "root": "pay",
-      "pages": [
-        {
-          "path": "pay"
         }
       ]
     },
