@@ -145,10 +145,13 @@
       return {
         // 页面最大高度
         maxHeight: '',
-        tabList: [{ name: '全部', value: 0 }, { name: '待付款', value: 1 }, { name: '待发货', value: 2 }, {
-          name: '待收货',
-          value: 3
-        }, { name: '售后', value: 4 }],
+        tabList: [
+          { name: '全部', value: 0 },
+          { name: '待付款', value: 0 },
+          { name: '待发货', value: 20 },
+          { name: '待收货', value: 30 },
+          { name: '售后', value: 40 }
+        ],
         TabCur: 0,
         preview: -1,
         // 是否同意
@@ -164,7 +167,7 @@
       };
     },
 
-    computed: mapState('Order', ['orderList']),
+    computed: mapState('Order', ['orderList','page']),
 
     onShow() {
       this.getOrderList({
@@ -172,17 +175,51 @@
         pageSize: 10,
       }).then(() => this.height('.wrap0'))
     },
+    onReachBottom() {
+      if (this.TabCur === 0) {
+        this.getOrderList({
+          page: this.page + 1,
+          pageSize: 10,
+        }).then(() => this.height('.wrap0'))
+      } else {
+        this.getOrderList({
+          page: this.page + 1,
+          pageSize: 10,
+          status: this.tabList[this.TabCur].value
+        }).then(() => this.height('.wrap0'))
+      }
+    },
     methods: {
       ...mapActions('Order', ['getOrderList']),
       swiperChange(e) {
         let { current } = e.target;
         this.TabCur = current;
-        this.height('.wrap' + current);
+        this.getData(current)
       },
+
       tabSelect(index, e) {
-        if (this.currentTab === index) return false;
+        if (this.TabCur === index) return false;
         this.TabCur = index;
-        this.height('.wrap' + index);
+        this.getData(index)
+      },
+
+      getData(index) {
+        uni.pageScrollTo({
+          scrollTop: 0,
+        });
+        if (index === 0) {
+          this.getOrderList({
+            page: 1,
+            pageSize: 10,
+          }).then(() => this.height('.wrap0'));
+          return
+        }
+        let status = this.tabList[index].value;
+        this.getOrderList({
+          page: 1,
+          pageSize: 10,
+          status
+        }).then(() => this.height('.wrap0'))
       },
 
       toPreview(id) {
@@ -246,7 +283,7 @@
         setTimeout(() => {
           view.boundingClientRect(data => {
             console.log('高' + data.map(item => item.height).reduce((total, num) => total + num, 0));
-            this.maxHeight = data.map(item => item.height).reduce((total, num) => total + num, 0) + data.length * 20;
+            this.maxHeight = data.map(item => item.height).reduce((total, num) => total + num, 0) + data.length * 17;
             console.log(this.maxHeight);
           }).exec();
         });

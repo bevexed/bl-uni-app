@@ -7,10 +7,14 @@ import {
   reqCreateOrder
 } from "../../api/order";
 
-export const getOrderList = async ({ commit }, data) => {
+export const getOrderList = async ({ commit, state }, data) => {
+  const { page, pages, currentStatus } = state;
+  const { status } = data;
+  // fixMe : 翻页拦截
+  // if (pages < page && status === currentStatus) return;
   let res = await reqOrderList(data);
   if (res.code === 200) {
-    commit(GET_ORDER_LIST, res);
+    commit(GET_ORDER_LIST, { ...res, status });
   }
 };
 
