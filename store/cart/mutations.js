@@ -1,6 +1,7 @@
 import {
   ADD_CART,
   GET_CART_ALL,
+  SELECT_PRODUCT,
   DELETE_CART,
   DELETE_INVALID
 } from '../mutation-types';
@@ -23,5 +24,9 @@ export default {
     state.goods = data.map(item => {
       return { ...item, ...base }
     });
+  },
+
+  [SELECT_PRODUCT](state, data) {
+    state.item = data;
   }
 };

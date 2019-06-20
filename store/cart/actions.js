@@ -1,6 +1,7 @@
 import {
   ADD_CART,
   GET_CART_ALL,
+  SELECT_PRODUCT,
   DELETE_CART,
   DELETE_INVALID
 } from '../mutation-types';
@@ -55,4 +56,12 @@ export const doDeleteInvalid = async ({ dispatch }) => {
       }
     )
   }
+};
+
+
+export const selectProduct = ({ commit }, data) => {
+  commit(SELECT_PRODUCT,data);
+  uni.navigateTo({
+    url: '/pages/account-cart/account-cart'
+  })
 };

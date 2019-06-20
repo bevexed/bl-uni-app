@@ -17,7 +17,7 @@ export const ADD_CART = 'add_cart';
 export const GET_CART_ALL = 'get_cart_all';
 export const DELETE_CART = 'delete_cart';
 export const DELETE_INVALID = 'delete_invalid';
-
+export const SELECT_PRODUCT = 'select_product';
 
 // collect
 export const ADD_COLLECT = 'add_collect';

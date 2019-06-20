@@ -60,6 +60,9 @@
       "style": {
         "navigationBarTitleText": "我的订单"
       }
+    },
+    {
+      "path": "pages/account-cart/account-cart"
     }
   ],
   "subPackages": [
@@ -84,14 +87,6 @@
       "pages": [
         {
           "path": "contact"
-        }
-      ]
-    },
-    {
-      "root": "account-cart",
-      "pages": [
-        {
-          "path": "account-cart"
         }
       ]
     },

@@ -9,7 +9,7 @@
                 <text>（{{ addressList.length }}/10）</text>
             </view>
             <view class="add-new-address" @tap="toAddAddress">
-                <image src="../static/icon/add.png" mode=""></image>
+                <image src="../../static/icon/add.png" mode=""></image>
                 <text>添加新地址</text>
             </view>
         </view>
@@ -17,7 +17,7 @@
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-                <image class="gou" src="../static/icon/gou.svg" mode="" @tap="setAddressDefault(i)"></image>
+                <image class="gou" src="../../static/icon/gou.svg" mode="" @tap="setAddressDefault(i)"></image>
                 <view class="header" @tap="setAddressDefault(i)">
                     <view class="label">收件人：</view>
                     <view class="value">
@@ -39,8 +39,8 @@
                     <view class="default" v-if="address.default">默认地址</view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../static/icon/edit.svg" mode=""></image>
-                        <image src="../static/icon/del2.svg" mode=""></image>
+                        <image src="../../static/icon/edit.svg" mode=""></image>
+                        <image src="../../static/icon/del2.svg" mode=""></image>
                     </view>
                 </view>
             </view>
@@ -48,25 +48,25 @@
 
         <!-- 收起更多地址 -->
         <view class="show-more-address" v-if="addressList.length > 1" @tap="showMoreAddress = !showMoreAddress">
-            <image :class="{ active: showMoreAddress }" src="../static/icon/arrow-bottom.svg" mode=""></image>
+            <image :class="{ active: showMoreAddress }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             <text v-if="showMoreAddress">收起更多地址</text>
             <text v-else>展开更多地址</text>
         </view>
 
-        <image v-if="addressList.length > 1" class="split" src="../static/icon/1557025928925.jpg" mode=""></image>
+        <image v-if="addressList.length > 1" class="split" src="../../static/icon/1557025928925.jpg" mode=""></image>
 
         <!-- 商品信息 -->
         <view class="goods-title title">商品信息</view>
         <!-- 收起 -->
         <view class="preview" v-if="preview">
-            <image v-for="(good, i) in goods" :key="i" v-show="i < 4" src="../static/imgs/fitting/1.jpg" mode=""></image>
-            <image class="more" @tap="preview = false" src="../static/icon/more.svg" mode=""></image>
+            <image v-for="(good, i) in goods" :key="i" v-show="i < 4" src="../../static/imgs/fitting/1.jpg" mode=""></image>
+            <image class="more" @tap="preview = false" src="../../static/icon/more.svg" mode=""></image>
         </view>
 
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+                <image class="shop-img" src="../../static/imgs/fitting/5.jpg" mode=""></image>
 
                 <view class="detail">
                     <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
@@ -87,7 +87,7 @@
                 </view>
             </view>
 
-            <image @tap="preview = true" class="hr" src="../static/icon/all.svg" mode=""></image>
+            <image @tap="preview = true" class="hr" src="../../static/icon/all.svg" mode=""></image>
         </view>
 
         <view class="pay-detail">
@@ -121,6 +121,8 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
+
 export default {
     data() {
         return {
@@ -167,6 +169,7 @@ export default {
             agreement: false
         };
     },
+  computed: mapState('Cart', ['item']),
     methods: {
         toPay() {
             const { agreement } = this;

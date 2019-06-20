@@ -105,7 +105,7 @@
       <!-- 底部按钮 -->
       <view class="shop-car-footer" v-if="goods.length">
         <view class="select-all" @tap="selectAllgoods">
-          <view :class="['select', { active: currentSelect === goods.length }]">
+          <view :class="['select', { active: currentSelect.length === goods.length }]">
             <view class="selected"></view>
           </view>
           <text>全选</text>
@@ -114,12 +114,13 @@
           <text>总计：</text>
           ￥{{ total }}
         </view>
-        <view v-if="edit" :class="['button', { 'del-active': currentSelect }]">删除({{ currentSelect }})</view>
+        <view v-if="edit" :class="['button', { 'del-active': currentSelect.length  }]">删除({{ currentSelect.length }})
+        </view>
         <view
           v-else
-          @tap="to('../../account-cart/account-cart')"
-          :class="['button', { active: currentSelect }]">
-          付款({{currentSelect }})
+          @tap="toCreateOrder"
+          :class="['button', { active: currentSelect.length  }]">
+          付款({{ currentSelect.length }})
         </view>
       </view>
 
@@ -156,17 +157,21 @@
       currentSelect() {
         const { edit, goods } = this;
         let state = edit ? 'willDel' : 'willBuy';
-        let stateLength = goods.filter(good => good[state] === true).length;
-        return stateLength;
+        let length = goods.filter(good => good[state] === true).length;
+        let data = goods.filter(good => good[state] === true);
+        return {
+          length,
+          data
+        };
       }
     },
     onShow() {
       this.getCartAll()
     },
     methods: {
-      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart','doDeleteInvalid']),
+      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct']),
       selectGood(i) {
-        const { edit, goods } = this;
+        const { edit } = this;
         let state = edit ? 'willDel' : 'willBuy';
         this.goods[i][state] = !this.goods[i][state];
       },
@@ -182,7 +187,7 @@
       selectAllgoods() {
         const { edit, goods, currentSelect } = this;
         let state = edit ? 'willDel' : 'willBuy';
-        if (currentSelect === goods.length) {
+        if (currentSelect.length === goods.length) {
           // 说明已全选
           this.goods.map(good => (good[state] = false));
           return;
@@ -217,6 +222,25 @@
         uni.switchTab({
           url: '/pages/lining/lining'
         })
+      },
+
+      toCreateOrder() {
+        const { currentSelect } = this;
+        if (!currentSelect.length) {
+          uni.showToast({
+            title: '请选择要购买的商品',
+            icon: "none",
+            mask: true
+          });
+          return
+        }
+
+        let data = currentSelect.data.map(item => ({
+          count: item.shoppingNum,
+          productId: item.productId,
+          sampleType: item.sampleType
+        }));
+        this.selectProduct(data);
       }
     }
   };

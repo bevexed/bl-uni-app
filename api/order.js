@@ -13,3 +13,12 @@ export const reqOrderList = ({ page, pageSize = 10, status }) => ajax('/order/or
   pageSize,
   status
 }, 'GET');
+
+/**
+ * @function 创建订单
+ * @param addressId
+ * @param item {Array<product>} product={count,productId,sampleType}
+ * @returns {Promise<*>}
+ */
+
+export const reqCreateOrder = ({ addressId, item }) => ajax('/order/createOrder', { addressId, item }, 'POST');
