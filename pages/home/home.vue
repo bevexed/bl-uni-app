@@ -27,7 +27,9 @@
         <!-- 第二屏 -->
         <view class="picture-presentation second">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="" alt=""></image></view>
+          <view class="picture-presentation-top">
+            <image lazy-load mode="aspectFill" :src="second[0].url" @tap="toDetail(second[0].pno)" alt=""></image>
+          </view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -37,7 +39,8 @@
                     <!-- 左部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image lazy-load mode="aspectFill" :src="second[0].url" alt=""></image>
+                      <image lazy-load mode="aspectFill" :src="second[1].url" @tap="toDetail(second[1].pno)"
+                             alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Gyms Wome</text>
@@ -50,7 +53,8 @@
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">FASHION BRANFDS</view>
-                        <image lazy-load mode="aspectFill" :src="second[1].url" alt=""></image>
+                      <image lazy-load mode="aspectFill" :src="second[2].url" @tap="toDetail(second[2].pno)"
+                             alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
@@ -67,7 +71,9 @@
         <!-- 第三屏 -->
         <view class="picture-presentation third">
             <!-- 顶部图片 -->
-            <view class="picture-presentation-top"><image lazy-load mode="aspectFill" src="" alt=""></image></view>
+          <view class="picture-presentation-top">
+            <image lazy-load mode="aspectFill" :src="third[0].url" @tap="toDetail(third[0].pno)" alt=""></image>
+          </view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
@@ -77,7 +83,8 @@
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">WOVEN FABIC</view>
-                        <image lazy-load mode="aspectFill" :src="third[0].url" alt=""></image>
+                      <image lazy-load mode="aspectFill" :src="third[1].url" @tap="toDetail(third[1].pno)"
+                             alt=""></image>
 
                         <!-- 商品名称 -->
                         <view class="name">
@@ -91,7 +98,8 @@
                     <!-- 右部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                        <image lazy-load mode="aspectFill" :src="third[1].url" alt=""></image>
+                      <image lazy-load mode="aspectFill" :src="third[2].url" @tap="toDetail(third[2].pno)"
+                             alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
                             <text>Beauty Dres</text>
