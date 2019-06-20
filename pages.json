@@ -54,6 +54,12 @@
       "style": {
         "navigationBarTitleText": "个人资料"
       }
+    },
+    {
+      "path": "pages/order/order",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
     }
   ],
   "subPackages": [
@@ -121,12 +127,6 @@
     {
       "root": "order",
       "pages": [
-        {
-          "path": "order",
-          "style": {
-            "navigationBarTitleText": "我的订单"
-          }
-        },
         {
           "path": "order-detail"
         },

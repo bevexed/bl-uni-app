@@ -130,6 +130,7 @@
 </template>
 
 <script>
+  // todo: tu片去掉后的布局问题
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot } from '@dcloudio/uni-ui';
   import { mapActions, mapState } from "vuex";

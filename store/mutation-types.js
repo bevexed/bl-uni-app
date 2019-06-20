@@ -30,3 +30,7 @@ export const GET_HOME_BANNER = 'get_home_banner';
 // address 地址
 export const ADD_ADDRESS = 'add_address';
 export const GET_ALL_ADDRESS = 'get_all_address';
+
+
+// order
+export const GET_ORDER_LIST = 'get_order_list';

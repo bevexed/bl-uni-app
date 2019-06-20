@@ -25,7 +25,7 @@
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item" @tap="to('/order/order')">
+            <view class="set-item" @tap="to('/pages/order/order')">
                 <image class="icon" src="../../static/icon/dd.svg" mode=""></image>
                 <text>我的订单</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>

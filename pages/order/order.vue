@@ -111,6 +111,8 @@
 </template>
 
 <script>
+  import { mapActions } from "vuex";
+
 export default {
     data() {
         return {
@@ -265,9 +267,15 @@ export default {
         };
     },
 
-    computed: {},
-
+  computed: {},
+  onShow() {
+    this.getOrderList({
+      page: 1,
+      status: 0
+    });
+  },
     methods: {
+      ...mapActions('Order', ['getOrderList']),
         swiperChange(e) {
             let { current } = e.target;
             this.TabCur = current;
