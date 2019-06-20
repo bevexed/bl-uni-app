@@ -159,10 +159,8 @@
         let state = edit ? 'willDel' : 'willBuy';
         let length = goods.filter(good => good[state] === true).length;
         let data = goods.filter(good => good[state] === true);
-        return {
-          length,
-          data
-        };
+        this.selectProduct(data);
+        return { length };
       }
     },
     onShow() {
@@ -171,7 +169,7 @@
     methods: {
       ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct']),
       selectGood(i) {
-        const { edit } = this;
+        const { edit, currentSelect } = this;
         let state = edit ? 'willDel' : 'willBuy';
         this.goods[i][state] = !this.goods[i][state];
       },
@@ -235,12 +233,10 @@
           return
         }
 
-        let data = currentSelect.data.map(item => ({
-          count: item.shoppingNum,
-          productId: item.productId,
-          sampleType: item.sampleType
-        }));
-        this.selectProduct(data);
+        uni.navigateTo({
+          url: '/pages/account-cart/account-cart'
+        })
+
       }
     }
   };

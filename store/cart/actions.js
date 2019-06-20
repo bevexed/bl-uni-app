@@ -61,7 +61,4 @@ export const doDeleteInvalid = async ({ dispatch }) => {
 
 export const selectProduct = ({ commit }, data) => {
   commit(SELECT_PRODUCT,data);
-  uni.navigateTo({
-    url: '/pages/account-cart/account-cart'
-  })
 };

@@ -59,30 +59,30 @@
         <view class="goods-title title">商品信息</view>
         <!-- 收起 -->
         <view class="preview" v-if="preview">
-            <image v-for="(good, i) in goods" :key="i" v-show="i < 4" src="../../static/imgs/fitting/1.jpg" mode=""></image>
+            <image v-for="(good, i) in goods" :key="i" v-show="i < 4" :src="good.imageShow" mode=""></image>
             <image class="more" @tap="preview = false" src="../../static/icon/more.svg" mode=""></image>
         </view>
 
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" src="../../static/imgs/fitting/5.jpg" mode=""></image>
+                <image class="shop-img" :src="good.imageShow" mode=""></image>
 
                 <view class="detail">
-                    <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
+                    <view class="detail-header"><view class="shop-name">{{ good.pno }}</view></view>
                     <view class="detail-footer">
                         <view :class="['options']">
-                            <view class="option">
+                            <view class="option"  v-if="good.sampleType">
                                 <view class="label">标样：￥0</view>
-                                <view class="value">*1</view>
+                                <view class="value">*{{ good.sampleType }}</view>
                             </view>
                             <view class="option">
-                                <view class="label">商品：￥50/米</view>
-                                <view class="value">*40</view>
+                                <view class="label">商品：￥{{ good.price }}/米</view>
+                                <view class="value">*{{ good.shoppingNum }}</view>
                             </view>
                         </view>
 
-                        <view class="price">￥2000.00</view>
+                        <view class="price">￥{{ good.totalAmount }}</view>
                     </view>
                 </view>
             </view>
@@ -93,7 +93,7 @@
         <view class="pay-detail">
             <view class="pay-total">
                 <view class="label">商品总金额</view>
-                <view class="value">￥6100.00</view>
+                <view class="value">￥{{ total }}</view>
             </view>
 
             <view class="express">
@@ -103,7 +103,7 @@
 
             <view class="real-pay">
                 <view class="label">实付款</view>
-                <view class="value">￥6050.00</view>
+                <view class="value">￥{{ total }}</view>
             </view>
         </view>
 
@@ -127,40 +127,29 @@
     data() {
       return {
         // 查看更多地址状态
-
         showMoreAddress: false,
-
-        // 商品 列表
-        goods: [
-          {
-            num: 0 // 购买数量，
-          },
-          {
-            num: 0 // 购买数量，
-          },
-          {
-            num: 0 // 购买数量，
-          },
-          {
-            num: 0 // 购买数量，
-          },
-          {
-            num: 0 // 购买数量，
-          }
-        ],
         // 是否 预览
         preview: true,
         // 是否同意
         agreement: false
       };
     },
+    // let data = currentSelect.data.map(item => ({
+    //   count: item.shoppingNum,
+    //   productId: item.productId,
+    //   sampleType: item.sampleType
+    // }));
     computed: {
-      ...mapState('Cart', ['item']),
+      ...mapState('Cart', {
+        goods: state => state.item
+      }),
+      ...mapGetters('Cart', ['total']),
       ...mapGetters('Address', ['addressList']
       ),
     },
     onShow() {
       this.getAllAddress();
+      console.log(this.goods);
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
