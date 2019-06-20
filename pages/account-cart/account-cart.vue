@@ -8,7 +8,7 @@
                 收货地址
                 <text>（{{ addressList.length }}/10）</text>
             </view>
-            <view class="add-new-address" @tap="toAddAddress">
+            <view class="add-new-address" @tap="toAddAddress(null)">
                 <image src="../../static/icon/add.png" mode=""></image>
                 <text>添加新地址</text>
             </view>
@@ -17,21 +17,21 @@
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-                <image class="gou" src="../../static/icon/gou.svg" mode="" @tap="setAddressDefault(i)"></image>
-                <view class="header" @tap="setAddressDefault(i)">
+                <image class="gou" src="../../static/icon/gou.svg" mode="" @tap="defaultAddress(address.id)"></image>
+                <view class="header" @tap="defaultAddress(address.id)">
                     <view class="label">收件人：</view>
                     <view class="value">
-                        路人甲
-                        <text class="phone">139 **** 9875</text>
+                      {{ address.addressee }}
+                      <text class="phone">{{ address.phone.slice(0,3) }} **** {{ address.phone.slice(7) }}</text>
                     </view>
                 </view>
 
-                <view class="content" @tap="setAddressDefault(i)">
+                <view class="content" @tap="defaultAddress(address.id)">
                     <view class="label">地址：</view>
                     <view class="value">
-                        浙江省 杭州市 西湖区
+                      {{ address.province }} {{ address.city }} {{ address.county }}
 
-                        <view>西溪首座A1-1-310室</view>
+                      <view>{{ address.other }}</view>
                     </view>
                 </view>
 
@@ -39,8 +39,8 @@
                     <view class="default" v-if="address.default">默认地址</view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../../static/icon/edit.svg" mode=""></image>
-                        <image src="../../static/icon/del2.svg" mode=""></image>
+                        <image src="../../static/icon/edit.svg" mode=""  @tap="toAddAddress(address.id)"></image>
+                        <image src="../../static/icon/del2.svg" mode=""  @tap="deleteAddress(address.id)"></image>
                     </view>
                 </view>
             </view>
@@ -121,75 +121,66 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
+  import { mapActions, mapGetters, mapState } from "vuex";
 
-export default {
+  export default {
     data() {
-        return {
-            // 地址列表
-            addressList: [
-                {
-                    default: true //默认地址
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                }
-            ],
-            // 查看更多地址状态
+      return {
+        // 查看更多地址状态
 
-            showMoreAddress: false,
+        showMoreAddress: false,
 
-            // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                },
-                {
-                    num: 0 // 购买数量，
-                }
-            ],
-            // 是否 预览
-            preview: true,
-            // 是否同意
-            agreement: false
-        };
+        // 商品 列表
+        goods: [
+          {
+            num: 0 // 购买数量，
+          },
+          {
+            num: 0 // 购买数量，
+          },
+          {
+            num: 0 // 购买数量，
+          },
+          {
+            num: 0 // 购买数量，
+          },
+          {
+            num: 0 // 购买数量，
+          }
+        ],
+        // 是否 预览
+        preview: true,
+        // 是否同意
+        agreement: false
+      };
     },
-  computed: mapState('Cart', ['item']),
+    computed: {
+      ...mapState('Cart', ['item']),
+      ...mapGetters('Address', ['addressList']
+      ),
+    },
+    onShow() {
+      this.getAllAddress();
+    },
     methods: {
-        toPay() {
-            const { agreement } = this;
-            if (agreement) {
-                uni.navigateTo({
-                    url: '../pay/pay'
-                });
-            }
-        },
-        setAddressDefault(i) {
-            this.addressList.map(address => (address.default = false));
-            this.addressList[i].default = true;
-        },
-        toAddAddress(){
-            uni.navigateTo({
-                url:"/address-book/add-address"
-            })
+      ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
+      toPay() {
+        const { agreement } = this;
+        if (agreement) {
+          uni.navigateTo({
+            url: '../pay/pay'
+          });
         }
+      }
+      ,
+      toAddAddress(id) {
+        uni.navigateTo({
+          url: "/pages/address-book/add-address?id=" + id
+        })
+      }
     }
-};
+  }
+  ;
 </script>
 
 <style lang="scss" scoped>
