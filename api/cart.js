@@ -40,7 +40,7 @@ export const reqSelectAll = () => ajax('/cart/selectAll', {}, 'GET');
  * @param prodList {Array}
  * */
 
-export const reqDetele = prodList => ajax('/cart', { prodList }, 'DELETE');
+export const reqDetele = prodList => ajax('/cart?ids=' + prodList, {}, 'DELETE');
 
 /**
  * @function 清空失效商品

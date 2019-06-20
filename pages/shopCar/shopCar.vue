@@ -36,7 +36,9 @@
                               <image
                                 v-if="!edit" src="../../static/icon/del.svg"
                                 mode=""
-                                @tap="doDeleteCart({prodList:[good.productId]})"></image>
+                                @tap="doDeleteCart({
+                                ids:[good.productId]
+                                })"></image>
                             </view>
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">
@@ -115,7 +117,11 @@
           <text>总计：</text>
           ￥{{ total }}
         </view>
-        <view v-if="edit" :class="['button', { 'del-active': currentSelect.length  }]">删除({{ currentSelect.length }})
+        <view
+          v-if="edit"
+          :class="['button', { 'del-active': currentSelect.length }]"
+          @tap="doDeleteCart(currentSelect)"
+        >删除({{ currentSelect.length }})
         </view>
         <view
           v-else
@@ -160,8 +166,10 @@
         let state = edit ? 'willDel' : 'willBuy';
         let length = goods.filter(good => good[state] === true).length;
         let data = goods.filter(good => good[state] === true);
+        let ids = data.map(item => item.productId);
+        console.log(ids);
         this.selectProduct(data);
-        return { length };
+        return { length, ids };
       }
     },
     onShow() {
