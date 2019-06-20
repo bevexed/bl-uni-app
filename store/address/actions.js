@@ -48,9 +48,15 @@ export const addAddress = async ({ dispatch }, data) => {
       duration: 2000,
       success(res) {
         setTimeout(() => {
-          uni.navigateTo({
-            url: '/pages/address-book/address-book'
+          uni.navigateBack({
+            delta: 1,
+            fail(res) {
+              uni.navigateTo({
+                url: '/pages/address-book/address-book'
+              })
+            }
           })
+
         }, 2000)
       }
     })
@@ -127,9 +133,15 @@ export const changeAddress = async ({ dispatch }, data) => {
       duration: 2000,
       success(res) {
         setTimeout(() => {
-          uni.navigateTo({
-            url: '/pages/address-book/address-book'
+          uni.navigateBack({
+            delta: 1,
+            fail(res) {
+              uni.navigateTo({
+                url: '/pages/address-book/address-book'
+              })
+            }
           })
+
         }, 2000)
       }
     })

@@ -42,7 +42,7 @@
             </view>
         </view>
 
-        <view class="button" @tap="toAddAddress(null)">
+      <view class="button" @tap="toAddAddress(null)" v-if="addressList.length<10">
             <image src="../../static/icon/addw.png" mode=""></image>
             <text>添加新地址</text>
         </view>
