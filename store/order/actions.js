@@ -9,7 +9,9 @@ import {
 
 export const getOrderList = async ({ commit }, data) => {
   let res = await reqOrderList(data);
-  commit(GET_ORDER_LIST, { data });
+  if (res.code === 200) {
+    commit(GET_ORDER_LIST, res);
+  }
 };
 
 

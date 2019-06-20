@@ -37,10 +37,10 @@ export const reqSelectAll = () => ajax('/cart/selectAll', {}, 'GET');
 
 /**
  * @function 删除购物车商品
- * @param id {Number} 商品 ID
+ * @param prodList {Array}
  * */
 
-export const reqDetele = id => ajax('/cart/' + id, {}, 'DELETE');
+export const reqDetele = prodList => ajax('/cart', { prodList }, 'DELETE');
 
 /**
  * @function 清空失效商品

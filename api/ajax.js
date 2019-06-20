@@ -87,8 +87,8 @@ export default async function ajax(url, data = {}, type, loading = true) {
           return
         }
 
-        // 全局 520
-        if (response.data.code === 520) {
+        // 全局 520 \\ 404
+        if (response.data.code === 520 || response.data.code === 404) {
           uni.showToast({
             title: response.data.msg,
             icon: "none",

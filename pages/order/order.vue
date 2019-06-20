@@ -9,79 +9,106 @@
 
         <swiper :current="TabCur" class="swiper" :style="{ height: maxHeight + 20 + 'px' }" :circular="true" @change="swiperChange">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-                <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in orderList[index]" :key="orderIndex">
+              <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in orderList" :key="orderIndex">
                     <view class="order-header">
-                        <view class="order-num">订单编号：952738179214</view>
-                        <view class="order-state">{{ order.state }}</view>
+                      <view class="order-num">订单编号：{{ order.orderId }}</view>
+                      <view class="order-state">{{ order.status }}</view>
                     </view>
                     <!-- 收起 -->
-                    <view class="preview" v-if="preview !== order.id && order.goodList.length >= 4">
-                        <view v-for="(good, goodIndex) in order.goodList" :key="goodIndex"><image v-show="goodIndex < 4" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image></view>
-                        <image class="more" @tap="toPreview(order.id)" src="../static/icon/more.svg" mode=""></image>
+                <view class="preview" v-if="preview !== order.orderId && order.product.length >= 4">
+                  <view v-for="(good, goodIndex) in order.product" :key="goodIndex">
+                    <image
+                      v-show="goodIndex < 4"
+                      :src="good.image"
+                      mode=""></image>
+                  </view>
+                  <image class="more" @tap="toPreview(order.orderId)" src="../static/icon/more.svg" mode=""></image>
                     </view>
-
+                <!--展开-->
                     <view class="goods" v-else>
-                        <view :class="['good']" v-for="(good, goodIndex) in order.goodList" :key="goodIndex">
+                      <view :class="['good']" v-for="(good, goodIndex) in order.product" :key="goodIndex">
                             <!-- 展开 -->
-                            <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" src="http://qxintechoffice.f3322.net:5007/micro/1.jpg" mode=""></image>
+                        <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" :src="good.image"
+                               mode=""></image>
 
                             <view class="detail">
                                 <view class="detail-header">
-                                    <view class="shop-name">ML2395730185473123</view>
+                                  <view class="shop-name">{{ good.productNo }}</view>
 
                                     <!-- 售后状态 -->
-                                    <view class="shop-after" v-if="order.state === '交易完成' && good.afterState === '处理中'">处理中</view>
-                                    <view class="shop-after-button" v-if="order.state === '交易完成' && good.afterState !== '处理中'" @tap="toSaleAfter">售后</view>
+                                  <view class="shop-after" v-if="order.status === '交易完成' && good.afterstatus === '处理中'">
+                                    处理中
+                                  </view>
+                                  <view class="shop-after-button"
+                                        v-if="order.status === '交易完成' && good.afterstatus !== '处理中'" @tap="toSaleAfter">
+                                    售后
+                                  </view>
 
-                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '审核中'">审核中</view>
-                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '已审核'">已审核</view>
-                                    <view class="shop-after" v-if="order.state === '售后处理' && good.afterState === '退款中'">退款中</view>
+                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '审核中'">
+                                    审核中
+                                  </view>
+                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '已审核'">
+                                    已审核
+                                  </view>
+                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '退款中'">
+                                    退款中
+                                  </view>
                                 </view>
                                 <view class="detail-footer">
                                     <view :class="['options']">
-                                        <view class="option">
+                                      <view class="option" v-if="good.sampleType!=='无小样'">
                                             <view class="label">标样：￥0</view>
                                             <view class="value">*1</view>
                                         </view>
                                         <view class="option">
-                                            <view class="label">商品：￥50/米</view>
-                                            <view class="value">*40</view>
+                                          <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                                          <view class="value">*{{ good.count }}</view>
                                         </view>
                                     </view>
 
-                                    <view class="price">￥2000.00</view>
+                                  <view class="price">￥{{good.amount}}</view>
                                 </view>
                             </view>
                         </view>
 
-                        <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg" v-if="preview === order.id && order.goodList.length >= 4" mode=""></image>
+                        <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg" v-if="preview === order.id && order.product.length >= 4" mode=""></image>
                     </view>
 
                     <view class="pay-detail">
                         <view class="real-pay">
-                            <view class="num">共{{ order.goodList.length }}件商品</view>
+                          <view class="num">共{{ order.product.length }}件商品</view>
                             <view class="label">实付</view>
-                            <view class="value">￥6050.00</view>
+                            <view class="value">￥{{ order.shipCost }}</view>
                         </view>
                     </view>
 
                     <view class="buttons">
-                        <view class="button cancel" v-if="order.state === '待付款'" :data-order-id="order.id" @tap="cancalOrder($event)">取消订单</view>
-                        <view class="button pay" v-if="order.state === '待付款'">付款</view>
+                      <view class="button cancel" v-if="order.status === '待付款'" :data-order-id="order.id"
+                            @tap="cancalOrder($event)">取消订单
+                      </view>
+                      <view class="button pay" v-if="order.status === '待支付'">付款</view>
 
-                        <view class="button  cancel" v-if="order.state === '交易关闭'">删除订单</view>
-                        <view class="button  cancel" v-if="order.state === '交易关闭'">订单详情</view>
+                      <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
+                      <view class="button  cancel" v-if="order.status === '交易关闭'">订单详情</view>
 
-                        <view class="button  cancel" v-if="order.state === '待发货'" :data-order-id="order.id" @tap="toBackMoney($event)">取消订单</view>
-                        <view class="button  cancel" v-if="order.state === '待发货'">催单</view>
+                      <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.id"
+                            @tap="toBackMoney($event)">取消订单
+                      </view>
+                      <view class="button  cancel" v-if="order.status === '待发货'">催单</view>
 
-                        <view class="button  pay" v-if="order.state === '待收货'">确认收货</view>
+                      <view class="button  pay" v-if="order.status === '待收货'">确认收货</view>
 
-                        <view class="button  cancel" v-if="order.state === '售后处理'" :data-order-id="order.id" @tap="toSaleAfterDetail($event)">查看详情</view>
+                      <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.id"
+                            @tap="toSaleAfterDetail($event)">查看详情
+                      </view>
 
-                        <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toOrderDetail($event)">查看详情</view>
-                        <view class="button  cancel" v-if="order.state === '交易完成'">获取合同</view>
-                        <view class="button  cancel" v-if="order.state === '交易完成'" :data-order-id="order.id" @tap="toApplyTicket($event)">申请开票</view>
+                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.id"
+                            @tap="toOrderDetail($event)">查看详情
+                      </view>
+                      <view class="button  cancel" v-if="order.status === '交易完成'">获取合同</view>
+                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.id"
+                            @tap="toApplyTicket($event)">申请开票
+                      </view>
                     </view>
                 </view>
             </swiper-item>
@@ -111,251 +138,123 @@
 </template>
 
 <script>
-  import { mapActions } from "vuex";
+  import { mapActions, mapState } from "vuex";
 
-export default {
+  export default {
     data() {
-        return {
-            // 页面最大高度
-            maxHeight: '',
-            tabList: [{ name: '全部', value: 0 }, { name: '待付款', value: 1 }, { name: '待发货', value: 2 }, { name: '待收货', value: 3 }, { name: '售后', value: 4 }],
-            TabCur: 0,
-            // 商品 列表
-            orderList: [
-                // 全部订单
-                [
-                    { id: 100, state: '待付款', goodList: [{}, {}, {}, {}, {}] },
-                    {
-                        id: 2,
-                        state: '交易关闭',
-                        goodList: [{}, {}, {}]
-                    },
-                    {
-                        id: 3,
-                        state: '待发货',
-                        goodList: [{}, {}, {}, {}]
-                    },
-                    {
-                        id: 4,
-                        state: '待收货',
-                        goodList: [{}, {}]
-                    },
-                    {
-                        id: 5,
-                        state: '交易完成',
-                        goodList: [
-                            {
-                                afterState: '处理中'
-                            },
-                            {
-                                afterState: '处理中'
-                            },
-                            {}
-                        ]
-                    }
-                ],
-                [
-                    { id: 1, state: '待付款', goodList: [{}, {}, {}] },
-                    {
-                        id: 2,
-                        state: '待付款',
-                        goodList: [{}, {}, {}, {}]
-                    },
-                    {
-                        id: 3,
-                        state: '待付款',
-                        goodList: [{}]
-                    },
-                    {
-                        id: 4,
-                        state: '待付款',
-                        goodList: [{}, {}]
-                    }
-                ],
-                [
-                    { id: 1, state: '待发货', goodList: [{
-                        notSendGood: true
-                    }, {}] },
-                    {
-                        id: 2,
-                        state: '待发货',
-                        goodList: [
-                            {
-                                notSendGood: true
-                            },
-                            {},
-                            {}
-                        ]
-                    },
-                    {
-                        id: 3,
-                        state: '待发货',
-                        goodList: [{}, {}, {}, {}]
-                    },
-                    {
-                        id: 4,
-                        state: '待发货',
-                        goodList: [{}, {}]
-                    }
-                ],
-                [
-                    { id: 1, state: '待收货', goodList: [{}, {}] },
-                    {
-                        id: 2,
-                        state: '待收货',
-                        goodList: [{}, {}, {}, {}, {}, {}]
-                    },
-                    {
-                        id: 3,
-                        state: '待收货',
-                        goodList: [{}, {}, {}, {}]
-                    },
-                    {
-                        id: 4,
-                        state: '待收货',
-                        goodList: [{}, {}]
-                    }
-                ],
-                [
-                    {
-                        id: 1,
-                        state: '售后处理',
-                        goodList: [{}]
-                    },
-                    {
-                        id: 2,
-                        state: '售后处理',
-                        goodList: [
-                            {
-                                afterState: '审核中'
-                            },
-                            {
-                                afterState: '已审核'
-                            },
-                            {
-                                afterState: '退款中'
-                            },
-                            {},
-                            {},
-                            {}
-                        ]
-                    },
-                    {
-                        id: 3,
-                        state: '售后处理',
-                        goodList: [{}, {}, {}, {}]
-                    },
-                    {
-                        id: 4,
-                        state: '售后处理',
-                        goodList: [{}, {}]
-                    }
-                ]
-            ],
-            // 是否 预览 通过 当前订单id来判断 当前订单是否处于 预览状态
-            preview: -1,
-            // 是否同意
-            agreement: false,
-            // 弹窗
-            sortShow: false,
-            // 退款原因
-            sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
-            // 默认退款原因
-            defaultPicker: [2],
-            // 当前选择退款原因
-            currentPickerValue: 2
-        };
+      return {
+        // 页面最大高度
+        maxHeight: '',
+        tabList: [{ name: '全部', value: 0 }, { name: '待付款', value: 1 }, { name: '待发货', value: 2 }, {
+          name: '待收货',
+          value: 3
+        }, { name: '售后', value: 4 }],
+        TabCur: 0,
+        preview: -1,
+        // 是否同意
+        agreement: false,
+        // 弹窗
+        sortShow: false,
+        // 退款原因
+        sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
+        // 默认退款原因
+        defaultPicker: [2],
+        // 当前选择退款原因
+        currentPickerValue: 2
+      };
     },
 
-  computed: {},
-  onShow() {
-    this.getOrderList({
-      page: 1,
-      status: 0
-    });
-  },
+    computed: mapState('Order', ['orderList']),
+
+    onShow() {
+      this.getOrderList({
+        page: 1,
+        pageSize: 10,
+      }).then(() => this.height('.wrap0'))
+    },
     methods: {
       ...mapActions('Order', ['getOrderList']),
-        swiperChange(e) {
-            let { current } = e.target;
-            this.TabCur = current;
-            this.height('.wrap' + current);
-        },
-        tabSelect(index, e) {
-            if (this.currentTab === index) return false;
-            this.TabCur = index;
-            this.height('.wrap' + index);
-        },
+      swiperChange(e) {
+        let { current } = e.target;
+        this.TabCur = current;
+        this.height('.wrap' + current);
+      },
+      tabSelect(index, e) {
+        if (this.currentTab === index) return false;
+        this.TabCur = index;
+        this.height('.wrap' + index);
+      },
 
-        toPreview(id) {
-            this.preview = id;
-            setTimeout(() => this.height('.wrap' + this.TabCur));
-        },
+      toPreview(id) {
+        this.preview = id;
+        setTimeout(() => this.height('.wrap' + this.TabCur));
+      },
 
-        bindChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        moveHandle() {},
+      bindChange(e) {
+        console.log(e);
+        const val = e.detail.value[0];
+        this.currentPickerValue = val;
+      },
+      moveHandle() {
+      },
 
-        cancalOrder(e) {
-            const { orderId } = e.currentTarget.dataset;
-            this.sortShow = true;
-        },
+      cancalOrder(e) {
+        const { orderId } = e.currentTarget.dataset;
+        this.sortShow = true;
+      },
 
-        toBackMoney(e) {
-            const { orderId } = e.currentTarget.dataset;
-            uni.navigateTo({
-                url: 'back-money?orderId=' + orderId
-            });
-        },
+      toBackMoney(e) {
+        const { orderId } = e.currentTarget.dataset;
+        uni.navigateTo({
+          url: 'back-money?orderId=' + orderId
+        });
+      },
 
-        toOrderDetail(e) {
-            const { orderId } = e.currentTarget.dataset;
-            uni.navigateTo({
-                url: 'order-detail?orderId=' + orderId
-            });
-        },
+      toOrderDetail(e) {
+        const { orderId } = e.currentTarget.dataset;
+        uni.navigateTo({
+          url: 'order-detail?orderId=' + orderId
+        });
+      },
 
-        toSaleAfter() {
-            uni.navigateTo({
-                url: 'sale-after'
-            });
-        },
+      toSaleAfter() {
+        uni.navigateTo({
+          url: 'sale-after'
+        });
+      },
 
-        toSaleAfterDetail(e) {
-            const { orderId } = e.currentTarget.dataset;
-            uni.navigateTo({
-                url: 'sale-after-detail?orderId=' + orderId
-            });
-        },
+      toSaleAfterDetail(e) {
+        const { orderId } = e.currentTarget.dataset;
+        uni.navigateTo({
+          url: 'sale-after-detail?orderId=' + orderId
+        });
+      },
 
-        toApplyTicket(e) {
-            const { orderId } = e.currentTarget.dataset;
-            uni.navigateTo({
-                url: 'apply-ticket?orderId=' + orderId
-            });
-        },
+      toApplyTicket(e) {
+        const { orderId } = e.currentTarget.dataset;
+        uni.navigateTo({
+          url: 'apply-ticket?orderId=' + orderId
+        });
+      },
 
-        sureSelect() {
-            this.sortShow = false;
-        },
+      sureSelect() {
+        this.sortShow = false;
+      },
 
-        height(current) {
-            let view = uni.createSelectorQuery().selectAll(current);
-            setTimeout(() => {
-                view.boundingClientRect(data => {
-                    console.log('高' + data.map(item => item.height).reduce((total, num) => total + num, 0));
-                    this.maxHeight = data.map(item => item.height).reduce((total, num) => total + num, 0) + data.length * 20;
-                    console.log(this.maxHeight);
-                }).exec();
-            });
-        }
+      height(current) {
+        let view = uni.createSelectorQuery().selectAll(current);
+        setTimeout(() => {
+          view.boundingClientRect(data => {
+            console.log('高' + data.map(item => item.height).reduce((total, num) => total + num, 0));
+            this.maxHeight = data.map(item => item.height).reduce((total, num) => total + num, 0) + data.length * 20;
+            console.log(this.maxHeight);
+          }).exec();
+        });
+      }
     },
 
     onReady() {
-        this.height('.wrap0');
+      this.height('.wrap0');
     }
 };
 </script>

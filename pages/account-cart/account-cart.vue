@@ -155,7 +155,7 @@
         let item = goods.map(item => ({
           count: item.shoppingNum,
           productId: item.productId,
-          sampleType: item.sampleType
+          sampleType: item.sampleType === 0 ? 0 : 10
         }));
         let addressId = addressList.filter(item => item.isMain)[0].id;
         if (agreement) {

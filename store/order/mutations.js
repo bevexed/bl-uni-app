@@ -1,7 +1,13 @@
-import MUTATE from '../mutation-types';
+import {
+  GET_ORDER_LIST
+} from '../mutation-types';
 
 export default {
-    [MUTATE](state, { data }) {
-        state.data = data;
+  [GET_ORDER_LIST](state, { data }) {
+    const { records, size, total, pages } = data;
+    state.orderList = records;
+    state.size = size;
+    state.total = total;
+    state.pages = pages;
     },
 };

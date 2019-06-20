@@ -1,3 +1,6 @@
 export default {
-    data: null,
+  orderList: [],
+  size: 10,
+  total: 0,
+  pages: 0
 }

@@ -32,10 +32,11 @@
                             <view class="detail-header">
                               <view class="shop-name">{{ good.pno }}</view>
                               <!--  删除  -->
+                              <!--fixME：删除订单，DELETE 接口 body体 被微信 吞掉-->
                               <image
                                 v-if="!edit" src="../../static/icon/del.svg"
                                 mode=""
-                                @tap="doDeleteCart(good.productId)"></image>
+                                @tap="doDeleteCart({prodList:[good.productId]})"></image>
                             </view>
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">
