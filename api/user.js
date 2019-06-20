@@ -56,4 +56,12 @@ export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');
  * */
 
 // todo:修改 用户信息
-export const reqUser = ({ data }) => ajax('/user', { data }, 'PUT');
+export const reqChangeUser = ({ companyId, job, phone, verify, avatar, nickname, birthday }) => ajax('/user', {
+  companyId,
+  job,
+  phone,
+  verify,
+  avatar,
+  nickname,
+  birthday
+}, 'PUT');

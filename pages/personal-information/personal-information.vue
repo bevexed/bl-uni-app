@@ -18,7 +18,10 @@
             <view class="item">
                 <view class="label">绑定手机号</view>
                 <view class="value">
-                  <text class="phone">{{ userInfo.phone.slice(0,3) }} **** {{ userInfo.phone.slice(7)}}</text>
+                  <text class="phone" v-if="userInfo && userInfo.phone">
+                    {{ userInfo.phone && userInfo.phone.slice(0,3) }} **** {{ userInfo.phone && userInfo.phone.slice(7)
+                    }}
+                  </text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
@@ -40,11 +43,17 @@
             </view>
 
             <view class="item">
-                <view class="label">生日</view>
+              <view class="label">生日</view>
+              <picker
+                @change="changeBirth"
+                mode="date"
+                @cancel=""
+              >
                 <view class="value">
-                    <text class="pick-birth">1900-01-01</text>
+                  <text class="pick-birth">{{ userInfo.birthday || birthday }}</text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
+              </picker>
             </view>
 
             <view class="item">
@@ -76,10 +85,23 @@
 
 <script>
 // to-fix 底部导航
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  computed: mapState('User', ['userInfo'])
+  data() {
+    return {
+      birthday: '1990-01-01'
+    }
+  },
+  computed: mapState('User', ['userInfo']),
+  methods: {
+    ...mapActions('User', ['changeUser']),
+    changeBirth(e) {
+      console.log('picker发送选择改变，携带值为', e.target.value);
+      this.birthday = e.target.value;
+      this.changeUser({ birthday: this.birthday })
+    },
+  }
 };
 </script>
 

@@ -9,7 +9,8 @@ import {
   reqLogin,
   reqIsExist,
   reqCurrentUserDetail,
-  reqRefreshToken
+  reqRefreshToken,
+  reqChangeUser
 } from "../../api/user";
 
 export default {
@@ -94,6 +95,10 @@ export default {
         }
       });
     }
+  },
+
+  async changeUser({ dispatch }, data) {
+    let res = reqChangeUser(data)
   },
 
   // todo：退出逻辑
