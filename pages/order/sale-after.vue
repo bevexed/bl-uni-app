@@ -146,8 +146,8 @@
 </template>
 
 <script>
-import CustmerPhone from '../components/CustmerPhone/CustmerPhone.vue';
-import uniNumberBox from '../components/uni-number-box/uni-number-box.vue';
+import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
 
 export default {

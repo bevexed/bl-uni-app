@@ -74,6 +74,12 @@
       }
     },
     {
+      "path": "pages/order/sale-after",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
       "path": "pages/account-cart/account-cart"
     },
     {

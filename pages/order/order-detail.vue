@@ -74,6 +74,7 @@
             </view>
         </view>
 
+      <!--todo:开票状态-->
         <view class="state">
             <view class="item">
                 <view class="label">开票状态</view>

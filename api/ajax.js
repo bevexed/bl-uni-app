@@ -2,7 +2,7 @@ import uniRequest from 'uni-request';
 
 
 // 全局配置
-uniRequest.defaults.baseURL = 'https://www.chengqj.com/micro';
+uniRequest.defaults.baseURL = 'http://www.ziniuxiaozhu.com/micro';
 
 const header = () => {
   return new Promise((resolve, reject) => {
