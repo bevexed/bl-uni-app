@@ -94,6 +94,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
             icon: "none",
             mask: true
           })
+          return;
         }
 
         resolve(response.data);

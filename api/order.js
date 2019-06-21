@@ -22,3 +22,17 @@ export const reqOrderList = ({ page, pageSize = 10, ...rest }) => ajax('/order/o
  */
 
 export const reqCreateOrder = ({ addressId, item }) => ajax('/order/createOrder', { addressId, item }, 'POST');
+
+/**
+ * @function 取消订单
+ * @param orderId
+ * @param reason
+ * @param reasonText
+ * @returns {Promise<*>}
+ */
+
+export const reqCancelOrder = ({ orderId, reason, reasonText }) => ajax('/order/cancelOrder', {
+  orderId,
+  reason,
+  reasonText,
+}, 'PUT');

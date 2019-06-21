@@ -71,7 +71,8 @@
                             </view>
                         </view>
 
-                        <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg" v-if="preview === order.id && order.product.length >= 4" mode=""></image>
+                      <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg"
+                             v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                     </view>
 
                     <view class="pay-detail">
@@ -83,30 +84,30 @@
                     </view>
 
                     <view class="buttons">
-                      <view class="button cancel" v-if="order.status === '待付款'" :data-order-id="order.id"
-                            @tap="cancalOrder($event)">取消订单
+                      <view class="button cancel" v-if="order.status === '待付款'" :data-order-id="order.orderId"
+                            @tap="cancalOrder(order.orderId)">取消订单
                       </view>
                       <view class="button pay" v-if="order.status === '待支付'">付款</view>
 
                       <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
                       <view class="button  cancel" v-if="order.status === '交易关闭'">订单详情</view>
 
-                      <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.id"
+                      <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.orderId"
                             @tap="toBackMoney($event)">取消订单
                       </view>
                       <view class="button  cancel" v-if="order.status === '待发货'">催单</view>
 
                       <view class="button  pay" v-if="order.status === '待收货'">确认收货</view>
 
-                      <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.id"
+                      <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">查看详情
                       </view>
 
-                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.id"
+                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
                       <view class="button  cancel" v-if="order.status === '交易完成'">获取合同</view>
-                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.id"
+                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toApplyTicket($event)">申请开票
                       </view>
                     </view>
@@ -169,7 +170,7 @@
 
     computed: mapState('Order', ['orderList','page']),
 
-    onShow() {
+    onLoad() {
       this.getOrderList({
         page: 1,
         pageSize: 10,
@@ -206,6 +207,7 @@
       getData(index) {
         uni.pageScrollTo({
           scrollTop: 0,
+          duration: 0
         });
         if (index === 0) {
           this.getOrderList({

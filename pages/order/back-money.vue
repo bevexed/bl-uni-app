@@ -5,19 +5,21 @@
         <view class="goods">
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+              <image class="shop-img" :src="good.image" mode=""></image>
 
                 <view class="detail">
-                    <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
+                  <view class="detail-header">
+                    <view class="shop-name">{{ good.productNo }}</view>
+                  </view>
                     <view class="detail-footer">
                         <view :class="['options']">
-                            <view class="option">
+                          <view class="option" v-if="good.sampleType !== '无小样'">
                                 <view class="label">标样：￥0</view>
                                 <view class="value">*1</view>
                             </view>
                             <view class="option">
-                                <view class="label">商品：￥50/米</view>
-                                <view class="value">*40</view>
+                              <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                              <view class="value">*{{ good.count }}</view>
                             </view>
                         </view>
                     </view>
@@ -28,29 +30,36 @@
         <view class="list">
             <view class="item">
                 <text class="label">退款金额</text>
-                <text class="price">￥2050.00</text>
+              <text class="price">￥{{ current[0].shipCost }}</text>
                 <text class="bedge">(不含运费)</text>
             </view>
             <view class="item flex" @tap="cancalOrder">
                 <text class="label">退款原因</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                <view class="label flex">
+                  {{ sorts[currentPickerValue].reasonText }} <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                </view>
             </view>
             <view class="item">
                 <text class="label">退款说明</text>
                 <text class="bedge">(选填)</text>
                 <textarea
-                    class="text-area"
-                    auto-height
-                    maxlength="200"
-                    placeholder-style="font-size:12px;color:#999;"
-                    v-model="textArea"
-                    placeholder="请描述您的问题，以便我们尽快为您服务"
+                  class="text-area"
+                  auto-height
+                  maxlength="200"
+                  placeholder-style="font-size:12px;color:#999;"
+                  v-model="reasonText"
+                  placeholder="请描述您的问题，以便我们尽快为您服务"
                 />
-                <text class="text-area-length">{{ textArea.length }}/200</text>
+              <text class="text-area-length">{{ reasonText.length }}/200</text>
             </view>
         </view>
 
-        <view class="button">提交申请</view>
+      <view class="button" @tap="cancelOrder({
+        orderId,
+        reasonText,
+        reason:sorts[currentPickerValue].reason,
+        })">提交申请
+      </view>
         <custmer-phone class="custmer" />
 
         <!-- 退款 原因 弹窗 -->
@@ -64,60 +73,68 @@
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
                     <picker-view-column>
                         <view class="selecter" v-for="(sort, index) in sorts" :key="index">
-                            <view class="value">{{ sort }}</view>
+                          <view class="value">{{ sort.reasonText }}</view>
                         </view>
                     </picker-view-column>
                 </picker-view>
 
-                <!-- <view class="line left"></view>
-                <view class="line right"></view> -->
             </view>
         </view>
     </view>
 </template>
 
 <script>
-import CustmerPhone from '../components/CustmerPhone/CustmerPhone.vue';
+  import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
+  import { mapActions, mapState } from "vuex";
+
 export default {
-    components: {
-        CustmerPhone
+  components: {
+    CustmerPhone
+  },
+  data() {
+    return {
+      // 商品 列表
+      orderId: '',
+      current: [],
+      goods: [],
+      // 用户反馈信息
+      reasonText: '',
+      sortShow: false,
+      // 退款原因
+      sorts: [
+        { reasonText: '买错了,不想买了', reason: 0 },
+        { reasonText: '未及时发货', reason: 10 },
+        { reasonText: '商品信息有误', reason: 20 },
+        { reasonText: '其他', reason: 30 },
+      ],
+      // 默认退款原因
+      defaultPicker: [0],
+      // 当前选择退款原因
+      currentPickerValue: 0
+    };
+  },
+  computed: mapState('Order', ['orderList']),
+  methods: {
+    ...mapActions('Order', ['cancelOrder']),
+    sureSelect() {
+      this.sortShow = false;
     },
-    data() {
-        return {
-            // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                }
-            ],
-            // 用户反馈信息
-            textArea: '',
-            sortShow: false,
-            // 退款原因
-            sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
-            // 默认退款原因
-            defaultPicker: [2],
-            // 当前选择退款原因
-            currentPickerValue: 2
-        };
+    bindChange(e) {
+      this.currentPickerValue = e.detail.value[0];
     },
-    methods: {
-        sureSelect() {
-            this.sortShow = false;
-        },
-        bindChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        cancalOrder(e) {
-            this.sortShow = true;
-        },
-        moveHandle() {},
+    cancalOrder(e) {
+      this.sortShow = true;
     },
-    onLoad(e) {
-        console.log(e);
-    }
+    moveHandle() {
+    },
+  },
+  onLoad(e) {
+    let { orderId } = e;
+    this.orderId = orderId;
+    this.current = this.orderList.filter(item => item.orderId === orderId);
+    this.goods = this.current[0].product;
+    console.log(this.goods);
+  }
 };
 </script>
 
@@ -315,6 +332,9 @@ export default {
             height: 380upx;
             width: 100%;
             .selecter {
+              display: flex;
+              align-items: center;
+              justify-content: center;
                 text-align: center;
                 font-size: 32upx;
                 font-weight: 300;

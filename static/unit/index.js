@@ -27,3 +27,26 @@ export const myImage = img => {
         }
     });
 };
+
+
+/**
+ * @function 提示后延时跳转
+ * @param title
+ * @param url
+ * @param duration
+ * @constructor
+ */
+
+export const MSG_TO = ({ title, url, duration = 2000 }) => {
+  uni.showToast({
+    title,
+    duration,
+    success(res) {
+      setTimeout(() => {
+        uni.navigateTo({
+          url
+        })
+      }, duration)
+    }
+  })
+};
