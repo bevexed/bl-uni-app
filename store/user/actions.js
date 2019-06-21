@@ -42,12 +42,14 @@ export default {
       uni.showToast({
         title: '短信发送成功',
         mask: true
-      })
+      });
+      return true
     } else {
       uni.showToast({
         title: res.msg,
         icon: "none"
-      })
+      });
+      return false;
     }
   },
 

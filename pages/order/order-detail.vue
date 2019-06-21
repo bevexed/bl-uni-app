@@ -38,7 +38,7 @@
                           </view>
                         </view>
 
-                        <view class="button" @tap="toSaleAfter">售后</view>
+                      <view class="button" @tap="toSaleAfter({orderId:orderDetail.orderId,itemId:good.itemId})">售后</view>
                     </view>
                 </view>
             </view>
@@ -106,11 +106,13 @@
     }),
     methods: {
       ...mapActions('Order', ['getOrderDetail']),
-      toSaleAfter() {
+
+      toSaleAfter(data) {
+        const { orderId, itemId } = data;
         uni.navigateTo({
-          url: 'sale-after'
-        })
-      }
+          url: 'sale-after?orderId=' + orderId + '&itemId=' + itemId
+        });
+      },
     },
     onLoad(e) {
       const { orderId } = e;

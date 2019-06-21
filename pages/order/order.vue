@@ -40,7 +40,8 @@
                                     {{ good.afterSaleStatus }}
                                   </view>
                                   <view class="shop-after-button"
-                                        v-if="good.allowAfterSale" @tap="toSaleAfter">
+                                        v-if="good.allowAfterSale"
+                                        @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
                                     售后
                                   </view>
                                 </view>
@@ -98,6 +99,7 @@
                             @tap="toSaleAfterDetail($event)">查看详情
                       </view>
 
+                      <!--fixMe:怎么去售后详情页面-->
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
@@ -158,8 +160,9 @@
         sorts: [
           { reasonText: '买错了,不想买了', reason: 0 },
           { reasonText: '未及时发货', reason: 10 },
-          { reasonText: '商品信息有误', reason: 20 },
-          { reasonText: '其他', reason: 30 },
+          { reasonText: '付款不成功', reason: 20 },
+          { reasonText: '商品信息有误', reason: 30 },
+          { reasonText: '其他', reason: 40 },
         ],
         // 默认退款原因
         defaultPicker: [0],
@@ -250,9 +253,7 @@
       },
 
       bindChange(e) {
-        console.log(e);
-        const val = e.detail.value[0];
-        this.currentPickerValue = val;
+        this.currentPickerValue = e.detail.value[0];
       },
       moveHandle() {
       },
@@ -276,9 +277,10 @@
         });
       },
 
-      toSaleAfter() {
+      toSaleAfter(data) {
+        const { orderId, itemId } = data;
         uni.navigateTo({
-          url: 'sale-after'
+          url: 'sale-after?orderId=' + orderId + '&itemId=' + itemId
         });
       },
 

@@ -74,7 +74,10 @@
             this.send = true;
 
         // 发送信息获取验证码
-        this.getVerify(phone);
+        let res = await this.getVerify(phone);
+        if (!res) {
+          return
+        }
 
         this.timer = setInterval(() => {
           time--;

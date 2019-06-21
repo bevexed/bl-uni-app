@@ -3,25 +3,25 @@
         <view class="title">售后服务</view>
 
         <view class="goods">
-            <view class="good" v-for="(good, i) in goods" :key="i">
+            <view class="good" v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+              <image class="shop-img" :src="good.image" mode=""></image>
 
-                <view class="detail">
-                    <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
-                    <view class="detail-footer">
-                        <view :class="['options']">
-                            <view class="option">
-                                <view class="label">标样：￥0</view>
-                                <view class="value">*1</view>
-                            </view>
-                            <view class="option">
-                                <view class="label">商品：￥50/米</view>
-                                <view class="value">*40</view>
-                            </view>
-                        </view>
+              <view class="detail">
+                <view class="detail-header"><view class="shop-name">{{ good.productNo }}</view></view>
+                <view class="detail-footer">
+                  <view :class="['options']">
+                    <view class="option" v-if="good.sampleType!=='无小样'">
+                      <view class="label">标样：￥0</view>
+                      <view class="value">*1</view>
                     </view>
+                    <view class="option">
+                      <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                      <view class="value">*{{ good.count }}</view>
+                    </view>
+                  </view>
                 </view>
+              </view>
             </view>
         </view>
 
@@ -133,91 +133,94 @@
 import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
 import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+import { mapActions, mapState } from "vuex";
 
 export default {
-    components: {
-        CustmerPhone,
-        uniNumberBox,
-        uniTag
-    },
-    data() {
-        return {
-            // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                }
-            ],
-            // 用户反馈信息
-            textArea: '',
-            selectReasonShow: false,
-            // 退款原因
-            sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
-            // 默认退款原因
-            defaultPicker: [2],
-            // 当前选择退款原因
-            currentPickerValue: 1,
-            // 售后服务类型弹窗
-            selectSaleAfterShow: false,
-            // 默认售后类型
-            defaultSelectSaleAfterShow: [0],
-            // 当前选择类型
-            currentSelectSaleAfterShow: 0,
+  components: {
+    CustmerPhone,
+    uniNumberBox,
+    uniTag
+  },
 
-            // 数量 选择 弹窗
-            selectNumShow: false,
+  data() {
+    return {
+      itemId: '',
+      // 用户反馈信息
+      textArea: '',
+      selectReasonShow: false,
+      // 退款原因
+      sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
+      // 默认退款原因
+      defaultPicker: [2],
+      // 当前选择退款原因
+      currentPickerValue: 1,
+      // 售后服务类型弹窗
+      selectSaleAfterShow: false,
+      // 默认售后类型
+      defaultSelectSaleAfterShow: [0],
+      // 当前选择类型
+      currentSelectSaleAfterShow: 0,
 
-            // 购买数量
-            num: 0,
+      // 数量 选择 弹窗
+      selectNumShow: false,
 
-            tagsList: ['码样'],
-            // 当前选中标签
-            tagCurrentSelect: []
-        };
+      // 购买数量
+      num: 0,
+
+      tagsList: ['码样'],
+      // 当前选中标签
+      tagCurrentSelect: []
+    };
+  },
+  computed: mapState('Order', {
+    goods: state => state.orderDetail.product,
+    orderDetail: state => state.orderDetail
+  }),
+  methods: {
+    ...mapActions('Order', ['getOrderDetail']),
+    sureSelect() {
+      this.selectReasonShow = false;
+      this.selectSaleAfterShow = false;
+      this.selectNumShow = false;
     },
-    methods: {
-        sureSelect() {
-            this.selectReasonShow = false;
-            this.selectSaleAfterShow = false;
-            this.selectNumShow = false;
-        },
-        selectChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        selectNum() {
-            if (this.currentSelectSaleAfterShow !== 1) {
-                return;
-            }
-            this.selectNumShow = true;
-        },
-        selectReason(e) {
-            this.selectReasonShow = true;
-        },
-        selectSaleAfter() {
-            this.selectSaleAfterShow = true;
-        },
-        bindChange(e) {
-            console.log('sale-after-type', e);
-            const val = e.detail.value[0];
-            this.currentSelectSaleAfterShow = val;
-        },
-        numChange(val) {
-            console.log(val);
-        },
-        selectTag(currentState, tag_name) {
-            if (this[currentState].includes(tag_name)) {
-                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-                return;
-            }
-            this[currentState].push(tag_name);
-        },
-        moveHandle() {}
+    selectChange(e) {
+      this.currentPickerValue = e.detail.value[0];
     },
-    onLoad(e) {
-        console.log(e);
+    selectNum() {
+      if (this.currentSelectSaleAfterShow !== 1) {
+        return;
+      }
+      this.selectNumShow = true;
+    },
+    selectReason(e) {
+      this.selectReasonShow = true;
+    },
+    selectSaleAfter() {
+      this.selectSaleAfterShow = true;
+    },
+    bindChange(e) {
+      console.log('sale-after-type', e);
+      const val = e.detail.value[0];
+      this.currentSelectSaleAfterShow = val;
+    },
+    numChange(val) {
+      console.log(val);
+    },
+    selectTag(currentState, tag_name) {
+      if (this[currentState].includes(tag_name)) {
+        this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
+        return;
+      }
+      this[currentState].push(tag_name);
+    },
+    moveHandle() {
     }
+  },
+  onLoad(e) {
+    const { orderId, itemId } = e;
+    this.itemId = itemId;
+    this.getOrderDetail(orderId);
+  }
 };
 </script>
 
