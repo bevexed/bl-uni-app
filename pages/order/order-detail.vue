@@ -2,40 +2,40 @@
     <view class="order-detail">
         <view class="header">
             <view>
-                交易完成
+                {{ orderDetail.status }}
                 <view class="sm">再去商城逛一逛吧</view>
             </view>
-            <image src="../static/icon/over.svg" mode=""></image>
+            <image src="../../static/icon/over.svg" mode=""></image>
         </view>
 
         <view class="address">
-            <image src="../static/icon/loca.svg" mode=""></image>
+            <image src="../../static/icon/loca.svg" mode=""></image>
             <view class="detail">
                 <view class="top">
-                    <text class="name">路人甲</text>
-                    <text class="phone">158 **** 7984</text>
+                    <text class="name">{{ orderDetail.receiverName }}</text>
+                    <text class="phone" v-if="orderDetail && orderDetail.phone">{{ orderDetail.phone.slice(0,3) }} **** {{ orderDetail.phone.slice(7) }}</text>
                 </view>
-                <view class="address-detail">地址：浙江省杭州市拱墅区西溪首座A1-1 310</view>
+                <view class="address-detail">地址：{{ orderDetail.address }}</view>
             </view>
         </view>
 
         <view class="goods">
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-                <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+                <image class="shop-img" :src="good.image" mode=""></image>
 
                 <view class="detail">
-                    <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
+                    <view class="detail-header"><view class="shop-name">{{ good.productNo }}</view></view>
                     <view class="detail-footer">
                         <view :class="['options']">
-                            <view class="option">
-                                <view class="label">标样：￥0</view>
-                                <view class="value">*1</view>
-                            </view>
-                            <view class="option">
-                                <view class="label">商品：￥50/米</view>
-                                <view class="value">*40</view>
-                            </view>
+                          <view class="option" v-if="good.sampleType!=='无小样'">
+                            <view class="label">标样：￥0</view>
+                            <view class="value">*1</view>
+                          </view>
+                          <view class="option">
+                            <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                            <view class="value">*{{ good.count }}</view>
+                          </view>
                         </view>
 
                         <view class="button" @tap="toSaleAfter">售后</view>
@@ -47,30 +47,30 @@
         <view class="price">
             <view class="item">
                 <view class="label">商品总金额</view>
-                <view class="value">￥20000.00</view>
+                <view class="value">￥{{ orderDetail.amount }}</view>
             </view>
             <view class="item">
                 <view class="label">运费</view>
-                <view class="value">￥0.00</view>
+                <view class="value">￥{{ orderDetail.shipCost }}</view>
             </view>
             <view class="item">
                 <view class="real-pay">实付款</view>
-                <view class="real-value">￥19500.00</view>
+                <view class="real-value">￥{{ orderDetail.amount }}</view>
             </view>
         </view>
 
         <view class="order">
             <view class="item">
                 <view class="label">订单编号</view>
-                <view class="time">12314686954682</view>
+                <view class="time">{{ orderDetail.orderId }}</view>
             </view>
             <view class="item">
                 <view class="label">下单时间</view>
-                <view class="time">2019.04.25 12:30:35</view>
+                <view class="time">{{ orderDetail.createTime }}</view>
             </view>
             <view class="item">
                 <view class="label">发货时间</view>
-                <view class="time">2019.04.25 12:30:35</view>
+                <view class="time">{{ orderDetail.shipmentTime }}</view>
             </view>
         </view>
 
@@ -96,28 +96,26 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                }
-            ]
-        };
-    },
+  import { mapActions, mapState } from "vuex";
+
+  export default {
+    computed: mapState('Order', {
+      goods: state => state.orderDetail.product,
+      orderDetail: state => state.orderDetail
+    }),
     methods: {
-        toSaleAfter(){
-            uni.navigateTo({
-                url:'sale-after'
-            })
-        }
+      ...mapActions('Order', ['getOrderDetail']),
+      toSaleAfter() {
+        uni.navigateTo({
+          url: 'sale-after'
+        })
+      }
     },
     onLoad(e) {
-        console.log(e);
+      const { orderId } = e;
+      this.getOrderDetail(orderId);
     }
-};
+  };
 </script>
 
 <style lang="scss">
@@ -167,6 +165,7 @@ export default {
             font-weight: 400;
             color: rgba(51, 51, 51, 1);
             .top {
+              width: 100%;
                 .phone {
                     margin-left: 120upx;
                 }

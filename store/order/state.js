@@ -4,5 +4,7 @@ export default {
   total: 0,
   pages: 2,
   page: 0,
-  currentStatus: 0
+  currentStatus: 0,
+
+  orderDetail:{},
 }

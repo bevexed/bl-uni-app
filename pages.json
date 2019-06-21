@@ -68,6 +68,12 @@
       }
     },
     {
+      "path": "pages/order/order-detail",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
       "path": "pages/account-cart/account-cart"
     },
     {
@@ -117,29 +123,6 @@
           "style": {
             "navigationBarTitleText": "添加开票信息"
           }
-        }
-      ]
-    },
-    {
-      "root": "order",
-      "pages": [
-        {
-          "path": "order-detail"
-        },
-        {
-          "path": "back-money"
-        },
-        {
-          "path": "sale-after"
-        },
-        {
-          "path": "sale-after-detail"
-        },
-        {
-          "path": "post-information"
-        },
-        {
-          "path": "apply-ticket"
         }
       ]
     }

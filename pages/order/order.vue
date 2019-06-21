@@ -79,7 +79,7 @@
                         <view class="real-pay">
                           <view class="num">共{{ order.product.length }}件商品</view>
                             <view class="label">实付</view>
-                            <view class="value">￥{{ order.shipCost }}</view>
+                            <view class="value">￥{{ order.amount }}</view>
                         </view>
                     </view>
 

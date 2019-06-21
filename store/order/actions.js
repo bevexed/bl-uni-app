@@ -1,11 +1,16 @@
 import {
   GET_ORDER_LIST,
-  CREATE_ORDER
+  CREATE_ORDER,
+  GET_ORDER_DETAIL
 } from '../mutation-types';
+
 import {
   reqOrderList,
   reqCreateOrder,
-  reqCancelOrder, reqConfirmReceipt, reqRemindOrder
+  reqCancelOrder,
+  reqConfirmReceipt,
+  reqRemindOrder,
+  reqOrderDetail
 } from "../../api/order";
 import { MSG_TO } from "../../static/unit";
 
@@ -63,5 +68,12 @@ export const remindOrder = async ({ dispatch }, data) => {
     uni.showToast({
       title: '催单成功'
     })
+  }
+};
+
+export const getOrderDetail = async ({ commit }, data) => {
+  let res = await reqOrderDetail(data);
+  if (res.code === 200) {
+    commit(GET_ORDER_DETAIL, res)
   }
 };

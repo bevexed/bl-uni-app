@@ -1,5 +1,6 @@
 import {
-  GET_ORDER_LIST
+  GET_ORDER_LIST,
+  GET_ORDER_DETAIL
 } from '../mutation-types';
 
 export default {
@@ -15,6 +16,9 @@ export default {
       return
     }
     state.orderList = [...state.orderList, ...records];
-
     },
+
+  [GET_ORDER_DETAIL](state, { data }) {
+    state.orderDetail = data;
+  }
 };

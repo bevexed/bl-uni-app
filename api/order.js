@@ -51,3 +51,24 @@ export const reqConfirmReceipt = orderId => ajax('/order/confirmReceipt/' + orde
  * @returns {Promise<*>}
  */
 export const reqRemindOrder = orderId => ajax('/order/remindOrder/' + orderId, {}, 'PUT');
+
+/**
+ * @function 获取订单详情
+ * @param orderId
+ * @returns {Promise<*>}
+ */
+
+export const reqOrderDetail = orderId => ajax('/order/orderDetail', { orderId }, 'GET');
+
+/**
+ * @function 请求订单微信支付
+ * @param amount
+ * @param bankTransferRecord
+ * @param code
+ * @param filename
+ * @param orderNum
+ * @param paymentMethod
+ * @returns {Promise<*>}
+ */
+// todo:微信支付
+export const reqPayOrder = ({ amount, bankTransferRecord, code, filename, orderNum, paymentMethod }) => ajax('/order/payOrder', {}, 'PUT');

@@ -30,7 +30,7 @@
         <view class="list">
             <view class="item">
                 <text class="label">退款金额</text>
-              <text class="price">￥{{ current[0].shipCost }}</text>
+              <text class="price">￥{{ current[0].amount }}</text>
                 <text class="bedge">(不含运费)</text>
             </view>
             <view class="item flex" @tap="cancalOrder">
