@@ -44,3 +44,10 @@ export const reqCancelOrder = ({ orderId, reason, reasonText }) => ajax('/order/
  */
 
 export const reqConfirmReceipt = orderId => ajax('/order/confirmReceipt/' + orderId, {}, 'PUT');
+
+/**
+ * @function 催单
+ * @param orderId
+ * @returns {Promise<*>}
+ */
+export const reqRemindOrder = orderId => ajax('/order/remindOrder/' + orderId, {}, 'PUT');

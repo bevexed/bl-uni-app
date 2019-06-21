@@ -95,7 +95,10 @@
                       <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.orderId"
                             @tap="toBackMoney($event)">取消订单
                       </view>
-                      <view class="button  cancel" v-if="order.status === '待发货'">催单</view>
+
+                      <view class="button  cancel" v-if="order.status === '待发货'" @tap="remindOrder(order.orderId)">
+                        催单
+                      </view>
 
                       <view class="button  pay" v-if="order.status === '待收货'" @tap="doConfirmReceipt(order.orderId)">
                         确认收货
@@ -210,7 +213,7 @@
       }
     },
     methods: {
-      ...mapActions('Order', ['getOrderList', 'confirmReceipt']),
+      ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder']),
       async doConfirmReceipt(id) {
         await this.confirmReceipt(id);
         this.getData();

@@ -5,7 +5,7 @@ import {
 import {
   reqOrderList,
   reqCreateOrder,
-  reqCancelOrder, reqConfirmReceipt
+  reqCancelOrder, reqConfirmReceipt, reqRemindOrder
 } from "../../api/order";
 import { MSG_TO } from "../../static/unit";
 
@@ -46,5 +46,14 @@ export const confirmReceipt = async ({ dispatch }, data) => {
    uni.showToast({
      title:'收货成功'
    })
+  }
+};
+
+export const remindOrder = async ({ dispatch }, data) => {
+  let res = await reqRemindOrder(data);
+  if (res.code === 200) {
+    uni.showToast({
+      title: '催单成功'
+    })
   }
 };
