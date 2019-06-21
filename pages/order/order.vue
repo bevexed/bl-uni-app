@@ -97,7 +97,9 @@
                       </view>
                       <view class="button  cancel" v-if="order.status === '待发货'">催单</view>
 
-                      <view class="button  pay" v-if="order.status === '待收货'">确认收货</view>
+                      <view class="button  pay" v-if="order.status === '待收货'" @tap="doConfirmReceipt(order.orderId)">
+                        确认收货
+                      </view>
 
                       <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">查看详情
@@ -168,7 +170,7 @@
       };
     },
 
-    computed: mapState('Order', ['orderList','page']),
+    computed: mapState('Order', ['orderList', 'page',]),
 
     onLoad() {
       this.getOrderList({
@@ -176,6 +178,23 @@
         pageSize: 10,
       }).then(() => this.height('.wrap0'))
     },
+    // fixMe: 体验不好
+    onShow() {
+      if (this.TabCur === 0) {
+        this.getOrderList({
+          page: 1,
+          pageSize: 10,
+        }).then(() => this.height('.wrap0'));
+        return
+      }
+      let status = this.tabList[this.TabCur].value;
+      this.getOrderList({
+        page: 1,
+        pageSize: 10,
+        status
+      }).then(() => this.height('.wrap0'))
+    },
+
     onReachBottom() {
       if (this.TabCur === 0) {
         this.getOrderList({
@@ -191,32 +210,38 @@
       }
     },
     methods: {
-      ...mapActions('Order', ['getOrderList']),
+      ...mapActions('Order', ['getOrderList', 'confirmReceipt']),
+      async doConfirmReceipt(id) {
+        await this.confirmReceipt(id);
+        this.getData();
+      },
       swiperChange(e) {
         let { current } = e.target;
         this.TabCur = current;
-        this.getData(current)
+        this.getData()
       },
 
       tabSelect(index, e) {
         if (this.TabCur === index) return false;
         this.TabCur = index;
-        this.getData(index)
+        this.getData()
       },
 
-      getData(index) {
+      getData() {
         uni.pageScrollTo({
           scrollTop: 0,
           duration: 0
         });
-        if (index === 0) {
+
+        if (this.TabCur === 0) {
           this.getOrderList({
             page: 1,
             pageSize: 10,
           }).then(() => this.height('.wrap0'));
           return
         }
-        let status = this.tabList[index].value;
+
+        let status = this.tabList[this.TabCur].value;
         this.getOrderList({
           page: 1,
           pageSize: 10,

@@ -5,7 +5,7 @@ import {
 import {
   reqOrderList,
   reqCreateOrder,
-  reqCancelOrder
+  reqCancelOrder, reqConfirmReceipt
 } from "../../api/order";
 import { MSG_TO } from "../../static/unit";
 
@@ -37,5 +37,14 @@ export const cancelOrder = async ({ dispatch }, data) => {
       title: '订单取消成功',
       url: '/pages/order/order',
     })
+  }
+};
+
+export const confirmReceipt = async ({ dispatch }, data) => {
+  let res = await reqConfirmReceipt(data);
+  if (res.code === 200) {
+   uni.showToast({
+     title:'收货成功'
+   })
   }
 };

@@ -36,3 +36,11 @@ export const reqCancelOrder = ({ orderId, reason, reasonText }) => ajax('/order/
   reason,
   reasonText,
 }, 'PUT');
+
+/**
+ * @function 确认收货
+ * @param orderId
+ * @returns {Promise<*>}
+ */
+
+export const reqConfirmReceipt = orderId => ajax('/order/confirmReceipt/' + orderId, {}, 'PUT');
