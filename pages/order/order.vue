@@ -84,8 +84,8 @@
                     </view>
 
                     <view class="buttons">
-                      <view class="button cancel" v-if="order.status === '待付款'" :data-order-id="order.orderId"
-                            @tap="cancalOrder(order.orderId)">取消订单
+                      <view class="button cancel" v-if="order.status === '待支付'"
+                            @tap="doCancalOrder(order.orderId)">取消订单
                       </view>
                       <view class="button pay" v-if="order.status === '待支付'">付款</view>
 
@@ -131,7 +131,7 @@
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
                     <picker-view-column>
                         <view class="selecter" v-for="(sort, index) in sorts" :key="index">
-                            <view class="value">{{ sort }}</view>
+                          <view class="value">{{ sort.reasonText }}</view>
                         </view>
                     </picker-view-column>
                 </picker-view>
@@ -165,22 +165,24 @@
         // 弹窗
         sortShow: false,
         // 退款原因
-        sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
+        sorts: [
+          { reasonText: '买错了,不想买了', reason: 0 },
+          { reasonText: '未及时发货', reason: 10 },
+          { reasonText: '商品信息有误', reason: 20 },
+          { reasonText: '其他', reason: 30 },
+        ],
         // 默认退款原因
-        defaultPicker: [2],
+        defaultPicker: [0],
         // 当前选择退款原因
-        currentPickerValue: 2
+        currentPickerValue: 0,
+
+
+        currentCancelOrderNum: '',
       };
     },
 
     computed: mapState('Order', ['orderList', 'page',]),
 
-    onLoad() {
-      this.getOrderList({
-        page: 1,
-        pageSize: 10,
-      }).then(() => this.height('.wrap0'))
-    },
     // fixMe: 体验不好
     onShow() {
       if (this.TabCur === 0) {
@@ -213,7 +215,7 @@
       }
     },
     methods: {
-      ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder']),
+      ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder']),
       async doConfirmReceipt(id) {
         await this.confirmReceipt(id);
         this.getData();
@@ -265,8 +267,8 @@
       moveHandle() {
       },
 
-      cancalOrder(e) {
-        const { orderId } = e.currentTarget.dataset;
+      doCancalOrder(e) {
+        this.currentCancelOrderNum = e;
         this.sortShow = true;
       },
 
@@ -305,7 +307,25 @@
       },
 
       sureSelect() {
+        const that = this;
         this.sortShow = false;
+        uni.showModal({
+          title: '取消订单',
+          content: '确定取消当前订单？',
+          confirmColor: '#BFA065',
+          async success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              await that.cancelOrder({
+                orderId: that.currentCancelOrderNum,
+                reason: that.sorts[that.currentPickerValue].reason
+              });
+              that.getData();
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          }
+        });
       },
 
       height(current) {
