@@ -16,7 +16,8 @@ import {
 export default {
   // 检验用户是否存在
   async getIsExist({ commit }, phone) {
-    if (phone.length < 11) {
+    let p = /^1[0-9]{10}$/;
+    if (!p.test(phone)) {
       uni.showToast({
         title: '请检查手机号码是否正确',
         icon: "none"
@@ -25,11 +26,22 @@ export default {
     }
     let res = await reqIsExist({ phone });
     if (res.code === 200) {
-      // 未注册
       if (!res.data) {
-        uni.navigateTo({
-          url: '/pages/login/base-information'
-        })
+        uni.showModal({
+          title: '用户未注册',
+          content: '用户未注册，是否跳转注册页面？',
+          confirmColor: '#BFA065',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定');
+              uni.navigateTo({
+                url: '/pages/login/base-information'
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          }
+        });
       }
     }
   },
@@ -99,8 +111,9 @@ export default {
     }
   },
 
-  async changeUser({ dispatch }, data) {
-    let res = reqChangeUser(data)
+  async changeUser({ state, dispatch }, data) {
+    let { id } = state.userInfo;
+    let res = reqChangeUser({ id, ...data })
   },
 
   // todo：退出逻辑

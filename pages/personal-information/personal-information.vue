@@ -19,8 +19,7 @@
                 <view class="label">绑定手机号</view>
                 <view class="value">
                   <text class="phone" v-if="userInfo && userInfo.phone">
-                    {{ userInfo.phone && userInfo.phone.slice(0,3) }} **** {{ userInfo.phone && userInfo.phone.slice(7)
-                    }}
+                    {{ userInfo.phone && userInfo.phone.slice(0,3) }} **** {{ userInfo.phone && userInfo.phone.slice(7) }}
                   </text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
@@ -36,10 +35,18 @@
 
             <view class="item">
                 <view class="label">性别</view>
+              <picker
+                @change="changeSex"
+                mode='selector'
+                :value="sex"
+                :range="sexList"
+              >
                 <view class="value">
-                    <text class="pick-male">请选择性别</text>
+                  <text class="pick-male">{{ sexList[userInfo.sex] || sexList[sex] || '请选择性别' }}</text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
+              </picker>
+
             </view>
 
             <view class="item">
@@ -90,7 +97,9 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      birthday: '1990-01-01'
+      birthday: '1990-01-01',
+      sexList: ['女', '男'],
+      sex: 0
     }
   },
   computed: mapState('User', ['userInfo']),
@@ -100,6 +109,11 @@ export default {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.birthday = e.target.value;
       this.changeUser({ birthday: this.birthday })
+    },
+    changeSex(e) {
+      console.log('picker发送选择改变，携带值为', e.target.value);
+      this.sex = e.target.value;
+      this.changeUser({ sex: Number(this.sex) })
     },
   }
 };

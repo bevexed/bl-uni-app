@@ -38,7 +38,8 @@
                           </view>
                         </view>
 
-                      <view class="button" @tap="toSaleAfter({orderId:orderDetail.orderId,itemId:good.itemId})">售后</view>
+                      <!-- fixme：此处需要 allowAfterSale 字段 -->
+                      <view class="button" v-if="good.allowAfterSale" @tap="toSaleAfter({orderId:orderDetail.orderId,itemId:good.itemId})">售后</view>
                     </view>
                 </view>
             </view>
