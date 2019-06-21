@@ -28,23 +28,33 @@
         <view class="list">
             <view class="item">
                 <text class="label">退款金额</text>
+              <!--todo:计算总价-->
                 <text class="price">￥2050.00</text>
                 <text class="bedge">(不含运费)</text>
             </view>
 
             <view class="item flex" @tap="selectSaleAfter">
                 <text class="label">售后服务类型</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+              <view class="flex">
+                <text class="label">{{ type[currentSelectSaleAfterShow].text }}</text>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+              </view>
             </view>
 
             <view :class="['item', 'flex']" @tap="selectNum">
                 <text :class="['label', { 'current-picker': currentSelectSaleAfterShow !== 1 }]">退货数量</text>
-                <!-- <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image> -->
+              <view class="flex" v-if="currentSelectSaleAfterShow === 1">
+                <text class="label">{{ num }}</text>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+              </view>
             </view>
 
             <view class="item flex" @tap="selectReason">
                 <text class="label">退款原因</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+              <view class="flex">
+                <text class="label">{{ sorts[currentPickerValue].reasonText }}</text>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+              </view>
             </view>
 
             <view class="item">
@@ -58,13 +68,20 @@
                     placeholder-style="font-size:12px;color:#999;"
                     v-model="textArea"
                     placeholder="请描述您的问题，以便我们尽快为您服务"
-                />
+                ></textarea>
                 <view class="text-area" :style="{fontSize:12+'px',color:'#999'}" v-else>{{textArea || "请描述您的问题，以便我们尽快为您服务"}}</view>
                 <text class="text-area-length">{{ textArea.length }}/200</text>
             </view>
         </view>
 
-        <view class="button">提交申请</view>
+      <view class="button" @tap="createAfterSale({
+        orderItemId:itemId,
+        productCount:num,
+        reason:textArea,
+        reasonCode:sorts[currentPickerValue].reason,
+        type:type[currentSelectSaleAfterShow].value
+        })">提交申请
+      </view>
         <custmer-phone class="custmer" />
 
         <!-- 退款 原因 弹窗 -->
@@ -78,7 +95,7 @@
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="selectChange">
                     <picker-view-column>
                         <view class="selecter" v-for="(sort, index) in sorts" :key="index">
-                            <view class="value">{{ sort }}</view>
+                          <view class="value">{{ sort.reasonText }}</view>
                         </view>
                     </picker-view-column>
                 </picker-view>
@@ -116,11 +133,12 @@
                     <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
-                <view class="select-much">
+              <view class="select-much" v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i">
                     <view class="title">退货数量</view>
-                    <view class="rest">已购 3000 米</view>
+                <view class="rest">已购 {{ parseInt(good.count) }} 米</view>
                     <view class="nums">
-                        <uni-number-box :min="0" :max="99999" :step="1" :value="num" @change="numChange"></uni-number-box>
+                      <uni-number-box :min="0" :max="parseInt(good.count)" :step="1" :value="num"
+                                      @change="numChange"></uni-number-box>
                         <view class="rest unit">米</view>
                     </view>
                 </view>
@@ -149,11 +167,16 @@ export default {
       textArea: '',
       selectReasonShow: false,
       // 退款原因
-      sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
+      sorts: [
+        { reasonText: '买错了,不想买了', reason: 0 },
+        { reasonText: '未及时发货', reason: 10 },
+        { reasonText: '商品信息有误', reason: 20 },
+        { reasonText: '其他', reason: 30 }
+      ],
       // 默认退款原因
-      defaultPicker: [2],
+      defaultPicker: [0],
       // 当前选择退款原因
-      currentPickerValue: 1,
+      currentPickerValue: 0,
       // 售后服务类型弹窗
       selectSaleAfterShow: false,
       // 默认售后类型
@@ -167,9 +190,10 @@ export default {
       // 购买数量
       num: 0,
 
-      tagsList: ['码样'],
       // 当前选中标签
-      tagCurrentSelect: []
+      tagCurrentSelect: [],
+
+      type: [{ text: '仅退款', value: 0 }, { text: '退货退款', value: 10 }]
     };
   },
   computed: mapState('Order', {
@@ -178,6 +202,7 @@ export default {
   }),
   methods: {
     ...mapActions('Order', ['getOrderDetail']),
+    ...mapActions('Sale', ['createAfterSale']),
     sureSelect() {
       this.selectReasonShow = false;
       this.selectSaleAfterShow = false;
@@ -200,19 +225,13 @@ export default {
     },
     bindChange(e) {
       console.log('sale-after-type', e);
-      const val = e.detail.value[0];
-      this.currentSelectSaleAfterShow = val;
+      this.currentSelectSaleAfterShow = e.detail.value[0];
+      console.log(e.detail.value[0]);
     },
     numChange(val) {
-      console.log(val);
+      this.num = val
     },
-    selectTag(currentState, tag_name) {
-      if (this[currentState].includes(tag_name)) {
-        this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-        return;
-      }
-      this[currentState].push(tag_name);
-    },
+
     moveHandle() {
     }
   },

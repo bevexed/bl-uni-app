@@ -1,5 +1,6 @@
-import MUTATE from '../mutation-types';
+import {} from '../mutation-types';
+import { reqCreateAfterSale } from "../../api/sale";
 
-export function set({ commit }, { data }) {
-    commit(MUTATE, { data });
-}
+export const createAfterSale = async ({ commit }, data) => {
+  let res = await reqCreateAfterSale(data)
+};
