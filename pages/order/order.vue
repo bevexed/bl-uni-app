@@ -36,22 +36,12 @@
                                   <view class="shop-name">{{ good.productNo }}</view>
 
                                     <!-- 售后状态 -->
-                                  <view class="shop-after" v-if="order.status === '交易完成' && good.afterstatus === '处理中'">
-                                    处理中
+                                  <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">
+                                    {{ good.afterSaleStatus }}
                                   </view>
                                   <view class="shop-after-button"
-                                        v-if="order.status === '交易完成' && good.afterstatus !== '处理中'" @tap="toSaleAfter">
+                                        v-if="good.allowAfterSale" @tap="toSaleAfter">
                                     售后
-                                  </view>
-
-                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '审核中'">
-                                    审核中
-                                  </view>
-                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '已审核'">
-                                    已审核
-                                  </view>
-                                  <view class="shop-after" v-if="order.status === '售后处理' && good.afterstatus === '退款中'">
-                                    退款中
                                   </view>
                                 </view>
                                 <view class="detail-footer">

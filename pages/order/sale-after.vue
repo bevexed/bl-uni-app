@@ -124,22 +124,6 @@
                         <view class="rest unit">米</view>
                     </view>
                 </view>
-
-                <!-- <view class="select-small">
-                    <view class="title">退货小样</view>
-                    <view class="select-small-tap rest">点击选择</view>
-                    <view :class="['tags']">
-                        <uni-tag
-                            class="tag"
-                            :text="tag"
-                            :type="tagCurrentSelect.includes(tag) ? 'success' : 'primary'"
-                            :inverted="true"
-                            v-for="(tag, index) in tagsList"
-                            :key="index"
-                            @click="selectTag('tagCurrentSelect', tag)"
-                        />
-                    </view>
-                </view> -->
             </view>
         </view>
     </view>
