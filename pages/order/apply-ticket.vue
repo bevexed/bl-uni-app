@@ -31,141 +31,101 @@
         <view class="list">
             <view class="item">
                 <text class="label">开票金额</text>
-                <text class="price">￥2050.00</text>
+              <text class="price">￥{{ orderDetail.amount }}</text>
                 <text class="bedge">(不含运费)</text>
             </view>
 
-            <view class="item flex" @tap="">
-                <text class="label">开票信息</text>
-                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+          <view class="item flex" @tap="toTicket">
+            <text class="label">开票信息</text>
+            <view class="flex">
+              <text class="label">{{ invoiceApplyRequest.name || '请选择开票信息' }}</text>
+              <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
+          </view>
 
-            <view class="item flex" @tap="">
-                <text class="label">收票地址</text>
-                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+          <view class="item flex" @tap="toAddress">
+            <text class="label">收票地址</text>
+            <view class="flex">
+              <text class="label">{{ invoiceApplyRequest.address || '请选择地址'}}</text>
+              <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+            </view>
             </view>
         </view>
 
         <view class="button">提交申请</view>
 
-        <!-- 退款 原因 弹窗 -->
-        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
-            <view class="my-pop">
-                <view class="pop-top">
-                    <text @tap="sortShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
-                </view>
 
-                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultSelectSaleAfterShow" @change="selectChange">
-                    <picker-view-column>
-                        <view class="selecter" v-for="(sort, index) in sorts" :key="index">
-                            <view class="value">{{ sort }}</view>
-                        </view>
-                    </picker-view-column>
-                </picker-view>
-
-                <!-- <view class="line left"></view>
-                <view class="line right"></view> -->
-            </view>
-        </view>
-
-        <!-- 售后 服务类型 弹窗-->
-        <view class="pop-wrap" v-show="selectSaleAfterShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
-            <view class="my-pop">
-                <view class="pop-top">
-                    <text @tap="selectSaleAfterShow = false">取消</text>
-                    <text class="sure" @tap="sureSelect">选择</text>
-                </view>
-
-                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
-                    <picker-view-column>
-                        <view class="selecter"><view class="value">仅退货</view></view>
-                        <view class="selecter"><view class="value">退货退款</view></view>
-                    </picker-view-column>
-                </picker-view>
-
-                <!-- <view class="line left"></view>
-                <view class="line right"></view> -->
-            </view>
-        </view>
     </view>
 </template>
 
 <script>
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
-import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
   import { mapActions, mapState } from "vuex";
 
-export default {
+  export default {
     components: {
-        uniNumberBox,
-        uniTag
+      uniNumberBox,
+      uniTag
     },
-    data() {
-        return {
-            // 用户反馈信息
-            textArea: '',
-            sortShow: false,
-            // 默认退款原因
-            defaultPicker: [2],
-            // 当前选择退款原因
-            currentPickerValue: 2,
-            // 售后服务类型弹窗
-            selectSaleAfterShow: false,
-            // 默认售后类型
-            defaultSelectSaleAfterShow: [1],
-            // 当前选择类型
-            currentSelectSaleAfterShow: 1,
 
-            // 数量 选择 弹窗
-            selectShow: false,
-
-            // 购买数量
-            num: 0,
-
-            tagsList: ['码样'],
-            // 当前选中标签
-            tagCurrentSelect: []
-        };
+    computed: {
+      ...mapState('Order', {
+        goods: state => state.orderDetail.product,
+        orderDetail: state => state.orderDetail
+      }),
+      ...mapState('Invoice', ['invoiceApplyRequest'])
     },
-  computed: mapState('Order', {
-    goods: state => state.orderDetail.product,
-    orderDetail: state => state.orderDetail
-  }),
     methods: {
       ...mapActions('Order', ['getOrderDetail']),
 
       sureSelect() {
-            this.sortShow = false;
-            this.selectSaleAfterShow = false;
-        },
-        bindChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        cancalOrder(e) {
-            this.sortShow = true;
-        },
-        selectSaleAfter() {
-            this.selectSaleAfterShow = true;
-        },
-        selectChange(e) {
-            console.log(e);
-            const val = e.detail.value[0];
-            this.currentPickerValue = val;
-        },
-        numChange(val) {
-            console.log(val);
-        },
+        this.sortShow = false;
+        this.selectSaleAfterShow = false;
+      },
+      bindChange(e) {
+        console.log(e);
+        const val = e.detail.value[0];
+        this.currentPickerValue = val;
+      },
+      cancalOrder(e) {
+        this.sortShow = true;
+      },
+      selectSaleAfter() {
+        this.selectSaleAfterShow = true;
+      },
+      selectChange(e) {
+        console.log(e);
+        const val = e.detail.value[0];
+        this.currentPickerValue = val;
+      },
+      numChange(val) {
+        console.log(val);
+      },
 
-        moveHandle() {}
+      moveHandle() {
+
+      },
+
+      toTicket() {
+        uni.navigateTo({
+          url: '/pages/ticket/ticket?from=applyTicket'
+        })
+      },
+      toAddress() {
+        uni.navigateTo({
+          url: '/pages/address-book/address-book?from=applyTicket'
+        })
+      }
     },
     onLoad(e) {
       const { orderId } = e;
       this.getOrderDetail(orderId);
+    },
+
+    onShow() {
     }
-};
+  };
 </script>
 
 <style lang="scss">

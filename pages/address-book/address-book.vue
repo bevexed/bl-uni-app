@@ -11,21 +11,23 @@
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
                 <!-- <image class="gou" src="../static/icon/gou.svg" mode=""></image> -->
+              <view @tap="selectAddress(address)">
                 <view class="header">
-                    <view class="label">收件人：</view>
-                    <view class="value">
-                      {{ address.addressee }}
-                      <text class="phone">{{ address.phone.slice(0,3) }} **** {{ address.phone.slice(7) }}</text>
-                    </view>
+                  <view class="label">收件人：</view>
+                  <view class="value">
+                    {{ address.addressee }}
+                    <text class="phone">{{ address.phone.slice(0,3) }} **** {{ address.phone.slice(7) }}</text>
+                  </view>
                 </view>
 
                 <view class="content">
-                    <view class="label">地址：</view>
-                    <view class="value">
-                        {{ address.province }} {{ address.city }} {{ address.county }}
-                        <view>{{ address.other }}</view>
-                    </view>
+                  <view class="label">地址：</view>
+                  <view class="value">
+                    {{ address.province }} {{ address.city }} {{ address.county }}
+                    <view>{{ address.other }}</view>
+                  </view>
                 </view>
+              </view>
 
                 <view class="footer">
                     <view class="default" v-if="address.default">默认地址</view>
@@ -58,19 +60,39 @@
     data() {
       return {
         // 查看更多地址状态
-        showMoreAddress: true
+        showMoreAddress: true,
+
+        from: '',
       };
     },
     onShow() {
       this.getAllAddress();
     },
+    onLoad(e) {
+      const { from } = e;
+      this.from = from;
+    },
     computed: mapGetters('Address', ['addressList']),
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
+      ...mapActions('Invoice', ['getInvoiceApplyRequest']),
       toAddAddress(id) {
         uni.navigateTo({
           url: '/pages/address-book/add-address?id=' + id
         });
+      },
+      selectAddress({ addressee, city, county, province }) {
+        if (this.from === 'applyTicket') {
+          this.getInvoiceApplyRequest({
+            address: addressee,
+            city,
+            county,
+            province
+          });
+          uni.navigateBack({
+            delta: 1
+          })
+        }
       }
     }
   };

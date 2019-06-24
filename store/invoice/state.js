@@ -1,5 +1,7 @@
 export default {
   invoiceList: [],
 
-  invoiceDetail: {}
+  invoiceDetail: {},
+
+  invoiceApplyRequest: {}
 }

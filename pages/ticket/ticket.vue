@@ -11,24 +11,29 @@
         <view :class="['select-ticket', { active: showMoreticket }]">
           <view :class="['ticket-detail', { active: ticket.isDefault }]" v-for="(ticket, i) in invoiceList" :key="i">
                 <!-- <image class="gou" src="../static/icon/gou.svg" mode=""></image> -->
-                <view class="header">
-                    <view class="label">企业名称：</view>
-                  <view class="value">{{ ticket.companyName }}</view>
-                  <text class="type">{{ ticket.type }}</text>
-                </view>
+            <view @tap="selectTicket(ticket)">
+              <view class="header">
+                <view class="label">企业名称：</view>
+                <view class="value">{{ ticket.companyName }}</view>
+                <text class="type">{{ ticket.type }}</text>
+              </view>
 
-                <view class="content">
-                    <view class="label">企业税号：</view>
-                  <view class="value">{{ ticket.companyTax }}</view>
-                </view>
+              <view class="content">
+                <view class="label">企业税号：</view>
+                <view class="value">{{ ticket.companyTax }}</view>
+              </view>
 
-                <view class="content">
-                    <view class="label">注册电话：</view>
-                  <!--FixMe：手机号-->
-                  <view class="value">{{ ticket.phone }}</view>
+              <view class="content" v-if="invoiceList.length && ticket && ticket.phone">
+                <view class="label">注册电话：</view>
+                <view class="value">
+                  {{ ticket.phone }}
+                  <!--                     {{ ticket.phone.slice(0,3) }} **** {{ ticket.phone.slice(7) }}-->
                 </view>
+              </view>
+            </view>
 
-                <view class="footer">
+
+            <view class="footer">
                   <view class="default" v-if="ticket.isDefault">默认信息</view>
                   <view class="set-default" v-else @tap="invoiceDetail(ticket.id)">
                       <view :class="['select', { active: ticket.isDefault }]">
@@ -60,15 +65,21 @@ export default {
   data() {
     return {
       // 查看更多状态
-      showMoreticket: true
+      showMoreticket: true,
+
+      from: ''
     };
   },
   computed: mapState('Invoice', ['invoiceList']),
-  onLoad() {
+  onLoad(e) {
+    const { from } = e;
+    this.from = from;
+
+
     this.getInvoiceList()
   },
   methods: {
-    ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail']),
+    ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail', 'getInvoiceApplyRequest']),
     toAddticket() {
       uni.navigateTo({
         url: 'add-ticket?id=-1'
@@ -78,6 +89,14 @@ export default {
       uni.navigateTo({
         url: 'add-ticket?id=' + id
       });
+    },
+    selectTicket({ id, companyName }) {
+      if (this.from === 'applyTicket') {
+        this.getInvoiceApplyRequest({ invoiceId: id, name: companyName });
+        uni.navigateBack({
+          delta: 1
+        })
+      }
     }
   }
 };

@@ -1,5 +1,7 @@
 import {
-  ADD_INVOICE, GET_INVOICE_DETAIL,
+  ADD_INVOICE,
+  GET_INVOICE_APPLY_REQUEST,
+  GET_INVOICE_DETAIL,
   GET_INVOICE_LIST
 } from '../mutation-types';
 
@@ -151,4 +153,11 @@ export const doUpdateInvoice = async ({}, data) => {
       url: '/pages/ticket/ticket'
     })
   }
+};
+
+
+
+
+export const getInvoiceApplyRequest = ({ commit }, data) => {
+  commit(GET_INVOICE_APPLY_REQUEST, data)
 };

@@ -92,10 +92,7 @@
       }
     },
     {
-      "path": "pages/ticket/add-ticket",
-      "style": {
-        "navigationBarTitleText": "添加开票信息"
-      }
+      "path": "pages/ticket/add-ticket"
     },
     {
       "path": "pages/account-cart/account-cart"

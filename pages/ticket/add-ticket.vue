@@ -1,15 +1,20 @@
 <template>
     <view class="add-ticket">
         <view class="title">开票状态</view>
-        <view class="wrap">
+      <view class="wrap" v-if="id==='-1'">
             <view class="state" v-for="(state, i) in stateList" @tap="changeState(i)" :key="i">
                 <view :class="['select', { active: currentState === i }]"><view class="selected"></view></view>
                 <text :class="[{ active: currentState === i }]">{{ state.label }}</text>
             </view>
         </view>
+      <view class="wrap" v-else>
+        <view class="state">
+          {{ stateList[currentState].label }}
+        </view>
+      </view>
 
         <view class="title">企业名称</view>
-      <input type="text" v-model="companyName" placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999"/>
+      <input type="text" v-model="companyName" focus autofocus placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999"/>
 
         <view class="title">企业税号</view>
       <input type="text" v-model="companyTax" placeholder="请输入企业税号" placeholder-style="font-size:12px;color:#999"/>

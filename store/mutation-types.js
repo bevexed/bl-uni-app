@@ -42,3 +42,5 @@ export const GET_ORDER_DETAIL = 'get_order_detail';
 export const ADD_INVOICE = 'add_invoice';
 export const GET_INVOICE_LIST = 'get_invoice_list';
 export const GET_INVOICE_DETAIL = 'get_invoice_detail';
+export const GET_INVOICE_APPLY_REQUEST = 'get_invoice_apply_request';
+
