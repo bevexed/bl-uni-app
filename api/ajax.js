@@ -1,7 +1,7 @@
 import uniRequest from 'uni-request';
 
 // 全局修改公司 ID
-const _companyId = 0;
+const _companyId = 4;
 
 
 // 全局配置
