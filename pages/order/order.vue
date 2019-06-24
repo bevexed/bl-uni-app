@@ -81,7 +81,7 @@
                       <view class="button pay" v-if="order.status === '待支付'">付款</view>
 
                       <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
-                      <view class="button  cancel" v-if="order.status === '交易关闭'">订单详情</view>
+                      <view class="button  cancel" v-if="order.status === '交易关闭'"  :data-order-id="order.orderId"  @tap="toOrderDetail($event)">订单详情</view>
 
                       <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.orderId"
                             @tap="toBackMoney($event)">取消订单

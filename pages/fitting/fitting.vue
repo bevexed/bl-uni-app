@@ -120,7 +120,7 @@ export default {
 
             // 请求数据
             data_upload: {
-                model_id: 2,
+                model_id: 1,
                 image: '',
                 loc: '',
                 dx: 0,
