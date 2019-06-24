@@ -119,10 +119,28 @@ export default {
   computed: {
     ...mapState('User', {
       userId: state => state.userInfo.id
-    })
+    }),
+    ...mapState('Invoice', ['invoiceDetail'])
+  },
+  async onLoad(e) {
+    const { id } = e;
+    if (id !== '-1') {
+      await this.getInvoiceDetail(id);
+      const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type } = this.invoiceDetail;
+      this.account = account;
+      this.address = address;
+      this.bank = bank;
+      this.addressDataList = [province, city, county];
+      this.companyName = companyName;
+      this.companyTax = companyTax;
+      this.setDefault = isDefault;
+      this.phone = phone;
+      this.currentState = type === '专票' ? 0 : 1;
+      console.log(type);
+    }
   },
   methods: {
-    ...mapActions('Invoice', ['addInvoice']),
+    ...mapActions('Invoice', ['addInvoice', 'getInvoiceDetail']),
     changeState(i) {
       this.currentState = i;
     },

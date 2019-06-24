@@ -1,10 +1,10 @@
 import {
-  ADD_INVOICE,
+  ADD_INVOICE, GET_INVOICE_DETAIL,
   GET_INVOICE_LIST
 } from '../mutation-types';
 
 import {
-  reqAddInvoice, reqInvoiceList
+  reqAddInvoice, reqInvoiceDetail, reqInvoiceList
 } from "../../api/invoice";
 
 import { MSG_TO, SMG } from "../../static/unit";
@@ -67,5 +67,12 @@ export const getInvoiceList = async ({ commit }) => {
   let res = await reqInvoiceList();
   if (res.code === 200) {
     commit(GET_INVOICE_LIST, res)
+  }
+};
+
+export const getInvoiceDetail = async ({ commit }, id) => {
+  let res = await reqInvoiceDetail(id);
+  if (res.code === 200) {
+    commit(GET_INVOICE_DETAIL, res)
   }
 };

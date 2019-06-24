@@ -35,5 +35,16 @@ export const reqAddInvoice = ({ account, address, bank, city, companyName, compa
   companyId
 }, 'POST');
 
+/**
+ * @method 获取发票列表
+ * @returns {Promise<*>}
+ */
+
 export const reqInvoiceList = () => ajax('/invoice', {}, 'GET');
 
+/**
+ * @method 获取发票详情
+ * @param id
+ * @returns {Promise<*>}
+ */
+export const reqInvoiceDetail = id => ajax('/invoice/' + id, {}, 'GET');

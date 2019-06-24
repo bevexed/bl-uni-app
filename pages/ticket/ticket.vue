@@ -38,7 +38,7 @@
                     </view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                      <image src="../../static/icon/edit.svg" mode=""></image>
+                      <image src="../../static/icon/edit.svg" mode="" @tap="edit(ticket.id)"></image>
                       <image src="../../static/icon/del2.svg" mode=""></image>
                     </view>
                 </view>
@@ -78,7 +78,12 @@ export default {
     },
     toAddticket() {
       uni.navigateTo({
-        url: 'add-ticket'
+        url: 'add-ticket?id=-1'
+      });
+    },
+    edit(id) {
+      uni.navigateTo({
+        url: 'add-ticket?id=' + id
       });
     }
   }
