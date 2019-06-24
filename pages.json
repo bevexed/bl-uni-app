@@ -80,6 +80,12 @@
       }
     },
     {
+      "path": "pages/order/apply-ticket",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
       "path": "pages/account-cart/account-cart"
     },
     {

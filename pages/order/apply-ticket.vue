@@ -1,28 +1,32 @@
 <template>
     <view class="apply-ticket">
         <view class="title">申请开票</view>
-        <view class="goods">
-            <view class="good" v-for="(good, i) in goods" :key="i">
-                <!-- 展开 -->
-                <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+      <view class="goods">
+        <view class="good" v-for="(good, i) in goods" :key="i">
+          <!-- 展开 -->
+          <image class="shop-img" :src="good.image" mode=""></image>
 
-                <view class="detail">
-                    <view class="detail-header"><view class="shop-name">ML2395730185473123</view></view>
-                    <view class="detail-footer">
-                        <view :class="['options']">
-                            <view class="option">
-                                <view class="label">标样：￥0</view>
-                                <view class="value">*1</view>
-                            </view>
-                            <view class="option">
-                                <view class="label">商品：￥50/米</view>
-                                <view class="value">*40</view>
-                            </view>
-                        </view>
-                    </view>
-                </view>
+          <view class="detail">
+            <view class="detail-header">
+              <view class="shop-name">{{ good.productNo }}</view>
             </view>
+            <view class="detail-footer">
+              <view :class="['options']">
+                <view class="option" v-if="good.sampleType!=='无小样'">
+                  <view class="label">标样：￥0</view>
+                  <view class="value">*1</view>
+                </view>
+                <view class="option">
+                  <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                  <view class="value">*{{ good.count }}</view>
+                </view>
+              </view>
+
+              <!--<view class="button" v-if="good.allowAfterSale" @tap="toSaleAfter({orderId:orderDetail.orderId,itemId:good.itemId})">售后</view>-->
+            </view>
+          </view>
         </view>
+      </view>
 
         <view class="list">
             <view class="item">
@@ -33,12 +37,12 @@
 
             <view class="item flex" @tap="">
                 <text class="label">开票信息</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
             <view class="item flex" @tap="">
                 <text class="label">收票地址</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
         </view>
 
@@ -88,8 +92,9 @@
 </template>
 
 <script>
-import uniNumberBox from '../components/uni-number-box/uni-number-box.vue';
+  import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
 import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { mapActions, mapState } from "vuex";
 
 export default {
     components: {
@@ -98,17 +103,9 @@ export default {
     },
     data() {
         return {
-            // 商品 列表
-            goods: [
-                {
-                    num: 0 // 购买数量，
-                }
-            ],
             // 用户反馈信息
             textArea: '',
             sortShow: false,
-            // 退款原因
-            sorts: ['退款原因1', '退款原因2', '退款原因3', '退款原因4', '退款原因5', '退款原因6', '退款原因7'],
             // 默认退款原因
             defaultPicker: [2],
             // 当前选择退款原因
@@ -131,8 +128,14 @@ export default {
             tagCurrentSelect: []
         };
     },
+  computed: mapState('Order', {
+    goods: state => state.orderDetail.product,
+    orderDetail: state => state.orderDetail
+  }),
     methods: {
-        sureSelect() {
+      ...mapActions('Order', ['getOrderDetail']),
+
+      sureSelect() {
             this.sortShow = false;
             this.selectSaleAfterShow = false;
         },
@@ -155,17 +158,12 @@ export default {
         numChange(val) {
             console.log(val);
         },
-        selectTag(currentState, tag_name) {
-            if (this[currentState].includes(tag_name)) {
-                this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-                return;
-            }
-            this[currentState].push(tag_name);
-        },
+
         moveHandle() {}
     },
     onLoad(e) {
-        console.log(e);
+      const { orderId } = e;
+      this.getOrderDetail(orderId);
     }
 };
 </script>
