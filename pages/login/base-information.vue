@@ -16,12 +16,12 @@
 
        <view class="phone">
         <image src="../../static/icon/cim.svg" mode=""></image>
-        <input type="number"  v-model="custName" placeholder="公司名称" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
+        <input type="text"  v-model="custName" placeholder="公司名称" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
       </view>
 
        <view class="phone">
          <image src="../../static/icon/job.svg" mode=""></image>
-        <input type="number" v-model="job"  placeholder="您的职务" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
+        <input type="text" v-model="job"  placeholder="您的职务" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
       </view>
 
     </view>

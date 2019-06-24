@@ -11,11 +11,7 @@ import {
   reqChangeAddress
 } from "../../api/address";
 
-const SMG = title => uni.showToast({
-  title,
-  mask: true,
-  icon: "none"
-});
+import { SMG } from "../../static/unit";
 
 export const addAddress = async ({ dispatch }, data) => {
   let { addressee, city, county, phone, province, other } = data;

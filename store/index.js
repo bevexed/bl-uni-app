@@ -9,6 +9,7 @@ import Home from './home'
 import Address from './address'
 import Order from './order'
 import Sale from './sale'
+import Invoice from './invoice'
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     Home,
     Address,
     Order,
-    Sale
+    Sale,
+    Invoice
   }
 })

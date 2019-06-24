@@ -50,3 +50,15 @@ export const MSG_TO = ({ title, url, duration = 2000 }) => {
     }
   })
 };
+
+/**
+ * 表单验证
+ * @param title
+ * @constructor
+ */
+
+export const SMG = title => uni.showToast({
+  title,
+  mask: true,
+  icon: "none"
+});

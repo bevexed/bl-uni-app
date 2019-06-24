@@ -35,15 +35,15 @@
                     </view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../static/icon/edit.svg" mode=""></image>
-                        <image src="../static/icon/del2.svg" mode=""></image>
+                      <image src="../../static/icon/edit.svg" mode=""></image>
+                      <image src="../../static/icon/del2.svg" mode=""></image>
                     </view>
                 </view>
             </view>
         </view>
 
         <view class="button" @tap="toAddticket">
-            <image src="../static/icon/addw.png" mode=""></image>
+          <image src="../../static/icon/addw.png" mode=""></image>
             <text>添加开票信息</text>
         </view>
         <view class="white-space"></view>
@@ -51,45 +51,51 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            // 列表
-            ticketList: [
-                {
-                    default: true //默认地址
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                },
-                {
-                    default: false
-                }
-            ],
-            // 查看更多状态
-            showMoreticket: true
-        };
-    },
-    methods: {
-        selectticket(i) {
-            this.ticketList.map(ticket => {
-                ticket.default = false;
-            });
+  import { mapActions } from "vuex";
 
-            this.ticketList[i].default = true;
+export default {
+  data() {
+    return {
+      // 列表
+      ticketList: [
+        {
+          default: true //默认地址
         },
-        toAddticket() {
-            uni.navigateTo({
-                url: 'add-ticket'
-            });
+        {
+          default: false
+        },
+        {
+          default: false
+        },
+        {
+          default: false
+        },
+        {
+          default: false
         }
+      ],
+      // 查看更多状态
+      showMoreticket: true
+    };
+  },
+  onLoad() {
+    this.getInvoiceList()
+  },
+  methods: {
+    ...mapActions('Invoice', ['getInvoiceList']),
+    selectticket(i) {
+      this.ticketList.map(ticket => {
+        ticket.default = false;
+      });
+
+      this.ticketList[i].default = true;
+    },
+    toAddticket() {
+      uni.navigateTo({
+        url: 'add-ticket'
+      });
     }
+  }
 };
 </script>
 

@@ -102,7 +102,7 @@
         phone: '',
         other: '',
         // 查看更多地址状态
-        addressDataList: [],
+        addressDataList: '',
         defaultAddress: false,
 
       };
