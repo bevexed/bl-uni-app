@@ -10,7 +10,8 @@ import {
   reqCancelOrder,
   reqConfirmReceipt,
   reqRemindOrder,
-  reqOrderDetail
+  reqOrderDetail,
+  reqPayOrder
 } from "../../api/order";
 import { MSG_TO } from "../../static/unit";
 
@@ -30,7 +31,7 @@ export const createOrder = async ({ commit }, data) => {
   let res = await reqCreateOrder(data);
   if (res.code === 200) {
     uni.navigateTo({
-      url: '/pages/pay/pay'
+      url: '/pages/pay/pay?orderNum=' + res.data
     });
   }
 };
@@ -76,4 +77,8 @@ export const getOrderDetail = async ({ commit }, data) => {
   if (res.code === 200) {
     commit(GET_ORDER_DETAIL, res)
   }
+};
+
+export const payOrder = async ({}, data) => {
+  let res = await reqPayOrder(data)
 };

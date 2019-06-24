@@ -70,5 +70,12 @@ export const reqOrderDetail = orderId => ajax('/order/orderDetail', { orderId },
  * @param paymentMethod
  * @returns {Promise<*>}
  */
-// todo:微信支付
-export const reqPayOrder = ({ amount, bankTransferRecord, code, filename, orderNum, paymentMethod }) => ajax('/order/payOrder', {}, 'PUT');
+
+export const reqPayOrder = ({ amount, bankTransferRecord, code, filename, orderNum, paymentMethod }) => ajax('/order/payOrder', {
+  amount,
+  bankTransferRecord,
+  code,
+  filename,
+  orderNum,
+  paymentMethod
+}, 'PUT');

@@ -20,31 +20,54 @@
 </template>
 
 <script>
-export default {
+  import { mapActions } from "vuex";
+
+  export default {
     data() {
-        return {
-            payTypes: { wxPay: true, bankPay: false }
-        };
+      return {
+        payTypes: { wxPay: true, bankPay: false },
+        orderNum: ''
+      };
     },
+
+    onLoad(e) {
+      const { orderNum } = e;
+      this.orderNum = orderNum;
+
+    },
+
     methods: {
-        wxPay() {
-            let { payTypes } = this;
-            Object.entries(payTypes).map(([key, value]) => {
-                this.payTypes[key] = false;
-            });
+      ...mapActions('order', ['payOrder']),
 
-            this.payTypes.wxPay = true;
-        },
-        bankPay() {
-            let { payTypes } = this;
-            Object.entries(payTypes).map(([key, value]) => {
-                this.payTypes[key] = false;
-            });
+      async getCode() {
+        uni.login({})
+      },
 
-            this.payTypes.bankPay = true;
+      wxPay() {
+        let { payTypes, orderNum } = this;
+        Object.entries(payTypes).map(([key, value]) => {
+          this.payTypes[key] = false;
+        });
+
+        this.payTypes.wxPay = true;
+        let data = {
+          orderNum,
+          //todo:获取code
+          code,
+          paymentMethod: 10
         }
+
+      },
+      bankPay() {
+        let { payTypes } = this;
+        Object.entries(payTypes).map(([key, value]) => {
+          this.payTypes[key] = false;
+        });
+
+        this.payTypes.bankPay = true;
+      }
     }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
