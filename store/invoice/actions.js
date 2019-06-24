@@ -7,7 +7,7 @@ import {
 
 import {
   changInvoiceDetail,
-  reqAddInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
+  reqAddInvoice, reqApplyInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
 } from "../../api/invoice";
 
 import { MSG_TO, SMG } from "../../static/unit";
@@ -155,7 +155,28 @@ export const doUpdateInvoice = async ({}, data) => {
   }
 };
 
+export const applyInvoice = async ({ commit, state }, orderId) => {
+  const { invoiceApplyRequest } = state;
+  const { address, invoiceId } = invoiceApplyRequest;
 
+  if (!address) {
+    SMG('请选择地址');
+    return
+  }
+
+  if (!invoiceId) {
+    SMG('请选择发票信息');
+    return
+  }
+
+  let res = await reqApplyInvoice({ ...invoiceApplyRequest, orderId });
+  if (res.code === 200) {
+    MSG_TO({
+      title: '申请成功',
+      url: '/pages/order/order'
+    })
+  }
+};
 
 
 export const getInvoiceApplyRequest = ({ commit }, data) => {

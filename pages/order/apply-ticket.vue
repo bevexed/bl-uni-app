@@ -52,7 +52,7 @@
             </view>
         </view>
 
-        <view class="button">提交申请</view>
+      <view class="button" @tap="applyInvoice(orderDetail.orderId)">提交申请</view>
 
 
     </view>
@@ -78,6 +78,7 @@
     },
     methods: {
       ...mapActions('Order', ['getOrderDetail']),
+      ...mapActions('Invoice', ['applyInvoice']),
 
       sureSelect() {
         this.sortShow = false;
