@@ -1,36 +1,39 @@
 <template>
     <view class="ticket">
-        <view :class="['ticket', { active: ticketList.length === 0 }]">
+      <view :class="['ticket', { active: invoiceList.length === 0 }]">
             <view class="label">
                 已存信息
-                <text>（{{ ticketList.length }}/10）</text>
+              <text>（{{ invoiceList.length }}/10）</text>
             </view>
         </view>
 
         <!--已存在的收货地址-->
         <view :class="['select-ticket', { active: showMoreticket }]">
-            <view :class="['ticket-detail', { active: ticket.default }]" v-for="(ticket, i) in ticketList" :key="i">
+          <view :class="['ticket-detail', { active: ticket.isDefault }]" v-for="(ticket, i) in invoiceList" :key="i">
                 <!-- <image class="gou" src="../static/icon/gou.svg" mode=""></image> -->
                 <view class="header">
                     <view class="label">企业名称：</view>
-                    <view class="value">千讯智能科技有限公司</view>
-                    <text class="type">普票</text>
+                  <view class="value">{{ ticket.companyName }}</view>
+                  <text class="type">{{ ticket.type }}</text>
                 </view>
 
                 <view class="content">
                     <view class="label">企业税号：</view>
-                    <view class="value">QYSH9473725596743839</view>
+                  <view class="value">{{ ticket.companyTax }}</view>
                 </view>
 
                 <view class="content">
                     <view class="label">注册电话：</view>
-                    <view class="value">158 **** 8888</view>
+                  <!--FixMe：手机号-->
+                  <view class="value">{{ ticket.phone }}</view>
                 </view>
 
                 <view class="footer">
-                    <view class="default" v-if="ticket.default">默认信息</view>
+                  <view class="default" v-if="ticket.isDefault">默认信息</view>
                     <view class="set-default" v-else @tap="selectticket(i)">
-                        <view :class="['select', { active: ticket.default }]" ><view class="selected"></view></view>
+                      <view :class="['select', { active: ticket.isDefault }]">
+                        <view class="selected"></view>
+                      </view>
                         <text>设为默认信息</text>
                     </view>
                     <view class="empty" v-else></view>
@@ -51,33 +54,16 @@
 </template>
 
 <script>
-  import { mapActions } from "vuex";
+  import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
     return {
-      // 列表
-      ticketList: [
-        {
-          default: true //默认地址
-        },
-        {
-          default: false
-        },
-        {
-          default: false
-        },
-        {
-          default: false
-        },
-        {
-          default: false
-        }
-      ],
       // 查看更多状态
       showMoreticket: true
     };
   },
+  computed: mapState('Invoice', ['invoiceList']),
   onLoad() {
     this.getInvoiceList()
   },
@@ -85,10 +71,10 @@ export default {
     ...mapActions('Invoice', ['getInvoiceList']),
     selectticket(i) {
       this.ticketList.map(ticket => {
-        ticket.default = false;
+        ticket.isDefault = false;
       });
 
-      this.ticketList[i].default = true;
+      this.ticketList[i].isDefault = true;
     },
     toAddticket() {
       uni.navigateTo({

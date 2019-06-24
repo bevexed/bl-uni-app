@@ -1,3 +1,3 @@
 export default {
-    invoiceList: null,
+    invoiceList: [],
 }

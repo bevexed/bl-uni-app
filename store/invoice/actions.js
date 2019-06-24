@@ -66,6 +66,6 @@ export const addInvoice = async ({ dispatch }, data) => {
 export const getInvoiceList = async ({ commit }) => {
   let res = await reqInvoiceList();
   if (res.code === 200) {
-    commit(GET_INVOICE_LIST, { res })
+    commit(GET_INVOICE_LIST, res)
   }
 };

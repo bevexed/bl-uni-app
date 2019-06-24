@@ -4,6 +4,7 @@ import {
 
 export default {
     [GET_INVOICE_LIST](state, { data }) {
-        state.data = data;
+      console.log(data);
+      state.invoiceList = data;
     },
 };
