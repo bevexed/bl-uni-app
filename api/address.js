@@ -1,4 +1,4 @@
-import ajax from './ajax'
+import ajax, { _companyId } from './ajax'
 
 /**
  * @function 新增收货地址
@@ -13,8 +13,8 @@ import ajax from './ajax'
  * @param userId
  */
 
-export const reqAddAddress = ({ addressee, city, county, companyId = 4, isMain, other, phone, province, userId }) =>
-  ajax('/address', { addressee, city, county, companyId, isMain, other, phone, province, userId }, 'POST');
+export const reqAddAddress = ({ addressee, city, county, isMain, other, phone, province, userId }) =>
+  ajax('/address', { addressee, city, county, _companyId, isMain, other, phone, province, userId }, 'POST');
 
 /**
  * @function 查询所有收货地址
@@ -49,7 +49,7 @@ export const reqAddressDefault = id => ajax('/address/default/' + id, {}, 'PUT')
  * @param id {string} 要修改地址的 Id
  */
 
-export const reqChangeAddress = ({ addressee, city, county, companyId = 4, isMain, other, phone, province, id }) =>
-  ajax('/address', { addressee, city, county, companyId, isMain, other, phone, province, id }, 'PUT');
+export const reqChangeAddress = ({ addressee, city, county, isMain, other, phone, province, id }) =>
+  ajax('/address', { addressee, city, county, _companyId, isMain, other, phone, province, id }, 'PUT');
 
 

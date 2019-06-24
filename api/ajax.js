@@ -1,7 +1,7 @@
 import uniRequest from 'uni-request';
 
 // 全局修改公司 ID
-const _companyId = 4;
+export const _companyId = 4;
 
 
 // 全局配置
@@ -39,11 +39,6 @@ uniRequest.defaults.headers.put['Content-Type'] = 'application/json';
 // uniRequest.patch(url[, data[, config]])
 
 export default async function ajax(url, data = {}, type, loading = true) {
-
-  let { companyId } = data;
-  if (companyId) {
-    data.companyId = _companyId
-  }
 
   await header();
 
