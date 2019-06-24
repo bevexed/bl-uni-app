@@ -5,24 +5,16 @@
             <view :class="['select-model',{open}]">
                 <!-- 模特选择标题 -->
                 <view class="model-select-title"><text>模特选择</text></view>
-                <image class="before" src="../static/icon/before.svg" mode=""></image>
+              <image class="before" src="../../static/icon/before.svg" mode=""></image>
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
-                    <swiper-item>
-                        <view :class="['swiper-item', { selected: 0 === currentModel }]" @tap="onModelChange(0)">
-                            <image src="http://qxintechoffice.f3322.net:5007/micro/241556421365_.pic_hd.jpg" mode="aspectFill"></image>
-                        </view>
-                    </swiper-item>
-                    <swiper-item>
-                        <view :class="['swiper-item', { selected: 1 === currentModel }]" @tap="onModelChange(1)">
-                            <image src="http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg" mode="aspectFill"></image>
-                        </view>
-                    </swiper-item>
+                  <swiper-item v-for="(v,index) in defaultModel" :key="index">
+                    <view :class="['swiper-item', { selected: i === currentModel }]" @tap="onModelChange(index)">
+                      <image :src="v.image" mode="aspectFill"></image>
+                    </view>
+                  </swiper-item>
 
-                    <swiper-item v-for="i in 3">
-                        <view :class="['swiper-item']"><image src="" mode="aspectFill"></image></view>
-                    </swiper-item>
                 </swiper>
-                <image class="next" src="../static/icon/before.svg" mode=""></image>
+              <image class="next" src="../../static/icon/before.svg" mode=""></image>
             </view>
 
             <!-- 模特实体图 -->
@@ -41,20 +33,21 @@
             <!-- 控制器 -->
             <view class="controll">
                 <view class="dircetion">
-                    <image src="../static/icon/dir.svg" mode="" class="dirction-top"></image>
-                    <image src="../static/icon/dir.svg" mode="" class="dirction-right"></image>
-                    <image src="../static/icon/dir.svg" mode="" class="dirction-left"></image>
-                    <image src="../static/icon/dir.svg" mode="" class="dirction-bottom"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-top"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-right"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-left"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-bottom"></image>
                 </view>
 
                 <view class="touchbar">
-                    <image class="add" src="../static/icon/add.svg" mode="" @tap="onTouchBarButton('add')"></image>
+                  <image class="add" src="../../static/icon/add.svg" mode="" @tap="onTouchBarButton('add')"></image>
                     <!-- <view class="my-slider">
                         <view class="my-slider-background"></view>
                         <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
                         <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove.stop.prevent="onChangeBar($event)" @touchend.stop.prevent="onChangeBarEnd()"></view>
                     </view> -->
-                    <image class="reduce" src="../static/icon/reduce.svg" mode="" @tap="onTouchBarButton('reduce')"></image>
+                  <image class="reduce" src="../../static/icon/reduce.svg" mode=""
+                         @tap="onTouchBarButton('reduce')"></image>
                 </view>
             </view>
         </view>
@@ -64,16 +57,18 @@
             <text>花样选择</text>
             <view class="detail">
                 <text>花形详情</text>
-                <image class="more" src="../static/icon/more.png" mode=""></image>
+              <image class="more" src="../../static/icon/more.png" mode=""></image>
             </view>
         </view>
 
         <!-- 样式选择轮播 -->
         <view class="select-style">
-            <image class="before" src="../static/icon/before.svg" mode=""></image>
+          <image class="before" src="../../static/icon/before.svg" mode=""></image>
             <swiper class="swiper select-style" :display-multiple-items="5">
-                <swiper-item v-for="(imgUrl, index) in defaultStyle" :key="index">
-                    <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)"><image :src="imgUrl" mode="aspectFill"></image></view>
+                <swiper-item v-for="(img, index) in defaultStyle" :key="index">
+                    <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)">
+                      <image :src="img.pattern" mode="aspectFill"></image>
+                    </view>
                 </swiper-item>
 
                 <!-- 上传图片 -->
@@ -81,7 +76,7 @@
                     <view class="swiper-item upload-style"><image src="../static/icon/adds.png" mode="center" @tap="popShow = true"></image></view>
                 </swiper-item> -->
             </swiper>
-            <image class="next" src="../static/icon/before.svg" mode=""></image>
+          <image class="next" src="../../static/icon/before.svg" mode=""></image>
         </view>
 
         <!-- <view :class="['pop-wrap']" v-show="popShow" @touchmove.prevent.stop @tap="popShow = false">
@@ -95,27 +90,19 @@
 
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
-// import { myImage } from '../static/unit';
+
+import { reqFitting, reqFittingModel, reqFittingSimilar } from "../../api/products";
 
 export default {
     components: {},
     data() {
         return {
             // 默认模特数量,最小数量为5
-            defaultModel: ['http://qxintechoffice.f3322.net:5007/micro/241556421365_.pic_hd.jpg', 'http://qxintechoffice.f3322.net:5007/micro/251556421372_.pic_hd.jpg'],
+          defaultModel: [],
             // 当前选中模特
             currentModel: 0,
             // 默认花纹数量,最小数量为5
-            defaultStyle: [
-                'http://qxintechoffice.f3322.net:5007/micro/1.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/2.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/3.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/4.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/5.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/6.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/7.jpg',
-                'http://qxintechoffice.f3322.net:5007/micro/8.jpg'
-            ],
+            defaultStyle: [],
             // 当前样式
             currentStyle: 0,
 
@@ -229,11 +216,11 @@ export default {
                 mask: true
             });
 
-            // let res = await reqTextile3dmix(this.data_upload);
-            //
-            // if (res.error_code === 0) {
-            //     this.currentImage = 'data:image/png;base64,' + res.image;
-            // }
+          let res = await reqFitting(this.data_upload);
+
+          if (res.error_code === 0) {
+            this.currentImage = 'data:image/png;base64,' + res.image;
+          }
         },
 
         // 更换模特
@@ -347,8 +334,38 @@ export default {
                 sourceType: ['album'],
                 sizeType: ['original']
             });
+        },
+
+
+      async getModel() {
+        let res = await reqFittingModel();
+        if (res.code === 200) {
+          this.defaultModel = res.data;
+          if (this.defaultModel.length < 5) {
+            this.defaultModel.length = 5
+          }
         }
+      },
+      async getSimilar(e) {
+        let res = await reqFittingSimilar(e);
+        if (res.code === 200) {
+          this.defaultStyle = res.data;
+          if (this.defaultStyle.length < 5) {
+            this.defaultStyle.length = 5
+          }
+        }
+      }
     },
+
+  onShow() {
+  },
+
+  onLoad(e) {
+    console.log(e);
+    let { orderId } = e;
+    this.getModel();
+    this.getSimilar(orderId);
+  },
 
     onReady() {
         this.onStyleChange(0, this.defaultStyle[1]);

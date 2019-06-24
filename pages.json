@@ -102,17 +102,12 @@
     },
     {
       "path": "pages/contract/contract"
+    },
+    {
+      "path": "pages/fitting/fitting"
     }
   ],
   "subPackages": [
-    {
-      "root": "fitting",
-      "pages": [
-        {
-          "path": "fitting"
-        }
-      ]
-    },
     {
       "root": "clipper",
       "pages": [
@@ -128,10 +123,6 @@
           "path": "contact"
         }
       ]
-    },
-    {
-      "root": "login",
-      "pages": []
     }
   ],
   "globalStyle": {
