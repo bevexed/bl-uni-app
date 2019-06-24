@@ -47,4 +47,8 @@ export const reqInvoiceList = () => ajax('/invoice', {}, 'GET');
  * @param id
  * @returns {Promise<*>}
  */
+
 export const reqInvoiceDetail = id => ajax('/invoice/' + id, {}, 'GET');
+
+
+export const changInvoiceDetail = id => ajax('/invoice/' + id, {}, 'PUT');

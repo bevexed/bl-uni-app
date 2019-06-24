@@ -30,7 +30,7 @@
 
                 <view class="footer">
                   <view class="default" v-if="ticket.isDefault">默认信息</view>
-                    <view class="set-default" v-else @tap="selectticket(i)">
+                  <view class="set-default" v-else @tap="invoiceDetail(ticket.id)">
                       <view :class="['select', { active: ticket.isDefault }]">
                         <view class="selected"></view>
                       </view>
@@ -68,14 +68,7 @@ export default {
     this.getInvoiceList()
   },
   methods: {
-    ...mapActions('Invoice', ['getInvoiceList']),
-    selectticket(i) {
-      this.ticketList.map(ticket => {
-        ticket.isDefault = false;
-      });
-
-      this.ticketList[i].isDefault = true;
-    },
+    ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail']),
     toAddticket() {
       uni.navigateTo({
         url: 'add-ticket?id=-1'

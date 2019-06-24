@@ -4,6 +4,7 @@ import {
 } from '../mutation-types';
 
 import {
+  changInvoiceDetail,
   reqAddInvoice, reqInvoiceDetail, reqInvoiceList
 } from "../../api/invoice";
 
@@ -74,5 +75,15 @@ export const getInvoiceDetail = async ({ commit }, id) => {
   let res = await reqInvoiceDetail(id);
   if (res.code === 200) {
     commit(GET_INVOICE_DETAIL, res)
+  }
+};
+
+export const invoiceDetail = async ({ dispatch }, id) => {
+  let res = await changInvoiceDetail(id);
+  if (res.code === 200) {
+    await dispatch('getInvoiceList');
+    uni.showToast({
+      title: '修改成功'
+    })
   }
 };
