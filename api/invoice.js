@@ -50,5 +50,28 @@ export const reqInvoiceList = () => ajax('/invoice', {}, 'GET');
 
 export const reqInvoiceDetail = id => ajax('/invoice/' + id, {}, 'GET');
 
-
+/**
+ * @method 修改默认发票
+ * @param id
+ * @returns {Promise<*>}
+ */
 export const changInvoiceDetail = id => ajax('/invoice/' + id, {}, 'PUT');
+
+
+export const upDateInvoice = ({ account, address, bank, city, companyName, companyTax, county, id, isDefault, phone, province, type, userId }) => ajax('/invoice/update', {
+  account,
+  address,
+  bank,
+  city,
+  companyName,
+  companyTax,
+  county,
+  id,
+  isDefault,
+  phone,
+  province,
+  type,
+  userId,
+  companyId
+}, 'PUT');
+

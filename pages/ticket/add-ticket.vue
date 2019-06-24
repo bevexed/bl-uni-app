@@ -63,6 +63,7 @@
         </view>
 
       <view
+        v-if="id==='-1'"
         class="save"
         @tap="addInvoice({
           account,
@@ -78,6 +79,26 @@
           type:stateList[currentState].label,
           userId
         })">保存
+      </view>
+
+      <view
+        v-else
+        class="save"
+        @tap="doUpdateInvoice({
+          account,
+          address,
+          bank,
+          city: addressDataList[1],
+          companyName,
+          companyTax,
+          county:addressDataList[2],
+          isDefault:setDefault,
+          phone,
+          province: addressDataList[0],
+          type:stateList[currentState].label,
+          userId,
+          id
+        })">修改
       </view>
 
         <view class="white-space"></view>
@@ -113,7 +134,8 @@ export default {
       currentState: 0,
 
       // 是否默认
-      setDefault: false
+      setDefault: false,
+      id: '',
     };
   },
   computed: {
@@ -124,6 +146,7 @@ export default {
   },
   async onLoad(e) {
     const { id } = e;
+    this.id = id;
     if (id !== '-1') {
       await this.getInvoiceDetail(id);
       const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type } = this.invoiceDetail;
@@ -140,7 +163,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('Invoice', ['addInvoice', 'getInvoiceDetail']),
+    ...mapActions('Invoice', ['addInvoice', 'getInvoiceDetail', 'doUpdateInvoice']),
     changeState(i) {
       this.currentState = i;
     },
