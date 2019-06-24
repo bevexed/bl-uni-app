@@ -1,4 +1,4 @@
-import ajax, { _companyId } from './ajax'
+import ajax, { companyId } from './ajax'
 
 /**
  * @function 商品分类
@@ -23,7 +23,7 @@ export const reqCategories = () => ajax('/categories', {}, 'GET');
 export const reqProducts = ({ page = 1, pageSize = 10, ...rest }) => ajax('/products', {
   page,
   pageSize,
-  _companyId,
+  companyId,
   ...rest
 }, "GET");
 

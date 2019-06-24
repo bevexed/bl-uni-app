@@ -1,3 +1,4 @@
 export default {
-  userInfo: {}
+  userInfo: {},
+  phone: ''
 }

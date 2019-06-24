@@ -1,5 +1,5 @@
 import ajax from './ajax.js';
-import { _companyId } from "./ajax";
+import { companyId } from "./ajax";
 
 /**
  * 校验用户是否注册
@@ -7,7 +7,7 @@ import { _companyId } from "./ajax";
  * @param {String} phone
  * */
 
-export const reqIsExist = ({ phone }) => ajax(`/user/isExist/${ _companyId }/${ phone }`, {}, 'GET');
+export const reqIsExist = ({ phone }) => ajax(`/user/isExist/${ companyId }/${ phone }`, {}, 'GET');
 
 /**
  * 验证码发送
@@ -16,7 +16,7 @@ export const reqIsExist = ({ phone }) => ajax(`/user/isExist/${ _companyId }/${ 
  */
 
 export const reqVerify = ({ phone }) => ajax('/user/verify', {
-  _companyId,
+  companyId,
   phone
 }, 'POST');
 
@@ -32,7 +32,7 @@ export const reqVerify = ({ phone }) => ajax('/user/verify', {
  * */
 
 export const reqLogin = ({ job, custName, phone, verify, avatar, nickname}) => ajax('/user/login', {
-  job, custName, _companyId, phone, verify, avatar, nickname
+  job, custName, companyId, phone, verify, avatar, nickname
 }, 'POST');
 
 /**
@@ -59,7 +59,7 @@ export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');
 
 export const reqChangeUser = ({ id, sex, job, phone, verify, avatar, nickname, birthday }) => ajax('/user', {
   id,
-  _companyId,
+  companyId,
   job,
   phone,
   verify,
