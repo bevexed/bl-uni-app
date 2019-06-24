@@ -99,6 +99,9 @@
     },
     {
       "path": "pages/pay/pay"
+    },
+    {
+      "path": "pages/contract/contract"
     }
   ],
   "subPackages": [

@@ -93,6 +93,17 @@ export const upDateInvoice = ({ account, address, bank, city, companyName, compa
 }, 'PUT');
 
 /**
+ * @function 发票签收
+ * @param id
+ * @param isPass
+ * @returns {Promise<*>}
+ */
+
+// todo:需要假数据支持
+
+export const reqSignInvoice = ({ id, isPass }) => ajax('/invoice/sign/' + id + '/' + isPass, {}, 'PUT');
+
+/**
  * @method 申请发票
  * @param invoiceApplyRequest
  * @returns {Promise<*>}

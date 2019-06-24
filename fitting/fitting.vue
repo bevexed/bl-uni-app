@@ -95,7 +95,6 @@
 
 <script>
 import { pathToBase64, base64ToPath } from 'image-tools';
-import { reqTextile3dmix } from '../api';
 // import { myImage } from '../static/unit';
 
 export default {
@@ -230,11 +229,11 @@ export default {
                 mask: true
             });
 
-            let res = await reqTextile3dmix(this.data_upload);
-
-            if (res.error_code === 0) {
-                this.currentImage = 'data:image/png;base64,' + res.image;
-            }
+            // let res = await reqTextile3dmix(this.data_upload);
+            //
+            // if (res.error_code === 0) {
+            //     this.currentImage = 'data:image/png;base64,' + res.image;
+            // }
         },
 
         // 更换模特

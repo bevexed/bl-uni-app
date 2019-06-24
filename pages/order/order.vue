@@ -103,7 +103,15 @@
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
-                      <view class="button  cancel" v-if="order.status === '交易完成'">获取合同</view>
+                      <!--fixMe:缺少合同的相应状态-->
+                      <view class="button  cancel" v-if="order.status === '交易完成'" @tap="applyContract(order.orderId)">
+                        获取合同
+                      </view>
+
+                      <view class="button  cancel" v-if="order.status === '交易完成'" @tap="toContract(order.orderId)">
+                        查看合同
+                      </view>
+
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toApplyTicket($event)">申请开票
                       </view>
@@ -137,6 +145,7 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
+  import { reqApplyContract } from "../../api/contract";
 
   export default {
     data() {
@@ -222,7 +231,6 @@
       tabSelect(index, e) {
         if (this.TabCur === index) return false;
         this.TabCur = index;
-        this.getData()
       },
 
       getData() {
@@ -329,8 +337,25 @@
             console.log(this.maxHeight);
           }).exec();
         });
-      }
+      },
+
+      async applyContract(orderId) {
+        let res = await reqApplyContract(orderId);
+        if (res.code === 200) {
+          uni.showToast({
+            title: '申请成功'
+          })
+        }
+      },
+
+
+      toContract(orderId) {
+        uni.navigateTo({
+          url: '/pages/contract/contract?orderId=' + orderId
+        })
+      },
     },
+
 
     onReady() {
       this.height('.wrap0');
