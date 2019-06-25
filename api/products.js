@@ -20,12 +20,21 @@ export const reqCategories = () => ajax('/categories', {}, 'GET');
  * @param sort {string}  composite_desc, shelves_desc, sale_asc, price_asc, price_desc
  * */
 // categoryId, hasStock, pno, price, weight, width, sort
-export const reqProducts = ({ page = 1, pageSize = 10, ...rest }) => ajax('/products', {
-  page,
-  pageSize,
-  companyId,
-  ...rest
-}, "GET");
+export const reqProducts = ({ page = 1, pageSize = 10, ...rest }) => {
+  // let str = '';
+  // Object.entries(rest).forEach(([k, v]) => {
+  //   // 当数组长度为0时过滤数组
+  //   if (Array.isArray(v) && v.length === 0) {
+  //     return
+  //   }
+  //   if (v) {
+  //     str += k + '=' + v + '&'
+  //   }
+  // });
+  // console.log(str);
+  return ajax('/products', { page, pageSize, ...rest }, "GET")
+};
+
 
 /**
  * @function 商品详情

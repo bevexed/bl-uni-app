@@ -5,7 +5,13 @@ import {
 } from '../mutation-types';
 
 export default {
-  [GET_PRODUCTS](state, data) {
+  [GET_PRODUCTS](state, { data, reset }) {
+
+    // 如果开启塞选
+    if (reset) {
+      state.productList = [];
+    }
+
     state.productList = [...state.productList, ...data.data];
     state.total = data.total;
     state.page = ++state.page;

@@ -58,7 +58,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
         // 过滤空数据
         let realData = {};
         Object.entries(data).map(([k, v]) => {
-          if (v || v.length) {
+          if (v) {
             realData[k] = v
           }
         });

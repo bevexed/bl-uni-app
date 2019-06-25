@@ -14,18 +14,22 @@ import {
 
 export const getProducts = async ({ commit, state }, data) => {
   // 如果此用户不是会员
-  console.log(data);
-  // if (data.status !== 2 && state.page === 2) {
-  //   return
-  // }
-  //
-  // let { page, total } = state;
-  // if (Math.ceil(total / 10) < page) {
-  //   return
-  // }
+  const { status, reset } = data;
+  if (status !== 2 && state.page === 2) {
+    return
+  }
+
+  // 翻页
+  let { page, total } = state;
+  if (Math.ceil(total / 10) < page && !reset) {
+    return
+  }
+
   let res = await reqProducts(data);
   if (res.code === 200) {
-    commit(GET_PRODUCTS, res.data);
+    commit(GET_PRODUCTS, { data: res.data, reset });
+
+    return true;
   }
 };
 
@@ -44,7 +48,7 @@ export const getProduct = async ({ commit }, id) => {
 };
 
 export const getSimilar = async ({ commit }, id) => {
-  let res =await reqSimilar(id)
+  let res = await reqSimilar(id);
   if (res.code === 200){
     commit(GET_SIMILAR,res.data)
   }

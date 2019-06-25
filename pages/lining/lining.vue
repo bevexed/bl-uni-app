@@ -44,9 +44,11 @@
                     </view>
 
                     <view class="value">
-                        <input class="input" type="number" placeholder="最小值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="weight[0]" type="number" placeholder="最小值"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                         <view class="hr"></view>
-                        <input class="input" type="number" placeholder="最大值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="weight[1]" type="number" placeholder="最大值"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                     </view>
                 </view>
 
@@ -204,24 +206,10 @@
       ...mapState('User', ['userInfo'])
     },
     onReady() {
-      this.getProducts({
-        page: this.page,
-        pageSize: 10,
-        companyId: 4,
-
-        status: this.userInfo.status
-      });
-
-      this.getCategories();
+      this.getData();
     },
     onReachBottom() {
-      this.getProducts({
-        page: this.page,
-        pageSize: 10,
-        companyId: 4,
-
-        status: this.userInfo.status
-      })
+      this.getData();
     },
     data() {
       return {
@@ -230,8 +218,6 @@
         menuCurrentSelect: 0,
         // 抽屉 显示控制
         drawerShow: true,
-        // 商品列表
-        shopList: [{}],
         // 显示更多颜色
         showColorMore: false,
         // 当前选分类
@@ -266,6 +252,19 @@
     methods: {
       ...mapActions('Products', ['getProducts', 'getCategories']),
 
+      async getData() {
+        let { categoryId, agreement, pno, weight, page } = this;
+        await this.getProducts({
+          page,
+          pageSize: 10,
+          pno,
+          categoryId: categoryId.toString(),
+          hasStock: agreement,
+          status: this.userInfo.status,
+          weight: weight.toString(),
+        });
+      },
+
       selectTag(currentState, tag_name) {
         if (this[currentState].includes(tag_name)) {
           this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
@@ -274,18 +273,25 @@
         this[currentState].push(tag_name);
       },
 
-      doSearch() {
+      async doSearch() {
         // todo:分类搜索
         let { categoryId, agreement, pno, weight } = this;
-        this.getProducts({
+        let res = await this.getProducts({
           page: 1,
           pageSize: 10,
           pno,
-          // categoryId: encodeURIComponent(categoryId),
+          categoryId: categoryId.toString(),
           hasStock: agreement,
           status: this.userInfo.status,
-          // weight
+          weight: weight.toString(),
+
+          reset: true
         });
+
+        if (res) {
+          this.drawerShow = false;
+        }
+
       },
 
       /** 方法说明

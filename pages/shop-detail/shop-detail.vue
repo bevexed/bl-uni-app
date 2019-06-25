@@ -59,8 +59,8 @@
         <view class="shop-detail">
             商品详情
             <view class="list">
-              <view v-for="(value,key) of product.parameters" :key="key" class="item">
-                {{ key }}：{{ value }}
+              <view v-for="(v,key) of productParams" v-if="productParams" :key="key" class="item">
+                {{ v[0] }}：{{ v[1] }}
               </view>
             </view>
         </view>
@@ -174,7 +174,7 @@
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
-  import {reqShare} from "../../api/products";
+  import { reqShare } from "../../api/products";
 
   export default {
     components: {
@@ -182,9 +182,11 @@
       uniNumberBox,
       uniTag
     },
+    async onShow() {
+      await this.getProduct(this.id);
+    },
     onLoad(query) {
-      let id = query.id;
-      this.getProduct(id);
+      this.id = query.id;
 
       uni.showShareMenu({
         withShareTicket: true,
@@ -241,6 +243,14 @@
     computed: {
       ...mapState('Products', {
         banners: state => state.product.carouselFigure,
+        productParams: state => {
+          if (state.product.parameters) {
+            return Object.entries(state.product.parameters)
+          } else {
+            console.log(state.product);
+            return ''
+          }
+        }
       }),
       ...mapState('Products', ['product'])
     },
