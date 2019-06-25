@@ -62,9 +62,11 @@
                     </view>
 
                     <view class="value">
-                        <input class="input" type="number" placeholder="最小值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="width[0]" type="number" placeholder="最小值"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                         <view class="hr"></view>
-                        <input class="input" type="number" placeholder="最大值" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="width[1]" type="number" placeholder="最大值"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                     </view>
                 </view>
 
@@ -93,9 +95,11 @@
                     </view>
 
                     <view class="value">
-                        <input class="input" type="number" placeholder="最低价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="price[0]" type="number" placeholder="最低价"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                         <view class="hr"></view>
-                        <input class="input" type="number" placeholder="最高价" placeholder-class="placehoder" placeholder-style="text-align:center" />
+                      <input class="input" v-model="price[1]" type="number" placeholder="最高价"
+                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
                     </view>
                 </view>
 
@@ -209,6 +213,7 @@
       this.getData();
     },
     onReachBottom() {
+      console.log(1);
       this.getData();
     },
     data() {
@@ -243,9 +248,10 @@
 
         agreement: false,
 
-
         pno: '',
-        weight: []
+        weight: [],
+        width: [],
+        price: []
       };
     },
 
@@ -253,7 +259,7 @@
       ...mapActions('Products', ['getProducts', 'getCategories']),
 
       async getData() {
-        let { categoryId, agreement, pno, weight, page } = this;
+        let { categoryId, agreement, pno, weight, page, width, price } = this;
         await this.getProducts({
           page,
           pageSize: 10,
@@ -262,6 +268,8 @@
           hasStock: agreement,
           status: this.userInfo.status,
           weight: weight.toString(),
+          width: width.toString(),
+          price: price.toString()
         });
       },
 
@@ -275,7 +283,8 @@
 
       async doSearch() {
         // todo:分类搜索
-        let { categoryId, agreement, pno, weight } = this;
+        let { categoryId, agreement, pno, weight, width, price } = this;
+
         let res = await this.getProducts({
           page: 1,
           pageSize: 10,
@@ -284,6 +293,8 @@
           hasStock: agreement,
           status: this.userInfo.status,
           weight: weight.toString(),
+          width: width.toString(),
+          price: price.toString(),
 
           reset: true
         });
@@ -329,7 +340,7 @@
         });
       },
 
-      // 监听 totop 显示
+      // 监听 toTop 显示
       toTopShow() {
         observer = setInterval(() => {
           let view = uni.createSelectorQuery().select('.lining');

@@ -20,10 +20,10 @@ export const getProducts = async ({ commit, state }, data) => {
   }
 
   // 翻页
-  let { page, total } = state;
-  if (Math.ceil(total / 10) < page && !reset) {
-    return
-  }
+  // let { page, total } = state;
+  // if (Math.ceil(total / 10) < page && !reset) {
+  //   return
+  // }
 
   let res = await reqProducts(data);
   if (res.code === 200) {
