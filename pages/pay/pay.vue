@@ -15,7 +15,7 @@
 
         <view class="rule upload">账户规则</view>
         <view class="supply">本服务由新天元财富提供</view>
-        <view class="button">确认支付</view>
+      <view class="button" @tap="payOrder(payData)">确认支付</view>
     </view>
 </template>
 
@@ -25,39 +25,46 @@
   export default {
     data() {
       return {
-        payTypes: { wxPay: true, bankPay: false },
-        orderNum: ''
+        payTypes: { wxPay: false, bankPay: false },
+        orderNum: '',
+        amount: '',
+
+        payData: {}
       };
     },
 
     onLoad(e) {
-      const { orderNum } = e;
+      const { orderNum, amount } = e;
       this.orderNum = orderNum;
+      this.amount = amount;
 
     },
 
     methods: {
-      ...mapActions('order', ['payOrder']),
+      ...mapActions('Order', ['payOrder']),
 
       async getCode() {
         uni.login({})
       },
 
-      wxPay() {
-        let { payTypes, orderNum } = this;
+      async wxPay() {
+        let { payTypes, orderNum, amount } = this;
         Object.entries(payTypes).map(([key, value]) => {
           this.payTypes[key] = false;
         });
 
-        this.payTypes.wxPay = true;
-        let data = {
-          orderNum,
-          //todo:获取code
-          code,
-          paymentMethod: 10
-        }
+        const code = uni.getStorageSync('code');
+        console.log(code);
 
+        this.payTypes.wxPay = true;
+        this.payData = {
+          orderNum,
+          code,
+          amount,
+          paymentMethod: 10
+        };
       },
+
       bankPay() {
         let { payTypes } = this;
         Object.entries(payTypes).map(([key, value]) => {

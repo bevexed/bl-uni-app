@@ -23,6 +23,16 @@ export default {
         }
       });
 
+      uni.login({
+        provider: 'weixin',
+        success({ code }) {
+          uni.setStorage({
+            key: 'code',
+            data: code
+          })
+        }
+      });
+
         console.log('App Launch');
         // uni.navigateTo({
         //     url:'/pages/login/login'

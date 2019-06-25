@@ -78,7 +78,9 @@
                       <view class="button cancel" v-if="order.status === '待支付'"
                             @tap="doCancalOrder(order.orderId)">取消订单
                       </view>
-                      <view class="button pay" v-if="order.status === '待支付'">付款</view>
+                      <view class="button pay" v-if="order.status === '待支付'" @tap="toPay(order.orderId,order.amount)">
+                        付款
+                      </view>
 
                       <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
                       <view class="button  cancel" v-if="order.status === '交易关闭'"  :data-order-id="order.orderId"  @tap="toOrderDetail($event)">订单详情</view>
@@ -354,6 +356,12 @@
           url: '/pages/contract/contract?orderId=' + orderId
         })
       },
+
+      toPay(orderNum, amount) {
+        uni.navigateTo({
+          url: '/pages/pay/pay?orderNum=' + orderNum + '&amount=' + amount
+        })
+      }
     },
 
 

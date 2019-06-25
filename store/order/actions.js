@@ -31,7 +31,7 @@ export const createOrder = async ({ commit }, data) => {
   let res = await reqCreateOrder(data);
   if (res.code === 200) {
     uni.navigateTo({
-      url: '/pages/pay/pay?orderNum=' + res.data
+      url: '/pages/pay/pay?orderNum=' + res.data + '&amount=' + data.amount
     });
   }
 };
