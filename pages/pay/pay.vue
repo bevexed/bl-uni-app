@@ -13,17 +13,19 @@
                 <view class="selected"></view>
               </view>
               <text @tap="changePayType('bankPay')">银行转账</text>
-                <view class="upload">点击获取帐号并上传汇款凭证</view>
+              <view class="upload" @tap="chooseImg">点击上传汇款凭证</view>
             </view>
         </view>
 
-        <view class="rule upload">账户规则</view>
-        <view class="supply">本服务由新天元财富提供</view>
+      <!--        <view class="rule upload">账户规则</view>-->
+      <!--        <view class="supply">本服务由新天元财富提供</view>-->
       <view class="button" @tap="payOrder(payData)">确认支付</view>
     </view>
 </template>
 
 <script>
+  import { pathToBase64, base64ToPath } from 'image-tools';
+
   import { mapActions } from "vuex";
 
   export default {
@@ -33,6 +35,8 @@
         orderNum: '',
         amount: '',
 
+        bankTransferRecord: '',
+        filename: '',
         payData: {}
       };
     },
@@ -41,6 +45,7 @@
       const { orderNum, amount } = e;
       this.orderNum = orderNum;
       this.amount = amount;
+
 
     },
 
@@ -80,13 +85,31 @@
       },
 
       bankPay() {
-        let { orderNum, amount } = this;
+        let { orderNum, bankTransferRecord, filename } = this;
         this.payData = {
           orderNum,
-          amount,
           paymentMethod: 0,
+          bankTransferRecord,
+          filename
         };
       },
+
+
+      chooseImg() {
+        const that = this;
+        uni.chooseImage({
+          count: 1, //默认9
+          sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album'], //从相册选择
+          success(res) {
+            console.log(res);
+            pathToBase64(res.tempFilePaths[0]).then(async base64 => {
+              that.bankTransferRecord = base64;
+              that.filename = base64.slice(100, 106);
+            })
+          }
+        });
+      }
 
     }
   };
