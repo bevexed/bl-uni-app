@@ -240,12 +240,30 @@
         bigShow: -1,
       };
     },
+    onUnload(){
+      this.$store.state.Products.product = {}
+    },
     computed: {
       ...mapState('Products', {
         banners: state => state.product.carouselFigure,
         productParams: state => {
           if (state.product.parameters) {
             return Object.entries(state.product.parameters)
+            // let data = state.product.parameters;
+            // let arr = [];
+            // for (let key in data) {
+            // let p = /\[/;
+            // if (p.test(key)) {
+            //   key = key.replace(/\[/, '\\[');
+            //   key = key.replace(/]/, '\\]');
+            //   arr.push([key, data[key]]);
+            //
+            // } else {
+            // arr.push([key, data[key]]);
+            // }
+            // }
+            // return arr
+
           } else {
             console.log(state.product);
             return ''
