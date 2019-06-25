@@ -102,7 +102,12 @@ export const payOrder = async ({dispatch}, data) => {
           console.log('fail:' + JSON.stringify(err));
         }
       });
-
+      return
     }
+
+    uni.showToast({
+      title: '支付成功',
+      mask: true
+    })
   }
 };

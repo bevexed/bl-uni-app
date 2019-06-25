@@ -13,7 +13,7 @@
                 <view class="selected"></view>
               </view>
               <text @tap="changePayType('bankPay')">银行转账</text>
-              <view class="upload" @tap="chooseImg">点击上传汇款凭证</view>
+              <view class="upload" @tap="chooseImg" :style="{color:payTypes.bankPay?'#bfa065':'#999'}">点击上传汇款凭证</view>
             </view>
         </view>
 
@@ -96,6 +96,9 @@
 
 
       chooseImg() {
+        if (!this.payTypes.bankPay) {
+          return
+        }
         const that = this;
         uni.chooseImage({
           count: 1, //默认9
@@ -104,8 +107,10 @@
           success(res) {
             console.log(res);
             pathToBase64(res.tempFilePaths[0]).then(async base64 => {
-              that.bankTransferRecord = base64;
+              that.bankTransferRecord = base64.split('base64,')[1];
               that.filename = base64.slice(100, 106);
+            }).then(() => {
+              that.bankPay();
             })
           }
         });
