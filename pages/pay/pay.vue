@@ -2,20 +2,24 @@
     <view class="pay">
         <view class="title">选择支付方式</view>
         <view class="pay-types">
-            <view class="type">
-                <view :class="['select', { active: payTypes.wxPay }]" @tap="wxPay"><view class="selected"></view></view>
+          <view class="type" @tap="changePayType('wxPay')">
+            <view :class="['select', { active: payTypes.wxPay }]">
+              <view class="selected"></view>
+            </view>
                 <text @tap="wxPay">微信支付</text>
             </view>
             <view class="type">
-                <view :class="['select', { active: payTypes.bankPay }]" @tap="bankPay"><view class="selected"></view></view>
-                <text @tap="bankPay">银行转账</text>
+              <view :class="['select', { active: payTypes.bankPay }]" @tap="changePayType('bankPay')">
+                <view class="selected"></view>
+              </view>
+              <text @tap="changePayType('bankPay')">银行转账</text>
                 <view class="upload">点击获取帐号并上传汇款凭证</view>
             </view>
         </view>
 
         <view class="rule upload">账户规则</view>
         <view class="supply">本服务由新天元财富提供</view>
-      <view class="button" @tap="payOrder(payData)">确认支付</view>
+      <view class="button" @tap="toPay(payData)">确认支付</view>
     </view>
 </template>
 
@@ -26,6 +30,7 @@
     data() {
       return {
         payTypes: { wxPay: false, bankPay: false },
+        payType: '',
         orderNum: '',
         amount: '',
 
@@ -42,36 +47,47 @@
 
     methods: {
       ...mapActions('Order', ['payOrder']),
+      ...mapActions('User', ['getCode']),
 
-      async getCode() {
-        uni.login({})
-      },
-
-      async wxPay() {
-        let { payTypes, orderNum, amount } = this;
-        Object.entries(payTypes).map(([key, value]) => {
-          this.payTypes[key] = false;
-        });
-
-        const code = uni.getStorageSync('code');
-        console.log(code);
-
-        this.payTypes.wxPay = true;
-        this.payData = {
-          orderNum,
-          code,
-          amount,
-          paymentMethod: 10
-        };
-      },
-
-      bankPay() {
+      changePayType(cur) {
         let { payTypes } = this;
         Object.entries(payTypes).map(([key, value]) => {
           this.payTypes[key] = false;
         });
+        this.payTypes[cur] = true;
+        this.payType = cur
+      },
 
-        this.payTypes.bankPay = true;
+      async wxPay() {
+        let { orderNum, amount } = this;
+
+        const code = await this.getCode();
+
+        this.payData = {
+          orderNum,
+          code,
+          amount,
+          paymentMethod: 10,
+          payType: 'wx',
+        };
+      },
+
+      bankPay() {
+
+      },
+
+
+      async toPay(data) {
+        const { payType } = this;
+        switch (payType) {
+          case 'wxPay':
+            await this.wxPay();
+            break;
+          case 'bankPay':
+            await this.bankPay();
+            break;
+        }
+        this.payOrder(data);
       }
     }
   };

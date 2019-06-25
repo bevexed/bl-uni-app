@@ -2,7 +2,8 @@ import {
   GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
-  LOGIN
+  LOGIN,
+  GET_CODE
 } from '../mutation-types';
 import {
   reqVerify,
@@ -14,6 +15,18 @@ import {
 } from "../../api/user";
 
 export default {
+  // 获取code
+  async getCode({ commit }) {
+    return new Promise(resolve => {
+      uni.login({
+        provider: 'weixin',
+        success({ code }) {
+          resolve(code);
+          commit(GET_CODE, code)
+        }
+      });
+    })
+  },
   // 检验用户是否存在
   async getIsExist({ commit }, phone) {
     let p = /^1[0-9]{10}$/;
@@ -124,4 +137,6 @@ export default {
     })
   }
 }
+
+
 

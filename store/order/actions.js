@@ -79,6 +79,30 @@ export const getOrderDetail = async ({ commit }, data) => {
   }
 };
 
-export const payOrder = async ({}, data) => {
-  let res = await reqPayOrder(data)
+export const payOrder = async ({dispatch}, data) => {
+  const { code } = data;
+
+  let res = await reqPayOrder(data);
+
+  if (res.code === 200) {
+    // code存在说明是微信支付
+    if (code) {
+      const { timestamp, sign, prepayId, nonceStr } = res.data;
+      uni.requestPayment({
+        provider: 'wxpay',
+        timeStamp: timestamp,
+        nonceStr,
+        package: prepayId,
+        signType: 'HMAC-SHA256',
+        paySign: sign,
+        success: function (res) {
+          console.log('success:' + JSON.stringify(res));
+        },
+        fail: function (err) {
+          console.log('fail:' + JSON.stringify(err));
+        }
+      });
+
+    }
+  }
 };

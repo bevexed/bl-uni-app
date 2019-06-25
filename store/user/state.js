@@ -1,4 +1,6 @@
 export default {
   userInfo: {},
-  phone: ''
+  phone: '',
+
+  code:''
 }
