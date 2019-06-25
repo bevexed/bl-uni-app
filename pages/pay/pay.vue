@@ -19,7 +19,7 @@
 
         <view class="rule upload">账户规则</view>
         <view class="supply">本服务由新天元财富提供</view>
-      <view class="button" @tap="toPay(payData)">确认支付</view>
+      <view class="button" @tap="payOrder(payData)">确认支付</view>
     </view>
 </template>
 
@@ -30,7 +30,6 @@
     data() {
       return {
         payTypes: { wxPay: false, bankPay: false },
-        payType: '',
         orderNum: '',
         amount: '',
 
@@ -49,13 +48,22 @@
       ...mapActions('Order', ['payOrder']),
       ...mapActions('User', ['getCode']),
 
-      changePayType(cur) {
+      async changePayType(cur) {
         let { payTypes } = this;
         Object.entries(payTypes).map(([key, value]) => {
           this.payTypes[key] = false;
         });
         this.payTypes[cur] = true;
-        this.payType = cur
+
+        // 准备数据
+        switch (cur) {
+          case 'wxPay':
+            await this.wxPay();
+            break;
+          case 'bankPay':
+            await this.bankPay();
+            break;
+        }
       },
 
       async wxPay() {
@@ -68,27 +76,18 @@
           code,
           amount,
           paymentMethod: 10,
-          payType: 'wx',
         };
       },
 
       bankPay() {
-
+        let { orderNum, amount } = this;
+        this.payData = {
+          orderNum,
+          amount,
+          paymentMethod: 0,
+        };
       },
 
-
-      async toPay(data) {
-        const { payType } = this;
-        switch (payType) {
-          case 'wxPay':
-            await this.wxPay();
-            break;
-          case 'bankPay':
-            await this.bankPay();
-            break;
-        }
-        this.payOrder(data);
-      }
     }
   };
 </script>
