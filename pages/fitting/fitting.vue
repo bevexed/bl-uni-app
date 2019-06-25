@@ -8,8 +8,9 @@
               <image class="before" src="../../static/icon/before.svg" mode=""></image>
                 <swiper class="swiper" vertical display-multiple-items="5" skip-hidden-item-layout>
                   <swiper-item v-for="(v,index) in defaultModel" :key="index">
-                    <view :class="['swiper-item', { selected: i === currentModel }]" @tap="onModelChange(index)">
-                      <image :src="v.image" mode="aspectFill"></image>
+                    <view :class="['swiper-item', { selected: v.modelId === currentModel }]"
+                          @tap="onModelChange(v.modelId)">
+                      <image :src="v.image" mode=""></image>
                     </view>
                   </swiper-item>
 
@@ -33,10 +34,10 @@
             <!-- 控制器 -->
             <view class="controll">
                 <view class="dircetion">
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-top"></image>
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-right"></image>
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-left"></image>
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-bottom"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-top" @tap="offset('dyP')"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-right" @tap="offset('dxR')"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-left" @tap="offset('dxP')"></image>
+                  <image src="../../static/icon/dir.svg" mode="" class="dirction-bottom" @tap="offset('dyR')"></image>
                 </view>
 
                 <view class="touchbar">
@@ -66,8 +67,9 @@
           <image class="before" src="../../static/icon/before.svg" mode=""></image>
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(img, index) in defaultStyle" :key="index">
-                    <view :class="['swiper-item', { selected: index === currentStyle }]" @tap="onStyleChange(index, imgUrl)">
-                      <image :src="img.pattern" mode="aspectFill"></image>
+                  <view :class="['swiper-item', { selected: index === currentStyle }]"
+                        @tap="onStyleChange(img.id, index)">
+                    <image :src="img.pattern" mode=""></image>
                     </view>
                 </swiper-item>
 
@@ -120,14 +122,15 @@ export default {
 
             // 请求数据
             data_upload: {
-                model_id: 1,
-                image: '',
-                loc: '',
-                dx: 0,
-                dy: 0,
-                amp: 1,
-                rotate: 0,
-                Rdpi: 40
+              // image: '',
+              amp: 1,
+              loc: '',
+              dx: 0,
+              dy: 0,
+              id: 192,
+              modelId: 1,
+              rotate: 0,
+              // Rdpi: 40
             },
 
             // 触屏
@@ -224,38 +227,80 @@ export default {
         },
 
         // 更换模特
-        async onModelChange(index, imgUrl) {
-            if(this.currentModel===0 && index === 0){
-                this.open = !this.open;
-                return
+      async onModelChange(index) {
+        // if (this.currentModel === this.defaultModel[0].modelId) {
+        //   this.open = !this.open;
+        // }
+
+        this.currentModel = index;
+        this.data_upload.modelId = index;
+        // 向服务器发送请求
+        this.getTextile3dmix();
+      },
+
+      // 更换花纹
+      onStyleChange(id, index) {
+        this.currentStyle = index;
+        this.data_upload.id = id;
+
+
+        // // 图片 转 base64
+        // pathToBase64(imgUrl).then(async base64 => {
+        //   // console.log(base64);
+        //   this.data_upload.image = base64.split('base64,')[1];
+        //
+        //   // 向服务器发送请求
+        this.getTextile3dmix();
+        // });
+      },
+
+      offset(state) {
+        let { dy, dx } = this.data_upload;
+        console.log(state);
+
+        switch (state) {
+          case 'dyP' :
+            dy += 10;
+            if (dy > 90) {
+              this.data_upload.dy = 90;
+              return;
+            } else {
+              this.data_upload.dy = dy
             }
-            
-            this.currentModel = index;
-            this.data_upload.model_id = (index + 1).toString();
-            // 向服务器发送请求
-            this.getTextile3dmix();
-        },
+            break;
+          case 'dyR':
+            dy -= 10;
+            if (dy < 0) {
+              this.data_upload.dy = 0;
+              return;
+            } else {
+              console.log(dy);
+              this.data_upload.dy = dy
+            }
+            break;
+          case 'dxP' :
+            dx += 10;
+            if (dx > 90) {
+              this.data_upload.dx = 90;
+              return;
+            } else {
+              this.data_upload.dx = dx
+            }
+            break;
+          case 'dxR':
+            dx -= 10;
+            if (dx < 0) {
+              this.data_upload.dx = 0;
+              return;
+            } else {
+              this.data_upload.dx = dx
+            }
+            break;
+        }
+        this.getTextile3dmix();
+      },
 
-        // 更换花纹
-        onStyleChange(index, imgUrl) {
-            this.currentStyle = index;
-
-            // 自封装 图片转 base64
-            // myImage(imgUrl).then(res => {
-            //     console.log(res);
-            // });
-
-            // 图片 转 base64
-            pathToBase64(imgUrl).then(async base64 => {
-                // console.log(base64);
-                this.data_upload.image = base64.split('base64,')[1];
-
-                // 向服务器发送请求
-                this.getTextile3dmix();
-            });
-        },
-
-        onChangeBar(e) {
+      onChangeBar(e) {
             let mouseY = e.changedTouches[0].pageY;
             let offsetY = 147;
             let offsetTop = e.target.offsetTop;
@@ -363,13 +408,14 @@ export default {
   onLoad(e) {
     console.log(e);
     let { orderId } = e;
+    this.data_upload.id = orderId;
     this.getModel();
     this.getSimilar(orderId);
   },
 
-    onReady() {
-        this.onStyleChange(0, this.defaultStyle[1]);
-    }
+  onReady() {
+    this.getTextile3dmix()
+  }
 };
 </script>
 

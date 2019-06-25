@@ -51,9 +51,10 @@ export const reqShare = id => ajax('/products/share/' + id, {}, 'GET');
 /**
  * @function 商品试衣
  * @param id
+ * @param rest
  * @returns {Promise<*>}
  */
 
-export const reqFitting = id => ajax('/products/fitting/' + id, {}, 'GET');
+export const reqFitting = ({id,...rest}) => ajax('/products/fitting/' + id, {id,...rest}, 'GET');
 export const reqFittingModel = () => ajax('/products/fitting/model', {}, 'GET');
 export const reqFittingSimilar = id => ajax('/products/fitting/similar/' + id, {}, 'GET');

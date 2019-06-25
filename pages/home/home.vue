@@ -15,7 +15,8 @@
                 @change="swiperChange"
             >
               <!--fixMe: 缺少商品ID -> 临死算他解决了吧-->
-                <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex" @tap="toDetail(banner.pno)">
+              <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex"
+                           @tap="toDetail(banner.productId)">
                   <view class="swiper-item">
                     <image :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img"
                            :src="banner.url" alt=""></image>
@@ -28,7 +29,7 @@
         <view class="picture-presentation second">
             <!-- 顶部图片 -->
           <view class="picture-presentation-top">
-            <image lazy-load mode="aspectFill" :src="second[0].url" @tap="toDetail(second[0].pno)" alt=""></image>
+            <image lazy-load mode="aspectFill" :src="second[0].url" @tap="toDetail(second[0].productId)" alt=""></image>
           </view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
@@ -39,7 +40,7 @@
                     <!-- 左部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                      <image lazy-load mode="aspectFill" :src="second[1].url" @tap="toDetail(second[1].pno)"
+                      <image lazy-load mode="aspectFill" :src="second[1].url" @tap="toDetail(second[1].productId)"
                              alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
@@ -47,13 +48,13 @@
                             <image mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
-                        <view class="shop-count">z100587</view>
+                      <view class="shop-count">{{ second[1].pno }}</view>
                     </view>
 
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">FASHION BRANFDS</view>
-                      <image lazy-load mode="aspectFill" :src="second[2].url" @tap="toDetail(second[2].pno)"
+                      <image lazy-load mode="aspectFill" :src="second[2].url" @tap="toDetail(second[2].productId)"
                              alt=""></image>
 
                         <!-- 商品名称 -->
@@ -62,7 +63,7 @@
                             <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
-                        <view class="shop-count">z100846</view>
+                      <view class="shop-count">{{ second[2].pno }}</view>
                     </view>
                 </view>
             </view>
@@ -72,7 +73,7 @@
         <view class="picture-presentation third">
             <!-- 顶部图片 -->
           <view class="picture-presentation-top">
-            <image lazy-load mode="aspectFill" :src="third[0].url" @tap="toDetail(third[0].pno)" alt=""></image>
+            <image lazy-load mode="aspectFill" :src="third[0].url" @tap="toDetail(third[0].productId)" alt=""></image>
           </view>
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
@@ -83,7 +84,7 @@
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
                         <view class="title">WOVEN FABIC</view>
-                      <image lazy-load mode="aspectFill" :src="third[1].url" @tap="toDetail(third[1].pno)"
+                      <image lazy-load mode="aspectFill" :src="third[1].url" @tap="toDetail(third[1].productId)"
                              alt=""></image>
 
                         <!-- 商品名称 -->
@@ -92,13 +93,13 @@
                             <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
-                        <view class="shop-count">z100112314</view>
+                      <view class="shop-count">{{ third[1].pno }}</view>
                     </view>
 
                     <!-- 右部预览项目 -->
                     <view class="big-pic">
                         <!-- 商品图片 -->
-                      <image lazy-load mode="aspectFill" :src="third[2].url" @tap="toDetail(third[2].pno)"
+                      <image lazy-load mode="aspectFill" :src="third[2].url" @tap="toDetail(third[2].productId)"
                              alt=""></image>
                         <!-- 商品名称 -->
                         <view class="name">
@@ -106,7 +107,7 @@
                             <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
                         </view>
                         <!-- 商品号 -->
-                        <view class="shop-count">z100812367</view>
+                      <view class="shop-count">{{third[2].pno}}</view>
                     </view>
                 </view>
             </view>
