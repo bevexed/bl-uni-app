@@ -55,8 +55,15 @@ export default async function ajax(url, data = {}, type, loading = true) {
         promise = uniRequest.post(url, data);
         break;
       case 'GET':
+        // 过滤空数据
+        let realData = {};
+        Object.entries(data).map(([k, v]) => {
+          if (v || v.length) {
+            realData[k] = v
+          }
+        });
         promise = uniRequest.get(url, {
-          params: data
+          params: realData
         });
         break;
       case "PUT":

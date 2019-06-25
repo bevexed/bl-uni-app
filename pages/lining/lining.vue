@@ -18,7 +18,8 @@
                 <view class="search-bar">
                     <view class="left">
                         <image class="search" src="../../static/icon/search.svg" mode=""></image>
-                        <input type="text" value="" placeholder="搜索商品编码" confirm-type="search" placeholder-class="placehoder" />
+                      <input v-model="pno" type="text" value="" placeholder="搜索商品编码" confirm-type="search"
+                             placeholder-class="placehoder"/>
                     </view>
 
                     <image
@@ -253,7 +254,12 @@
         sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
         // 当前选择排序方式
         currentSortState: 0,
-        agreement: false
+
+        agreement: false,
+
+
+        pno: '',
+        weight: []
       };
     },
 
@@ -270,14 +276,15 @@
 
       doSearch() {
         // todo:分类搜索
-        let { categoryId } = this;
+        let { categoryId, agreement, pno, weight } = this;
         this.getProducts({
-          page: this.page,
+          page: 1,
           pageSize: 10,
-          companyId: 4,
-          categoryId: JSON.stringify(categoryId),
-
-          status: this.userInfo.status
+          pno,
+          // categoryId: encodeURIComponent(categoryId),
+          hasStock: agreement,
+          status: this.userInfo.status,
+          // weight
         });
       },
 
