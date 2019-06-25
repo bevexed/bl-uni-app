@@ -209,6 +209,8 @@
       ...mapState('Products', ['productList', 'total', 'page', 'categories']),
       ...mapState('User', ['userInfo'])
     },
+    onUnload() {
+    },
     onReady() {
       this.getData();
     },
@@ -258,6 +260,15 @@
     methods: {
       ...mapActions('Products', ['getProducts', 'getCategories']),
 
+      reset() {
+        this.categoryId = [];
+        this.agreement = false;
+        this.pno = '';
+        this.weight = [];
+        this.page = 1;
+        this.width = [];
+        this.price = [];
+      },
       async getData() {
         let { categoryId, agreement, pno, weight, page, width, price } = this;
         await this.getProducts({
@@ -282,9 +293,7 @@
       },
 
       async doSearch() {
-        // todo:分类搜索
         let { categoryId, agreement, pno, weight, width, price } = this;
-
         let res = await this.getProducts({
           page: 1,
           pageSize: 10,
@@ -314,6 +323,11 @@
       changeMenu(index) {
         // 改变 当前 按钮 样式
         this.menuCurrentSelect = index;
+        if (index === 0) {
+          // todo:测试
+          this.reset();
+          this.doSearch();
+        }
 
         // 如果点了 筛选 则 弹出抽屉
         if (index === 1) {
