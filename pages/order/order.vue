@@ -364,10 +364,17 @@
       },
 
       async applyContract(orderId) {
+        const that = this;
         let res = await reqApplyContract(orderId);
         if (res.code === 200) {
           uni.showToast({
-            title: '申请成功'
+            title: '申请成功',
+            mask: true,
+            success(res) {
+              setTimeout(() => {
+                that.getData();
+              }, 2000)
+            }
           })
         }
       },

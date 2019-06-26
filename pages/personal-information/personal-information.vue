@@ -94,8 +94,6 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
-// todo:修改手机号，昵称，职位，邮箱
-
 export default {
   data() {
     return {

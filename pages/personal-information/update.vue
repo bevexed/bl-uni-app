@@ -44,17 +44,19 @@
         let res = await this.changeUser({ [this.key]: this.value });
 
         if (res.code === 200) {
-          MSG_TO({
+          uni.showToast({
             title: '修改成功',
-            url: 'personal-information'
+            mask: true,
+            success() {
+              setTimeout(() => {
+                uni.redirectTo({
+                  url: 'personal-information'
+                })
+              }, 2000)
+            }
           })
         }
       },
-      to() {
-        uni.redirectTo({
-          url: '/pages/personal-information/change-phone2'
-        })
-      }
     }
   }
   ;

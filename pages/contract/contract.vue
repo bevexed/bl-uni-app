@@ -4,20 +4,15 @@
 
     <!-- 轮播图 -->
     <swiper
-      :autoplay="true"
-      :interval="3000"
-      :duration="1000"
-      loop
       class="banner"
       :style="{ height: windowHeight - 72 + 'px' }"
       @change="swiperChange"
     >
-      <!--fixMe: 缺少商品ID-->
+
       <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
         <view class="swiper-item">
-          {{ banner }}
-          <image :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img"
-                 :src="banner.url" alt=""></image>
+          <image :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="" class="banner-img"
+                 :src="banner" alt=""></image>
         </view>
       </swiper-item>
     </swiper>
@@ -63,6 +58,9 @@
       },
       async contractDetail(orderId) {
         let res = await reqContractDetail(orderId);
+        if (res.code === 200) {
+          this.banners = res.data.contract.split(',');
+        }
       }
     }
   };
