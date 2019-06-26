@@ -3,7 +3,7 @@ import {
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
   LOGIN,
-  GET_CODE
+  GET_CODE, LOGIN_OUT
 } from '../mutation-types';
 import {
   reqVerify,
@@ -129,11 +129,18 @@ export default {
     let res = reqChangeUser({ id, ...data })
   },
 
-  // todo：退出逻辑
-  async loginOut({commit}) {
+  async loginOut({ commit }) {
+    commit(LOGIN_OUT, {});
     uni.clearStorage();
     uni.showToast({
       title:'已退出登录',
+      success(res) {
+        setTimeout(() => {
+          uni.reLaunch({
+            url: '/pages/home/home'
+          })
+        }, 2000)
+      }
     })
   }
 }

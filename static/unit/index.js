@@ -63,7 +63,6 @@ export const SMG = title => uni.showToast({
   icon: "none"
 });
 
-// fixMe:1.退出登陆后，界面还是停留再个人中心，内容还是和没有退出一样
 // fixMe:2.隐私政策内容无
 // fixMe:4.商品详情界面的立即购买按钮没效果
 // fixMe:5.个人资料中的企业名称最后的已授权提示去掉

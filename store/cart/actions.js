@@ -12,6 +12,7 @@ import {
   reqDetele,
   reqDeleteInvalid, reqPutCart
 } from "../../api/cart";
+import { SMG } from "../../static/unit";
 
 export const addCart = async ({ commit }, data) => {
   let res = await reqAddCart(data);
@@ -60,8 +61,10 @@ export const doDeleteInvalid = async ({ dispatch }) => {
 };
 
 export const putCart = async ({ dispatch }, data) => {
-  console.log(data);
   let res = await reqPutCart(data);
+  if (res.code !== 200) {
+    SMG('修改失败')
+  }
 };
 
 export const selectProduct = ({ commit }, data) => {

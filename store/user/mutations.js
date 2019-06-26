@@ -2,7 +2,7 @@ import {
   GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
-  LOGIN, GET_CODE
+  LOGIN, GET_CODE, LOGIN_OUT
 } from '../mutation-types';
 
 export default {
@@ -24,5 +24,11 @@ export default {
 
   [GET_CODE](state, code) {
     state.code = code;
+  },
+
+  [LOGIN_OUT](state, data) {
+    state.userInfo = data;
+    state.phone = '';
+    state.code = '';
   }
 };
