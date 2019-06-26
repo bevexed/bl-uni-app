@@ -224,7 +224,7 @@
         // 当前选中 按钮
         menuCurrentSelect: 0,
         // 抽屉 显示控制
-        drawerShow: true,
+        drawerShow: false,
         // 显示更多颜色
         showColorMore: false,
         // 当前选分类

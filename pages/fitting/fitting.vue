@@ -26,7 +26,7 @@
                 @touchmove.stop.prevent="risizing($event)"
                 @touchend.stop.prevent="resizeEnd($event)"
             >
-                <image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=234634259,4236876085&fm=27&gp=0.jpg" mode=""></image>
+                <image :src="currentImage" mode=""></image>
                 <!-- <image :src="currentImage" mode="aspectFill"></image> -->
             </view>
             <!-- {{ touch }} -->
@@ -220,10 +220,10 @@ export default {
             });
 
           let res = await reqFitting(this.data_upload);
-
-          if (res.error_code === 0) {
-            this.currentImage = 'data:image/png;base64,' + res.image;
-          }
+          console.log(res);
+          // if (res.code === 200) {
+            this.currentImage = 'data:image/png;base64,' + res;
+          // }
         },
 
         // 更换模特
