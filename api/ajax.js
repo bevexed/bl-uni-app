@@ -1,4 +1,5 @@
 import uniRequest from 'uni-request';
+import { MSG_TO } from "../static/unit";
 
 // 全局修改公司 ID
 export const companyId = 4;
@@ -78,10 +79,10 @@ export default async function ajax(url, data = {}, type, loading = true) {
       response => {
         uni.hideLoading();
         console.log('ajax-success', response.data);
-        // 全局拦截 权限
-        if (response.data.code === 403) {
+        // 全局拦截 401 用户未登录
+        if (response.data.code === 401) {
           uni.showModal({
-            title: '权限不足',
+            title: '未登录',
             content: '用户未登录，无法操作，是否跳转登录？',
             confirmColor: '#BFA065',
             success: function (res) {
@@ -95,6 +96,37 @@ export default async function ajax(url, data = {}, type, loading = true) {
               }
             }
           });
+          return
+        }
+
+        // 用户权限不足
+        if (response.data.code === 403) {
+          uni.showToast({
+            title: '用户权限不足',
+            icon: "none",
+            success(res) {
+              setTimeout(() => {
+                uni.navigateBack({
+                  delta: 1
+                })
+              }, 2000)
+            }
+          })
+          // uni.showModal({
+          //   title: '权限不足',
+          //   content: '暂不支持此功能',
+          //   confirmColor: '#BFA065',
+          //   success: function (res) {
+          //     if (res.confirm) {
+          //       console.log('用户点击确定');
+          //       uni.navigateBack({
+          //         delta: 1
+          //       })
+          //     } else if (res.cancel) {
+          //       console.log('用户点击取消');
+          //     }
+          //   }
+          // });
           return
         }
 
