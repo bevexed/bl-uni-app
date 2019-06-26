@@ -64,7 +64,6 @@ export const SMG = title => uni.showToast({
 });
 
 // fixMe:2.隐私政策内容无
-// fixMe:4.商品详情界面的立即购买按钮没效果
 // fixMe:5.个人资料中的企业名称最后的已授权提示去掉
 // fixMe:6.绑定手机号、昵称、企业名称、职位、邮箱无法修改
 // fixMe:7.购买时标样选不了

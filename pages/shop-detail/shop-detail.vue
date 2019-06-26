@@ -56,7 +56,7 @@
             <text>商品选择</text>
           <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
         </view>
-        <view class="shop-detail">
+      <view class="shop-detail" v-if="!selectShow">
             商品详情
             <view class="list">
               <view v-for="(v,key) of productParams" v-if="productParams" :key="key" class="item">
@@ -110,7 +110,7 @@
               >加入购物车
               </view>
 
-                <view class="buy-now">立即购买</view>
+              <view class="buy-now" @tap="toCreateOrder">立即购买</view>
             </view>
         </view>
 
@@ -246,36 +246,30 @@
     computed: {
       ...mapState('Products', {
         banners: state => state.product.carouselFigure,
-        productParams: state => {
-          if (state.product.parameters) {
-            return Object.entries(state.product.parameters)
-            // let data = state.product.parameters;
-            // let arr = [];
-            // for (let key in data) {
-            // let p = /\[/;
-            // if (p.test(key)) {
-            //   key = key.replace(/\[/, '\\[');
-            //   key = key.replace(/]/, '\\]');
-            //   arr.push([key, data[key]]);
-            //
-            // } else {
-            // arr.push([key, data[key]]);
-            // }
-            // }
-            // return arr
-
-          } else {
-            console.log(state.product);
-            return ''
-          }
-        }
+        productParams: state => state.product.parameters ? Object.entries(state.product.parameters) : ''
       }),
       ...mapState('Products', ['product'])
     },
     methods: {
       ...mapActions('Products', ['getProduct']),
-      ...mapActions('Cart', ['addCart']),
+      ...mapActions('Cart', ['addCart', 'selectProduct']),
       ...mapActions('Collect', ['addCollect']),
+      toCreateOrder() {
+        const { product, num, tagCurrentSelect } = this;
+        this.selectProduct([{
+          productId: product.id,
+          shoppingNum: num,
+          sampleType: tagCurrentSelect.length,
+          totalAmount: num * product.price,
+          // fixMe:运费
+          ...this.product
+        }]);
+        uni.navigateTo({
+          url: '/pages/account-cart/account-cart'
+        })
+
+      },
+
       async addCartByNum() {
         const { product, num, tagCurrentSelect } = this;
         let res = await this.addCart({
@@ -661,7 +655,7 @@
     }
 
     .pop-wrap {
-        z-index: 999;
+      z-index: 9999999;
         position: absolute;
         top: 0;
         left: 0;

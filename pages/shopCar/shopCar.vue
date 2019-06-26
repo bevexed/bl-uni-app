@@ -167,7 +167,6 @@
         let length = goods.filter(good => good[state] === true).length;
         let data = goods.filter(good => good[state] === true);
         let ids = data.map(item => item.productId);
-        console.log(ids);
         this.selectProduct(data);
         return { length, ids };
       }
@@ -177,7 +176,7 @@
       this.edit = false
     },
     methods: {
-      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct', 'putCart']),
+      ...mapActions('Cart', ['getCartAll', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct', 'putCart']),
 
       selectGood(i) {
         const { edit } = this;
