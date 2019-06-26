@@ -108,7 +108,8 @@
             console.log(res);
             pathToBase64(res.tempFilePaths[0]).then(async base64 => {
               that.bankTransferRecord = base64.split('base64,')[1];
-              that.filename = base64.slice(100, 106);
+              // 截取20个字符串用作文件名
+              that.filename = res.tempFilePaths[0].slice(-20)
             }).then(() => {
               that.bankPay();
             })
