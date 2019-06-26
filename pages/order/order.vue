@@ -48,7 +48,7 @@
                                 <view class="detail-footer">
                                     <view :class="['options']">
                                       <view class="option" v-if="good.sampleType!=='无小样'">
-                                            <view class="label">标样：￥0</view>
+                                            <view class="label">标样：￥{{ good.sampleAmount }}</view>
                                             <view class="value">*1</view>
                                         </view>
                                         <view class="option">
@@ -123,9 +123,9 @@
                       </view>
 
                       <view
-                        class="button  cancel"
+                        class="button gray"
                         v-if="order.status === '交易完成' && order.contractStatus === 0"
-                        @tap="applyContract(order.orderId)">
+                        >
                         合同待上传
                       </view>
 
@@ -669,6 +669,10 @@
             color: #fff;
             background: $theme-color;
         }
+      .gray{
+        border-color: #999;
+        color:#999;
+      }
     }
 
     .pop-wrap {

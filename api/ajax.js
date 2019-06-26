@@ -158,6 +158,10 @@ export default async function ajax(url, data = {}, type, loading = true) {
             icon: "none",
             mask: true
           })
+
+          // 此处 返回 虚假 200 强制接收假数据
+          resolve({ code: 200, data: null });
+
           return;
         }
 

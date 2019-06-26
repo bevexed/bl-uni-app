@@ -172,7 +172,8 @@
       }
     },
     onShow() {
-      this.getCartAll()
+      this.getCartAll();
+      this.edit = false
     },
     methods: {
       ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct']),

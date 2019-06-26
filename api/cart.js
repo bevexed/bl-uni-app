@@ -1,4 +1,4 @@
-import ajax from './ajax'
+import ajax, { companyId } from './ajax'
 
 /**
  * @function 购物车新增
@@ -26,8 +26,7 @@ export const reqAddCart = ({ shoppingNum = 1, productId, sampleType }) => ajax('
 /**
  * @function 更新购物车数据
  * */
-// todo: 购物车更新数据接口
-export const reqPutCart = data => ajax('/cart', data, 'PUT');
+export const reqPutCart = data => ajax('/cart', { companyId, ...data }, 'PUT');
 
 /**
  * @function 查询购物车详情

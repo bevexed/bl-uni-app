@@ -10,7 +10,7 @@ import {
   reqAddCart,
   reqSelectAll,
   reqDetele,
-  reqDeleteInvalid
+  reqDeleteInvalid, reqPutCart
 } from "../../api/cart";
 
 export const addCart = async ({ commit }, data) => {
@@ -58,6 +58,9 @@ export const doDeleteInvalid = async ({ dispatch }) => {
   }
 };
 
+export const putCart = async ({ dispatch },data) => {
+  let res = await reqPutCart(data);
+};
 
 export const selectProduct = ({ commit }, data) => {
   commit(SELECT_PRODUCT,data);
