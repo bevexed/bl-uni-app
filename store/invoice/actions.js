@@ -171,9 +171,16 @@ export const applyInvoice = async ({ commit, state }, orderId) => {
 
   let res = await reqApplyInvoice({ ...invoiceApplyRequest, orderId });
   if (res.code === 200) {
-    MSG_TO({
+    uni.showToast({
       title: '申请成功',
-      url: '/pages/order/order'
+      mask: true,
+      success(res) {
+        setTimeout(() => {
+          uni.redirectTo({
+            url: '/pages/order/order'
+          })
+        }, 2000)
+      }
     })
   }
 };
