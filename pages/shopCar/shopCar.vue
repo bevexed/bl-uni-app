@@ -10,7 +10,7 @@
 
                 <view class="menu" v-if="edit" @tap="edit = !edit">
                     <image src="../../static/icon/save.svg" mode=""></image>
-                    <text>保存</text>
+                  <text>保存</text>
                 </view>
                 <view class="menu" v-else @tap="edit = !edit">
                     <image src="../../static/icon/edit.svg" mode=""></image>
@@ -71,7 +71,7 @@
                     <view class="select-much" v-if="good.willChange && edit">
                         <view class="title">数量选择</view>
                       <uni-number-box
-                        :min="1"
+                        :min="0"
                         :max="good.stock"
                         :step="10"
                         :value="good.shoppingNum"
@@ -90,6 +90,7 @@
                               :inverted="true"
                               v-for="(tag, index) in good.tagsList"
                               :key="index"
+                              @tap="changSampleType(i)"
                             />
                         </view>
                     </view>
@@ -177,6 +178,7 @@
     },
     methods: {
       ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct', 'putCart']),
+
       selectGood(i) {
         const { edit } = this;
         let state = edit ? 'willDel' : 'willBuy';
@@ -203,20 +205,27 @@
       },
 
       selectWillChang(i) {
+        this.goods.forEach(item => item.willChange = false);
+
         this.goods[i].willChange = !this.goods[i].willChange;
+
+        this.putCart(this.goods[i])
+
       },
 
-      selectTag(currentState, tag_name, i) {
-        if (this.goods[i][currentState].includes(tag_name)) {
-          this.goods[i][currentState].splice(this.goods[i][currentState].findIndex(item => item === tag_name), 1);
-          return;
-        }
-        this.goods[i][currentState].push(tag_name);
+
+      changSampleType(i) {
+        this.goods[i].sampleType = this.goods[i].sampleType === 0 ? 1 : 0;
+
+        this.putCart(this.goods[i])
       },
+
 
       numChange(val, i) {
         console.log(val, i);
         this.goods[i].shoppingNum = val;
+
+        this.putCart(this.goods[i])
       },
 
       to(url) {

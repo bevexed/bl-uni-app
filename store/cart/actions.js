@@ -60,6 +60,7 @@ export const doDeleteInvalid = async ({ dispatch }) => {
 };
 
 export const putCart = async ({ dispatch }, data) => {
+  console.log(data);
   let res = await reqPutCart(data);
 };
 
