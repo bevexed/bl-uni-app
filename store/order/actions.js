@@ -103,7 +103,9 @@ export const payOrder = async ({dispatch}, data) => {
         signType: 'HMAC-SHA256',
         paySign: sign,
         success: function (res) {
-          console.log('success:' + JSON.stringify(res));
+          uni.reLaunch({
+            url: '/pages/order/order'
+          })
         },
         fail: function (err) {
           console.log('fail:' + JSON.stringify(err));
@@ -114,7 +116,14 @@ export const payOrder = async ({dispatch}, data) => {
 
     uni.showToast({
       title: '支付成功',
-      mask: true
+      mask: true,
+      success() {
+        setTimeout(() => {
+          uni.reLaunch({
+            url: '/pages/order/order'
+          })
+        }, 2000)
+      }
     })
   }
 };
