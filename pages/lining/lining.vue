@@ -289,7 +289,7 @@
           pno,
           categoryId: categoryId.toString(),
           hasStock: agreement,
-          status: this.userInfo.status,
+          status: this.userInfo.status || 1,
           weight: weight.toString(),
           width: width.toString(),
           price: price.toString(),
@@ -342,6 +342,7 @@
         // 如果点了 筛选 则 弹出抽屉
         if (index === 1) {
           this.drawerShow = true;
+          this.getCategories();
         }
 
         if (index === 2) {

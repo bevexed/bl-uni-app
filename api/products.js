@@ -32,7 +32,7 @@ export const reqProducts = ({ page = 1, pageSize = 10, ...rest }) => {
   //   }
   // });
   // console.log(str);
-  return ajax('/products', { page, pageSize, ...rest }, "GET")
+  return ajax('/products', { companyId, page, pageSize, ...rest }, "GET")
 };
 
 

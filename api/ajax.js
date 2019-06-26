@@ -93,6 +93,20 @@ export default async function ajax(url, data = {}, type, loading = true) {
                 })
               } else if (res.cancel) {
                 console.log('用户点击取消');
+                // 后退方式
+                // uni.navigateBack({
+                //   delta: 10,
+                //   fail() {
+                //     uni.switchTab({
+                //       url: '/pages/home/home'
+                //     })
+                //   }
+                // })
+
+                // 暴力方式
+                uni.reLaunch({
+                  url: '/pages/home/home'
+                })
               }
             }
           });
@@ -104,10 +118,16 @@ export default async function ajax(url, data = {}, type, loading = true) {
           uni.showToast({
             title: '用户权限不足',
             icon: "none",
-            success(res) {
+            mask: true,
+            success() {
               setTimeout(() => {
                 uni.navigateBack({
-                  delta: 1
+                  delta: 10,
+                  fail() {
+                    uni.switchTab({
+                      url: '/pages/home/home'
+                    })
+                  }
                 })
               }, 2000)
             }
