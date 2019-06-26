@@ -6,7 +6,7 @@
         <view class="menus">
             <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
                 {{ menu }}
-                <image v-if="index === 2" :src="index === menuCurrentSelect ? '../../static/icon/arrow-top.svg' : '../../static/icon/arrow-bottom.svg'" mode=""></image>
+<!--                <image v-if="index === 2" :src="index === menuCurrentSelect ? '../../static/icon/arrow-top.svg' : '../../static/icon/arrow-bottom.svg'" mode=""></image>-->
             </view>
         </view>
 
@@ -120,6 +120,21 @@
             </view>
         </uni-drawer>
 
+      <!-- 抽屉2 -->
+      <uni-drawer :visible="menuCurrentSelect === 2" mode="right" @close="onDrawerClose" class="drawer drawer-2">
+        <scroll-view scroll-y class="drawer-wrap">
+          <!-- 排序 -->
+          <view class="sort">
+            <view class="options">
+              <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
+                <text>{{ option }}</text>
+                <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+      </uni-drawer>
+
         <!-- 商品列表 -->
         <view class="list" v-if="menuCurrentSelect !== 2">
             <view class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
@@ -140,36 +155,26 @@
             </view>
         </view>
 
-        <!-- 排序 -->
-        <view class="sort" v-if="menuCurrentSelect === 2">
-            <view class="options">
-                <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
-                    <text>{{ option }}</text>
-                    <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
-                </view>
-            </view>
-        </view>
-
         <!-- 选择 分类 弹窗 -->
-<!--        <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">-->
-<!--            <view class="my-pop">-->
-<!--                <view class="pop-top">-->
-<!--                    <text @tap="sortShow = false">取消</text>-->
-<!--                    <text class="sure" @tap="sureSelect">选择</text>-->
-<!--                </view>-->
+      <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
+        <view class="my-pop">
+          <view class="pop-top">
+            <text @tap="sortShow = false">取消</text>
+            <text class="sure" @tap="sureSelect">选择</text>
+          </view>
 
-<!--                <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">-->
-<!--                    <picker-view-column>-->
-<!--                        <view class="select" v-for="(sort, index) in sorts" :key="index">-->
-<!--                            <view class="value">{{ sort }}</view>-->
-<!--                        </view>-->
-<!--                    </picker-view-column>-->
-<!--                </picker-view>-->
+          <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
+            <picker-view-column>
+              <view class="select" v-for="(sort, index) in sorts" :key="index">
+                <view class="value">{{ sort }}</view>
+              </view>
+            </picker-view-column>
+          </picker-view>
 
-<!--                &lt;!&ndash;              <view class="line left"></view>-->
-<!--                <view class="line right"></view> &ndash;&gt;-->
-<!--            </view>-->
-<!--        </view>-->
+          <!--              <view class="line left"></view>
+          <view class="line right"></view> -->
+        </view>
+      </view>
 
         <!-- 相机拍照 我的相册 弹窗 -->
         <view class="pop-wrap" v-show="popShow" @touchmove.stop.prevent="moveHandle" @tap="popShow = false">
@@ -627,7 +632,7 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            padding: 0 $white-space;
+            padding:  $white-space;
         }
         .option {
             display: flex;
@@ -638,15 +643,16 @@
             font-size: 14px;
             font-family: PingFang-SC-Medium;
             margin-bottom: 20upx;
-            background: #eee;
             border-radius: 8upx;
             color: #999;
             padding: 20upx;
+          border: 1upx solid #BFA065;
 
             &.active {
                 color: $theme-color;
                 background: rgba(191, 160, 101, 0.2);
                 font-weight: 500;
+              border: none;
             }
 
             text {
@@ -844,5 +850,9 @@
         width: 220upx;
         font-size: 24upx;
     }
+
+  .drawer-2{
+    width: 100upx;
+  }
 }
 </style>

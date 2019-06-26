@@ -64,6 +64,10 @@ image {
     width: 80% !important;
 }
 
+.drawer-2 .uni-drawer__content {
+  width: 380upx !important;
+}
+
 /* 修改 tag*/
 .uni-tag {
     width: 100%;
