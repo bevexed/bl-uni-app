@@ -9,7 +9,9 @@ export default {
 
     // 如果开启塞选
     if (reset) {
-      state.productList = [];
+      state.page = 1;
+      state.productList = [...data.data];
+      return;
     }
 
     state.productList = [...state.productList, ...data.data];

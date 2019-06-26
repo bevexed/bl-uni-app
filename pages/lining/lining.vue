@@ -215,7 +215,6 @@
       this.getData();
     },
     onReachBottom() {
-      console.log(1);
       this.getData();
     },
     data() {
@@ -265,7 +264,6 @@
         this.agreement = false;
         this.pno = '';
         this.weight = [];
-        this.page = 1;
         this.width = [];
         this.price = [];
       },
@@ -320,13 +318,13 @@
        * @param{number} index 当前按钮 索引
        * @return {null}
        */
-      changeMenu(index) {
+      async changeMenu(index) {
         // 改变 当前 按钮 样式
         this.menuCurrentSelect = index;
         if (index === 0) {
-          // todo:测试
-          this.reset();
-          this.doSearch();
+          await this.reset();
+          await this.doSearch();
+          this.toTop()
         }
 
         // 如果点了 筛选 则 弹出抽屉
