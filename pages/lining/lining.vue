@@ -114,7 +114,7 @@
                 <view class="white-space"></view>
             </scroll-view>
             <view class="buttons">
-                <view class="my-button plain">重置</view>
+                <view class="my-button plain" @tap="changeMenu(0)">重置</view>
 
               <view class="my-button" @tap="doSearch">确定</view>
             </view>
@@ -330,12 +330,6 @@
 
       },
 
-      /** 方法说明
-       * @method 改变按钮样式
-       * @for
-       * @param{number} index 当前按钮 索引
-       * @return {null}
-       */
       async changeMenu(index) {
         // 改变 当前 按钮 样式
         this.menuCurrentSelect = index;
@@ -355,10 +349,6 @@
         }
       },
 
-      /**
-       *  方法说明
-       * @method 抽屉关闭
-       */
       onDrawerClose() {
         // 重新 设置 抽屉状态
         this.drawerShow = false;
@@ -420,6 +410,7 @@
         this.currentSortState = index;
         let res = await this.doSearch();
         if (res) {
+          this.toTop();
           this.showListShow = false
         }
       },
