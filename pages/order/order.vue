@@ -136,9 +136,34 @@
                         查看合同
                       </view>
 
-                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
+                      <view class="button  cancel"
+                            v-if="order.status === '交易完成' && order.invoiceStatus === null"
+                            :data-order-id="order.orderId"
                             @tap="toApplyTicket($event)">申请开票
                       </view>
+                      <view class="button  gray"
+                            v-if="order.status === '交易完成' && order.invoiceStatus === 0"
+                            :data-order-id="order.orderId">
+                        发票待审批
+                      </view>
+                      <view class="button  gray"
+                            v-if="order.status === '交易完成' && order.invoiceStatus === 1"
+                            :data-order-id="order.orderId">
+                        发票待寄送
+                      </view>
+                      <view class="button  cancel"
+                            v-if="order.status === '交易完成' && order.invoiceStatus === 2"
+                            :data-order-id="order.orderId"
+                            @tap="signInvoice(order.orderId)"
+                      >
+                        签收发票
+                      </view>
+                      <view class="button  gray"
+                            v-if="order.status === '交易完成' && order.invoiceStatus === 3"
+                            :data-order-id="order.orderId">
+                        发票已签收
+                      </view>
+
                     </view>
                 </view>
             </swiper-item>
@@ -170,6 +195,7 @@
 <script>
   import { mapActions, mapState } from "vuex";
   import { reqApplyContract } from "../../api/contract";
+  import { reqSignInvoice } from "../../api/invoice";
 
   export default {
     data() {
@@ -369,6 +395,22 @@
         if (res.code === 200) {
           uni.showToast({
             title: '申请成功',
+            mask: true,
+            success(res) {
+              setTimeout(() => {
+                that.getData();
+              }, 2000)
+            }
+          })
+        }
+      },
+
+      async signInvoice(orderId) {
+        const that = this;
+        let res = await reqSignInvoice({ id: orderId, isPass: true });
+        if (res.code === 200) {
+          uni.showToast({
+            title: '签收成功',
             mask: true,
             success(res) {
               setTimeout(() => {

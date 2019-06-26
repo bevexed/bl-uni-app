@@ -99,8 +99,6 @@ export const upDateInvoice = ({ account, address, bank, city, companyName, compa
  * @returns {Promise<*>}
  */
 
-// todo:需要假数据支持
-
 export const reqSignInvoice = ({ id, isPass }) => ajax('/invoice/sign/' + id + '/' + isPass, {}, 'PUT');
 
 /**
