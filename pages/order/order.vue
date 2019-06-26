@@ -75,6 +75,8 @@
                     </view>
 
                     <view class="buttons">
+                      <!--待支付-->
+                      <!--待支付-->
                       <view class="button cancel" v-if="order.status === '待支付'"
                             @tap="doCancalOrder(order.orderId)">取消订单
                       </view>
@@ -82,35 +84,55 @@
                         付款
                       </view>
 
+                      <!--交易关闭-->
+                      <!--交易关闭-->
                       <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
                       <view class="button  cancel" v-if="order.status === '交易关闭'"  :data-order-id="order.orderId"  @tap="toOrderDetail($event)">订单详情</view>
 
+                      <!--待发货-->
+                      <!--待发货-->
                       <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.orderId"
                             @tap="toBackMoney($event)">取消订单
                       </view>
-
                       <view class="button  cancel" v-if="order.status === '待发货'" @tap="remindOrder(order.orderId)">
                         催单
                       </view>
-
                       <view class="button  pay" v-if="order.status === '待收货'" @tap="doConfirmReceipt(order.orderId)">
                         确认收货
                       </view>
 
+                      <!--售后处理-->
+                      <!--售后处理-->
                       <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">查看详情
                       </view>
 
+
+                      <!--交易完成-->
+                      <!--交易完成-->
                       <!--fixMe:怎么去售后详情页面-->
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
                       <!--fixMe:缺少合同的相应状态-->
-                      <view class="button  cancel" v-if="order.status === '交易完成'" @tap="applyContract(order.orderId)">
+                      <view
+                        class="button  cancel"
+                        v-if="order.status === '交易完成' && order.contractStatus === null"
+                        @tap="applyContract(order.orderId)">
                         获取合同
                       </view>
 
-                      <view class="button  cancel" v-if="order.status === '交易完成'" @tap="toContract(order.orderId)">
+                      <view
+                        class="button  cancel"
+                        v-if="order.status === '交易完成' && order.contractStatus === 0"
+                        @tap="applyContract(order.orderId)">
+                        合同待上传
+                      </view>
+
+                      <view
+                        class="button  cancel"
+                        v-if="order.status === '交易完成' && order.contractStatus === 1"
+                        @tap="toContract(order.orderId)">
                         查看合同
                       </view>
 
