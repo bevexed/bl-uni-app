@@ -67,7 +67,7 @@
                 <view class="label">企业名称</view>
                 <view class="value">
                   <text class="name">{{ userInfo.custName }}</text>
-                    <view class="bedge">已授权</view>
+                  <!-- <view class="bedge">已授权</view>-->
                 </view>
             </view>
 
