@@ -13,7 +13,8 @@ import {
   reqOrderDetail,
   reqPayOrder
 } from "../../api/order";
-import { MSG_TO } from "../../static/unit";
+import { MSG_TO, SMG } from "../../static/unit";
+import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {
   const { page, pages, currentStatus } = state;
@@ -30,6 +31,12 @@ export const getOrderList = async ({ commit, state }, data) => {
 export const createOrder = async ({ commit }, data) => {
   let res = await reqCreateOrder(data);
   if (res.code === 200) {
+    let item = JSON.parse(data.item);
+    let result = await reqDetele(item.map(pro => pro.productId));
+    if (result.code !== 200) {
+      SMG(res.msg);
+      return
+    }
     uni.navigateTo({
       url: '/pages/pay/pay?orderNum=' + res.data + '&amount=' + data.amount
     });

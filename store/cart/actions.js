@@ -33,6 +33,7 @@ export const getCartAll = async ({ commit }) => {
 };
 
 export const doDeleteCart = async ({ dispatch }, { ids }) => {
+  console.log(ids);
   let res = await reqDetele(ids.join(','));
   if (res.code === 200) {
     dispatch('getCartAll').then(
@@ -58,7 +59,7 @@ export const doDeleteInvalid = async ({ dispatch }) => {
   }
 };
 
-export const putCart = async ({ dispatch },data) => {
+export const putCart = async ({ dispatch }, data) => {
   let res = await reqPutCart(data);
 };
 

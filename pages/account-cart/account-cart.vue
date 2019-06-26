@@ -150,7 +150,7 @@
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
       ...mapActions('Order', ['createOrder']),
-      toPay(amount) {
+      async toPay(amount) {
         const { agreement, goods, addressList } = this;
         let item = goods.map(item => ({
           count: item.shoppingNum,
@@ -159,7 +159,7 @@
         }));
         let addressId = addressList.filter(item => item.isMain)[0].id;
         if (agreement) {
-          this.createOrder({ addressId, item: JSON.stringify(item), amount });
+          await this.createOrder({ addressId, item: JSON.stringify(item), amount });
         }
       },
       toDetail(id) {

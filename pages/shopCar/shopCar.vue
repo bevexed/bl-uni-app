@@ -176,7 +176,7 @@
       this.edit = false
     },
     methods: {
-      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct']),
+      ...mapActions('Cart', ['getCartAll', 'selectGood', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct', 'putCart']),
       selectGood(i) {
         const { edit } = this;
         let state = edit ? 'willDel' : 'willBuy';
