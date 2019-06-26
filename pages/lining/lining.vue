@@ -5,7 +5,7 @@
 
         <view class="menus">
             <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
-                {{ menu }}
+              {{ menu }}
 <!--                <image v-if="index === 2" :src="index === menuCurrentSelect ? '../../static/icon/arrow-top.svg' : '../../static/icon/arrow-bottom.svg'" mode=""></image>-->
             </view>
         </view>
@@ -121,13 +121,14 @@
         </uni-drawer>
 
       <!-- 抽屉2 -->
-      <uni-drawer :visible="menuCurrentSelect === 2" mode="right" @close="onDrawerClose" class="drawer drawer-2">
+      <uni-drawer :visible="menuCurrentSelect === 2 && showListShow" mode="right" @close="onDrawerClose"
+                  class="drawer drawer-2">
         <scroll-view scroll-y class="drawer-wrap">
           <!-- 排序 -->
           <view class="sort">
             <view class="options">
               <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
-                <text>{{ option }}</text>
+                <text>{{ option.text }}</text>
                 <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
               </view>
             </view>
@@ -136,7 +137,7 @@
       </uni-drawer>
 
         <!-- 商品列表 -->
-        <view class="list" v-if="menuCurrentSelect !== 2">
+        <view class="list">
             <view class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
                 <image :src="product.imageShow" mode="aspectFill" lazy-load></image>
                 <view class="name">{{ product.pno }}</view>
@@ -248,9 +249,16 @@
         // 当前选择分类值
         currentPickerValue: 2,
         // 排序
-        sortList: ['综合', '最新上架', '仅显示有库存', '按销量', '价格从高到底', '价格从低到高'],
+        sortList: [
+          { text: '综合', value: 'composite_desc' },
+          { text: '最新上架', value: 'shelves_desc' },
+          { text: '按销量', value: 'sale_asc' },
+          { text: '价格从高到底', value: 'price_desc' },
+          { text: '价格从低到高', value: 'price_asc' }],
         // 当前选择排序方式
         currentSortState: 0,
+
+        showListShow: false,
 
         agreement: false,
 
@@ -271,10 +279,11 @@
         this.weight = [];
         this.width = [];
         this.price = [];
+        this.currentSortState = 0;
       },
       async getData() {
-        let { categoryId, agreement, pno, weight, page, width, price } = this;
-        await this.getProducts({
+        let { categoryId, agreement, pno, weight, page, width, price, currentSortState } = this;
+        return await this.getProducts({
           page,
           pageSize: 10,
           pno,
@@ -283,7 +292,8 @@
           status: this.userInfo.status,
           weight: weight.toString(),
           width: width.toString(),
-          price: price.toString()
+          price: price.toString(),
+          sort: this.sortList[currentSortState].value,
         });
       },
 
@@ -296,7 +306,7 @@
       },
 
       async doSearch() {
-        let { categoryId, agreement, pno, weight, width, price } = this;
+        let { categoryId, agreement, pno, weight, width, price, currentSortState } = this;
         let res = await this.getProducts({
           page: 1,
           pageSize: 10,
@@ -307,6 +317,7 @@
           weight: weight.toString(),
           width: width.toString(),
           price: price.toString(),
+          sort: this.sortList[currentSortState].value,
 
           reset: true
         });
@@ -314,6 +325,8 @@
         if (res) {
           this.drawerShow = false;
         }
+
+        return res
 
       },
 
@@ -335,6 +348,10 @@
         // 如果点了 筛选 则 弹出抽屉
         if (index === 1) {
           this.drawerShow = true;
+        }
+
+        if (index === 2) {
+          this.showListShow = true;
         }
       },
 
@@ -399,8 +416,12 @@
           sizeType: ['original']
         });
       },
-      selectSortType(index) {
+      async selectSortType(index) {
         this.currentSortState = index;
+        let res = await this.doSearch();
+        if (res) {
+          this.showListShow = false
+        }
       },
       toDetail(id) {
         uni.navigateTo({
