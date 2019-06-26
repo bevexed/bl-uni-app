@@ -37,7 +37,7 @@ export const createOrder = async ({ commit }, data) => {
       SMG(res.msg);
       return
     }
-    uni.navigateTo({
+    uni.redirectTo({
       url: '/pages/pay/pay?orderNum=' + res.data + '&amount=' + data.amount
     });
   }
