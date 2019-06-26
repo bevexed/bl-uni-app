@@ -45,15 +45,13 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     data() {
       return {
         // 是否同意
         agreement: false,
-        // 电话号
-        phone: '',
         // 验证码
         verify: '',
         // 是否 已发送 短信
@@ -66,7 +64,7 @@
         timer: null
       };
     },
-    computed: {},
+    computed: mapState('User', ['phone']),
     methods: {
       ...mapActions('User', ['getVerify', 'doLogin']),
       async sendMsg() {

@@ -56,6 +56,24 @@
       }
     },
     {
+      "path": "pages/personal-information/change-phone",
+      "style": {
+        "navigationBarTitleText": "更换绑定手机"
+      }
+    },
+    {
+      "path": "pages/personal-information/change-phone2",
+      "style": {
+        "navigationBarTitleText": "更换绑定手机"
+      }
+    },
+    {
+      "path": "pages/personal-information/update",
+      "style": {
+        "navigationBarTitleText": "修改信息"
+      }
+    },
+    {
       "path": "pages/order/order",
       "style": {
         "navigationBarTitleText": "我的订单"

@@ -18,17 +18,18 @@
             <view class="item">
                 <view class="label">绑定手机号</view>
                 <view class="value">
-                  <text class="phone" v-if="userInfo && userInfo.phone">
+                  <text class="phone" v-if="userInfo && userInfo.phone"
+                        @tap="to('/pages/personal-information/change-phone')">
                     {{ userInfo.phone && userInfo.phone.slice(0,3) }} **** {{ userInfo.phone && userInfo.phone.slice(7) }}
                   </text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
-            <view class="item">
+          <view class="item" @tap="to('update?key=nickName&value='+userInfo.nickName+'&pl=昵称')">
                 <view class="label">我的昵称</view>
                 <view class="value">
-                  <text class="name">{{ userInfo.username }}</text>
+                  <text class="name">{{ userInfo.nickName }}</text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
@@ -71,7 +72,7 @@
                 </view>
             </view>
 
-            <view class="item">
+          <view class="item" @tap="to('update?key=job&value='+userInfo.job+'&pl=职位')">
                 <view class="label">我的职位</view>
                 <view class="value">
                   <text class="name">{{ userInfo.job }}</text>
@@ -79,10 +80,10 @@
                 </view>
             </view>
 
-            <view class="item">
+          <view class="item" @tap="to('update?key=email&value='+userInfo.email+'&pl=邮箱')">
                 <view class="label">我的邮箱</view>
                 <view class="value">
-                    <text class="name">491291234@qq.com</text>
+                  <text class="name">{{ userInfo.email }}</text>
                   <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
@@ -104,8 +105,11 @@ export default {
     }
   },
   computed: mapState('User', ['userInfo']),
+  onShow() {
+    this.getCurrentUserInfo();
+  },
   methods: {
-    ...mapActions('User', ['changeUser']),
+    ...mapActions('User', ['changeUser', 'getCurrentUserInfo']),
     changeBirth(e) {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.birthday = e.target.value;
@@ -115,6 +119,12 @@ export default {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.sex = e.target.value;
       this.changeUser({ sex: Number(this.sex) })
+    },
+
+    to(url) {
+      uni.navigateTo({
+        url
+      })
     },
   }
 };

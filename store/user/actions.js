@@ -1,18 +1,5 @@
-import {
-  GET_REFRESH_TOKEN,
-  GET_CURRENT_USER_DETAIL,
-  GET_VERIFY,
-  LOGIN,
-  GET_CODE, LOGIN_OUT
-} from '../mutation-types';
-import {
-  reqVerify,
-  reqLogin,
-  reqIsExist,
-  reqCurrentUserDetail,
-  reqRefreshToken,
-  reqChangeUser
-} from "../../api/user";
+import { GET_CODE, GET_CURRENT_USER_DETAIL, GET_REFRESH_TOKEN, GET_VERIFY, LOGIN, LOGIN_OUT } from '../mutation-types';
+import { reqChangeUser, reqCurrentUserDetail, reqIsExist, reqLogin, reqRefreshToken, reqVerify } from "../../api/user";
 
 export default {
   // 获取code
@@ -126,7 +113,7 @@ export default {
 
   async changeUser({ state, dispatch }, data) {
     let { id } = state.userInfo;
-    let res = reqChangeUser({ id, ...data })
+    return reqChangeUser({ id, ...data })
   },
 
   async loginOut({ commit }) {

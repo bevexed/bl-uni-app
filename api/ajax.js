@@ -89,21 +89,11 @@ export default async function ajax(url, data = {}, type, loading = true) {
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定');
-                uni.navigateTo({
+                uni.redirectTo({
                   url: '/pages/login/login'
                 })
               } else if (res.cancel) {
                 console.log('用户点击取消');
-                // 后退方式
-                // uni.navigateBack({
-                //   delta: 10,
-                //   fail() {
-                //     uni.switchTab({
-                //       url: '/pages/home/home'
-                //     })
-                //   }
-                // })
-
                 // 暴力方式
                 uni.reLaunch({
                   url: '/pages/home/home'
@@ -121,33 +111,12 @@ export default async function ajax(url, data = {}, type, loading = true) {
             icon: "none",
             mask: true,
             success() {
-              setTimeout(() => {
-                uni.navigateBack({
-                  delta: 10,
-                  fail() {
-                    uni.switchTab({
-                      url: '/pages/home/home'
-                    })
-                  }
-                })
-              }, 2000)
+              // 暴力方式
+              uni.reLaunch({
+                url: '/pages/home/home'
+              })
             }
-          })
-          // uni.showModal({
-          //   title: '权限不足',
-          //   content: '暂不支持此功能',
-          //   confirmColor: '#BFA065',
-          //   success: function (res) {
-          //     if (res.confirm) {
-          //       console.log('用户点击确定');
-          //       uni.navigateBack({
-          //         delta: 1
-          //       })
-          //     } else if (res.cancel) {
-          //       console.log('用户点击取消');
-          //     }
-          //   }
-          // });
+          });
           return
         }
 
@@ -157,11 +126,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
             title: response.data.msg,
             icon: "none",
             mask: true
-          })
-
-          // 此处 返回 虚假 200 强制接收假数据
-          resolve({ code: 200, data: null });
-
+          });
           return;
         }
 

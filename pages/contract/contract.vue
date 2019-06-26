@@ -12,7 +12,7 @@
       :style="{ height: windowHeight - 72 + 'px' }"
       @change="swiperChange"
     >
-      <!--fixMe: 缺少商品ID -> 临死算他解决了吧-->
+      <!--fixMe: 缺少商品ID-->
       <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex">
         <view class="swiper-item">
           {{ banner }}

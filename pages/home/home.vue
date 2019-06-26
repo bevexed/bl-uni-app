@@ -14,7 +14,6 @@
                 :style="{ height: windowHeight - 72 + 'px' }"
                 @change="swiperChange"
             >
-              <!--fixMe: 缺少商品ID -> 临死算他解决了吧-->
               <swiper-item v-for="(banner, bannerIndex) in banners" :key="bannerIndex"
                            @tap="toDetail(banner.productId)">
                   <view class="swiper-item">
@@ -131,7 +130,6 @@
 </template>
 
 <script>
-  // todo: tu片去掉后的布局问题
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot } from '@dcloudio/uni-ui';
   import { mapActions, mapState } from "vuex";
