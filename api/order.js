@@ -79,3 +79,11 @@ export const reqPayOrder = ({ amount, bankTransferRecord, code, filename, orderN
   orderNum,
   paymentMethod
 }, 'PUT');
+
+/**
+ * @function 获取运费
+ * @param addressId
+ * @param item
+ * @returns {Promise<*>}
+ */
+export const reqShipCost = ({ addressId, item }) => ajax('/order/shipCost', { addressId, item }, 'POST');

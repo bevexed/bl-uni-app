@@ -1,7 +1,7 @@
 import {
   GET_ORDER_LIST,
   CREATE_ORDER,
-  GET_ORDER_DETAIL
+  GET_ORDER_DETAIL, GET_SHIP_COST
 } from '../mutation-types';
 
 import {
@@ -11,7 +11,7 @@ import {
   reqConfirmReceipt,
   reqRemindOrder,
   reqOrderDetail,
-  reqPayOrder
+  reqPayOrder, reqShipCost
 } from "../../api/order";
 import { MSG_TO, SMG } from "../../static/unit";
 import { reqDetele } from "../../api/cart";
@@ -129,5 +129,12 @@ export const payOrder = async ({dispatch}, data) => {
         }, 2000)
       }
     })
+  }
+};
+
+export const getShipCost = async ({ commit }, data) => {
+  let res = await reqShipCost(data);
+  if (res.code === 200) {
+    commit(GET_SHIP_COST, res.data)
   }
 };

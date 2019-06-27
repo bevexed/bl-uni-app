@@ -50,6 +50,7 @@
   export default {
     data() {
       return {
+        phone: '',
         // 是否同意
         agreement: false,
         // 验证码
@@ -64,7 +65,10 @@
         timer: null
       };
     },
-    computed: mapState('User', ['phone']),
+    onLoad(e) {
+      const { phone } = e;
+      this.phone = phone;
+    },
     methods: {
       ...mapActions('User', ['getVerify', 'doLogin']),
       async sendMsg() {

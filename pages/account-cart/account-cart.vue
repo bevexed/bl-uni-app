@@ -17,8 +17,9 @@
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-                <image class="gou" src="../../static/icon/gou.svg" mode="" @tap="defaultAddress(address.id)"></image>
-                <view class="header" @tap="defaultAddress(address.id)">
+              <image class="gou" src="../../static/icon/gou.svg" mode=""
+                     @tap="changeDefaultAddress(address.id)"></image>
+              <view class="header" @tap="changeDefaultAddress(address.id)">
                     <view class="label">收件人：</view>
                     <view class="value">
                       {{ address.addressee }}
@@ -26,7 +27,7 @@
                     </view>
                 </view>
 
-                <view class="content" @tap="defaultAddress(address.id)">
+              <view class="content" @tap="changeDefaultAddress(address.id)">
                     <view class="label">地址：</view>
                     <view class="value">
                       {{ address.province }} {{ address.city }} {{ address.county }}
@@ -98,12 +99,12 @@
 
             <view class="express">
                 <view class="label">运费</view>
-                <view class="value">￥0.00</view>
+              <view class="value">￥{{ shipCost }}</view>
             </view>
 
             <view class="real-pay">
                 <view class="label">实付款</view>
-                <view class="value">￥{{ total }}</view>
+              <view class="value">￥{{ (Number(total) + Number(shipCost)).toFixed(2) }}</view>
             </view>
         </view>
 
@@ -140,16 +141,33 @@
         goods: state => state.item
       }),
       ...mapGetters('Cart', ['total']),
-      ...mapGetters('Address', ['addressList']
-      ),
+      ...mapGetters('Address', ['addressList']),
+      ...mapState('Order', ['shipCost'])
     },
-    onShow() {
-      this.getAllAddress();
+    async onReady() {
+      await this.getAllAddress();
+      await this.doShipCost();
       this.preview = this.goods.length >= 4
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
-      ...mapActions('Order', ['createOrder']),
+      ...mapActions('Order', ['createOrder', 'getShipCost']),
+      async doShipCost() {
+        const { goods, addressList } = this;
+        let item = goods.map(item => ({
+          count: item.shoppingNum,
+          productId: item.productId,
+          sampleType: item.sampleType === 0 ? 0 : 10
+        }));
+        let addressId = addressList.filter(item => item.isMain)[0].id;
+        await this.getShipCost({ addressId, item: JSON.stringify(item) });
+      },
+
+      async changeDefaultAddress(data) {
+        await this.defaultAddress(data);
+        this.doShipCost();
+      },
+
       async toPay(amount) {
         const { agreement, goods, addressList } = this;
         let item = goods.map(item => ({

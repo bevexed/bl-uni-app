@@ -7,4 +7,6 @@ export default {
   currentStatus: 0,
 
   orderDetail:{},
+
+  shipCost: 0
 }

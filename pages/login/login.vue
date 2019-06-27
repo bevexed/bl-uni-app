@@ -5,7 +5,8 @@
         <view class="form">
             <view class="phone">
                 <image src="../../static/icon/phone.svg" mode=""></image>
-                <input type="number" @blur="getIsExist(phone)" v-model="phone" maxlength="11" placeholder="请输入11位电话号码" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
+              <input type="number" v-model="phone" maxlength="11" placeholder="请输入11位电话号码"
+                     placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px"/>
             </view>
             <view class="code">
                 <image src="../../static/icon/AK.svg" mode=""></image>
@@ -55,7 +56,7 @@
       async sendMsg() {
 
         let { phone, send, time, timer, exist } = this;
-
+        this.getIsExist(this.phone);
         if (!exist) {
           return
         }

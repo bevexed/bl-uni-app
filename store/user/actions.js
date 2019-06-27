@@ -44,7 +44,7 @@ export default {
             if (res.confirm) {
               console.log('用户点击确定');
               uni.navigateTo({
-                url: '/pages/login/base-information'
+                url: '/pages/login/base-information?phone=' + phone
               })
             } else if (res.cancel) {
               uni.reLaunch({
@@ -94,7 +94,7 @@ export default {
       })
     } else {
       uni.showToast({
-        title: res.msg,
+        title: '验证码错误，请重新输入',
         icon: "none"
       })
     }

@@ -38,6 +38,7 @@ export const GET_ALL_ADDRESS = 'get_all_address';
 export const CREATE_ORDER = 'create_order';
 export const GET_ORDER_LIST = 'get_order_list';
 export const GET_ORDER_DETAIL = 'get_order_detail';
+export const GET_SHIP_COST = 'get_ship_cost';
 
 
 // invoice

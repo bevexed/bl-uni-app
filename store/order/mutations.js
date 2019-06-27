@@ -1,6 +1,6 @@
 import {
   GET_ORDER_LIST,
-  GET_ORDER_DETAIL
+  GET_ORDER_DETAIL, GET_SHIP_COST
 } from '../mutation-types';
 
 export default {
@@ -23,5 +23,9 @@ export default {
 
   [GET_ORDER_DETAIL](state, { data }) {
     state.orderDetail = data;
+  },
+
+  [GET_SHIP_COST](state, data) {
+    state.shipCost = data;
   }
 };

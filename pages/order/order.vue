@@ -77,10 +77,10 @@
                     <view class="buttons">
                       <!--待支付-->
                       <!--待支付-->
-                      <view class="button cancel" v-if="order.status === '待支付'"
+                      <view class="button cancel" v-if="order.status === '待付款'"
                             @tap="doCancalOrder(order.orderId)">取消订单
                       </view>
-                      <view class="button pay" v-if="order.status === '待支付'" @tap="toPay(order.orderId,order.amount)">
+                      <view class="button pay" v-if="order.status === '待付款'" @tap="toPay(order.orderId,order.amount)">
                         付款
                       </view>
 

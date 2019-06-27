@@ -272,7 +272,6 @@
           shoppingNum: num,
           sampleType: tagCurrentSelect.length,
           totalAmount: num * product.price,
-          // fixMe:运费
           ...this.product
         }]);
         uni.navigateTo({
