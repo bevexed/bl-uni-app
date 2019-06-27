@@ -68,7 +68,7 @@
     },
     computed: mapState('User', ['userInfo']),
     methods: {
-      ...mapActions('User',['loginOut']),
+      ...mapActions('User',['loginOut','getCurrentUserInfo']),
       to(url) {
         uni.navigateTo({
           url
@@ -76,7 +76,7 @@
       }
     },
     onReady() {
-
+      this.getCurrentUserInfo()
     },
     onLoad() {
       let _this = this;

@@ -123,6 +123,9 @@
     },
     {
       "path": "pages/fitting/fitting"
+    },
+    {
+      "path": "pages/contact/contact"
     }
   ],
   "subPackages": [
@@ -131,14 +134,6 @@
       "pages": [
         {
           "path": "clipper"
-        }
-      ]
-    },
-    {
-      "root": "contact",
-      "pages": [
-        {
-          "path": "contact"
         }
       ]
     }

@@ -42,7 +42,7 @@
                             <view class="detail-footer">
                                 <view v-if="!edit" :class="['options']">
                                   <view class="option" v-if="good.sampleType">
-                                        <view class="label">标样：￥0</view>
+                                    <view class="label">标样：￥{{ good.samplePrice }}</view>
                                     <view class="value">*{{ good.sampleType }}</view>
                                     </view>
                                     <view class="option">
@@ -73,7 +73,7 @@
                       <uni-number-box
                         :min="0"
                         :max="good.stock"
-                        :step="10"
+                        :step="1"
                         :value="good.shoppingNum"
                         @change="numChange($event,i)"></uni-number-box>
                         <view class="rest unit">米</view>

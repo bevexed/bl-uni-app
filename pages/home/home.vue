@@ -116,11 +116,12 @@
         <view class="video">
             <view class="title">SINOTY</view>
             <video
-                class="my-video"
-                poster=""
-                src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
-                controls
-                loop
+              :direction="direction"
+              class="my-video"
+              poster=""
+              src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
+              controls
+              loop
             ></video>
             <view class="tel">如果您在选购中有疑问，请致电：0571-88888888</view>
         </view>
@@ -141,6 +142,7 @@
     },
     data() {
       return {
+        direction: 90,
         title: 'SINOTY',
         // 当前 swiper 索引
         current: 0,
@@ -164,6 +166,31 @@
           _this.windowWidth = res.windowWidth;
         }
       });
+
+      // 监听 设备方向
+      wx.startDeviceMotionListening()
+      wx.onDeviceMotionChange(res => {
+        let beta = 0;
+
+        if (-20 < res.beta && res.beta <= 20) {
+          beta = 90
+        } else {
+          beta = 0
+        }
+        console.log(1, res.beta, 2, beta);
+
+        _this.direction = beta;
+      })
+
+      uni.startGyroscope({
+        interval: "normal",
+        success() {
+          console.log('success')
+        },
+        fail() {
+          console.log('fail')
+        }
+      })
 
       //fixMe:真的不会炸吗
       this.getHomeBanner(1);

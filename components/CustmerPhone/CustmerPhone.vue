@@ -1,5 +1,5 @@
 <template>
-    <view class="custmer-phone"  @tap="link('/contact/contact')"><image class="phone" src="/static/icon/phone.png" mode=""></image></view>
+    <view class="custmer-phone"  @tap="link('/pages/contact/contact')"><image class="phone" src="/static/icon/phone.png" mode=""></image></view>
 </template>
 
 <script>
