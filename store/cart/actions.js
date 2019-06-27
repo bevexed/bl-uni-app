@@ -13,7 +13,7 @@ import {
   reqDeleteInvalid,
   reqPutCart
 } from "../../api/cart";
-import { SMG } from "../../unit";
+import { SHOW_MODAL, SMG } from "../../unit";
 
 export const addCart = async ({ commit }, data) => {
   let res = await reqAddCart(data);
@@ -35,17 +35,21 @@ export const getCartAll = async ({ commit }) => {
 };
 
 export const doDeleteCart = async ({ dispatch }, { ids }) => {
-  console.log(ids);
-  let res = await reqDetele(ids.join(','));
-  if (res.code === 200) {
-    dispatch('getCartAll').then(
-      result => {
-        uni.showToast({
-          title:'删除成功'
-        })
+  SHOW_MODAL({
+    title: '删除商品',
+    content: '确认删除商品？',
+    async confirm() {
+      let res = await reqDetele(ids.join(','));
+      if (res.code === 200) {
+        await dispatch('getCartAll');
+        uni.showToast({ title: '删除成功' })
       }
-    )
-  }
+    },
+    cancel() {
+
+    }
+  });
+
 };
 
 export const doDeleteInvalid = async ({ dispatch }) => {
