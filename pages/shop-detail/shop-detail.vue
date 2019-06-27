@@ -104,13 +104,21 @@
                 </view>
             </view>
             <view class="buttons">
+              <!--              <view-->
+              <!--                class="add-cart"-->
+              <!--                -->
+              <!--                @tap="addCart({productId:product.id})"-->
+              <!--              >加入购物车-->
+              <!--              </view>-->
               <view
                 class="add-cart"
-                @tap="addCart({productId:product.id})"
+
+                @tap="selectShow = true, addCartState = true"
               >加入购物车
               </view>
 
-              <view class="buy-now" @tap="toCreateOrder">立即购买</view>
+              <!--              <view class="buy-now" @tap="toCreateOrder">立即购买</view>-->
+              <view class="buy-now" @tap="selectShow = true, addCartState = false">立即购买</view>
             </view>
         </view>
 
@@ -164,7 +172,7 @@
                     </view>
                 </view>
 
-              <view class="button" @tap="addCartByNum">确定</view>
+              <view class="button" @tap="addCartState ? addCartByNum() : toCreateOrder()">确定</view>
             </view>
         </view>
     </view>
@@ -211,6 +219,9 @@
     },
     data() {
       return {
+        // 当前是否加入购物车
+        addCartState: true,
+
         id: '',
         title: 'SINOTY',
         // 当前 轮播图 索引
