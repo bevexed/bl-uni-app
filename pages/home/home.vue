@@ -134,6 +134,7 @@
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot } from '@dcloudio/uni-ui';
   import { mapActions, mapState } from "vuex";
+  import { authenticationTo } from "../../unit";
 
   export default {
     components: {
@@ -167,46 +168,50 @@
         }
       });
 
-      // 监听 设备方向
-      wx.startDeviceMotionListening()
-      wx.onDeviceMotionChange(res => {
-        let beta = 0;
-
-        if (-20 < res.beta && res.beta <= 20) {
-          beta = 90
-        } else {
-          beta = 0
-        }
-        console.log(1, res.beta, 2, beta);
-
-        _this.direction = beta;
-      })
-
-      uni.startGyroscope({
-        interval: "normal",
-        success() {
-          console.log('success')
-        },
-        fail() {
-          console.log('fail')
-        }
-      })
+      // // 监听 设备方向
+      // wx.startDeviceMotionListening()
+      // wx.onDeviceMotionChange(res => {
+      //   let beta = 0;
+      //
+      //   if (-20 < res.beta && res.beta <= 20) {
+      //     beta = 90
+      //   } else {
+      //     beta = 0
+      //   }
+      //   console.log(1, res.beta, 2, beta);
+      //
+      //   _this.direction = beta;
+      // })
+      //
+      // uni.startGyroscope({
+      //   interval: "normal",
+      //   success() {
+      //     console.log('success')
+      //   },
+      //   fail() {
+      //     console.log('fail')
+      //   }
+      // })
 
       //fixMe:真的不会炸吗
       this.getHomeBanner(1);
       this.getHomeBanner(2);
       this.getHomeBanner(3);
     },
-    computed: mapState('Home', {
+    computed: {
+      ...mapState('Home', {
       banners: state => state.homeData[1],
       second: state => state.homeData[2],
       third: state => state.homeData[3]
-    }),
+      }),
+      ...mapState('User', ['userInfo'])
+    },
     methods: {
       ...mapActions('Home', ['getHomeBanner']),
       toDetail(id) {
-        uni.navigateTo({
-          url: '/pages/shop-detail/shop-detail?id=' + id
+        authenticationTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id,
+          status:this.userInfo.status
         });
       },
       swiperChange(e) {

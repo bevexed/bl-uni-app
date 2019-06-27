@@ -123,6 +123,47 @@ export const SHOW_MODAL = ({ title, content, confirm, cancel }) => {
   });
 };
 
+/**
+ * @function 权限跳转页面
+ * @param url
+ * @param data
+ * @param type
+ * @constructor
+ */
+export const authenticationTo = ({ url, status, type = 'navigateTo' }) => {
+
+  if (status === 1) {
+    return SMG('用户未激活，请等待激活！');
+  }
+
+  if (!status) {
+    return SHOW_MODAL({
+      title: '未登录',
+      content: '用户未登录，无法操作，是否跳转登录？',
+      confirm() {
+        uni.redirectTo({
+          url: '/pages/login/login'
+        })
+      },
+      cancel() {
+        // uni.reLaunch({
+        //   url: '/pages/home/home'
+        // })
+      }
+    });
+
+  }
+
+  switch (type) {
+    case "navigateTo":
+      uni.navigateTo({
+        url
+      });
+      break;
+  }
+
+};
+
 // fixMe:2.隐私政策内容无
 // fixMe:12.我的订单的售后状态查询出的应该是售后数据，不是订单的数据
 
