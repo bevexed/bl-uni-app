@@ -5,7 +5,7 @@
     <div class="phone"> {{ userInfo.phone && userInfo.phone.slice(0,3) }} **** {{ userInfo.phone && userInfo.phone.slice(7) }}</div>
 
     <footer>
-      <input type="number" maxlength="6" placeholder="请输入验证码">
+      <input type="number" maxlength="6" placeholder="请输入验证码" v-model="code">
       <div></div>
       <text @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</text>
     </footer>
@@ -17,6 +17,8 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
+  import { reqCheckVerify } from "../../api/user";
+  import { SMG } from "../../static/unit";
 
   export default {
     data() {
@@ -33,7 +35,7 @@
     },
     computed: mapState('User', ['userInfo']),
     methods: {
-      ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin']),
+      ...mapActions('User', ['getVerify']),
       async sendMsg() {
 
         let { send, time, timer } = this;
@@ -46,13 +48,14 @@
           return;
         }
 
-        this.send = true;
-
         // 发送信息获取验证码
         let res = await this.getVerify(this.userInfo.phone);
         if (!res) {
           return
         }
+
+        this.send = true;
+
 
         this.timer = setInterval(() => {
           time--;
@@ -66,10 +69,25 @@
         }, 1000);
       },
 
-      to() {
+      async checkCode() {
+
+        const { code } = this;
+        const { phone } = this.userInfo;
+
+        return await reqCheckVerify({
+          phone,
+          verify: code
+        })
+      },
+
+      async to() {
+        if (await this.checkCode()) {
         uni.redirectTo({
           url: '/pages/personal-information/change-phone2'
         })
+        } else {
+          SMG('验证码验证错误');
+        }
       }
     }
   };
