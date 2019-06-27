@@ -13,7 +13,7 @@ import {
   reqOrderDetail,
   reqPayOrder, reqShipCost
 } from "../../api/order";
-import { MSG_TO, SMG } from "../../static/unit";
+import { getRoute, MSG_TO, SMG } from "../../static/unit";
 import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {
@@ -36,10 +36,16 @@ export const createOrder = async ({ commit }, data) => {
   let res = await reqCreateOrder(data);
   if (res.code === 200) {
     let item = JSON.parse(data.item);
-    let result = await reqDetele(item.map(pro => pro.productId));
-    if (result.code !== 200) {
-      SMG(res.msg);
-      return
+
+    const route = getRoute(2);
+
+    if (route !== 'pages/shop-detail/shop-detail') {
+      let result = await reqDetele(item.map(pro => pro.productId));
+
+      if (result.code !== 200) {
+        SMG(res.msg);
+        return
+      }
     }
     uni.redirectTo({
       url: '/pages/pay/pay?orderNum=' + res.data + '&amount=' + data.amount
@@ -123,7 +129,7 @@ export const payOrder = async ({dispatch}, data) => {
       mask: true,
       success() {
         setTimeout(() => {
-          uni.reLaunch({
+          uni.redirectTo({
             url: '/pages/order/order'
           })
         }, 2000)

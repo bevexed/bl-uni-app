@@ -77,6 +77,12 @@ export const SMG = title => uni.showToast({
   icon: "none"
 });
 
+export const getRoute = index => {
+  let pages = getCurrentPages();
+  return pages[pages.length - index].route;
+};
+
+
 // fixMe:2.隐私政策内容无
 // fixMe:6.绑定手机号
 // fixMe:12.我的订单的售后状态查询出的应该是售后数据，不是订单的数据
