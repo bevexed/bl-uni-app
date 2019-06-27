@@ -56,10 +56,13 @@
       async sendMsg() {
 
         let { phone, send, time, timer, exist } = this;
-        this.getIsExist(this.phone);
-        if (!exist) {
+        let result = await this.getIsExist(this.phone);
+        if (!result) {
           return
         }
+        // if (!exist) {
+        //   return
+        // }
 
             if (!phone) {
                 return;

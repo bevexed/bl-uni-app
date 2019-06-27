@@ -63,3 +63,5 @@ export const reqChangeUser = ({ id, email, sex, job, phone, verify, avatar, nick
     sex,
     username
 }, 'PUT');
+
+export const reqCheckVerify = ({ phone, verify }) => ajax('/user/checkVerify/' + phone + '/' + verify, {}, 'get');
