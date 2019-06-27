@@ -13,7 +13,7 @@ import {
   reqDeleteInvalid,
   reqPutCart
 } from "../../api/cart";
-import { SMG } from "../../static/unit";
+import { SMG } from "../../unit";
 
 export const addCart = async ({ commit }, data) => {
   let res = await reqAddCart(data);

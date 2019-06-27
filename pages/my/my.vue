@@ -50,7 +50,7 @@
             </view>
         </view>
 
-        <view class="button" @tap="loginOut">
+        <view class="button" @tap="loginOut" v-if="userInfo.phone">
             <image src="../../static/icon/close.svg" mode=""></image>
             <view>退出</view>
         </view>

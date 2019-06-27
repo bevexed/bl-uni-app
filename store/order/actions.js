@@ -13,7 +13,7 @@ import {
   reqOrderDetail,
   reqPayOrder, reqShipCost
 } from "../../api/order";
-import { getRoute, MSG_TO, SMG } from "../../static/unit";
+import { getRoute, MSG_TO, SMG } from "../../unit";
 import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {

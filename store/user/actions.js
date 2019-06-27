@@ -7,7 +7,16 @@ import {
   LOGIN,
   LOGIN_OUT
 } from '../mutation-types';
-import { reqChangeUser, reqCurrentUserDetail, reqIsExist, reqLogin, reqRefreshToken, reqVerify } from "../../api/user";
+import {
+  reqChangeUser,
+  reqCurrentUserDetail,
+  reqIsExist,
+  reqLogin,
+  reqRefreshToken,
+  reqUpdatePhone,
+  reqVerify
+} from "../../api/user";
+import { MSG_REDIRECT, MSG_RELAUNCH, SMG } from "../../unit";
 
 export default {
   // 获取code
@@ -132,16 +141,26 @@ export default {
   async loginOut({ commit }) {
     commit(LOGIN_OUT, {});
     uni.clearStorage();
-    uni.showToast({
+    MSG_RELAUNCH({
       title:'已退出登录',
-      success(res) {
-        setTimeout(() => {
-          uni.reLaunch({
-            url: '/pages/home/home'
-          })
-        }, 2000)
-      }
+      url: '/pages/home/home'
     })
+  },
+
+  async changePhone({}, data) {
+    const { phone, verify } = data;
+    let p = /^1[0-9]{10}$/;
+    if (!p.test(phone)) {
+      SMG('请检查手机号');
+      return
+    }
+    let res = await reqUpdatePhone(data);
+    if (res.code === 200) {
+      MSG_REDIRECT({
+        title:'修改成功',
+        url: '/pages/personal-information/personal-information'
+      })
+    }
   }
 }
 

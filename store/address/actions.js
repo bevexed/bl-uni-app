@@ -11,7 +11,7 @@ import {
   reqChangeAddress
 } from "../../api/address";
 
-import { MSG_BACK, SMG } from "../../static/unit";
+import { MSG_BACK, SMG } from "../../unit";
 
 export const addAddress = async ({ dispatch }, data) => {
   let { addressee, city, county, phone, province, other } = data;

@@ -10,7 +10,7 @@ import {
   reqAddInvoice, reqApplyInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
 } from "../../api/invoice";
 
-import { MSG_BACK, MSG_TO, SMG } from "../../static/unit";
+import { MSG_BACK, MSG_TO, SMG } from "../../unit";
 
 export const addInvoice = async ({ dispatch }, data) => {
   const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type, userId } = data;

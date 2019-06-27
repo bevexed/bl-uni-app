@@ -2,23 +2,26 @@
   <div class="change-phone">
 
     <footer class="header">
-      <input type="number" maxlength="6" placeholder="请输入新手机号" v-model="phone">
+      <input type="number" maxlength="11" placeholder="请输入新手机号" v-model="phone">
     </footer>
 
     <footer>
-      <input type="number" maxlength="6" placeholder="请输入验证码">
+      <input type="number" maxlength="6" placeholder="请输入验证码" v-model="code">
       <div></div>
       <text @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</text>
     </footer>
 
 
-    <view class="button">完成</view>
+    <view
+      :class="['button', { sended: send && code.length === 6 && phone.length ===11 }]"
+      @tap="changePhone({phone,verify:code})">完成
+    </view>
   </div>
 </template>
 
 <script>
   import { mapActions, mapState } from "vuex";
-  import { SMG } from "../../static/unit";
+  import { SMG } from "../../unit";
 
   export default {
     data() {
@@ -36,12 +39,12 @@
     },
     computed: mapState('User', ['userInfo']),
     methods: {
-      ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin']),
+      ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin', 'changePhone']),
       async sendMsg() {
 
         let { send, time, timer, phone } = this;
 
-        let p = /\^1[0-9]{10}$/;
+        let p = /^1[0-9]{10}$/;
 
         if (!p.test(phone)) {
           SMG('请检测手机号');
@@ -157,14 +160,15 @@
       font-family: PingFang-SC-Bold, serif;
       font-weight: bold;
       color: #fff;
-      background: $theme-color;
+      background: #eee;
       text-align: center;
       border-radius: upx(8);
       height: upx(80);
       line-height: upx(80);
 
       &.sended {
-        color: #eee;
+        color: white;
+        background: $theme-color;
       }
     }
 

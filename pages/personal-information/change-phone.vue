@@ -11,14 +11,14 @@
     </footer>
 
 
-    <view :class="['button', { sended: send }]" @tap="to()">下一步</view>
+    <view :class="['button', { sended: send && code.length === 6 }]" @tap="to()">下一步</view>
   </div>
 </template>
 
 <script>
   import { mapActions, mapState } from "vuex";
   import { reqCheckVerify } from "../../api/user";
-  import { SMG } from "../../static/unit";
+  import { SMG } from "../../unit";
 
   export default {
     data() {
@@ -69,22 +69,26 @@
         }, 1000);
       },
 
-      async checkCode() {
-
-        const { code } = this;
+      async to() {
+        const { code,send } = this;
         const { phone } = this.userInfo;
 
-        return await reqCheckVerify({
+        if (!send){
+          return SMG('请先获取验证码');
+        }
+        if (!code) {
+          return SMG('验证码验证错误');
+        }
+
+        let res = await reqCheckVerify({
           phone,
           verify: code
-        })
-      },
+        });
 
-      async to() {
-        if (await this.checkCode()) {
-        uni.redirectTo({
-          url: '/pages/personal-information/change-phone2'
-        })
+        if (res.code === 200 && res.data === true) {
+          uni.redirectTo({
+            url: '/pages/personal-information/change-phone2'
+          })
         } else {
           SMG('验证码验证错误');
         }
@@ -165,14 +169,15 @@
       font-family: PingFang-SC-Bold, serif;
       font-weight: bold;
       color: #fff;
-      background: $theme-color;
+      background: #eee;
       text-align: center;
       border-radius: upx(8);
       height: upx(80);
       line-height: upx(80);
 
       &.sended {
-        color: #eee;
+        color: white;
+        background: $theme-color;
       }
     }
 

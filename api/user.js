@@ -64,4 +64,19 @@ export const reqChangeUser = ({ id, email, sex, job, phone, verify, avatar, nick
     username
 }, 'PUT');
 
+/**
+ * @function 验证码 检查
+ * @param phone
+ * @param verify
+ * @returns {Promise<*>}
+ */
 export const reqCheckVerify = ({ phone, verify }) => ajax('/user/checkVerify/' + phone + '/' + verify, {}, 'GET');
+
+/**
+ * @function 修改用户手机号
+ * @param phone
+ * @param verify
+ * @returns {Promise<*>}
+ */
+export const reqUpdatePhone = ({ phone, verify }) => ajax('/user/' + phone + '/' + verify, {}, 'PUT');
+
