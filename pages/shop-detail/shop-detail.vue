@@ -95,7 +95,7 @@
                 </view>
                 <view class="icon" @tap="toShopCar">
                   <image src="../../static/icon/service_fill@2x.png" mode=""></image>
-                    <view class="badge">1</view>
+<!--                    <view class="badge">1</view>-->
                     <text>购物车</text>
                 </view>
                 <view class="icon" @tap="toContact">

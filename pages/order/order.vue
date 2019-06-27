@@ -28,8 +28,11 @@
                     <view class="goods" v-else>
                       <view :class="['good']" v-for="(good, goodIndex) in order.product" :key="goodIndex">
                             <!-- 展开 -->
-                        <image :class="['shop-img', { 'not-send-good': good.notSendGood }]" :src="good.image"
-                               mode=""></image>
+<!--                        // fixMe: 商品 ID   @tap="toDetail(good.itemId)"-->
+                        <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
+                               :src="good.image"
+                               mode=""
+                        ></image>
 
                             <view class="detail">
                                 <view class="detail-header">
@@ -139,7 +142,8 @@
                       <view class="button  cancel"
                             v-if="order.status === '交易完成' && order.invoiceStatus === null"
                             :data-order-id="order.orderId"
-                            @tap="toApplyTicket($event)">申请开票
+                            @tap="toApplyTicket($event)">
+                        申请开票
                       </view>
                       <view class="button  gray"
                             v-if="order.status === '交易完成' && order.invoiceStatus === 0"
@@ -375,6 +379,12 @@
               console.log('用户点击取消');
             }
           }
+        });
+      },
+
+      toDetail(id) {
+        uni.navigateTo({
+          url: '/pages/shop-detail/shop-detail?id=' + id
         });
       },
 

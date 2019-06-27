@@ -51,6 +51,20 @@ export const MSG_TO = ({ title, url, duration = 2000 }) => {
   })
 };
 
+export const MSG_BACK = ({ title, duration = 2000 }) => {
+  uni.showToast({
+    title,
+    duration,
+    success(res) {
+      setTimeout(() => {
+        uni.navigateBack({
+          delta: 1
+        })
+      }, duration)
+    }
+  })
+};
+
 /**
  * 表单验证
  * @param title

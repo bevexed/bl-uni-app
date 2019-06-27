@@ -145,7 +145,7 @@
       ...mapGetters('Address', ['addressList']),
       ...mapState('Order', ['shipCost'])
     },
-    async onReady() {
+    async onShow() {
       await this.getAllAddress();
       await this.doShipCost();
       this.preview = this.goods.length >= 4
@@ -162,7 +162,7 @@
         }));
         let addressId = addressList.filter(item => item.isMain)[0].id;
         if (!addressId) {
-          SMG('请先添加收货地址');
+          SMG('缺少收货地址');
           return
         }
         await this.getShipCost({ addressId, item: JSON.stringify(item) });

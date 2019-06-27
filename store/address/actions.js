@@ -11,7 +11,7 @@ import {
   reqChangeAddress
 } from "../../api/address";
 
-import { SMG } from "../../static/unit";
+import { MSG_BACK, SMG } from "../../static/unit";
 
 export const addAddress = async ({ dispatch }, data) => {
   let { addressee, city, county, phone, province, other } = data;
@@ -43,17 +43,9 @@ export const addAddress = async ({ dispatch }, data) => {
       mask: true,
       duration: 2000,
       success(res) {
-        setTimeout(() => {
-          uni.navigateBack({
-            delta: 1,
-            fail(res) {
-              uni.navigateTo({
-                url: '/pages/address-book/address-book'
-              })
-            }
-          })
-
-        }, 2000)
+        MSG_BACK({
+          title:'添加成功'
+        })
       }
     })
   }

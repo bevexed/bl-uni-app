@@ -107,7 +107,7 @@ export const payOrder = async ({dispatch}, data) => {
         signType: 'HMAC-SHA256',
         paySign: sign,
         success: function (res) {
-          uni.reLaunch({
+          uni.redirectTo({
             url: '/pages/order/order'
           })
         },

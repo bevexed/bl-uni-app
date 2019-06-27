@@ -10,7 +10,7 @@ import {
   reqAddInvoice, reqApplyInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
 } from "../../api/invoice";
 
-import { MSG_TO, SMG } from "../../static/unit";
+import { MSG_BACK, MSG_TO, SMG } from "../../static/unit";
 
 export const addInvoice = async ({ dispatch }, data) => {
   const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type, userId } = data;
@@ -148,9 +148,8 @@ export const doUpdateInvoice = async ({}, data) => {
   let res = await upDateInvoice(data);
 
   if (res.code === 200) {
-    MSG_TO({
-      title: '修改成功',
-      url: '/pages/ticket/ticket'
+    MSG_BACK({
+      title:'修改成功'
     })
   }
 };
