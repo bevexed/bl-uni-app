@@ -123,6 +123,7 @@
 
 <script>
   import { mapActions, mapGetters, mapState } from "vuex";
+  import { SMG } from "../../static/unit";
 
   export default {
     data() {
@@ -160,6 +161,10 @@
           sampleType: item.sampleType === 0 ? 0 : 10
         }));
         let addressId = addressList.filter(item => item.isMain)[0].id;
+        if (!addressId) {
+          SMG('请先添加收货地址');
+          return
+        }
         await this.getShipCost({ addressId, item: JSON.stringify(item) });
       },
 
