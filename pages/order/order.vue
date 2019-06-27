@@ -28,10 +28,10 @@
                     <view class="goods" v-else>
                       <view :class="['good']" v-for="(good, goodIndex) in order.product" :key="goodIndex">
                             <!-- 展开 -->
-<!--                        // fixMe: 商品 ID   @tap="toDetail(good.itemId)"-->
                         <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
                                :src="good.image"
                                mode=""
+                               @tap="toDetail(good.productId)"
                         ></image>
 
                             <view class="detail">

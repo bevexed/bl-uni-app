@@ -1,4 +1,5 @@
 import {
+  ADD_COLLECT,
   GET_COLLECT
 } from '../mutation-types';
 

@@ -8,19 +8,18 @@ import {
   reqCollect,
   reqDeleteCollect
 } from "../../api/collect";
+import { getRoute, SMG } from "../../unit";
 
-export const addCollect = async ({ commit }, id) => {
+export const addCollect = async ({ dispatch, }, id) => {
   let res = await reqAddCollect(id);
   if (res.code === 200) {
+    await dispatch('Products/getProduct', id, { root: true });
     uni.showToast({
       title: '收藏成功'
-    })
-  } else {
-    uni.showToast({
-      title: res.msg,
-      icon: "none"
-    })
+    });
+    return
   }
+  SMG(res.msg);
 };
 
 export const getCollect = async ({ commit }, status) => {
@@ -33,9 +32,14 @@ export const getCollect = async ({ commit }, status) => {
 export const deleteCollect = async ({ dispatch }, id) => {
   let res = await reqDeleteCollect(id);
   if (res.code === 200) {
+    let route =getRoute(1);
+    if (route === 'pages/shop-detail/shop-detail') {
+      await dispatch('Products/getProduct', id, { root: true });
+    }
+
     await dispatch('getCollect');
     uni.showToast({
-      title: '删除成功',
+      title: '取消收藏',
       mask: true
     })
   }

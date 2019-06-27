@@ -12,9 +12,9 @@
 
             <!-- 轮播图上的浮动按钮 -->
             <view class="buttons">
-                <view @tap="addCollect(product.id)">
+              <view @tap=" product.isCollect ? deleteCollect(product.id): addCollect(product.id)">
                   <image src="../../static/icon/collect.png" mode=""></image>
-                    <text>收藏</text>
+                <text>{{ product.isCollect ? '取消收藏' : '收藏' }}</text>
                 </view>
 
                 <view>
@@ -264,7 +264,7 @@
     methods: {
       ...mapActions('Products', ['getProduct']),
       ...mapActions('Cart', ['addCart', 'selectProduct']),
-      ...mapActions('Collect', ['addCollect']),
+      ...mapActions('Collect', ['addCollect', 'deleteCollect']),
       toCreateOrder() {
         const { product, num, tagCurrentSelect } = this;
         this.selectProduct([{
