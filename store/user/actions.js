@@ -16,7 +16,7 @@ import {
   reqUpdatePhone,
   reqVerify
 } from "../../api/user";
-import { MSG_REDIRECT, MSG_RELAUNCH, SMG } from "../../unit";
+import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SMG } from "../../unit";
 
 export default {
   // 获取code
@@ -156,10 +156,17 @@ export default {
     }
     let res = await reqUpdatePhone(data);
     if (res.code === 200) {
-      MSG_REDIRECT({
-        title:'修改成功',
-        url: '/pages/personal-information/personal-information'
+      uni.setStorage({
+        key: 'token',
+        data: res.data,
+        success(res) {
+          MSG_BACK({
+            title: '修改成功',
+            url: '/pages/personal-information/personal-information'
+          })
+        }
       })
+
     }
   }
 }

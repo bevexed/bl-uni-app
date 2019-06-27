@@ -1,5 +1,5 @@
 import uniRequest from 'uni-request';
-import { MSG_TO } from "../unit";
+import { MSG_RELAUNCH, MSG_TO, SHOW_MODAL } from "../unit";
 
 // 全局修改公司 ID
 export const companyId = 4;
@@ -82,23 +82,18 @@ export default async function ajax(url, data = {}, type, loading = true) {
         console.log('ajax-success', response.data);
         // 全局拦截 401 用户未登录
         if (response.data.code === 401) {
-          uni.showModal({
+          SHOW_MODAL({
             title: '未登录',
             content: '用户未登录，无法操作，是否跳转登录？',
-            confirmColor: '#BFA065',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定');
-                uni.redirectTo({
-                  url: '/pages/login/login'
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消');
-                // 暴力方式
-                uni.reLaunch({
-                  url: '/pages/home/home'
-                })
-              }
+            confirm() {
+              uni.redirectTo({
+                url: '/pages/login/login'
+              })
+            },
+            cancel() {
+              uni.reLaunch({
+                url: '/pages/home/home'
+              })
             }
           });
           return
@@ -106,16 +101,11 @@ export default async function ajax(url, data = {}, type, loading = true) {
 
         // 用户权限不足
         if (response.data.code === 403) {
-          uni.showToast({
+          MSG_RELAUNCH({
             title: '用户权限不足',
             icon: "none",
             mask: true,
-            success() {
-              // 暴力方式
-              uni.reLaunch({
-                url: '/pages/home/home'
-              })
-            }
+            url: '/pages/home/home'
           });
           return
         }

@@ -3,13 +3,15 @@
  * @param title
  * @param url
  * @param duration
+ * @param mask
  * @constructor
  */
 
-export const MSG_TO = ({ title, url, duration = 2000 }) => {
+export const MSG_TO = ({ title, url, duration = 2000, mask = true }) => {
   uni.showToast({
     title,
     duration,
+    mask,
     success(res) {
       setTimeout(() => {
         uni.navigateTo({
@@ -28,10 +30,11 @@ export const MSG_TO = ({ title, url, duration = 2000 }) => {
  * @constructor
  */
 
-export const MSG_BACK = ({ title, duration = 2000 }) => {
+export const MSG_BACK = ({ title, duration = 2000, mask = true }) => {
   uni.showToast({
     title,
     duration,
+    mask,
     success(res) {
       setTimeout(() => {
         uni.navigateBack({
@@ -42,10 +45,12 @@ export const MSG_BACK = ({ title, duration = 2000 }) => {
   })
 };
 
-export const MSG_RELAUNCH = ({ title, url, duration = 2000 }) => {
+export const MSG_RELAUNCH = ({ title, url, icon = 'success', duration = 2000, mask = true }) => {
   uni.showToast({
     title,
     duration,
+    icon,
+    mask,
     success(res) {
       setTimeout(() => {
         uni.reLaunch({
@@ -56,10 +61,11 @@ export const MSG_RELAUNCH = ({ title, url, duration = 2000 }) => {
   })
 };
 
-export const MSG_REDIRECT = ({ title, url, duration = 2000 }) => {
+export const MSG_REDIRECT = ({ title, url, duration = 2000, mask = true }) => {
   uni.showToast({
     title,
     duration,
+    mask,
     success(res) {
       setTimeout(() => {
         uni.redirectTo({
@@ -93,6 +99,29 @@ export const getRoute = index => {
   return pages[pages.length - index].route;
 };
 
+/**
+ * @function 模态框
+ * @param title
+ * @param content
+ * @param confirm
+ * @param cancel
+ * @constructor
+ */
+
+export const SHOW_MODAL = ({ title, content, confirm, cancel }) => {
+  uni.showModal({
+    title,
+    content,
+    confirmColor: '#BFA065',
+    success(res) {
+      if (res.confirm) {
+        confirm()
+      } else if (res.cancel) {
+        cancel()
+      }
+    }
+  });
+};
 
 // fixMe:2.隐私政策内容无
 // fixMe:6.绑定手机号
