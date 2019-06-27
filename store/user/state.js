@@ -2,5 +2,7 @@ export default {
   userInfo: {},
   phone: '',
 
-  code:''
+  code: '',
+
+  exist: false,
 }

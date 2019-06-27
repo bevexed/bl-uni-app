@@ -1,4 +1,12 @@
-import { GET_CODE, GET_CURRENT_USER_DETAIL, GET_REFRESH_TOKEN, GET_VERIFY, LOGIN, LOGIN_OUT } from '../mutation-types';
+import {
+  GET_CODE,
+  GET_CURRENT_USER_DETAIL,
+  GET_REFRESH_TOKEN,
+  GET_VERIFY,
+  IS_EXIST,
+  LOGIN,
+  LOGIN_OUT
+} from '../mutation-types';
 import { reqChangeUser, reqCurrentUserDetail, reqIsExist, reqLogin, reqRefreshToken, reqVerify } from "../../api/user";
 
 export default {
@@ -26,6 +34,7 @@ export default {
     }
     let res = await reqIsExist({ phone });
     if (res.code === 200) {
+      commit(IS_EXIST, res.data);
       if (!res.data) {
         uni.showModal({
           title: '用户未注册',
@@ -38,7 +47,9 @@ export default {
                 url: '/pages/login/base-information'
               })
             } else if (res.cancel) {
-              console.log('用户点击取消');
+              uni.reLaunch({
+                urL: '/pages/login/login'
+              })
             }
           }
         });

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     data() {
@@ -49,12 +49,17 @@
         timer: null
       };
     },
-    computed: {},
+    computed: mapState('User', ['exist']),
     methods: {
       ...mapActions('User', ['getVerify', 'getIsExist', 'doLogin']),
       async sendMsg() {
 
-        let { phone, send, time, timer } = this;
+        let { phone, send, time, timer, exist } = this;
+
+        if (!exist) {
+          return
+        }
+
             if (!phone) {
                 return;
             }

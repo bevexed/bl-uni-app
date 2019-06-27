@@ -2,7 +2,7 @@ import {
   GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
-  LOGIN, GET_CODE, LOGIN_OUT
+  LOGIN, GET_CODE, LOGIN_OUT, IS_EXIST
 } from '../mutation-types';
 
 export default {
@@ -30,5 +30,9 @@ export default {
     state.userInfo = data;
     state.phone = '';
     state.code = '';
+  },
+
+  [IS_EXIST](state, data) {
+    state.exist = data
   }
 };
