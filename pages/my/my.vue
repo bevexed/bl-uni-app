@@ -76,7 +76,7 @@
       }
     },
     onReady() {
-      this.getCurrentUserInfo()
+      this.getCurrentUserInfo();
     },
     onLoad() {
       let _this = this;

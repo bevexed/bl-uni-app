@@ -25,7 +25,7 @@
         <!-- 平铺展示 -->
         <view class="tile" v-if="preview && !sortState">
             <view class="list">
-                <view class="item" v-for="(good, i) in goodList" :key="i">
+                <view class="item" v-for="(good, i) in goodList" :key="i" @tap="toDetail(good.productId)">
                   <image :src="good.imageShow" mode=""></image>
                   <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge">{{ good.badge }}
                   </view>
@@ -36,7 +36,7 @@
         <!-- 详情展示 -->
         <view class="detail" v-if="!preview && !sortState">
             <view class="list">
-                <view class="item" v-for="(good, i) in goodList" :key="i">
+                <view class="item" v-for="(good, i) in goodList" :key="i" @tap="toDetail(good.productId)">
                   <image :src="good.imageShow" mode=""></image>
                     <view class="shop-detail">
                       <view class="shop-name">{{ good.pno }}</view>
@@ -54,7 +54,6 @@
             </view>
         </view>
 
-      <!--fixME: 此处有坑，猜你喜欢的数据 其实是 面料页面商品列表的数据-->
         <view class="guess" v-if="!sortState">猜您喜欢</view>
 
         <view class="shop-list" v-if="!sortState">
@@ -98,13 +97,13 @@
     },
     computed: {
       ...mapGetters('Collect', ['goodList']),
-      ...mapState('Products', ['productList'])
+      ...mapState('Products', ['productList']),
+      ...mapState('User', ['userInfo'])
     },
     methods: {
       ...mapActions('Collect', ['getCollect','deleteCollect']),
       ...mapActions('Products', ['getProducts']),
       toDetail(id) {
-        console.log(id);
         uni.navigateTo({
           url: '/pages/shop-detail/shop-detail?id=' + id
         });

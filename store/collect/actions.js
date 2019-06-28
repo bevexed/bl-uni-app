@@ -8,7 +8,7 @@ import {
   reqCollect,
   reqDeleteCollect
 } from "../../api/collect";
-import { getRoute, SMG } from "../../unit";
+import { getRoute, SHOW_MODAL, SMG } from "../../unit";
 
 export const addCollect = async ({ dispatch, }, id) => {
   let res = await reqAddCollect(id);
@@ -30,17 +30,27 @@ export const getCollect = async ({ commit }, status) => {
 };
 
 export const deleteCollect = async ({ dispatch }, id) => {
-  let res = await reqDeleteCollect(id);
-  if (res.code === 200) {
-    let route =getRoute(1);
-    if (route === 'pages/shop-detail/shop-detail') {
-      await dispatch('Products/getProduct', id, { root: true });
-    }
+  SHOW_MODAL({
+    title: '取消收藏',
+    content: '确认取消该商品？',
+    async confirm() {
+      let res = await reqDeleteCollect(id);
+      if (res.code === 200) {
+        let route = getRoute(1);
+        if (route === 'pages/shop-detail/shop-detail') {
+          await dispatch('Products/getProduct', id, { root: true });
+        }
 
-    await dispatch('getCollect');
-    uni.showToast({
-      title: '取消收藏',
-      mask: true
-    })
-  }
+        await dispatch('getCollect');
+        uni.showToast({
+          title: '取消收藏成功',
+          mask: true
+        })
+      }
+    },
+    cancel() {
+
+    }
+  });
+
 };

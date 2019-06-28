@@ -193,7 +193,6 @@
       //   }
       // })
 
-      //fixMe:真的不会炸吗
       this.getHomeBanner(1);
       this.getHomeBanner(2);
       this.getHomeBanner(3);
