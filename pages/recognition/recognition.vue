@@ -1,9 +1,8 @@
 <template>
     <view class="recognition">
-<!--  todo: 相似商品 图片    -->
-        <view class="header">
-          <image :src="imgUrl"></image>
-        </view>
+<!--        <view class="header">-->
+<!--          <image :src="imgUrl" lazy-load></image>-->
+<!--        </view>-->
 
       <view class="similar" v-if="false">
             <view class="title">相似商品</view>
@@ -24,7 +23,7 @@
         <!-- 商品列表 -->
         <view class="list">
           <view class="item" v-for="(value,key) in similar" :key="key" @tap="toDetail(value.id)">
-            <image :src="value.imageShow" mode="aspectFill" lazy-load></image>
+            <image :src="value.imageShow" mode="" lazy-load></image>
             <view class="name">{{ value.pno }}</view>
                 <view class="price">
                     <text class="money">

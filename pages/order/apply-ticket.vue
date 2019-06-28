@@ -32,7 +32,7 @@
             <view class="item">
                 <text class="label">开票金额</text>
               <text class="price">￥{{ orderDetail.amount }}</text>
-                <text class="bedge">(不含运费)</text>
+<!--                <text class="bedge">(不含运费)</text>-->
             </view>
 
           <view class="item flex" @tap="toTicket">
