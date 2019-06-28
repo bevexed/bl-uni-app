@@ -9,9 +9,10 @@
 
         <swiper :current="TabCur" class="swiper" :style="{ height: maxHeight + 20 + 'px' }" :circular="true" @change="swiperChange">
             <swiper-item v-for="(item, index) in tabList" :key="index">
-              <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in orderList" :key="orderIndex">
+              <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in currentDataList" :key="orderIndex">
                     <view class="order-header">
-                      <view class="order-num">订单编号：{{ order.orderId }}</view>
+                      <view class="order-num">{{tabList[TabCur].name === '售后'? '服务单号':'订单编号'}}:{{ order.orderId }}
+                      </view>
                       <view class="order-state">{{ order.status }}</view>
                     </view>
                     <!-- 收起 -->
@@ -56,7 +57,7 @@
                                         </view>
                                         <view class="option">
                                           <view class="label">商品：￥{{ good.unitAmount }}/米</view>
-                                          <view class="value">*{{ good.count }}</view>
+                                          <view class="value" v-if="good.count">*{{ good.count }}</view>
                                         </view>
                                     </view>
 
@@ -69,7 +70,7 @@
                              v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                     </view>
 
-                    <view class="pay-detail">
+                <view class="pay-detail" v-if="tabList[TabCur].name !== '售后'">
                         <view class="real-pay">
                           <view class="num">共{{ order.product.length }}件商品</view>
                             <view class="label">实付</view>
@@ -107,13 +108,12 @@
                       <!--售后处理-->
                       <!--售后处理-->
                       <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.orderId"
-                            @tap="toSaleAfterDetail($event)">查看详情
+                            @tap="toSaleAfterDetail($event)">售后详情
                       </view>
 
 
                       <!--交易完成-->
                       <!--交易完成-->
-                      <!--fixMe:怎么去售后详情页面-->
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
@@ -210,6 +210,7 @@
           { name: '待付款', value: 0 },
           { name: '待发货', value: 20 },
           { name: '待收货', value: 30 },
+          // { name: '交易完成', value: 40 }
           { name: '售后', value: 40 }
         ],
         TabCur: 0,
@@ -236,11 +237,34 @@
       };
     },
 
-    computed: mapState('Order', ['orderList', 'page',]),
+    computed: {
+      ...mapState('Order', ['orderList', 'page',]),
+      ...mapState('Sale', ['afterSaleList']),
+      currentDataList() {
+        let afterSaleList = this.afterSaleList
+          .map(item =>
+            ({
+              status: '售后处理',
+              orderId: item.afterSaleId,
+              product: [{
+                amount: item.amount,
+                image: item.image,
+                afterSaleStatus: item.status,
+                productId: item.productId,
+                productNo: item.productNumber,
+                count:item.afterSaleProductCount,
+                sampleAmount: "0.00",
+                sampleType: "无小样",
+                unitAmount: item.unitAmount,
+              }]
+            })
+          );
+        return this.tabList[this.TabCur].name === '售后' ? afterSaleList : this.orderList
+      }
+    },
 
     onShow() {
       this.getAfterSaleList();
-
 
       if (this.TabCur === 0) {
         this.getOrderList({

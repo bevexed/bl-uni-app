@@ -29,3 +29,10 @@ export const reqAfterSaleList = ({ page = 1, pageSize = 10 }) => ajax('/afterSal
   page,
   pageSize
 }, 'GET');
+
+/**
+ * @function 获取售后详情
+ * @param afterSaleId
+ * @returns {Promise<*>}
+ */
+export const reqAfterSaleDetail = ({ afterSaleId }) => ajax('/afterSale/afterSaleDetail', { afterSaleId }, 'GET');

@@ -98,6 +98,12 @@
       }
     },
     {
+      "path": "pages/order/sale-after-detail",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
       "path": "pages/order/apply-ticket",
       "style": {
         "navigationBarTitleText": "我的订单"

@@ -1,31 +1,28 @@
 <template>
     <view class="sale-after-detail">
-        <view class="header">服务单号：FW12317475947347394543</view>
+      <view class="header">服务单号：{{ good.afterSaleId }}</view>
 
         <view class="goods">
-            <view :class="['good']" v-for="(good, goodIndex) in goodList" :key="goodIndex">
+          <view :class="['good']">
                 <!-- 展开 -->
                 <view class="good-header">
-                    <image class="shop-img" src="../static/imgs/fitting/5.jpg" mode=""></image>
+                  <image class="shop-img" :src="good.image" mode=""></image>
 
                     <view class="detail">
                         <view class="detail-header">
-                            <view class="shop-name">ML2395730185473123</view>
+                          <view class="shop-name">{{ good.productNumber }}</view>
 
-                            <view class="shop-after" v-if="good.afterState === '审核中'">审核中</view>
-                            <view class="shop-after" v-if="good.afterState === '已审核'">已审核</view>
-                            <view class="shop-after" v-if="good.afterState === '退款中'">退款中</view>
-                            <view class="shop-after" v-if="good.afterState === '待寄回'">待寄回</view>
+                          <view class="shop-after">{{ good.status }}</view>
+
                         </view>
                         <view class="detail-footer">
                             <view :class="['options']">
+
                                 <view class="option">
-                                    <view class="label">标样：￥0</view>
-                                    <view class="value">*1</view>
-                                </view>
-                                <view class="option">
-                                    <view class="label">商品：￥50/米</view>
-                                    <view class="value">*40</view>
+                                  <view class="label">单价：￥{{ good.unitAmount }}/米</view>
+                                  <view class="value" v-if=" good.afterSaleProductCount">*{{ good.afterSaleProductCount
+                                    }}
+                                  </view>
                                 </view>
                             </view>
                         </view>
@@ -35,30 +32,31 @@
                 <view class="good-footer">
                     <view class="item">
                         <view class="label">售后类型：</view>
-                        <view class="value">退货退款</view>
+                      <view class="value">{{ good.type }}</view>
                     </view>
-                    <view class="item">
+                  <view class="item" v-if="good.reason">
                         <view class="label">审核原因：</view>
-                        <view class="value">质量问题</view>
+                    <view class="value">{{ good.reason }}</view>
                     </view>
                     <view class="item">
                         <view class="label">退款金额：</view>
-                        <view class="value">￥2050.00</view>
+                      <view class="value">￥{{ good.amount }}</view>
                     </view>
                     <view class="item">
                         <view class="label">申请时间：</view>
-                        <view class="value">2019/03/30 12：31</view>
+                      <view class="value">{{ good.createTime }}</view>
                     </view>
                 </view>
 
                 <view class="buttons">
-                    <view class="button" v-if="good.afterState === '审核中'">
-                        <image src="../static/icon/calord.svg" mode=""></image>
+                  <view class="button" v-if="good.status === '审核中'">
+                    <image src="../../static/icon/calord.svg" mode=""></image>
                         <text>取消申请</text>
                     </view>
-                    <view class="button" v-if="good.afterState === '待寄回'" @tap="toPostInformation">
-                        <image src="../static/icon/edit.svg" mode=""></image>
-                        <text>填写快递信息</text>
+                  <view class="button" v-if="good.status === '待寄回'" @tap="toPostInformation">
+                    <image v-if="good.statusCode === 20" src="../../static/icon/edit.svg" mode=""></image>
+                    <text v-if="good.statusCode === 20">填写快递信息</text>
+                    <text v-if="good.statusCode === 30">已上传快递信息</text>
                     </view>
                 </view>
             </view>
@@ -66,7 +64,7 @@
 
         <view class="total">
             <view class="label">退款总金额</view>
-            <view class="value">¥4100.00</view>
+          <view class="value">¥{{ good.amount }}</view>
         </view>
         
          <view class="contact">
@@ -77,39 +75,43 @@
 </template>
 
 <script>
-export default {
+  import { reqAfterSaleDetail } from "../../api/sale";
+
+  export default {
     data() {
-        return {
-            // 商品 列表
-            goodList: [
-                {
-                    afterState: '审核中'
-                },
-                {
-                    afterState: '已审核'
-                },
-                {
-                    afterState: '退款中'
-                },
-                {
-                    afterState: '待寄回'
-                }
-            ]
-        };
+      return {
+        // 商品 列表
+        good: {}
+      }
+        ;
     },
 
     computed: {},
-    
-    methods:{
-        toPostInformation(){
-            uni.navigateTo({
-                url:'post-information'
-            })
+
+
+    async onLoad(e) {
+      const { orderId } = e;
+      await this.getAfterSaleDetail(orderId);
+
+    },
+
+    methods: {
+      async getAfterSaleDetail(afterSaleId) {
+        let res = await reqAfterSaleDetail({ afterSaleId });
+        if (res.code === 200) {
+          this.good = res.data;
         }
+      },
+
+      toPostInformation() {
+        uni.navigateTo({
+          url: 'post-information'
+        })
+      }
     }
-    
-    
-};
+
+
+  };
 </script>
 
 <style lang="scss">
