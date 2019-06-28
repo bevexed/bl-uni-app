@@ -180,7 +180,13 @@
           productId: item.productId,
           sampleType: item.sampleType === 0 ? 0 : 10
         }));
+
+        if (!addressList.filter(item => item.isMain)[0].length) {
+          SMG('请选择收货地址');
+        }
+
         let addressId = addressList.filter(item => item.isMain)[0].id;
+
         if (agreement) {
           await this.createOrder({ addressId, item: JSON.stringify(item), amount });
         }

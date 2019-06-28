@@ -239,7 +239,7 @@
     computed: mapState('Order', ['orderList', 'page',]),
 
     onShow() {
-      this.getAfterSaleList()
+      this.getAfterSaleList();
 
 
       if (this.TabCur === 0) {

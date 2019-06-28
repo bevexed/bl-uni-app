@@ -33,6 +33,11 @@ export const getOrderList = async ({ commit, state }, data) => {
 
 
 export const createOrder = async ({ commit }, data) => {
+  const {addressId} = data;
+  if (!addressId){
+    return SMG('请选择收货地址')
+  }
+
   let res = await reqCreateOrder(data);
   if (res.code === 200) {
     let item = JSON.parse(data.item);
