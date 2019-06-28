@@ -36,3 +36,23 @@ export const reqAfterSaleList = ({ page = 1, pageSize = 10 }) => ajax('/afterSal
  * @returns {Promise<*>}
  */
 export const reqAfterSaleDetail = ({ afterSaleId }) => ajax('/afterSale/afterSaleDetail', { afterSaleId }, 'GET');
+
+/**
+ * @function 新增售后地址
+ * @param afterSaleId
+ * @param expressCompany
+ * @param senderName
+ * @param senderPhone
+ * @param trackNum
+ * @returns {Promise<*>}
+ */
+
+export const reqFillExpressInfo = ({ afterSaleId, expressCompany, senderName, senderPhone, trackNum }) => ajax('/afterSale/fillExpressInfo', {
+  afterSaleId,
+  expressCompany,
+  senderName,
+  senderPhone,
+  trackNum
+}, 'PUT')
+
+

@@ -24,7 +24,7 @@
             </view>
         </view>
 
-      <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @click="toHome">
+      <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @tap="toHome">
         登录
       </view>
     </view>

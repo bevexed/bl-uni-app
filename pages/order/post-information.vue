@@ -3,32 +3,113 @@
         <view class="title">售后服务</view>
 
         <view class="list">
+          <picker
+            mode="selector"
+            :range="postList"
+            range-key="key"
+            :value="value"
+            @change="changePost"
+          >
             <view class="item flex" @tap="">
-                <text class="label">快递公司</text>
-                <image class="arrow" src="../static/icon/arrow-bottom.svg" mode=""></image>
+              <text class="label">快递公司</text>
+              <view class="flex">
+                <view class="label">{{ postList[value].key }}</view>
+                <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+              </view>
             </view>
+          </picker>
 
-            <view class="item flex" @tap="">
+
+          <view class="item flex" @tap="">
                 <text class="label">快递单号</text>
-                <input type="text" value="" placeholder="请输入快递单号" placeholder-style="font-size:14px;color:#999;text-align:right" />
+            <input type="text" value="" placeholder="请输入快递单号" v-model="trackNum"
+                   placeholder-style="font-size:14px;color:#999;text-align:right"/>
             </view>
 
             <view class="item flex" @tap="">
                 <text class="label">寄件人姓名</text>
-                <input type="text" value="" placeholder="请输入寄件人姓名" placeholder-style="font-size:14px;color:#999;text-align:right" />
+              <input type="text" value="" placeholder="请输入寄件人姓名" v-model="senderName"
+                     placeholder-style="font-size:14px;color:#999;text-align:right"/>
             </view>
 
             <view class="item flex" @tap="">
                 <text class="label">寄件人电话</text>
-                <input type="text" value="" placeholder="请输入寄件人电话" placeholder-style="font-size:14px;color:#999;text-align:right" />
+              <input type="number" value="" placeholder="请输入寄件人电话" v-model="senderPhone" maxlength="11"
+                     placeholder-style="font-size:14px;color:#999;text-align:right"/>
             </view>
         </view>
 
-        <view class="button">确定</view>
+      <view :class="['pay-button', { active: senderName && senderPhone.length === 11 && trackNum }]"
+            @tap="fillExpressInfo">
+        确定
+      </view>
     </view>
 </template>
 
-<script></script>
+<script>
+  import { reqFillExpressInfo } from "../../api/sale";
+  import { MSG_BACK, SMG } from "../../unit";
+
+  export default {
+    data() {
+      return {
+        afterSaleId: "",
+        expressCompany: 0,
+        senderName: "",
+        senderPhone: "",
+        trackNum: "",
+
+        value: 0,
+        postList: [
+          { value: 0, key: '顺丰快递' },
+          { value: 10, key: '韵达快递' },
+          { value: 20, key: '圆通快递' },
+          { value: 30, key: '中通快递' },
+          { value: 40, key: '申通快递' },
+          { value: 50, key: '中国邮政' },
+          { value: 60, key: '其他快递' }
+        ]
+      }
+    },
+    onLoad(e) {
+      this.afterSaleId = e.afterSaleId
+    },
+    methods: {
+      changePost(e) {
+        this.value = e.detail.value;
+      },
+
+      async fillExpressInfo() {
+        if (!this.senderName) {
+          return SMG('请填写发件人姓名')
+        }
+
+        let p = /^1[0-9]{10}$/;
+        if (!p.test(this.senderPhone)) {
+          return SMG('请检查手机号')
+        }
+
+        if (!this.trackNum) {
+          return SMG('请检查快递单号')
+        }
+
+        let res = await reqFillExpressInfo({
+          afterSaleId: this.afterSaleId,
+          expressCompany: this.postList[this.value].value,
+          senderName: this.senderName,
+          senderPhone: this.senderPhone,
+          trackNum: this.trackNum
+        })
+
+        if (res.code === 200) {
+          MSG_BACK({
+            title: '地址上传成功',
+          })
+        }
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
 .post-information {
@@ -65,6 +146,7 @@
 
             input {
                 width: 228upx;
+              text-align: right;
             }
         }
 
@@ -91,5 +173,22 @@
         height: 80upx;
         line-height: 80upx;
     }
+
+  .pay-button {
+    $height: 80 upx;
+    height: $height;
+    line-height: $height;
+    width: 692 upx;
+    margin: 226 upx auto 68 upx;
+    text-align: center;
+    background: #cccccc;
+    border-radius: 8 upx;
+    color: #fff;
+    font-size: 28 upx;
+
+    &.active {
+      background: $theme-color;
+    }
+  }
 }
 </style>

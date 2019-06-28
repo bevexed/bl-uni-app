@@ -53,11 +53,14 @@
                     <image src="../../static/icon/calord.svg" mode=""></image>
                         <text>取消申请</text>
                     </view>
-                  <view class="button" v-if="good.status === '待寄回'" @tap="toPostInformation">
-                    <image v-if="good.statusCode === 20" src="../../static/icon/edit.svg" mode=""></image>
-                    <text v-if="good.statusCode === 20">填写快递信息</text>
-                    <text v-if="good.statusCode === 30">已上传快递信息</text>
-                    </view>
+                  <view class="button" v-if="good.status === '待寄回' && good.statusCode === 20" @tap="toPostInformation">
+                    <image src="../../static/icon/edit.svg" mode=""></image>
+                    <text>填写快递信息</text>
+                  </view>
+
+                  <view class="button" v-if="good.status === '待寄回' && good.statusCode === 30" @tap="toPostInformation">
+                    <text style="color:#eee">已上传快递信息</text>
+                  </view>
                 </view>
             </view>
         </view>
@@ -105,7 +108,7 @@
 
       toPostInformation() {
         uni.navigateTo({
-          url: 'post-information'
+          url: 'post-information?afterSaleId=' + this.good.afterSaleId
         })
       }
     }
