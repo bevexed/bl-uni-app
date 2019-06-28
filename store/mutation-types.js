@@ -47,3 +47,5 @@ export const GET_INVOICE_LIST = 'get_invoice_list';
 export const GET_INVOICE_DETAIL = 'get_invoice_detail';
 export const GET_INVOICE_APPLY_REQUEST = 'get_invoice_apply_request';
 
+// after-sale
+export const GET_AFTER_SALE_LIST = 'get_after_sale_list';

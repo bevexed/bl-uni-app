@@ -22,79 +22,159 @@
 
             <!-- 商品 -->
             <view class="goods">
-                <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods" :key="i">
-                    <view class="good">
-                        <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)"><view class="selected"></view></view>
+              <!--未失效-->
+              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods"
+                    v-if="good.status !== 9" :key="i">
+                <view class="good">
+                  <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">
+                    <view class="selected"></view>
+                  </view>
+                  <image class="shop-img" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
 
-                      <image class="shop-img" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
-
-                        <view class="detail">
-                            <view class="detail-header">
-                              <view class="shop-name">{{ good.pno }}</view>
-                              <!--  删除  -->
-                              <image
-                                v-if="!edit" src="../../static/icon/del.svg"
-                                mode=""
-                                @tap="doDeleteCart({
-                                ids:[good.productId]
-                                })"></image>
-                            </view>
-                            <view class="detail-footer">
-                                <view v-if="!edit" :class="['options']">
-                                  <view class="option" v-if="good.sampleType">
-                                    <view class="label">标样：￥{{ good.samplePrice }}</view>
-                                    <view class="value">*{{ good.sampleType }}</view>
-                                    </view>
-                                    <view class="option">
-                                      <view class="label">商品：￥{{ good.price }}/米</view>
-                                      <view class="value">* {{ good.shoppingNum }}</view>
-                                    </view>
-                                </view>
-
-                                <view v-else class="options del-active" @tap="selectWillChang(i)">
-                                  <view class="option" v-if="good.sampleType">
-                                    <view class="label">标样：*{{ good.sampleType }}</view>
-                                  </view>
-                                  <view class="option">
-                                    <view class="label">数量：*{{ good.shoppingNum }}</view>
-                                  </view>
-
-                                    <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
-                                </view>
-
-                              <view class="price">￥{{ good.totalAmount }}</view>
-                            </view>
+                  <view class="detail">
+                    <view class="detail-header">
+                      <view class="shop-name">{{ good.pno }}</view>
+                      <!--  删除  -->
+                      <image
+                        v-if="!edit" src="../../static/icon/del.svg"
+                        mode=""
+                        @tap="doDeleteCart({
+                              ids:[good.productId]
+                              })"></image>
+                    </view>
+                    <view class="detail-footer">
+                      <view v-if="!edit" :class="['options']">
+                        <view class="option" v-if="good.sampleType">
+                          <view class="label">标样：￥{{ good.samplePrice }}</view>
+                          <view class="value">*{{ good.sampleType }}</view>
                         </view>
-                    </view>
-
-                  <!-- 编辑状态 -->
-                    <view class="select-much" v-if="good.willChange && edit">
-                        <view class="title">数量选择</view>
-                      <uni-number-box
-                        :min="0"
-                        :max="good.stock"
-                        :step="1"
-                        :value="good.shoppingNum"
-                        @change="numChange($event,i)"></uni-number-box>
-                        <view class="rest unit">米</view>
-                    </view>
-
-                    <view class="select-small" v-if="good.willChange && edit">
-                        <view class="title">小样选择</view>
-                        <view :class="['tags']">
-                          <!--todo: step 接口-->
-                            <uni-tag
-                              class="tag"
-                              :text="tag"
-                              :type="good.sampleType? 'success' : 'primary'"
-                              :inverted="true"
-                              v-for="(tag, index) in good.tagsList"
-                              :key="index"
-                              @tap="changSampleType(i)"
-                            />
+                        <view class="option">
+                          <view class="label">商品：￥{{ good.price }}/米</view>
+                          <view class="value">* {{ good.shoppingNum }}</view>
                         </view>
+                      </view>
+
+                      <view v-else class="options del-active" @tap="selectWillChang(i)">
+                        <view class="option" v-if="good.sampleType">
+                          <view class="label">标样：*{{ good.sampleType }}</view>
+                        </view>
+                        <view class="option">
+                          <view class="label">数量：*{{ good.shoppingNum }}</view>
+                        </view>
+
+                        <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                      </view>
+
+                      <view class="price">￥{{ good.totalAmount }}</view>
                     </view>
+                  </view>
                 </view>
+
+                <!-- 编辑状态 -->
+                <view class="select-much" v-if="good.willChange && edit">
+                  <view class="title">数量选择</view>
+                  <uni-number-box
+                    :min="0"
+                    :max="good.stock"
+                    :step="1"
+                    :value="good.shoppingNum"
+                    @change="numChange($event,i)"></uni-number-box>
+                  <view class="rest unit">米</view>
+                </view>
+
+                <view class="select-small" v-if="good.willChange && edit">
+                  <view class="title">小样选择</view>
+                  <view :class="['tags']">
+                    <!--todo: step 接口-->
+                    <uni-tag
+                      class="tag"
+                      :text="tag"
+                      :type="good.sampleType? 'success' : 'primary'"
+                      :inverted="true"
+                      v-for="(tag, index) in good.tagsList"
+                      :key="index"
+                      @tap="changSampleType(i)"
+                    />
+                  </view>
+                </view>
+              </view>
+
+              <!--已失效商品-->
+              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods"
+                    v-if="good.status === 9" :key="i">
+                <view class="good">
+                  <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">
+                    <view class="selected"></view>
+                  </view>
+                  <image class="shop-img dead" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
+
+                  <view class="detail">
+                    <view class="detail-header">
+                      <view class="shop-name">{{ good.pno }}</view>
+                      <!--  删除  -->
+                      <image
+                        v-if="!edit" src="../../static/icon/del.svg"
+                        mode=""
+                        @tap="doDeleteCart({
+                              ids:[good.productId]
+                              })"></image>
+                    </view>
+                    <view class="detail-footer">
+                      <view v-if="!edit" :class="['options']">
+                        <view class="option" v-if="good.sampleType">
+                          <view class="label">标样：￥{{ good.samplePrice }}</view>
+                          <view class="value">*{{ good.sampleType }}</view>
+                        </view>
+                        <view class="option">
+                          <view class="label">商品：￥{{ good.price }}/米</view>
+                          <view class="value">* {{ good.shoppingNum }}</view>
+                        </view>
+                      </view>
+
+                      <view v-else class="options del-active" @tap="selectWillChang(i)">
+                        <view class="option" v-if="good.sampleType">
+                          <view class="label">标样：*{{ good.sampleType }}</view>
+                        </view>
+                        <view class="option">
+                          <view class="label">数量：*{{ good.shoppingNum }}</view>
+                        </view>
+
+                        <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
+                      </view>
+
+                      <view class="price">￥{{ good.totalAmount }}</view>
+                    </view>
+                  </view>
+                </view>
+
+                <!-- 编辑状态 -->
+                <view class="select-much" v-if="good.willChange && edit">
+                  <view class="title">数量选择</view>
+                  <uni-number-box
+                    :min="0"
+                    :max="good.stock"
+                    :step="1"
+                    :value="good.shoppingNum"
+                    @change="numChange($event,i)"></uni-number-box>
+                  <view class="rest unit">米</view>
+                </view>
+
+                <view class="select-small" v-if="good.willChange && edit">
+                  <view class="title">小样选择</view>
+                  <view :class="['tags']">
+                    <!--todo: step 接口-->
+                    <uni-tag
+                      class="tag"
+                      :text="tag"
+                      :type="good.sampleType? 'success' : 'primary'"
+                      :inverted="true"
+                      v-for="(tag, index) in good.tagsList"
+                      :key="index"
+                      @tap="changSampleType(i)"
+                    />
+                  </view>
+                </view>
+              </view>
             </view>
         </view>
 
@@ -547,6 +627,35 @@
 
   .white-space{
     height: 100upx;
+  }
+
+  // 失效商品样式
+  .dead {
+    position: relative;
+    filter: grayscale(100%);
+
+    @function upx($size) {
+      @return $size + upx;
+    }
+
+    :after {
+      content: '已失效';
+      position: absolute;
+      padding: upx(2) upx(10);
+      width: 60%;
+      height: upx(40);
+      line-height: upx(40);
+      background: rgba(0, 0, 0, .3);
+      color: white;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      margin: auto;
+      font-size: upx(22);
+      border-radius: upx(12);
+      text-align: center;
+    }
   }
 }
 </style>

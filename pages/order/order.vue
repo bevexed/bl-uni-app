@@ -117,7 +117,6 @@
                       <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)">查看详情
                       </view>
-                      <!--fixMe:缺少合同的相应状态-->
                       <view
                         class="button  cancel"
                         v-if="order.status === '交易完成' && order.contractStatus === null"
@@ -240,6 +239,9 @@
     computed: mapState('Order', ['orderList', 'page',]),
 
     onShow() {
+      this.getAfterSaleList()
+
+
       if (this.TabCur === 0) {
         this.getOrderList({
           page: 1,
@@ -271,6 +273,7 @@
     },
     methods: {
       ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder']),
+      ...mapActions('Sale', ['getAfterSaleList']),
       async doConfirmReceipt(id) {
         await this.confirmReceipt(id);
         this.getData();

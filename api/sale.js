@@ -17,3 +17,15 @@ export const reqCreateAfterSale = ({ orderItemId, productCount, reason, reasonCo
   reasonCode,
   type
 }, 'POST');
+
+/**
+ * @function 分页查看售后单
+ * @param page
+ * @param pageSize
+ * @returns {Promise<*>}
+ */
+
+export const reqAfterSaleList = ({ page = 1, pageSize = 10 }) => ajax('/afterSale/afterSaleList', {
+  page,
+  pageSize
+}, 'GET');
