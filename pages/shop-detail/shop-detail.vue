@@ -149,7 +149,7 @@
                     <view class="title">数量选择</view>
                     <view class="rest">库存 {{ product.stock }} 米</view>
                   <uni-number-box
-                    :min="1"
+                    :min="0"
                     :max="product.stock"
                     :step="1"
                     :value="num"
@@ -211,7 +211,6 @@
         title: 'SINOTY',
         path: '/pages/shop-detail/shop-detail?id=' + this.id,
         async success(res) {
-          // FixMe: 线上测试
          let result =  await reqShare(this.id);
           console.log('分享成功', res, result);
         }

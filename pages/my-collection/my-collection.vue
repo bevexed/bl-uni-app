@@ -61,7 +61,6 @@
             <image :src="good.imageShow" mode=""></image>
                 <view class="shop-name">
                   <text>{{ good.pno }}</text>
-                  <!-- fixMe：多少人已购买 -->
                   <!-- <view class="sold">{{ good }}人已购买</view> -->
                 </view>
             </view>

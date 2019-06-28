@@ -48,7 +48,7 @@
         <view class="price">
             <view class="item">
                 <view class="label">商品总金额</view>
-                <view class="value">￥{{ orderDetail.amount }}</view>
+              <view class="value">￥{{ (orderDetail.amount - orderDetail.shipCost).toFixed(2) }}</view>
             </view>
             <view class="item">
                 <view class="label">运费</view>

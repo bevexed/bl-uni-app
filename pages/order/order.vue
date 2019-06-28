@@ -239,7 +239,6 @@
 
     computed: mapState('Order', ['orderList', 'page',]),
 
-    // fixMe: 体验不好
     onShow() {
       if (this.TabCur === 0) {
         this.getOrderList({
