@@ -93,7 +93,7 @@
         pageSize: 10,
         companyId: 4,
 
-        status: 2
+        status: this.userInfo.status
       });
     },
     computed: {

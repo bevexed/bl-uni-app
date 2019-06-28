@@ -146,14 +146,14 @@ export const authenticationTo = ({ url, status, type = 'navigateTo' }) => {
         })
       },
       cancel() {
-        // uni.reLaunch({
-        //   url: '/pages/home/home'
-        // })
+
       }
     });
 
   }
 
+// 鉴权成功后才能跳转
+  if (!url) return;
   switch (type) {
     case "navigateTo":
       uni.navigateTo({

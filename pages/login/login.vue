@@ -10,7 +10,7 @@
             </view>
             <view class="code">
                 <image src="../../static/icon/AK.svg" mode=""></image>
-                <input type="number" v-model="code" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
+                <input type="number" v-model="code" maxlength="6" placeholder="请输入验证码" placeholder-style="color:#cccccc;font-weight:300;font-size:16px" />
                 <view :class="['button', { active: phone.length === 11 && !send }, { sended: send }]" @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</view>
             </view>
         </view>
@@ -100,15 +100,12 @@
         }, 1000);
         },
 
-      toHome() {
-            let { phone, code, agreement } = this;
-            if (agreement && phone.length === 11 && code.length >= 4) {
-              this.doLogin({ phone, verify: code });
-              uni.switchTab({
-                url: '/pages/home/home'
-                })
-            }
+      async toHome() {
+        let { phone, code, agreement } = this;
+        if (agreement && phone.length === 11 && code.length >= 4) {
+          await this.doLogin({ phone, verify: code });
         }
+      }
     }
 };
 </script>

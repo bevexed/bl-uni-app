@@ -16,7 +16,7 @@ import {
   reqUpdatePhone,
   reqVerify
 } from "../../api/user";
-import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SMG } from "../../unit";
+import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SHOW_MODAL, SMG } from "../../unit";
 
 export default {
   // 获取code
@@ -45,21 +45,18 @@ export default {
     if (res.code === 200) {
       commit(IS_EXIST, res.data);
       if (!res.data) {
-        uni.showModal({
+        SHOW_MODAL({
           title: '用户未注册',
           content: '用户未注册，是否跳转注册页面？',
-          confirmColor: '#BFA065',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('用户点击确定');
-              uni.navigateTo({
-                url: '/pages/login/base-information?phone=' + phone
-              })
-            } else if (res.cancel) {
-              uni.reLaunch({
-                urL: '/pages/login/login'
-              })
-            }
+          confirm() {
+            uni.navigateTo({
+              url: '/pages/login/base-information?phone=' + phone
+            })
+          },
+          cancel() {
+            uni.reLaunch({
+              url: '/pages/login/login'
+            })
           }
         });
       } else {

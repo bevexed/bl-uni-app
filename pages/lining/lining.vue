@@ -199,6 +199,7 @@
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { mapActions, mapState } from 'vuex'
   import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { authenticationTo } from "../../unit";
 
   let observer = null;
 
@@ -289,7 +290,7 @@
           pno,
           categoryId: categoryId.toString(),
           hasStock: agreement,
-          status: this.userInfo.status || 1,
+          status: this.userInfo.status || '',
           weight: weight.toString(),
           width: width.toString(),
           price: price.toString(),
@@ -331,6 +332,8 @@
       },
 
       async changeMenu(index) {
+        if (this.userInfo.status !== 2) return authenticationTo({ status: this.userInfo.status });
+
         // 改变 当前 按钮 样式
         this.menuCurrentSelect = index;
         if (index === 0) {
@@ -341,6 +344,7 @@
 
         // 如果点了 筛选 则 弹出抽屉
         if (index === 1) {
+
           this.drawerShow = true;
           this.getCategories();
         }
@@ -416,7 +420,8 @@
         }
       },
       toDetail(id) {
-        uni.navigateTo({
+        authenticationTo({
+          status: this.userInfo.status,
           url: '/pages/shop-detail/shop-detail?id=' + id
         });
       }
