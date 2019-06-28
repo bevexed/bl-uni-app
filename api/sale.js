@@ -2,6 +2,7 @@ import ajax from './ajax'
 
 /**
  * @function 创建售后单
+ * @param amount
  * @param orderItemId
  * @param productCount
  * @param reason
@@ -10,7 +11,8 @@ import ajax from './ajax'
  * @returns {Promise<*>}
  */
 
-export const reqCreateAfterSale = ({ orderItemId, productCount, reason, reasonCode, type }) => ajax('/afterSale/createAfterSale', {
+export const reqCreateAfterSale = ({ amount, orderItemId, productCount, reason, reasonCode, type }) => ajax('/afterSale/createAfterSale', {
+  amount,
   orderItemId,
   productCount,
   reason,

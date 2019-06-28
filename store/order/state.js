@@ -6,7 +6,9 @@ export default {
   page: 0,
   currentStatus: 0,
 
-  orderDetail:{},
+  orderDetail:{
+    phone:''
+  },
 
   shipCost: 0
 }

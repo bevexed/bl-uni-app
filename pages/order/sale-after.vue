@@ -1,5 +1,5 @@
 <template>
-    <view class="back-money">
+    <view class="back-money" v-if="goods">
         <view class="title">售后服务</view>
 
         <view class="goods">
@@ -25,11 +25,10 @@
             </view>
         </view>
 
-        <view class="list">
+      <view class="list" v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i">
             <view class="item">
                 <text class="label">退款金额</text>
-              <!--todo:计算总价-->
-                <text class="price">￥2050.00</text>
+              <text class="price">￥{{ type[currentSelectSaleAfterShow].text==='仅退款'? good.count * good.unitAmount : num * good.unitAmount }}</text>
                 <text class="bedge">(不含运费)</text>
             </view>
 
@@ -74,9 +73,12 @@
             </view>
         </view>
 
-      <view class="button" @tap="createAfterSale({
+      <view class="button"
+            v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i"
+            @tap="createAfterSale({
+        amount:type[currentSelectSaleAfterShow].text==='仅退款'? good.count * good.unitAmount : num * good.unitAmount,
         orderItemId:itemId,
-        productCount:num,
+        productCount: type[currentSelectSaleAfterShow].text==='仅退款'?good.count : num,
         reason:textArea,
         reasonCode:sorts[currentPickerValue].reason,
         type:type[currentSelectSaleAfterShow].value
@@ -188,7 +190,7 @@ export default {
       selectNumShow: false,
 
       // 购买数量
-      num: 0,
+      num: 1,
 
       // 当前选中标签
       tagCurrentSelect: [],
@@ -223,6 +225,7 @@ export default {
     selectSaleAfter() {
       this.selectSaleAfterShow = true;
     },
+
     bindChange(e) {
       console.log('sale-after-type', e);
       this.currentSelectSaleAfterShow = e.detail.value[0];

@@ -38,7 +38,6 @@
                           </view>
                         </view>
 
-                      <!-- fixme：此处需要 allowAfterSale 字段 -->
                       <view class="button" v-if="good.allowAfterSale" @tap="toSaleAfter({orderId:orderDetail.orderId,itemId:good.itemId})">售后</view>
                     </view>
                 </view>
@@ -75,18 +74,28 @@
             </view>
         </view>
 
-      <!--todo:开票状态-->
         <view class="state">
             <view class="item">
                 <view class="label">开票状态</view>
-                <view class="label">未开票</view>
+              <view
+                class="label"
+                v-for="(v,i) in invoiceStatus"
+                :key="i"
+                v-if="v.key === orderDetail.invoiceStatus">
+                {{ v.value }}
+              </view>
             </view>
         </view>
 
         <view class="state">
             <view class="item">
                 <view class="label">合同状态</view>
-                <view class="label">未申请</view>
+              <view
+                class="label" v-for="(v,i) in contractStatus"
+                :key="i"
+                v-if="v.key === orderDetail.contractStatus">
+                {{ v.value }}
+              </view>
             </view>
         </view>
 
@@ -101,6 +110,23 @@
   import { mapActions, mapState } from "vuex";
 
   export default {
+    data() {
+      return {
+        invoiceStatus: [
+          { key: null, value: '未开票' },
+          { key: 0, value: '发票待审批' },
+          { key: 1, value: '发票待寄送' },
+          { key: 2, value: '发票待签收' },
+          { key: 3, value: '发票已签收' }
+        ],
+        contractStatus: [
+          { key: null, value: '未申请' },
+          { key: 0, value: '合同待上传' },
+          { key: 1, value: '已申请' },
+        ],
+
+      }
+    },
     computed: mapState('Order', {
       goods: state => state.orderDetail.product,
       orderDetail: state => state.orderDetail
