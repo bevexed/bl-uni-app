@@ -55,6 +55,14 @@ export const reqFillExpressInfo = ({ afterSaleId, expressCompany, senderName, se
   senderName,
   senderPhone,
   trackNum
-}, 'PUT')
+}, 'PUT');
+
+
+/**
+ * @function 取消售后申请
+ * @param afterSaleId
+ * @returns {Promise<*>}
+ */
+export const reqCancelAfterSale = ({ afterSaleId }) => ajax('/afterSale/cancelAfterSale/' + afterSaleId,{},'PUT');
 
 

@@ -48,7 +48,7 @@
                     </view>
                 </view>
 
-                <view class="buttons">
+            <view class="buttons" @tap="cancelAfterSale">
                   <view class="button" v-if="good.status === '审核中'">
                     <image src="../../static/icon/calord.svg" mode=""></image>
                         <text>取消申请</text>
@@ -84,9 +84,10 @@
     data() {
       return {
         // 商品 列表
-        good: {}
+        good: {},
+        afterSaleId: ''
+
       }
-        ;
     },
 
     computed: {},
@@ -94,8 +95,8 @@
 
     async onLoad(e) {
       const { orderId } = e;
+      this.afterSaleId = orderId;
       await this.getAfterSaleDetail(orderId);
-
     },
 
     methods: {
@@ -103,6 +104,21 @@
         let res = await reqAfterSaleDetail({ afterSaleId });
         if (res.code === 200) {
           this.good = res.data;
+        }
+      },
+
+      async cancelAfterSale() {
+        const _this = this
+        let res = await reqAfterSaleDetail({ afterSaleId: this.afterSaleId });
+        if (res.code === 200) {
+          this.good = res.data;
+          uni.showToast({
+            title: '取消成功',
+            mask: true,
+            success(res) {
+              this.getAfterSaleDetail(_this.afterSaleId)
+            }
+          })
         }
       },
 
