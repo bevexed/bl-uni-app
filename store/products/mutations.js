@@ -11,7 +11,6 @@ export default {
     if (reset) {
       state.page = 1;
       state.productList = [];
-      console.log(state.productList);
     }
 
     state.productList = [...state.productList, ...data.data];

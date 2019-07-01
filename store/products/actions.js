@@ -11,7 +11,7 @@ import {
   reqProduct,
   reqSimilar
 } from "../../api/products";
-import { authenticationTo } from "../../unit";
+import { authenticationTo, SMG } from "../../unit";
 
 export const getProducts = async ({ commit, state }, data) => {
   // 如果此用户不是会员
@@ -29,6 +29,12 @@ export const getProducts = async ({ commit, state }, data) => {
 
   let res = await reqProducts(data);
   if (res.code === 200) {
+    if (reset) {
+      if (res.data.data.length === 0) {
+        SMG('未找到符合条件的商品，请重新筛选呦')
+      }
+    }
+
     commit(GET_PRODUCTS, { data: res.data, reset });
 
     return true;
