@@ -103,7 +103,7 @@
                          v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                 </view>
 
-                <view class="pay-detail" v-if="tabList[TabCur].name !== '售后'">
+                <view class="pay-detail" v-if="tabList[TabCur].name !== '售后' && isAfterSaleOpen">
                         <view class="real-pay">
                           <view class="num">共{{ order.product.length }}件商品</view>
                             <view class="label">实付</view>
@@ -142,7 +142,7 @@
 
                       <!--售后处理-->
                       <!--售后处理-->
-                      <view class="button  cancel" v-if="order.status === '售后处理'" :data-order-id="order.orderId"
+                      <view class="button  cancel" v-if="order.status === '售后处理' && isAfterSaleOpen" :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">售后详情
                       </view>
 
@@ -246,8 +246,6 @@
           { name: '待付款', value: 0 },
           { name: '待发货', value: 20 },
           { name: '待收货', value: 30 },
-          // { name: '交易完成', value: 40 }
-          { name: '售后', value: 40 }
         ],
         TabCur: 0,
         preview: -1,
@@ -276,6 +274,7 @@
     computed: {
       ...mapState('Order', ['orderList', 'page',]),
       ...mapState('Sale', ['afterSaleList']),
+      ...mapState('User', ['isAfterSaleOpen']),
       currentDataList() {
         let afterSaleList = this.afterSaleList
           .map(item =>
@@ -300,6 +299,12 @@
     },
 
     onShow() {
+      console.log(this.isAfterSaleOpen);
+      if (this.isAfterSaleOpen) {
+        this.tabList.push({ name: '售后', value: 40 })
+      }
+
+
       this.getAfterSaleList();
 
       if (this.TabCur === 0) {

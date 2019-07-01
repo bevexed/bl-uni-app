@@ -22,15 +22,11 @@ export default {
     };
 
     state.goods = data
-      .map(item => {
-      return { ...item, ...base }
-      })
+      .map(item => ({ ...item, ...base }))
       .filter(item => item.status !== 9);
 
     state.u_goods = data
-      .map(item => {
-        return { ...item, ...base }
-      })
+      .map(item => ({ ...item, ...base }))
       .filter(item => item.status === 9);
   },
 

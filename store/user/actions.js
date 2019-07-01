@@ -124,7 +124,7 @@ export default {
         key: 'token',
         data: res.data.userInfo.token,
         success() {
-          commit(GET_REFRESH_TOKEN, res.data.userInfo);
+          commit(GET_REFRESH_TOKEN, res.data);
         }
       });
     }

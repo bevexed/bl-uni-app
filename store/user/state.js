@@ -7,4 +7,6 @@ export default {
   code: '',
 
   exist: false,
+
+  isAfterSaleOpen: false
 }

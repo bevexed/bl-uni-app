@@ -12,6 +12,8 @@ export default {
 
   [LOGIN](state, data) {
     state.userInfo = data;
+    state.isAfterSaleOpen = data.isAfterSaleOpen
+
   },
 
   [GET_CURRENT_USER_DETAIL](state, data) {
@@ -19,7 +21,8 @@ export default {
   },
 
   [GET_REFRESH_TOKEN](state, data) {
-    state.userInfo = data;
+    state.userInfo = data.userInfo;
+    state.isAfterSaleOpen = data.systemInfo.isAfterSaleOpen
   },
 
   [GET_CODE](state, code) {
