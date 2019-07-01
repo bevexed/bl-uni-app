@@ -52,7 +52,7 @@ image {
     border-radius: 8upx;
 }
 
-.placehoder {
+.placeholder {
     font-family: 苹方 常规;
     font-weight: 400;
     font-size: 24upx;

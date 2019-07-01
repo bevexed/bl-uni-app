@@ -6,7 +6,8 @@
     </div>
 
     <div class="menus">
-      <div :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index"
+      <div :class="['menu', { active: index === menuCurrentSelect }]"
+           v-for="(menu, index) in menuData" :key="index"
            @touchend="changeMenu(index)">
         {{ menu }}
       </div>
@@ -21,7 +22,7 @@
           <div class="left">
             <img class="search" src="../../static/icon/search.svg" mode="" alt="">
             <input v-model="pno" type="text" value="" placeholder="搜索商品编码" confirm-type="search"
-                   placeholder-class="placehoder"/>
+                   placeholder-class="placeholder"/>
           </div>
 
           <img
@@ -32,9 +33,6 @@
             alt=""/>
         </div>
 
-
-        <!-- 克重-->
-        <!-- 克重-->
         <!-- 克重-->
         <div class="weigh">
           <div class="label">
@@ -44,15 +42,13 @@
 
           <div class="value">
             <input class="input" v-model="weight[0]" type="number" placeholder="最小值"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
             <input class="input" v-model="weight[1]" type="number" placeholder="最大值"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
 
-        <!-- 幅宽-->
-        <!-- 幅宽-->
         <!-- 幅宽-->
         <div class="weigh">
           <div class="label">
@@ -62,10 +58,10 @@
 
           <div class="value">
             <input class="input" v-model="width[0]" type="number" placeholder="最小值"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
             <input class="input" v-model="width[1]" type="number" placeholder="最大值"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
 
@@ -74,17 +70,15 @@
             分类
             <img :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode="" alt=""/>
           </div>
-          <div :class="['tags', { active: showColorMore }]">
-            <uni-tag
-              class="tag"
-              :text="category.name"
-              :type="categoryId.includes(category.id) ? 'success' : 'primary'"
-              :inverted="true"
+          <ul :class="['tags', { active: showColorMore }]">
+            <li
+              :class="['tag',{ 'active' : categoryId === category.id}]"
               v-for="(category, index) in categories"
               :key="index"
-              @click="selectTag('categoryId', category.id)"
-            />
-          </div>
+              @click="selectTag(category.id)"
+            >{{ category.name }}
+            </li>
+          </ul>
         </div>
 
         <div class="price">
@@ -95,10 +89,10 @@
 
           <div class="value">
             <input class="input" v-model="price[0]" type="number" placeholder="最低价"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
             <input class="input" v-model="price[1]" type="number" placeholder="最高价"
-                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+                   placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
 
@@ -118,11 +112,11 @@
         <div class="my-button plain" @tap="changeMenu(0)">重置</div>
 
         <div class="my-button" @tap="doSearch">确定</div>
-        </view>
+      </div>
     </uni-drawer>
 
     <!-- 抽屉2 -->
-    <uni-drawer :visible="menuCurrentSelect === 2 && showListShow" mode="right" @close="onDrawerClose"
+    <uni-drawer :visible="menuCurrentSelect === 2 && sortPageShow" mode="right" @close="onDrawerClose"
                 class="drawer drawer-2">
       <scroll-view scroll-y class="drawer-wrap">
         <!-- 排序 -->
@@ -140,7 +134,12 @@
 
     <!-- 商品列表 -->
     <div class="list">
-      <div class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
+      <div class="item"
+           v-for="(product,index) in productList" :key="index"
+           @tap="authenticationTo({
+              status: userInfo.status,
+              url: '/pages/shop-detail/shop-detail?id=' + product.id
+           })">
         <img :src="product.imageShow" mode="aspectFill" lazy-load alt=""/>
         <div class="name">{{ product.pno }}</div>
         <div class="price">
@@ -165,9 +164,8 @@
 <script>
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { mapActions, mapState } from 'vuex'
-  import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
-  import { authenticationTo } from "../../utils";
-  import { SMG } from "../../utils";
+  import { uniDrawer, uniNavBar, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { authenticationTo, toTop, SMG } from "../../utils";
 
   let observer = null;
 
@@ -175,7 +173,6 @@
     components: {
       uniDrawer,
       uniNavBar,
-      uniTag,
       uniCollapse,
       uniCollapseItem,
       CustmerPhone
@@ -202,7 +199,7 @@
         // 显示更多颜色
         showColorMore: false,
         // 当前选分类
-        categoryId: [],
+        categoryId: '',
         // 显示更多颜色
         showTagsMore: false,
         // 返回顶部显示
@@ -217,7 +214,7 @@
         // 当前选择排序方式
         currentSortState: 0,
 
-        showListShow: false,
+        sortPageShow: false,
 
         agreement: false,
 
@@ -230,65 +227,7 @@
 
     methods: {
       ...mapActions('Products', ['getProducts', 'getCategories']),
-      SMG,
-      reset() {
-        this.categoryId = [];
-        this.agreement = false;
-        this.pno = '';
-        this.weight = [];
-        this.width = [];
-        this.price = [];
-        this.currentSortState = 0;
-      },
-      async getData() {
-        let { categoryId, agreement, pno, weight, page, width, price, currentSortState } = this;
-        return await this.getProducts({
-          page,
-          pageSize: 10,
-          pno,
-          categoryId: categoryId.toString(),
-          hasStock: agreement,
-          status: this.userInfo.status || '',
-          weight: weight.toString(),
-          width: width.toString(),
-          price: price.toString(),
-          sort: this.sortList[currentSortState].value,
-        });
-      },
-
-      selectTag(currentState, tag_name) {
-        if (this[currentState].includes(tag_name)) {
-          this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
-          return;
-        }
-        this[currentState].push(tag_name);
-      },
-
-      async doSearch() {
-        let { categoryId, agreement, pno, weight, width, price, currentSortState } = this;
-        let res = await this.getProducts({
-          page: 1,
-          pageSize: 10,
-          pno,
-          categoryId: categoryId.toString(),
-          hasStock: agreement,
-          status: this.userInfo.status,
-          weight: weight.toString(),
-          width: width.toString(),
-          price: price.toString(),
-          sort: this.sortList[currentSortState].value,
-
-          reset: true
-        });
-
-        if (res) {
-          this.drawerShow = false;
-        }
-
-        return res
-
-      },
-
+      authenticationTo, toTop, SMG,
       async changeMenu(index) {
         if (this.userInfo.status !== 2) return authenticationTo({ status: this.userInfo.status });
 
@@ -308,8 +247,78 @@
         }
 
         if (index === 2) {
-          this.showListShow = true;
+          this.sortPageShow = true;
         }
+      },
+
+      /**
+       * @function 重置页面状态
+       */
+      reset() {
+        this.categoryId = '';
+        this.agreement = false;
+        this.pno = '';
+        this.weight = [];
+        this.width = [];
+        this.price = [];
+        this.currentSortState = 0;
+      },
+
+      /**
+       * @function 筛选
+       * @returns {Promise<boolean|*>}
+       */
+      async doSearch() {
+        let { categoryId, agreement, pno, weight, width, price, currentSortState } = this;
+        let res = await this.getProducts({
+          page: 1,
+          pageSize: 10,
+          pno,
+          categoryId,
+          hasStock: agreement,
+          status: this.userInfo.status,
+          weight: weight.toString(),
+          width: width.toString(),
+          price: price.toString(),
+          sort: this.sortList[currentSortState].value,
+
+          reset: true
+        });
+
+        if (res) {
+          this.drawerShow = false;
+        }
+
+        return res
+
+      },
+
+      /**
+       * @function 获取 第二页 及 以后的数据
+       * @returns {Promise<boolean|*>}
+       */
+      async getData() {
+        let { categoryId, agreement, pno, weight, page, width, price, currentSortState } = this;
+        return await this.getProducts({
+          page,
+          pageSize: 10,
+          pno,
+          categoryId,
+          hasStock: agreement,
+          status: this.userInfo.status || '',
+          weight: weight.toString(),
+          width: width.toString(),
+          price: price.toString(),
+          sort: this.sortList[currentSortState].value,
+        });
+      },
+
+      selectTag(index) {
+        if (this.categoryId === index) {
+          return this.categoryId = ''
+        }
+        this.categoryId = index
+
       },
 
       onDrawerClose() {
@@ -319,13 +328,6 @@
         this.menuCurrentSelect = 0;
       },
 
-      // 返回顶部
-      toTop() {
-        uni.pageScrollTo({
-          scrollTop: 0,
-          duration: 300
-        });
-      },
 
       // 监听 toTop 显示
       toTopShow() {
@@ -343,37 +345,24 @@
             .exec();
         }, 300);
       },
-      hidePopup() {
-      },
-      bindChange(e) {
-        console.log(e);
-        const val = e.detail.value[0];
-        this.currentPickerValue = val;
-      },
-      moveHandle() {
-      },
+
 
       async selectSortType(index) {
         this.currentSortState = index;
         let res = await this.doSearch();
         if (res) {
           this.toTop();
-          this.showListShow = false
+          this.sortPageShow = false
         }
       },
 
-      toDetail(id) {
-        authenticationTo({
-          status: this.userInfo.status,
-          url: '/pages/shop-detail/shop-detail?id=' + id
-        });
-      }
     },
 
   };
 </script>
 
 <style lang="scss" scoped>
+  @import "../../uni";
 .lining {
     .white-space {
         height: 120upx;
@@ -496,12 +485,21 @@
                 max-height: 1200upx;
             }
             .tag {
-                margin: 0 4upx 30upx 0;
-                width: 24%;
-                padding: 0;
-                text-align: center;
-                overflow: hidden;
-                font-size: 24upx;
+              margin: 0 upx(4) upx(30) 0;
+              border-radius: upx(8);
+              height: upx(60);
+              line-height: upx(60);
+              width: 23%;
+              padding: 0;
+              text-align: center;
+              overflow: hidden;
+              font-size: upx(24);
+              border:upx(2) solid #CCC;
+              color: #ccc;
+              &.active{
+                color: $theme-color;
+                border:upx(2) solid rgba(191,160,101,1);
+              }
             }
         }
 
