@@ -10,7 +10,7 @@ import {
   reqAddInvoice, reqApplyInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
 } from "../../api/invoice";
 
-import { MSG_BACK, MSG_TO, SMG } from "../../unit";
+import { MSG_BACK, MSG_TO, SHOW_MODAL, SMG } from "../../unit";
 
 export const addInvoice = async ({ dispatch }, data) => {
   const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type, userId } = data;
@@ -145,13 +145,24 @@ export const doUpdateInvoice = async ({}, data) => {
     }
   }
 
-  let res = await upDateInvoice(data);
+  SHOW_MODAL({
+    title: '编辑开票信息',
+    content: '是否保存本次编辑结果？',
+    async confirm() {
+      let res = await upDateInvoice(data);
 
-  if (res.code === 200) {
-    MSG_BACK({
-      title:'修改成功'
-    })
-  }
+      if (res.code === 200) {
+        MSG_BACK({
+          title:'修改成功'
+        })
+      }
+    },
+    cancel() {
+
+    }
+  })
+
+
 };
 
 export const applyInvoice = async ({ commit, state }, orderId) => {

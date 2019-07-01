@@ -183,7 +183,7 @@
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
   import { reqShare } from "../../api/products";
-  import { SMG } from "../../unit";
+  import { MSG_RELAUNCH, MSG_TO, SMG } from "../../unit";
 
   export default {
     components: {
@@ -198,6 +198,13 @@
       await this.getProduct(this.id);
     },
     onLoad(query) {
+      if (this.userInfo.status !== 2) {
+        return MSG_RELAUNCH({
+          title: '暂无无权限查看此页面',
+          url: '/pages/home/home'
+        })
+      }
+
       this.id = query.id;
 
       uni.showShareMenu({
@@ -265,7 +272,8 @@
         banners: state => state.product.carouselFigure,
         productParams: state => state.product.parameters ? Object.entries(state.product.parameters) : ''
       }),
-      ...mapState('Products', ['product'])
+      ...mapState('Products', ['product']),
+      ...mapState('User', ['userInfo']),
     },
     methods: {
       ...mapActions('Products', ['getProduct']),
