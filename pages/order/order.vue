@@ -480,7 +480,7 @@
         SHOW_MODAL({
           title: '签收发票',
           content: '确定收到发票了吗?',
-          confirm() {
+          async confirm() {
             let res = await reqSignInvoice({ id: orderId, isPass: true });
             if (res.code === 200) {
               uni.showToast({
