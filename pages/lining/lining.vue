@@ -347,23 +347,7 @@
       },
       moveHandle() {
       },
-      sureSelect() {
-        this.popShow = true;
-        this.sortShow = false;
-      },
-      chooseImg(sourceType) {
-        uni.chooseImage({
-          success(res) {
-            console.log('选择图片完成', res);
-            // uni.navigateTo({
-            //     url: '/clipper/clipper?imgUrl=' + res.tempFiles[0].path + '&path=lining'
-            // });
-          },
-          count: 1,
-          sourceType: [sourceType],
-          sizeType: ['original']
-        });
-      },
+
       async selectSortType(index) {
         this.currentSortState = index;
         let res = await this.doSearch();
@@ -372,6 +356,7 @@
           this.showListShow = false
         }
       },
+
       toDetail(id) {
         authenticationTo({
           status: this.userInfo.status,

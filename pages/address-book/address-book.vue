@@ -10,7 +10,6 @@
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
             <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-                <!-- <image class="gou" src="../static/icon/gou.svg" mode=""></image> -->
               <view @tap="selectAddress(address)">
                 <view class="header">
                   <view class="label">收件人：</view>

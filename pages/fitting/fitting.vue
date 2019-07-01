@@ -42,11 +42,6 @@
 
                 <view class="touchbar">
                   <image class="add" src="../../static/icon/add.svg" mode="" @tap="onTouchBarButton('add')"></image>
-                    <!-- <view class="my-slider">
-                        <view class="my-slider-background"></view>
-                        <view class="my-slider-selected" :style="{ height: currentBar + 'px' }"></view>
-                        <view class="my-slider-bar" :style="{ top: currentBar - 2 + 'px' }" @touchmove.stop.prevent="onChangeBar($event)" @touchend.stop.prevent="onChangeBarEnd()"></view>
-                    </view> -->
                   <image class="reduce" src="../../static/icon/reduce.svg" mode=""
                          @tap="onTouchBarButton('reduce')"></image>
                 </view>
@@ -72,21 +67,10 @@
                     <image :src="img.pattern" mode=""></image>
                     </view>
                 </swiper-item>
-
-                <!-- 上传图片 -->
-               <!-- <swiper-item key="add">
-                    <view class="swiper-item upload-style"><image src="../static/icon/adds.png" mode="center" @tap="popShow = true"></image></view>
-                </swiper-item> -->
             </swiper>
           <image class="next" src="../../static/icon/before.svg" mode=""></image>
         </view>
 
-        <!-- <view :class="['pop-wrap']" v-show="popShow" @touchmove.prevent.stop @tap="popShow = false">
-            <view :class="['pop']" @tap.stop="chooseImg">
-                <image src="../static/icon/com.png" mode="aspectFill"></image>
-                <text>本地上传</text>
-            </view>
-        </view> -->
     </view>
 </template>
 

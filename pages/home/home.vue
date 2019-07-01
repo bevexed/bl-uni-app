@@ -41,13 +41,6 @@
                         <!-- 商品图片 -->
                       <image lazy-load mode="aspectFill" :src="second[1].url" @tap="toDetail(second[1].productId)"
                              alt=""></image>
-                        <!-- 商品名称 -->
-                      <!--                        <view class="name">-->
-                      <!--                            <text>Gyms Wome</text>-->
-                      <!--                            <image mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
-                      <!--                        </view>-->
-                      <!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
-                      <!--                      <view class="shop-count">{{ second[1].pno }}</view>-->
                     </view>
 
                     <!-- 右部预览项目 -->
@@ -56,13 +49,6 @@
                       <image lazy-load mode="aspectFill" :src="second[2].url" @tap="toDetail(second[2].productId)"
                              alt=""></image>
 
-                        <!-- 商品名称 -->
-                      <!--                        <view class="name">-->
-                      <!--                            <text>Sexy Dres</text>-->
-                      <!--                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
-                      <!--                        </view>-->
-                      <!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
-                      <!--                      <view class="shop-count">{{ second[2].pno }}</view>-->
                     </view>
                 </view>
             </view>
@@ -86,13 +72,6 @@
                       <image lazy-load mode="aspectFill" :src="third[1].url" @tap="toDetail(third[1].productId)"
                              alt=""></image>
 
-<!--                        &lt;!&ndash; 商品名称 &ndash;&gt;-->
-<!--                        <view class="name">-->
-<!--                            <text>Men T-shirt</text>-->
-<!--                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
-<!--                        </view>-->
-<!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
-<!--                      <view class="shop-count">{{ third[1].pno }}</view>-->
                     </view>
 
                     <!-- 右部预览项目 -->
@@ -100,13 +79,6 @@
                         <!-- 商品图片 -->
                       <image lazy-load mode="aspectFill" :src="third[2].url" @tap="toDetail(third[2].productId)"
                              alt=""></image>
-<!--                        &lt;!&ndash; 商品名称 &ndash;&gt;-->
-<!--                        <view class="name">-->
-<!--                            <text>Beauty Dres</text>-->
-<!--                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
-<!--                        </view>-->
-<!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
-<!--                      <view class="shop-count">{{third[2].pno}}</view>-->
                     </view>
                 </view>
             </view>
