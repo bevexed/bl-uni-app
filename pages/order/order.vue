@@ -136,7 +136,7 @@
                       <view class="button  cancel" v-if="order.status === '待发货'" @tap="remindOrder(order.orderId)">
                         催单
                       </view>
-                      <view class="button  pay" v-if="order.status === '待收货'" @tap="doConfirmReceipt(order.orderId)">
+                      <view class="button  pay" v-if="order.status === '待收货'" @tap="confirmReceipt(order.orderId)">
                         确认收货
                       </view>
 
@@ -338,10 +338,6 @@
     methods: {
       ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder', 'deleteOrder']),
       ...mapActions('Sale', ['getAfterSaleList']),
-      async doConfirmReceipt(id) {
-        await this.confirmReceipt(id);
-        this.getData();
-      },
       swiperChange(e) {
         let { current } = e.target;
         this.TabCur = current;

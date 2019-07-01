@@ -83,6 +83,7 @@ export const confirmReceipt = async ({ dispatch }, data) => {
     async confirm() {
       let res = await reqConfirmReceipt(data);
       if (res.code === 200) {
+        await dispatch('getOrderList');
         uni.showToast({
           title: '收货成功'
         })

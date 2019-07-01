@@ -1,26 +1,23 @@
 <template>
-    <view class="pay">
-        <view class="title">选择支付方式</view>
-        <view class="pay-types">
-          <view class="type" @tap="changePayType('wxPay')">
-            <view :class="['select', { active: payTypes.wxPay }]">
-              <view class="selected"></view>
-            </view>
-                <text @tap="wxPay">微信支付</text>
-            </view>
-            <view class="type">
-              <view :class="['select', { active: payTypes.bankPay }]" @tap="changePayType('bankPay')">
-                <view class="selected"></view>
-              </view>
-              <text @tap="changePayType('bankPay')">银行转账</text>
-              <view class="upload" @tap="chooseImg" :style="{color:payTypes.bankPay?'#bfa065':'#999'}">点击上传汇款凭证</view>
-            </view>
-        </view>
-
-      <!--        <view class="rule upload">账户规则</view>-->
-      <!--        <view class="supply">本服务由新天元财富提供</view>-->
-      <view class="button" @tap="payOrder(payData)">确认支付</view>
-    </view>
+  <div class="pay">
+    <div class="title">选择支付方式</div>
+    <div class="pay-types">
+      <div class="type" @tap="changePayType('wxPay')">
+        <div :class="['select', { active: payTypes.wxPay }]">
+          <div class="selected"></div>
+        </div>
+        <text @tap="wxPay">微信支付</text>
+      </div>
+      <div class="type">
+        <div :class="['select', { active: payTypes.bankPay }]" @tap="changePayType('bankPay')">
+          <div class="selected"></div>
+        </div>
+        <text @tap="changePayType('bankPay')">银行转账</text>
+        <div class="upload" @tap="chooseImg" :style="{color:payTypes.bankPay?'#bfa065':'#999'}">点击上传汇款凭证</div>
+      </div>
+    </div>
+    <div class="button" @tap="payOrder(payData)">确认支付</div>
+  </div>
 </template>
 
 <script>
@@ -63,7 +60,7 @@
         // 准备数据
         switch (cur) {
           case 'wxPay':
-            await this.wxPay();
+            await this.wxPay(code);
             break;
           case 'bankPay':
             await this.bankPay();
@@ -71,9 +68,9 @@
         }
       },
 
+      // fixMe:支付
       async wxPay() {
         let { orderNum, amount } = this;
-
         const code = await this.getCode();
 
         this.payData = {
@@ -122,89 +119,95 @@
 </script>
 
 <style lang="scss" scoped>
-.pay {
+  @import "../../uni";
+
+  .pay {
     padding: 0 $white-space;
+
     .title {
-        font-size: 32upx;
-        font-family: PingFang-SC-Bold;
-        font-weight: bold;
-        color: rgba(51, 51, 51, 1);
-        text-align: center;
+      font-size: upx(32);
+      font-family: PingFang-SC-Bold, serif;
+      font-weight: bold;
+      color: rgba(51, 51, 51, 1);
+      text-align: center;
     }
 
     .pay-types {
-        padding: 20upx 0;
+      padding: upx(20) 0;
 
-        .type {
-            display: flex;
-            align-items: center;
-            font-size: 32upx;
-            font-weight: 400;
-            padding: 50upx 0 32upx;
-            border-top: 2upx solid #eeeeee;
+      .type {
+        display: flex;
+        align-items: center;
+        font-size: upx(32);
+        font-weight: 400;
+        padding: upx(50) 0 upx(32);
+        border-top: upx(2) solid #eeeeee;
 
-            &:last-child {
-                border-bottom: 2upx solid #eeeeee;
-            }
-            text {
-                margin-left: 20upx;
-                flex: 1;
-            }
+        &:last-child {
+          border-bottom: upx(2) solid #eeeeee;
         }
+
+        text {
+          margin-left: upx(20);
+          flex: 1;
+        }
+      }
     }
 
     .upload {
-        font-size: 24upx;
-        font-family: PingFang-SC-Regular;
-        font-weight: 400;
-        color: $theme-color;
-        text-decoration: underline;
+      font-size: upx(24);
+      font-family: PingFang-SC-Regular, serif;
+      font-weight: 400;
+      color: $theme-color;
+      text-decoration: underline;
     }
 
     .rule {
-        text-align: center;
-        margin-top: 620upx;
+      text-align: center;
+      margin-top: upx(620);
     }
 
     .supply {
-        font-size: 24upx;
-        font-family: PingFang-SC-Medium;
-        font-weight: 500;
-        color: rgba(102, 102, 102, 1);
-        text-align: center;
-        margin-top: 4upx;
+      font-size: upx(24);
+      font-family: PingFang-SC-Medium, serif;
+      font-weight: 500;
+      color: rgba(102, 102, 102, 1);
+      text-align: center;
+      margin-top: upx(4);
     }
 
     .button {
-        margin-top: 20upx;
-        font-size: 28upx;
-        font-family: PingFang-SC-Bold;
-        font-weight: bold;
-        color: #fff;
-        background: $theme-color;
-        text-align: center;
-        border-radius: 8upx;
-        height: 80upx;
-        line-height: 80upx;
+      margin-top: upx(20);
+      font-size: upx(28);
+      font-family: PingFang-SC-Bold, serif;
+      font-weight: bold;
+      color: #fff;
+      background: $theme-color;
+      text-align: center;
+      border-radius: upx(8);
+      height: upx(80);
+      line-height: upx(80);
     }
 
     .select {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30upx;
-        height: 30upx;
-        border-radius: 50%;
-        border: 1px solid rgba(204, 204, 204, 1);
-        &.active {
-            border-color: $theme-color;
-            .selected {
-                width: 18upx;
-                height: 18upx;
-                background: $theme-color;
-                border-radius: 50%;
-            }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: upx(30);
+      height: upx(30);
+      border-radius: 50%;
+      border: 1px solid rgba(204, 204, 204, 1);
+
+      &.active {
+        border-color: $theme-color;
+
+        .selected {
+          width: upx(18);
+          height: upx(18);
+          background: $theme-color;
+          border-radius: 50%;
         }
+      }
     }
-}
+  }
 </style>
