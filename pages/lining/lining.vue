@@ -253,7 +253,7 @@
         sortList: [
           { text: '综合', value: 'composite_desc' },
           { text: '最新上架', value: 'shelves_desc' },
-          { text: '按销量', value: 'sale_asc' },
+          { text: '按销量', value: 'sale_desc' },
           { text: '价格从高到底', value: 'price_desc' },
           { text: '价格从低到高', value: 'price_asc' }],
         // 当前选择排序方式

@@ -21,9 +21,17 @@ export default {
       tagCurrentSelect: []
     };
 
-    state.goods = data.map(item => {
+    state.goods = data
+      .map(item => {
       return { ...item, ...base }
-    });
+      })
+      .filter(item => item.status !== 9);
+
+    state.u_goods = data
+      .map(item => {
+        return { ...item, ...base }
+      })
+      .filter(item => item.status === 9);
   },
 
   [SELECT_PRODUCT](state, data) {

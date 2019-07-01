@@ -23,8 +23,7 @@
             <!-- 商品 -->
             <view class="goods">
               <!--未失效-->
-              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods"
-                    v-if="good.status !== 9" :key="i">
+              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods" :key="i">
                 <view class="good">
                   <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">
                     <view class="selected"></view>
@@ -100,8 +99,7 @@
               </view>
 
               <!--已失效商品-->
-              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods"
-                    v-if="good.status === 9" :key="i">
+              <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in u_goods" :key="i">
                 <view class="good">
 <!--                  <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">-->
 <!--                    <view class="selected"></view>-->
@@ -239,7 +237,8 @@
     },
     computed: {
       ...mapGetters('Cart', ['total']),
-      ...mapState('Cart', ['goods']),
+      //未失效 goods
+      ...mapState('Cart', ['goods','u_goods']),
       currentSelect() {
         const { edit, goods } = this;
         let state = edit ? 'willDel' : 'willBuy';
@@ -271,7 +270,6 @@
         )
       },
 
-      //fixMe：购物车 全选 过期商品
       selectAllgoods() {
         const { edit, goods, currentSelect } = this;
         let state = edit ? 'willDel' : 'willBuy';
