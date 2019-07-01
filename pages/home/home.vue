@@ -33,7 +33,7 @@
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
-                <view class="title">3th March 2019</view>
+              <view class="title">new fashion gathering place</view>
                 <!-- 图片展示 -->
                 <view class="exhibition">
                     <!-- 左部预览项目 -->
@@ -42,27 +42,27 @@
                       <image lazy-load mode="aspectFill" :src="second[1].url" @tap="toDetail(second[1].productId)"
                              alt=""></image>
                         <!-- 商品名称 -->
-                        <view class="name">
-                            <text>Gyms Wome</text>
-                            <image mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt=""></image>
-                        </view>
-                        <!-- 商品号 -->
-                      <view class="shop-count">{{ second[1].pno }}</view>
+                      <!--                        <view class="name">-->
+                      <!--                            <text>Gyms Wome</text>-->
+                      <!--                            <image mode="aspectFill" class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
+                      <!--                        </view>-->
+                      <!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
+                      <!--                      <view class="shop-count">{{ second[1].pno }}</view>-->
                     </view>
 
                     <!-- 右部预览项目 -->
                     <view class="sm-pic">
-                        <view class="title">FASHION BRANFDS</view>
+                      <view class="title">FASHION BRANDS</view>
                       <image lazy-load mode="aspectFill" :src="second[2].url" @tap="toDetail(second[2].productId)"
                              alt=""></image>
 
                         <!-- 商品名称 -->
-                        <view class="name">
-                            <text>Sexy Dres</text>
-                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
-                        </view>
-                        <!-- 商品号 -->
-                      <view class="shop-count">{{ second[2].pno }}</view>
+                      <!--                        <view class="name">-->
+                      <!--                            <text>Sexy Dres</text>-->
+                      <!--                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
+                      <!--                        </view>-->
+                      <!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
+                      <!--                      <view class="shop-count">{{ second[2].pno }}</view>-->
                     </view>
                 </view>
             </view>
@@ -77,22 +77,22 @@
             <!-- 底部展示区 -->
             <view class="picture-presentation-bottom">
                 <!-- 小字title -->
-                <view class="title">15th February 2019</view>
+              <view class="title">selection of high-quality item</view>
                 <!-- 图片展示 -->
                 <view class="exhibition">
                     <!-- 左部预览项目 -->
                     <view class="sm-pic">
-                        <view class="title">WOVEN FABIC</view>
+                      <view class="title">HOT-SALE</view>
                       <image lazy-load mode="aspectFill" :src="third[1].url" @tap="toDetail(third[1].productId)"
                              alt=""></image>
 
-                        <!-- 商品名称 -->
-                        <view class="name">
-                            <text>Men T-shirt</text>
-                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>
-                        </view>
-                        <!-- 商品号 -->
-                      <view class="shop-count">{{ third[1].pno }}</view>
+<!--                        &lt;!&ndash; 商品名称 &ndash;&gt;-->
+<!--                        <view class="name">-->
+<!--                            <text>Men T-shirt</text>-->
+<!--                            <image lazy-load class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
+<!--                        </view>-->
+<!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
+<!--                      <view class="shop-count">{{ third[1].pno }}</view>-->
                     </view>
 
                     <!-- 右部预览项目 -->
@@ -100,13 +100,13 @@
                         <!-- 商品图片 -->
                       <image lazy-load mode="aspectFill" :src="third[2].url" @tap="toDetail(third[2].productId)"
                              alt=""></image>
-                        <!-- 商品名称 -->
-                        <view class="name">
-                            <text>Beauty Dres</text>
-                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>
-                        </view>
-                        <!-- 商品号 -->
-                      <view class="shop-count">{{third[2].pno}}</view>
+<!--                        &lt;!&ndash; 商品名称 &ndash;&gt;-->
+<!--                        <view class="name">-->
+<!--                            <text>Beauty Dres</text>-->
+<!--                            <image class="more" src="../../static/imgs/home/more.png" alt=""></image>-->
+<!--                        </view>-->
+<!--                        &lt;!&ndash; 商品号 &ndash;&gt;-->
+<!--                      <view class="shop-count">{{third[2].pno}}</view>-->
                     </view>
                 </view>
             </view>

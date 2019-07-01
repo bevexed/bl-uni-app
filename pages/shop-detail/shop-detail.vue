@@ -153,7 +153,7 @@
                     :max="product.stock"
                     :step="1"
                     :value="num"
-                    @change="numChange"></uni-number-box>
+                    @change="numChange($event)"></uni-number-box>
                     <view class="rest unit">米</view>
                 </view>
 
@@ -183,6 +183,7 @@
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
   import { reqShare } from "../../api/products";
+  import { SMG } from "../../unit";
 
   export default {
     components: {
@@ -264,8 +265,32 @@
       ...mapActions('Products', ['getProduct']),
       ...mapActions('Cart', ['addCart', 'selectProduct']),
       ...mapActions('Collect', ['addCollect', 'deleteCollect']),
-      toCreateOrder() {
+
+      async reg() {
         const { product, num, tagCurrentSelect } = this;
+
+        if (num > product.stock) {
+          this.num = product.stock;
+          SMG('超过库存上限，不可操作');
+          return false
+        }
+
+        if (this.num === 0 && tagCurrentSelect.length === 0) {
+          SMG('请选择要购买的小样或者商品');
+          return false
+        }
+
+        return true
+      },
+
+      async toCreateOrder() {
+        const { product, num, tagCurrentSelect } = this;
+
+        let p = await this.reg();
+        if (!p) {
+          return
+        }
+
         this.selectProduct([{
           productId: product.id,
           shoppingNum: num,
@@ -280,7 +305,10 @@
       },
 
       async addCartByNum() {
+
         const { product, num, tagCurrentSelect } = this;
+        this.reg();
+
         let res = await this.addCart({
           productId: product.id,
           shoppingNum: num,
