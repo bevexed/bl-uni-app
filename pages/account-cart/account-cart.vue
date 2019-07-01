@@ -207,14 +207,15 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../uni";
 .account-cart {
     padding: 0 $white-space 64upx;
     .title {
         color: #333;
-        font-size: 32upx;
+      font-size: upx(32);
         font-weight: 500;
         text-align: center;
-        border-bottom: 2upx solid #eeeeee;
+      border-bottom: upx(2) solid #eeeeee;
         padding: 12upx $white-space 24upx;
     }
 
@@ -224,7 +225,7 @@
         padding: $white-space 0;
 
         &.active {
-            border-bottom: 2upx solid #eeeeee;
+          border-bottom: upx(2) solid #eeeeee;
         }
         .label {
             font-size: 28upx;
@@ -239,7 +240,7 @@
             justify-content: center;
             align-items: center;
             font-size: 28upx;
-            font-family: PingFang-SC-Regular;
+          font-family: PingFang-SC-Regular, serif;
             font-weight: 400;
             color: #333;
         }

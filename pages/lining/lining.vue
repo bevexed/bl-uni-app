@@ -153,42 +153,7 @@
             </view>
         </view>
 
-        <!-- 选择 分类 弹窗 -->
-      <view class="pop-wrap" v-show="sortShow" @touchmove.stop.prevent="moveHandle" @tap.self="sortShow = false">
-        <view class="my-pop">
-          <view class="pop-top">
-            <text @tap="sortShow = false">取消</text>
-            <text class="sure" @tap="sureSelect">选择</text>
-          </view>
-
-          <picker-view class="pick" indicator-style="height: 40px;" :value="defaultPicker" @change="bindChange">
-            <picker-view-column>
-              <view class="select" v-for="(sort, index) in sorts" :key="index">
-                <view class="value">{{ sort }}</view>
-              </view>
-            </picker-view-column>
-          </picker-view>
-
-          <!--              <view class="line left"></view>
-          <view class="line right"></view> -->
-        </view>
-      </view>
-
-        <!-- 相机拍照 我的相册 弹窗 -->
-        <view class="pop-wrap" v-show="popShow" @touchmove.stop.prevent="moveHandle" @tap="popShow = false">
-            <view class="pop" @tap.stop="chooseImg">
-                <view @tap.stop="chooseImg('camera')">
-                    <image src="../../static/icon/photo.png"></image>
-                    <text>照相拍照</text>
-                </view>
-                <view @tap.stop="chooseImg('album')">
-                    <image src="../../static/icon/pic.png"></image>
-                    <text>我的相册</text>
-                </view>
-            </view>
-        </view>
-
-        <custmer-phone />
+      <custmer-phone />
     </view>
 </template>
 
@@ -237,16 +202,6 @@
         showTagsMore: false,
         // 返回顶部显示
         appear: false,
-        // 分类弹窗
-        sortShow: false,
-        // 相机弹窗
-        popShow: false,
-        // 分类 - 弹出框
-        sorts: ['分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称', '分类-名称'],
-        // 当前分类值
-        defaultPicker: [2],
-        // 当前选择分类值
-        currentPickerValue: 2,
         // 排序
         sortList: [
           { text: '综合', value: 'composite_desc' },
