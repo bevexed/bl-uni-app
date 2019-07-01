@@ -184,10 +184,10 @@
     onUnload() {
     },
     onReady() {
-      this.getData();
+      this.getProducts(this.collectData());
     },
     onReachBottom() {
-      this.getData();
+      this.getProducts(this.collectData());
     },
     data() {
       return {
@@ -275,45 +275,8 @@
        */
 
       collectData() {
-
-      },
-
-      /**
-       * @function 筛选
-       * @returns {Promise<boolean|*>}
-       */
-      async doSearch() {
-        let { categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
-        let res = await this.getProducts({
-          page: 1,
-          pageSize: 10,
-          pno,
-          categoryId,
-          hasStock: agreement,
-          status: this.userInfo.status,
-          weight: weightMin + ',' + weightMax,
-          width: widthMin + ',' + widthMax,
-          price: priceMin + ',' + priceMax,
-          sort: this.sortList[currentSortState].value,
-
-          reset: true
-        });
-
-        if (res) {
-          this.drawerShow = false;
-        }
-
-        return res
-
-      },
-
-      /**
-       * @function 获取 第二页 及 以后的数据
-       * @returns {Promise<boolean|*>}
-       */
-      async getData() {
         let { page, categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
-        return await this.getProducts({
+        return {
           page,
           pageSize: 10,
           pno,
@@ -324,7 +287,27 @@
           width: widthMin + ',' + widthMax,
           price: priceMin + ',' + priceMax,
           sort: this.sortList[currentSortState].value,
+        }
+      },
+
+      /**
+       * @function 筛选
+       * @returns {Promise<boolean|*>}
+       */
+      async doSearch() {
+        let res = await this.getProducts({
+          ...this.collectData(),
+          page: 1,
+          reset: true
         });
+
+        if (res) {
+          this.drawerShow = false;
+          toTop()
+        }
+
+        return res
+
       },
 
       selectTag(index) {
