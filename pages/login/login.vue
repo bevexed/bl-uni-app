@@ -20,7 +20,7 @@
             <view>
                 <text class="star"></text>
                 已阅读并同意购物条款并了解
-                <text class="href">隐私政策</text>
+              <text class="href" @tap="toAgreement">隐私政策</text>
             </view>
         </view>
 
@@ -105,6 +105,11 @@
         if (agreement && phone.length === 11 && code.length >= 4) {
           await this.doLogin({ phone, verify: code });
         }
+      },
+      async toAgreement() {
+        uni.navigateTo({
+          url: '/pages/agreement/agreement'
+        })
       }
     }
 };

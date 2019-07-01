@@ -123,6 +123,9 @@
     },
     {
       "path": "pages/contact/contact"
+    },
+    {
+      "path": "pages/agreement/agreement"
     }
   ],
   "subPackages": [

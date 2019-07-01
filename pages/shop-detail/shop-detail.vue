@@ -192,6 +192,9 @@
       uniTag
     },
     async onShow() {
+      this.addCartState = true;
+      this.selectShow = false;
+
       await this.getProduct(this.id);
     },
     onLoad(query) {
@@ -253,6 +256,8 @@
     },
     onUnload(){
       this.$store.state.Products.product = {}
+      // 当前是否加入购物车
+
     },
     computed: {
       ...mapState('Products', {
