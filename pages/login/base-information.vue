@@ -31,7 +31,7 @@
       <view>
         <text class="star"></text>
         已阅读并同意购物条款并了解
-        <text class="href">隐私政策</text>
+        <text class="href" @tap="toAgreement">隐私政策</text>
       </view>
     </view>
 
@@ -71,6 +71,11 @@
     },
     methods: {
       ...mapActions('User', ['getVerify', 'doLogin']),
+      async toAgreement() {
+        uni.navigateTo({
+          url: '/pages/agreement/agreement'
+        })
+      },
       async sendMsg() {
 
         let { phone, send, time, timer } = this;
