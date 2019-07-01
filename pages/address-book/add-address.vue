@@ -83,7 +83,7 @@
         </view>
 
         <view class="buttons">
-            <view class="cancel">取消</view>
+          <view class="cancel" @tap="back">取消</view>
 
           <view class="save" @tap="doChange">保存
           </view>
@@ -123,6 +123,9 @@
     },
     methods: {
       ...mapActions('Address', ['addAddress', 'changeAddress']),
+      back() {
+        uni.navigateBack({ delta: 1 })
+      },
       doChange() {
         let { addressee, phone, other, defaultAddress, id, addressDataList } = this;
         let data = {

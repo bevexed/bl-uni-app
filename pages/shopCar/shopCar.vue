@@ -271,12 +271,13 @@
         )
       },
 
+      //fixMe：购物车 全选 过期商品
       selectAllgoods() {
         const { edit, goods, currentSelect } = this;
         let state = edit ? 'willDel' : 'willBuy';
         if (currentSelect.length === goods.length) {
           // 说明已全选
-          this.goods.map(good => (good[state] = false));
+          this.goods.filter(good => good.status).map(good => (good[state] = false));
           return;
         }
         this.goods.map(good => (good[state] = true));

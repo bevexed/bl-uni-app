@@ -11,7 +11,7 @@ import {
   reqChangeAddress
 } from "../../api/address";
 
-import { MSG_BACK, SMG } from "../../unit";
+import { MSG_BACK, SHOW_MODAL, SMG } from "../../unit";
 
 export const addAddress = async ({ dispatch }, data) => {
   let { addressee, city, county, phone, province, other } = data;
@@ -59,23 +59,20 @@ export const getAllAddress = async ({ commit }) => {
 };
 
 export const deleteAddress = async ({ dispatch }, id) => {
-  uni.showModal({
+  SHOW_MODAL({
     title: '删除地址',
     content: '确认删除地址？',
-    confirmColor: '#BFA065',
-    async success(res) {
-      if (res.confirm) {
-        console.log('用户点击确定');
-        let res = await reqDeleteAddress(id);
-        if (res.code === 200) {
-          await dispatch('getAllAddress');
-          uni.showToast({
-            title: '删除成功'
-          })
-        }
-      } else if (res.cancel) {
-        console.log('用户点击取消');
+    async confirm() {
+      let res = await reqDeleteAddress(id);
+      if (res.code === 200) {
+        await dispatch('getAllAddress');
+        uni.showToast({
+          title: '删除成功'
+        })
       }
+    },
+    cancel() {
+
     }
   });
 };
@@ -113,25 +110,21 @@ export const changeAddress = async ({ dispatch }, data) => {
     return
   }
 
-  let res = await reqChangeAddress(data);
-  if (res.code === 200) {
-    uni.showToast({
-      title: '修改成功',
-      mask: true,
-      duration: 2000,
-      success(res) {
-        setTimeout(() => {
-          uni.navigateBack({
-            delta: 1,
-            fail(res) {
-              uni.navigateTo({
-                url: '/pages/address-book/address-book'
-              })
-            }
-          })
-
-        }, 2000)
+  SHOW_MODAL({
+    title: '编辑地址',
+    content: '是否保存本次编辑结果？',
+    async confirm() {
+      let res = await reqChangeAddress(data);
+      if (res.code === 200) {
+        MSG_BACK({
+          title: '修改成功'
+        })
       }
-    })
-  }
+    },
+    cancel() {
+
+    }
+  })
+
+
 };
