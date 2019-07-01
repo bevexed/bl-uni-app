@@ -41,10 +41,10 @@
           </div>
 
           <div class="value">
-            <input class="input" v-model="weight[0]" type="number" placeholder="最小值"
+            <input class="input" v-model="weightMin" type="number" placeholder="最小值"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
-            <input class="input" v-model="weight[1]" type="number" placeholder="最大值"
+            <input class="input" v-model="weightMax" type="number" placeholder="最大值"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
@@ -57,10 +57,10 @@
           </div>
 
           <div class="value">
-            <input class="input" v-model="width[0]" type="number" placeholder="最小值"
+            <input class="input" v-model="widthMin" type="number" placeholder="最小值"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
-            <input class="input" v-model="width[1]" type="number" placeholder="最大值"
+            <input class="input" v-model="widthMax" type="number" placeholder="最大值"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
@@ -88,10 +88,10 @@
           </div>
 
           <div class="value">
-            <input class="input" v-model="price[0]" type="number" placeholder="最低价"
+            <input class="input" v-model="priceMin" type="number" placeholder="最低价"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
             <div class="hr"></div>
-            <input class="input" v-model="price[1]" type="number" placeholder="最高价"
+            <input class="input" v-model="priceMax" type="number" placeholder="最高价"
                    placeholder-class="placeholder" placeholder-style="text-align:center"/>
           </div>
         </div>
@@ -109,7 +109,7 @@
         <div class="white-space"></div>
       </scroll-view>
       <div class="buttons">
-        <div class="my-button plain" @tap="changeMenu(0)">重置</div>
+        <div class="my-button plain" @tap="reset()">重置</div>
 
         <div class="my-button" @tap="doSearch">确定</div>
       </div>
@@ -219,9 +219,12 @@
         agreement: false,
 
         pno: '',
-        weight: [],
-        width: [],
-        price: []
+        weightMin: '',
+        weightMax: '',
+        widthMin: '',
+        widthMax: '',
+        priceMin: '',
+        priceMax: ''
       };
     },
 
@@ -258,10 +261,21 @@
         this.categoryId = '';
         this.agreement = false;
         this.pno = '';
-        this.weight = [];
-        this.width = [];
-        this.price = [];
+        this.weightMin = '';
+        this.weightMax = '';
+        this.widthMin = '';
+        this.widthMax = '';
+        this.priceMin = '';
+        this.priceMax = '';
         this.currentSortState = 0;
+      },
+
+      /**
+       * @function 收集数据
+       */
+
+      collectData() {
+
       },
 
       /**
@@ -269,7 +283,7 @@
        * @returns {Promise<boolean|*>}
        */
       async doSearch() {
-        let { categoryId, agreement, pno, weight, width, price, currentSortState } = this;
+        let { categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
         let res = await this.getProducts({
           page: 1,
           pageSize: 10,
@@ -277,9 +291,9 @@
           categoryId,
           hasStock: agreement,
           status: this.userInfo.status,
-          weight: weight.toString(),
-          width: width.toString(),
-          price: price.toString(),
+          weight: weightMin + ',' + weightMax,
+          width: widthMin + ',' + widthMax,
+          price: priceMin + ',' + priceMax,
           sort: this.sortList[currentSortState].value,
 
           reset: true
@@ -298,7 +312,7 @@
        * @returns {Promise<boolean|*>}
        */
       async getData() {
-        let { categoryId, agreement, pno, weight, page, width, price, currentSortState } = this;
+        let { page, categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
         return await this.getProducts({
           page,
           pageSize: 10,
@@ -306,9 +320,9 @@
           categoryId,
           hasStock: agreement,
           status: this.userInfo.status || '',
-          weight: weight.toString(),
-          width: width.toString(),
-          price: price.toString(),
+          weight: weightMin + ',' + weightMax,
+          width: widthMin + ',' + widthMax,
+          price: priceMin + ',' + priceMax,
           sort: this.sortList[currentSortState].value,
         });
       },
