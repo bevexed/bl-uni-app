@@ -30,7 +30,7 @@
       <view :class="['select', { active: agreement }]" @tap="agreement = !agreement"><view class="selected"></view></view>
       <view>
         <text class="star"></text>
-        已阅读并同意购物条款并了解
+        已经阅读并同意
         <text class="href" @tap="toAgreement">隐私政策</text>
       </view>
     </view>

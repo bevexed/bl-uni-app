@@ -73,7 +73,6 @@
             </view>
         </view>
 
-      <!--todo:???-->
       <view class="button"
             v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i"
             @tap="createAfterSale(

@@ -23,13 +23,10 @@
                     </view>
 
                     <image
-                        class="camera"
-                        src="../../static/icon/camera.svg"
-                        mode=""
-                        @tap="
-                            drawerShow = false;
-                            sortShow = true;
-                        "
+                      class="camera"
+                      src="../../static/icon/camera.svg"
+                      mode=""
+                      @tap="SMG('图像识别功能待开发，敬请期待！')"
                     ></image>
                 </view>
 
@@ -200,6 +197,7 @@
   import { mapActions, mapState } from 'vuex'
   import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
   import { authenticationTo } from "../../utils";
+  import { SMG } from "../../utils";
 
   let observer = null;
 
@@ -272,7 +270,7 @@
 
     methods: {
       ...mapActions('Products', ['getProducts', 'getCategories']),
-
+      SMG,
       reset() {
         this.categoryId = [];
         this.agreement = false;

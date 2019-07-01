@@ -81,7 +81,7 @@
                           {{ good.afterSaleStatus }}
                         </view>
                         <view class="shop-after-button"
-                              v-if="good.allowAfterSale"
+                              v-if="good.allowAfterSale && isAfterSaleOpen"
                               @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
                           售后
                         </view>
@@ -103,7 +103,7 @@
                          v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                 </view>
 
-                <view class="pay-detail" v-if="tabList[TabCur].name !== '售后' && isAfterSaleOpen">
+                <view class="pay-detail" v-if="tabList[TabCur].name !== '售后'">
                         <view class="real-pay">
                           <view class="num">共{{ order.product.length }}件商品</view>
                             <view class="label">实付</view>
@@ -299,7 +299,6 @@
     },
 
     onShow() {
-      console.log(this.isAfterSaleOpen);
       if (this.isAfterSaleOpen) {
         this.tabList.push({ name: '售后', value: 40 })
       }

@@ -145,33 +145,6 @@
                   </view>
                 </view>
 
-                <!-- 编辑状态 -->
-<!--                <view class="select-much" v-if="good.willChange && edit">-->
-<!--                  <view class="title">数量选择</view>-->
-<!--                  <uni-number-box-->
-<!--                    :min="0"-->
-<!--                    :max="good.stock"-->
-<!--                    :step="1"-->
-<!--                    :value="good.shoppingNum"-->
-<!--                    @change="numChange($event,i)"></uni-number-box>-->
-<!--                  <view class="rest utils">米</view>-->
-<!--                </view>-->
-
-<!--                <view class="select-small" v-if="good.willChange && edit">-->
-<!--                  <view class="title">小样选择</view>-->
-<!--                  <view :class="['tags']">-->
-<!--                    &lt;!&ndash;todo: step 接口&ndash;&gt;-->
-<!--                    <uni-tag-->
-<!--                      class="tag"-->
-<!--                      :text="tag"-->
-<!--                      :type="good.sampleType? 'success' : 'primary'"-->
-<!--                      :inverted="true"-->
-<!--                      v-for="(tag, index) in good.tagsList"-->
-<!--                      :key="index"-->
-<!--                      @tap="changSampleType(i)"-->
-<!--                    />-->
-<!--                  </view>-->
-<!--                </view>-->
               </view>
             </view>
         </view>
