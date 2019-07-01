@@ -44,7 +44,7 @@
                     <view class="empty" v-else></view>
                     <view class="icon">
                       <image src="../../static/icon/edit.svg" mode="" @tap="edit(ticket.id)"></image>
-                      <image src="../../static/icon/del2.svg" mode=""></image>
+                      <image src="../../static/icon/del2.svg" mode="" @tap="deleteInvoice(ticket.id)"></image>
                     </view>
                 </view>
             </view>
@@ -79,7 +79,7 @@ export default {
     this.getInvoiceList()
   },
   methods: {
-    ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail', 'getInvoiceApplyRequest']),
+    ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail', 'getInvoiceApplyRequest', 'deleteInvoice']),
     toAddticket() {
       uni.navigateTo({
         url: 'add-ticket?id=-1'

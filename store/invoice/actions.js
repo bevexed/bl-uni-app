@@ -7,7 +7,7 @@ import {
 
 import {
   changInvoiceDetail,
-  reqAddInvoice, reqApplyInvoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
+  reqAddInvoice, reqApplyInvoice, reqDeleteIncoice, reqInvoiceDetail, reqInvoiceList, upDateInvoice
 } from "../../api/invoice";
 
 import { MSG_BACK, MSG_TO, SHOW_MODAL, SMG } from "../../unit";
@@ -198,4 +198,20 @@ export const applyInvoice = async ({ commit, state }, orderId) => {
 
 export const getInvoiceApplyRequest = ({ commit }, data) => {
   commit(GET_INVOICE_APPLY_REQUEST, data)
+};
+
+
+export const deleteInvoice = async ({ dispatch }, data) => {
+  SHOW_MODAL({
+    title: '删除开票信息',
+    content: '确定要删除该信息吗?',
+    async confirm() {
+      let res = await reqDeleteIncoice(data);
+      if (res.code === 200) {
+        await dispatch('getInvoiceList');
+        uni.showToast({title:'删除成功'})
+      }
+    }
+  })
+
 };

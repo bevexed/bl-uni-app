@@ -108,3 +108,9 @@ export const reqSignInvoice = ({ id, isPass }) => ajax('/invoice/sign/' + id + '
  */
 export const reqApplyInvoice = invoiceApplyRequest => ajax('/invoice/apply', invoiceApplyRequest, 'POST');
 
+/**
+ * @method 删除开票信息
+ * @param id
+ * @returns {Promise<*>}
+ */
+export const reqDeleteIncoice = id => ajax('/invoice/delete/' + id, {}, 'DELETE');
