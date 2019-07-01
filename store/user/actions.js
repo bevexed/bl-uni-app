@@ -16,7 +16,7 @@ import {
   reqUpdatePhone,
   reqVerify
 } from "../../api/user";
-import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SHOW_MODAL, SMG } from "../../unit";
+import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SHOW_MODAL, SMG } from "../../utils";
 
 export default {
   // 获取code

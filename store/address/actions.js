@@ -11,7 +11,7 @@ import {
   reqChangeAddress
 } from "../../api/address";
 
-import { MSG_BACK, SHOW_MODAL, SMG } from "../../unit";
+import { MSG_BACK, SHOW_MODAL, SMG } from "../../utils";
 
 export const addAddress = async ({ dispatch }, data) => {
   let { addressee, city, county, phone, province, other } = data;
@@ -125,6 +125,5 @@ export const changeAddress = async ({ dispatch }, data) => {
 
     }
   })
-
 
 };

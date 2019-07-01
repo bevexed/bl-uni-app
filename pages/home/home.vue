@@ -134,7 +134,7 @@
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot } from '@dcloudio/uni-ui';
   import { mapActions, mapState } from "vuex";
-  import { authenticationTo } from "../../unit";
+  import { authenticationTo } from "../../utils";
 
   export default {
     components: {

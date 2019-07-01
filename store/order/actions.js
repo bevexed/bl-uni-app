@@ -13,7 +13,7 @@ import {
   reqOrderDetail,
   reqPayOrder, reqShipCost
 } from "../../api/order";
-import { getRoute, MSG_TO, SHOW_MODAL, SMG } from "../../unit";
+import { getRoute, MSG_TO, SHOW_MODAL, SMG } from "../../utils";
 import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {
@@ -156,3 +156,17 @@ export const getShipCost = async ({ commit }, data) => {
     commit(GET_SHIP_COST, res.data)
   }
 };
+
+export const deleteOrder = async ({ dispatch }, data) => {
+  SHOW_MODAL({
+    title: '删除订单',
+    content: '确认删除订单?',
+    async confirm() {
+      let res = await deleteOrder(data);
+      if (res.code === 200) {
+        await dispatch('getOrderList');
+        uni.showToast({ title: '删除成功' })
+      }
+    }
+  })
+}

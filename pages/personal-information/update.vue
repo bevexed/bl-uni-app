@@ -15,7 +15,7 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
-  import { MSG_TO, SMG } from "../../unit";
+  import { MSG_TO, SMG } from "../../utils";
 
   export default {
     data() {

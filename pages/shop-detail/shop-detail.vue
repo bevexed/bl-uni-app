@@ -183,7 +183,7 @@
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
   import { reqShare } from "../../api/products";
-  import { MSG_RELAUNCH, MSG_TO, SMG } from "../../unit";
+  import { MSG_RELAUNCH, MSG_TO, SMG } from "../../utils";
 
   export default {
     components: {

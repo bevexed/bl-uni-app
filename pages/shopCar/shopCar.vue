@@ -156,7 +156,7 @@
 <!--                    :step="1"-->
 <!--                    :value="good.shoppingNum"-->
 <!--                    @change="numChange($event,i)"></uni-number-box>-->
-<!--                  <view class="rest unit">米</view>-->
+<!--                  <view class="rest utils">米</view>-->
 <!--                </view>-->
 
 <!--                <view class="select-small" v-if="good.willChange && edit">-->

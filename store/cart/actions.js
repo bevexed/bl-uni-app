@@ -13,7 +13,7 @@ import {
   reqDeleteInvalid,
   reqPutCart
 } from "../../api/cart";
-import { SHOW_MODAL, SMG } from "../../unit";
+import { SHOW_MODAL, SMG } from "../../utils";
 
 export const addCart = async ({ commit }, data) => {
   let res = await reqAddCart(data);

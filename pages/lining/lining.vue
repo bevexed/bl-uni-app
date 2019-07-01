@@ -199,7 +199,7 @@
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { mapActions, mapState } from 'vuex'
   import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
-  import { authenticationTo } from "../../unit";
+  import { authenticationTo } from "../../utils";
 
   let observer = null;
 

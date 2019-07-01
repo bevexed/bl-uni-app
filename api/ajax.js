@@ -1,5 +1,5 @@
 import uniRequest from 'uni-request';
-import { MSG_RELAUNCH, MSG_TO, SHOW_MODAL } from "../unit";
+import { MSG_RELAUNCH, MSG_TO, SHOW_MODAL } from "../utils";
 
 // 全局修改公司 ID
 export const companyId = 4;

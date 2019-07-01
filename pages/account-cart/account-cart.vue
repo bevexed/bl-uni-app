@@ -123,7 +123,7 @@
 
 <script>
   import { mapActions, mapGetters, mapState } from "vuex";
-  import { SMG } from "../../unit";
+  import { SMG } from "../../utils";
 
   export default {
     data() {

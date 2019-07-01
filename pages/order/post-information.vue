@@ -48,7 +48,7 @@
 
 <script>
   import { reqFillExpressInfo } from "../../api/sale";
-  import { MSG_BACK, SMG } from "../../unit";
+  import { MSG_BACK, SMG } from "../../utils";
 
   export default {
     data() {

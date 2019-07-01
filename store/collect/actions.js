@@ -8,7 +8,7 @@ import {
   reqCollect,
   reqDeleteCollect
 } from "../../api/collect";
-import { getRoute, SHOW_MODAL, SMG } from "../../unit";
+import { getRoute, SHOW_MODAL, SMG } from "../../utils";
 
 export const addCollect = async ({ dispatch, }, id) => {
   let res = await reqAddCollect(id);

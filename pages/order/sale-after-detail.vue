@@ -79,7 +79,7 @@
 
 <script>
   import { reqCancelAfterSale, reqAfterSaleDetail } from "../../api/sale";
-  import { SHOW_MODAL } from "../../unit";
+  import { SHOW_MODAL } from "../../utils";
 
   export default {
     data() {

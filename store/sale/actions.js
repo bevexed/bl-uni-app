@@ -2,7 +2,7 @@ import {
   GET_AFTER_SALE_LIST
 } from '../mutation-types';
 import { reqAfterSaleList, reqCreateAfterSale } from "../../api/sale";
-import { MSG_TO } from "../../unit";
+import { MSG_TO } from "../../utils";
 
 export const createAfterSale = async ({ commit }, data) => {
   let res = await reqCreateAfterSale(data);

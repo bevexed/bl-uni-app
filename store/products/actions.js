@@ -11,7 +11,7 @@ import {
   reqProduct,
   reqSimilar
 } from "../../api/products";
-import { authenticationTo, SMG } from "../../unit";
+import { authenticationTo, SMG } from "../../utils";
 
 export const getProducts = async ({ commit, state }, data) => {
   // 如果此用户不是会员

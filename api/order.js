@@ -87,3 +87,10 @@ export const reqPayOrder = ({ amount, bankTransferRecord, code, filename, orderN
  * @returns {Promise<*>}
  */
 export const reqShipCost = ({ addressId, item }) => ajax('/order/shipCost', { addressId, item }, 'POST');
+
+/**
+ * @function 删除订单
+ * @param orderId
+ * @returns {Promise<*>}
+ */
+export const reqDeleteOrder = orderId => ajax('/order/deleteOrder', {}, 'DELETE');

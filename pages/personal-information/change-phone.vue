@@ -18,7 +18,7 @@
 <script>
   import { mapActions, mapState } from "vuex";
   import { reqCheckVerify } from "../../api/user";
-  import { SMG } from "../../unit";
+  import { SMG } from "../../utils";
 
   export default {
     data() {

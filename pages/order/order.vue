@@ -123,7 +123,9 @@
 
                       <!--交易关闭-->
                       <!--交易关闭-->
-                      <view class="button  cancel" v-if="order.status === '交易关闭'">删除订单</view>
+                      <view class="button  cancel" v-if="order.status === '交易关闭'" @tap="deleteOrder(order.orderId)">
+                        删除订单
+                      </view>
                       <view class="button  cancel" v-if="order.status === '交易关闭'"  :data-order-id="order.orderId"  @tap="toOrderDetail($event)">订单详情</view>
 
                       <!--待发货-->
@@ -232,7 +234,7 @@
   import { mapActions, mapState } from "vuex";
   import { reqApplyContract } from "../../api/contract";
   import { reqSignInvoice } from "../../api/invoice";
-  import { SHOW_MODAL } from "../../unit";
+  import { SHOW_MODAL } from "../../utils";
 
   export default {
     data() {
@@ -330,7 +332,7 @@
       }
     },
     methods: {
-      ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder']),
+      ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder', 'deleteOrder']),
       ...mapActions('Sale', ['getAfterSaleList']),
       async doConfirmReceipt(id) {
         await this.confirmReceipt(id);
