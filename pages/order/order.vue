@@ -42,15 +42,6 @@
                                 <view class="detail-header">
                                   <view class="shop-name">{{ good.productNo }}</view>
 
-                                    <!-- 售后状态 -->
-<!--                                  <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">-->
-<!--                                    {{ good.afterSaleStatus }}-->
-<!--                                  </view>-->
-<!--                                  <view class="shop-after-button"-->
-<!--                                        v-if="good.allowAfterSale"-->
-<!--                                        @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">-->
-<!--                                    售后-->
-<!--                                  </view>-->
                                 </view>
                                 <view class="detail-footer">
                                     <view :class="['options']">
@@ -70,8 +61,9 @@
                     </view>
                 <!--商品-->
                 <view class="goods"
-                      v-if="!(preview !== order.orderId && order.product.length >= 4 )">
-                  <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if=" Number(good.count)"
+                      v-if="!(preview !== order.orderId && order.product.length >= 4 )"
+                >
+                  <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if="Number(good.count) !== 0"
                         :key="goodIndex">
                     <!-- 展开 -->
                     <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
@@ -300,6 +292,7 @@
               }]
             })
           );
+        console.log(afterSaleList);
         return this.tabList[this.TabCur].name === '售后' ? afterSaleList : this.orderList
       }
     },

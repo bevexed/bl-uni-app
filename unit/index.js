@@ -108,7 +108,7 @@ export const getRoute = index => {
  * @constructor
  */
 
-export const SHOW_MODAL = ({ title, content, confirm, cancel }) => {
+export const SHOW_MODAL = ({ title, content, confirm, cancel=()=>{} }) => {
   uni.showModal({
     title,
     content,
