@@ -10,14 +10,15 @@ export default {
     // 如果开启塞选
     if (reset) {
       state.page = 1;
-      state.productList = [...data.data];
-      return;
+      state.productList = [];
+      console.log(state.productList);
     }
 
     state.productList = [...state.productList, ...data.data];
     state.total = data.total;
     state.page = ++state.page;
     },
+
   [GET_CATEGORIES](state, data) {
     state.categories = data;
   },

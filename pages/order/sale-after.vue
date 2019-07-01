@@ -73,16 +73,26 @@
             </view>
         </view>
 
+      <!--todo:???-->
       <view class="button"
             v-for="(good, i) in goods" v-if="good.itemId == itemId" :key="i"
-            @tap="createAfterSale({
-        amount:type[currentSelectSaleAfterShow].text==='仅退款'? good.count * good.unitAmount : num * good.unitAmount,
-        orderItemId:itemId,
-        productCount: type[currentSelectSaleAfterShow].text==='仅退款'?good.count : num,
-        reason:textArea,
-        reasonCode:sorts[currentPickerValue].reason,
-        type:type[currentSelectSaleAfterShow].value
-        })">提交申请
+            @tap="createAfterSale(
+            type[currentSelectSaleAfterShow].text === '仅退款'?
+            {
+              amount:good.count * good.unitAmount,
+              orderItemId:itemId,
+              reason:textArea,
+              reasonCode:sorts[currentPickerValue].reason,
+              type:type[currentSelectSaleAfterShow].value
+            }
+            :
+            {
+              orderItemId:itemId,
+              productCount: num,
+              reason:textArea,
+              reasonCode:sorts[currentPickerValue].reason,
+              type:type[currentSelectSaleAfterShow].value
+            })">提交申请
       </view>
         <custmer-phone class="custmer" />
 

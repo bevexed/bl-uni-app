@@ -55,9 +55,9 @@
                                             <view class="label">标样：￥{{ good.sampleAmount }}</view>
                                             <view class="value">*1</view>
                                         </view>
-                                        <view class="option">
+                                        <view class="option" v-if="Number(good.count)">
                                           <view class="label">商品：￥{{ good.unitAmount }}/米</view>
-                                          <view class="value" v-if="good.count">*{{ good.count }}</view>
+                                          <view class="value">*{{ good.count }}</view>
                                         </view>
                                     </view>
 
