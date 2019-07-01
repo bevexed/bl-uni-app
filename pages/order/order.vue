@@ -26,8 +26,11 @@
                   <image class="more" @tap="toPreview(order.orderId)" src="../static/icon/more.svg" mode=""></image>
                     </view>
                 <!--展开-->
-                    <view class="goods" v-else>
-                      <view :class="['good']" v-for="(good, goodIndex) in order.product" :key="goodIndex">
+                <!--小样-->
+                <view class="goods"
+                      v-if="!(preview !== order.orderId && order.product.length >= 4 )">
+                  <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if="good.sampleType!=='无小样'"
+                        :key="goodIndex">
                             <!-- 展开 -->
                         <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
                                :src="good.image"
@@ -40,24 +43,20 @@
                                   <view class="shop-name">{{ good.productNo }}</view>
 
                                     <!-- 售后状态 -->
-                                  <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">
-                                    {{ good.afterSaleStatus }}
-                                  </view>
-                                  <view class="shop-after-button"
-                                        v-if="good.allowAfterSale"
-                                        @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
-                                    售后
-                                  </view>
+<!--                                  <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">-->
+<!--                                    {{ good.afterSaleStatus }}-->
+<!--                                  </view>-->
+<!--                                  <view class="shop-after-button"-->
+<!--                                        v-if="good.allowAfterSale"-->
+<!--                                        @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">-->
+<!--                                    售后-->
+<!--                                  </view>-->
                                 </view>
                                 <view class="detail-footer">
                                     <view :class="['options']">
                                       <view class="option" v-if="good.sampleType!=='无小样'">
                                             <view class="label">标样：￥{{ good.sampleAmount }}</view>
                                             <view class="value">*1</view>
-                                        </view>
-                                        <view class="option" v-if="Number(good.count)">
-                                          <view class="label">商品：￥{{ good.unitAmount }}/米</view>
-                                          <view class="value">*{{ good.count }}</view>
                                         </view>
                                     </view>
 
@@ -69,6 +68,48 @@
                       <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg"
                              v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                     </view>
+                <!--商品-->
+                <view class="goods"
+                      v-if="!(preview !== order.orderId && order.product.length >= 4 )">
+                  <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if=" Number(good.count)"
+                        :key="goodIndex">
+                    <!-- 展开 -->
+                    <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
+                           :src="good.image"
+                           mode=""
+                           @tap="toDetail(good.productId)"
+                    ></image>
+
+                    <view class="detail">
+                      <view class="detail-header">
+                        <view class="shop-name">{{ good.productNo }}</view>
+
+                        <!-- 售后状态 -->
+                        <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">
+                          {{ good.afterSaleStatus }}
+                        </view>
+                        <view class="shop-after-button"
+                              v-if="good.allowAfterSale"
+                              @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
+                          售后
+                        </view>
+                      </view>
+                      <view class="detail-footer">
+                        <view :class="['options']">
+                          <view class="option" v-if="Number(good.count)">
+                            <view class="label">商品：￥{{ good.unitAmount }}/米</view>
+                            <view class="value">*{{ good.count }}</view>
+                          </view>
+                        </view>
+
+                        <view class="price">￥{{good.amount}}</view>
+                      </view>
+                    </view>
+                  </view>
+
+                  <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg"
+                         v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
+                </view>
 
                 <view class="pay-detail" v-if="tabList[TabCur].name !== '售后'">
                         <view class="real-pay">
