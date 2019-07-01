@@ -200,8 +200,6 @@
         showColorMore: false,
         // 当前选分类
         categoryId: '',
-        // 显示更多颜色
-        showTagsMore: false,
         // 返回顶部显示
         appear: false,
         // 排序
@@ -230,7 +228,9 @@
 
     methods: {
       ...mapActions('Products', ['getProducts', 'getCategories']),
-      authenticationTo, toTop, SMG,
+      authenticationTo,
+      toTop,
+      SMG,
       async changeMenu(index) {
         if (this.userInfo.status !== 2) return authenticationTo({ status: this.userInfo.status });
 
@@ -329,16 +329,9 @@
       // 监听 toTop 显示
       toTopShow() {
         observer = setInterval(() => {
-          let view = uni.createSelectorQuery().select('.lining');
           uni.createSelectorQuery()
             .selectViewport()
-            .scrollOffset(res => {
-              if (res.scrollTop > 100) {
-                this.appear = true;
-              } else {
-                this.appear = false;
-              }
-            })
+            .scrollOffset(res => this.appear = res.scrollTop > 100)
             .exec();
         }, 300);
       },

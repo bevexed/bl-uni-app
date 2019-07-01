@@ -8,32 +8,19 @@ export default {
       uni.getStorage({
         key:'token',
         success(res) {
-          console.log('token', res);
           that.getCurrentUserInfo();
-
           setTimeout(()=>{
             that.getRefreshToken();
           })
         },
         fail(res) {
-          console.log('no-token', res);
-          // uni.navigateTo({
-          //   url:'/pages/login/login'
-          // })
         }
       });
-
-        console.log('App Launch');
-        // uni.navigateTo({
-        //     url:'/pages/login/login'
-        // })
     },
-    onShow: function() {
-        console.log('App Show');
-    },
-    onHide: function() {
-        console.log('App Hide');
-    },
+  onShow: function () {
+  },
+  onHide: function () {
+  },
   methods: {
     ...mapActions('User', ['getCurrentUserInfo', 'getRefreshToken'])
   }
