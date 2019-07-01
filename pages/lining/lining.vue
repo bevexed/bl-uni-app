@@ -1,160 +1,165 @@
 <template>
-    <view class="lining" @touchmove="toTopShow">
-        <!-- 切换 按钮 -->
-        <view class="to-top" v-show="appear" @tap="toTop"><image src="../../static/icon/top.png" mode=""></image></view>
+  <div class="lining" @touchmove="toTopShow">
+    <!-- 切换 按钮 -->
+    <div class="to-top" v-show="appear" @tap="toTop">
+      <image src="../../static/icon/top.png" mode=""></image>
+    </div>
 
-        <view class="menus">
-            <view :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index" @touchend="changeMenu(index)">
-              {{ menu }}
-<!--                <image v-if="index === 2" :src="index === menuCurrentSelect ? '../../static/icon/arrow-top.svg' : '../../static/icon/arrow-bottom.svg'" mode=""></image>-->
-            </view>
+    <div class="menus">
+      <div :class="['menu', { active: index === menuCurrentSelect }]" v-for="(menu, index) in menuData" :key="index"
+           @touchend="changeMenu(index)">
+        {{ menu }}
+      </div>
+    </div>
+
+    <div class="white-space"></div>
+
+    <!-- 抽屉 -->
+    <uni-drawer :visible="drawerShow" mode="right" @close="onDrawerClose" class="drawer">
+      <scroll-view scroll-y class="drawer-wrap">
+        <div class="search-bar">
+          <div class="left">
+            <image class="search" src="../../static/icon/search.svg" mode=""></image>
+            <input v-model="pno" type="text" value="" placeholder="搜索商品编码" confirm-type="search"
+                   placeholder-class="placehoder"/>
+          </div>
+
+          <image
+            class="camera"
+            src="../../static/icon/camera.svg"
+            mode=""
+            @tap="SMG('图像识别功能待开发，敬请期待！')"
+          ></image>
+        </div>
+
+
+        <!-- 克重-->
+        <!-- 克重-->
+        <!-- 克重-->
+        <div class="weigh">
+          <div class="label">
+            克重
+            <text>（克/立方米）</text>
+          </div>
+
+          <div class="value">
+            <input class="input" v-model="weight[0]" type="number" placeholder="最小值"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+            <div class="hr"></div>
+            <input class="input" v-model="weight[1]" type="number" placeholder="最大值"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+          </div>
+        </div>
+
+        <!-- 幅宽-->
+        <!-- 幅宽-->
+        <!-- 幅宽-->
+        <div class="weigh">
+          <div class="label">
+            幅宽
+            <text>（厘米）</text>
+          </div>
+
+          <div class="value">
+            <input class="input" v-model="width[0]" type="number" placeholder="最小值"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+            <div class="hr"></div>
+            <input class="input" v-model="width[1]" type="number" placeholder="最大值"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+          </div>
+        </div>
+
+        <div class="color">
+          <div class="label" @touchend="showColorMore = !showColorMore">
+            分类
+            <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+          </div>
+          <div :class="['tags', { active: showColorMore }]">
+            <uni-tag
+              class="tag"
+              :text="category.name"
+              :type="categoryId.includes(category.id) ? 'success' : 'primary'"
+              :inverted="true"
+              v-for="(category, index) in categories"
+              :key="index"
+              @click="selectTag('categoryId', category.id)"
+            />
+          </div>
+        </div>
+
+        <div class="price">
+          <div class="label">
+            价格
+            <text>（元/米）</text>
+          </div>
+
+          <div class="value">
+            <input class="input" v-model="price[0]" type="number" placeholder="最低价"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+            <div class="hr"></div>
+            <input class="input" v-model="price[1]" type="number" placeholder="最高价"
+                   placeholder-class="placehoder" placeholder-style="text-align:center"/>
+          </div>
+        </div>
+
+        <div class="price agreement">
+          <div :class="['select', { active: agreement }]" @tap="agreement = !agreement">
+            <div class="selected"></div>
+          </div>
+          <div>
+            <text class="star"></text>
+            仅显示有库存
+          </div>
+        </div>
+
+        <div class="white-space"></div>
+      </scroll-view>
+      <div class="buttons">
+        <div class="my-button plain" @tap="changeMenu(0)">重置</div>
+
+        <div class="my-button" @tap="doSearch">确定</div>
         </view>
+    </uni-drawer>
 
-        <view class="white-space"></view>
+    <!-- 抽屉2 -->
+    <uni-drawer :visible="menuCurrentSelect === 2 && showListShow" mode="right" @close="onDrawerClose"
+                class="drawer drawer-2">
+      <scroll-view scroll-y class="drawer-wrap">
+        <!-- 排序 -->
+        <div class="sort">
+          <div class="options">
+            <div :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList"
+                 :key="index" @tap="selectSortType(index)">
+              <text>{{ option.text }}</text>
+              <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
+            </div>
+          </div>
+        </div>
+        </scroll-div>
+    </uni-drawer>
 
-        <!-- 抽屉 -->
-        <uni-drawer :visible="drawerShow" mode="right" @close="onDrawerClose" class="drawer">
-            <scroll-view scroll-y class="drawer-wrap">
-                <view class="search-bar">
-                    <view class="left">
-                        <image class="search" src="../../static/icon/search.svg" mode=""></image>
-                      <input v-model="pno" type="text" value="" placeholder="搜索商品编码" confirm-type="search"
-                             placeholder-class="placehoder"/>
-                    </view>
+    <!-- 商品列表 -->
+    <div class="list">
+      <div class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
+        <image :src="product.imageShow" mode="aspectFill" lazy-load></image>
+        <div class="name">{{ product.pno }}</div>
+        <div class="price">
+          <text class="money">
+            ￥{{ product.price }}
+            <text class="per">/ {{ product.unit }}</text>
+          </text>
 
-                    <image
-                      class="camera"
-                      src="../../static/icon/camera.svg"
-                      mode=""
-                      @tap="SMG('图像识别功能待开发，敬请期待！')"
-                    ></image>
-                </view>
-
-
-                <!-- 克重-->
-                <!-- 克重-->
-                <!-- 克重-->
-                <view class="weigh">
-                    <view class="label">
-                        克重
-                        <text>（克/立方米）</text>
-                    </view>
-
-                    <view class="value">
-                      <input class="input" v-model="weight[0]" type="number" placeholder="最小值"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                        <view class="hr"></view>
-                      <input class="input" v-model="weight[1]" type="number" placeholder="最大值"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                    </view>
-                </view>
-
-                <!-- 幅宽-->
-                <!-- 幅宽-->
-                <!-- 幅宽-->
-                <view class="weigh">
-                    <view class="label">
-                      幅宽
-                        <text>（厘米）</text>
-                    </view>
-
-                    <view class="value">
-                      <input class="input" v-model="width[0]" type="number" placeholder="最小值"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                        <view class="hr"></view>
-                      <input class="input" v-model="width[1]" type="number" placeholder="最大值"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                    </view>
-                </view>
-
-                <view class="color">
-                    <view class="label" @touchend="showColorMore = !showColorMore">
-                        分类
-                        <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
-                    </view>
-                    <view :class="['tags', { active: showColorMore }]">
-                        <uni-tag
-                            class="tag"
-                            :text="category.name"
-                            :type="categoryId.includes(category.id) ? 'success' : 'primary'"
-                            :inverted="true"
-                            v-for="(category, index) in categories"
-                            :key="index"
-                            @click="selectTag('categoryId', category.id)"
-                        />
-                    </view>
-                </view>
-
-                <view class="price">
-                    <view class="label">
-                        价格
-                        <text>（元/米）</text>
-                    </view>
-
-                    <view class="value">
-                      <input class="input" v-model="price[0]" type="number" placeholder="最低价"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                        <view class="hr"></view>
-                      <input class="input" v-model="price[1]" type="number" placeholder="最高价"
-                             placeholder-class="placehoder" placeholder-style="text-align:center"/>
-                    </view>
-                </view>
-
-              <view class="price agreement">
-                <view :class="['select', { active: agreement }]" @tap="agreement = !agreement"><view class="selected"></view></view>
-                <view>
-                  <text class="star"></text>
-                  仅显示有库存
-                </view>
-              </view>
-
-                <view class="white-space"></view>
-            </scroll-view>
-            <view class="buttons">
-                <view class="my-button plain" @tap="changeMenu(0)">重置</view>
-
-              <view class="my-button" @tap="doSearch">确定</view>
-            </view>
-        </uni-drawer>
-
-      <!-- 抽屉2 -->
-      <uni-drawer :visible="menuCurrentSelect === 2 && showListShow" mode="right" @close="onDrawerClose"
-                  class="drawer drawer-2">
-        <scroll-view scroll-y class="drawer-wrap">
-          <!-- 排序 -->
-          <view class="sort">
-            <view class="options">
-              <view :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList" :key="index" @tap="selectSortType(index)">
-                <text>{{ option.text }}</text>
-                <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
-              </view>
-            </view>
-          </view>
-        </scroll-view>
-      </uni-drawer>
-
-        <!-- 商品列表 -->
-        <view class="list">
-            <view class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
-                <image :src="product.imageShow" mode="aspectFill" lazy-load></image>
-                <view class="name">{{ product.pno }}</view>
-                <view class="price">
-                    <text class="money">
-                        ￥{{ product.price }}
-                        <text class="per">/ {{ product.unit }}</text>
-                    </text>
-
-                    <text class="rest">
-                        仅剩
-                        <text class="rest-red">{{ product.stock }}</text>
-                        {{ product.unit }}
-                    </text>
-                </view>
-            </view>
-        </view>
+          <text class="rest">
+            仅剩
+            <text class="rest-red">{{ product.stock }}</text>
+            {{ product.unit }}
+          </text>
+        </div>
+      </div>
+    </div>
 
       <custmer-phone />
-    </view>
+  </div>
 </template>
 
 <script>
@@ -774,7 +779,7 @@
         border-radius: 8upx 8upx 0 0;
         overflow: hidden;
 
-        view {
+      div {
             display: flex;
             align-items: center;
             height: 80upx;

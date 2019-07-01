@@ -45,6 +45,16 @@ export const MSG_BACK = ({ title, duration = 2000, mask = true }) => {
   })
 };
 
+/**
+ * @function 提示信息清空所有历史页面，并且重定向
+ * @param title
+ * @param url
+ * @param icon
+ * @param duration
+ * @param mask
+ * @constructor
+ */
+
 export const MSG_RELAUNCH = ({ title, url, icon = 'success', duration = 2000, mask = true }) => {
   uni.showToast({
     title,
@@ -60,6 +70,15 @@ export const MSG_RELAUNCH = ({ title, url, icon = 'success', duration = 2000, ma
     }
   })
 };
+
+/**
+ * @function 提示信息后重定向
+ * @param title
+ * @param url
+ * @param duration
+ * @param mask
+ * @constructor
+ */
 
 export const MSG_REDIRECT = ({ title, url, duration = 2000, mask = true }) => {
   uni.showToast({
@@ -77,7 +96,7 @@ export const MSG_REDIRECT = ({ title, url, duration = 2000, mask = true }) => {
 };
 
 /**
- * 表单验证
+ * @function 表单验证失败时，显示提示信息
  * @param title
  * @constructor
  */

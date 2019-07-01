@@ -131,8 +131,6 @@
                     </picker-view-column>
                 </picker-view>
 
-                <!-- <view class="line left"></view>
-                <view class="line right"></view> -->
             </view>
         </view>
 
