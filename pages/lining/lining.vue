@@ -2,7 +2,7 @@
   <div class="lining" @touchmove="toTopShow">
     <!-- 切换 按钮 -->
     <div class="to-top" v-show="appear" @tap="toTop">
-      <image src="../../static/icon/top.png" mode=""></image>
+      <img src="../../static/icon/top.png" mode="" alt="">
     </div>
 
     <div class="menus">
@@ -19,17 +19,17 @@
       <scroll-view scroll-y class="drawer-wrap">
         <div class="search-bar">
           <div class="left">
-            <image class="search" src="../../static/icon/search.svg" mode=""></image>
+            <img class="search" src="../../static/icon/search.svg" mode="" alt="">
             <input v-model="pno" type="text" value="" placeholder="搜索商品编码" confirm-type="search"
                    placeholder-class="placehoder"/>
           </div>
 
-          <image
+          <img
             class="camera"
             src="../../static/icon/camera.svg"
             mode=""
             @tap="SMG('图像识别功能待开发，敬请期待！')"
-          ></image>
+            alt=""/>
         </div>
 
 
@@ -72,7 +72,7 @@
         <div class="color">
           <div class="label" @touchend="showColorMore = !showColorMore">
             分类
-            <image :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode=""></image>
+            <img :class="{ active: showColorMore }" src="../../static/icon/arrow-bottom.svg" mode="" alt=""/>
           </div>
           <div :class="['tags', { active: showColorMore }]">
             <uni-tag
@@ -131,17 +131,17 @@
             <div :class="['option', { active: currentSortState === index }]" v-for="(option, index) in sortList"
                  :key="index" @tap="selectSortType(index)">
               <text>{{ option.text }}</text>
-              <image v-show="currentSortState === index" src="../../static/icon/select.png" mode=""></image>
+              <img v-show="currentSortState === index" src="../../static/icon/select.png" mode="" alt=""/>
             </div>
           </div>
         </div>
-        </scroll-div>
+        </scroll-view>
     </uni-drawer>
 
     <!-- 商品列表 -->
     <div class="list">
       <div class="item" v-for="(product,index) in productList" :key="index" @tap="toDetail(product.id)">
-        <image :src="product.imageShow" mode="aspectFill" lazy-load></image>
+        <img :src="product.imageShow" mode="aspectFill" lazy-load alt=""/>
         <div class="name">{{ product.pno }}</div>
         <div class="price">
           <text class="money">
@@ -399,7 +399,7 @@
             &:last-child {
                 border: none;
                 position: relative;
-                image {
+                img {
                     width: 25upx;
                     height: 40upx;
                     position: absolute;
@@ -431,7 +431,7 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            image.search {
+            img.search {
                 width: 32upx;
                 height: 32upx;
                 margin-right: 10upx;
@@ -458,7 +458,7 @@
                 font-size: 20upx;
                 color: $uni-text-color-grey;
             }
-            image {
+            img {
                 width: 16px;
                 height: 16px;
                 transition: transform 0.5s ease;
@@ -620,7 +620,7 @@
                 width: 70%;
             }
 
-            image {
+            img {
                 width: 32upx;
                 height: 32upx;
             }
@@ -635,7 +635,7 @@
         .item {
             width: 320upx;
             padding: 10upx 0;
-            image {
+            img {
                 width: 330upx;
                 height: 360upx;
             }
@@ -694,7 +694,7 @@
         background: rgba(0, 0, 0, 0.1);
         text-align: center;
         border-radius: 8upx;
-        image {
+        img {
             width: 40upx;
             height: 40upx;
             margin: 10upx 0;
@@ -787,7 +787,7 @@
             &:first-child {
                 border-bottom: 1upx solid #eeeeee;
             }
-            image {
+            img {
                 margin-right: 26upx;
                 width: 36upx;
                 height: 36upx;
