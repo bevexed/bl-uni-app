@@ -53,16 +53,22 @@ export const doDeleteCart = async ({ dispatch }, { ids }) => {
 };
 
 export const doDeleteInvalid = async ({ dispatch }) => {
-  let res = await reqDeleteInvalid();
-  if (res.code === 200) {
-    dispatch('getCartAll').then(
-      result => {
-       uni.showToast({
-         title:'已清空下架商品'
-       })
+  SHOW_MODAL({
+    title: '清除下架',
+    content: '是否一键清除下架商品？',
+    async confirm() {
+      let res = await reqDeleteInvalid();
+      if (res.code === 200) {
+        await dispatch('getCartAll');
+        uni.showToast({
+          title: '已清空下架商品'
+        })
       }
-    )
-  }
+    },
+    cancel() {
+
+    }
+  });
 };
 
 export const putCart = async ({ dispatch }, data) => {

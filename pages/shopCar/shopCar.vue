@@ -103,9 +103,9 @@
               <view :class="{ 'good-wrap': good.willChange && edit }" v-for="(good, i) in goods"
                     v-if="good.status === 9" :key="i">
                 <view class="good">
-                  <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">
-                    <view class="selected"></view>
-                  </view>
+<!--                  <view :class="['select', { active: edit ? good.willDel : good.willBuy }]" @tap="selectGood(i)">-->
+<!--                    <view class="selected"></view>-->
+<!--                  </view>-->
                   <image class="shop-img dead" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
 
                   <view class="detail">
@@ -148,32 +148,32 @@
                 </view>
 
                 <!-- 编辑状态 -->
-                <view class="select-much" v-if="good.willChange && edit">
-                  <view class="title">数量选择</view>
-                  <uni-number-box
-                    :min="0"
-                    :max="good.stock"
-                    :step="1"
-                    :value="good.shoppingNum"
-                    @change="numChange($event,i)"></uni-number-box>
-                  <view class="rest unit">米</view>
-                </view>
+<!--                <view class="select-much" v-if="good.willChange && edit">-->
+<!--                  <view class="title">数量选择</view>-->
+<!--                  <uni-number-box-->
+<!--                    :min="0"-->
+<!--                    :max="good.stock"-->
+<!--                    :step="1"-->
+<!--                    :value="good.shoppingNum"-->
+<!--                    @change="numChange($event,i)"></uni-number-box>-->
+<!--                  <view class="rest unit">米</view>-->
+<!--                </view>-->
 
-                <view class="select-small" v-if="good.willChange && edit">
-                  <view class="title">小样选择</view>
-                  <view :class="['tags']">
-                    <!--todo: step 接口-->
-                    <uni-tag
-                      class="tag"
-                      :text="tag"
-                      :type="good.sampleType? 'success' : 'primary'"
-                      :inverted="true"
-                      v-for="(tag, index) in good.tagsList"
-                      :key="index"
-                      @tap="changSampleType(i)"
-                    />
-                  </view>
-                </view>
+<!--                <view class="select-small" v-if="good.willChange && edit">-->
+<!--                  <view class="title">小样选择</view>-->
+<!--                  <view :class="['tags']">-->
+<!--                    &lt;!&ndash;todo: step 接口&ndash;&gt;-->
+<!--                    <uni-tag-->
+<!--                      class="tag"-->
+<!--                      :text="tag"-->
+<!--                      :type="good.sampleType? 'success' : 'primary'"-->
+<!--                      :inverted="true"-->
+<!--                      v-for="(tag, index) in good.tagsList"-->
+<!--                      :key="index"-->
+<!--                      @tap="changSampleType(i)"-->
+<!--                    />-->
+<!--                  </view>-->
+<!--                </view>-->
               </view>
             </view>
         </view>
