@@ -232,6 +232,7 @@
   import { mapActions, mapState } from "vuex";
   import { reqApplyContract } from "../../api/contract";
   import { reqSignInvoice } from "../../api/invoice";
+  import { SHOW_MODAL } from "../../unit";
 
   export default {
     data() {
@@ -280,7 +281,7 @@
               status: '售后处理',
               orderId: item.afterSaleId,
               product: [{
-                amount: item.amount,
+                amount: item.amount || '1',
                 image: item.image,
                 afterSaleStatus: item.status,
                 productId: item.productId,
@@ -292,7 +293,6 @@
               }]
             })
           );
-        console.log(afterSaleList);
         return this.tabList[this.TabCur].name === '售后' ? afterSaleList : this.orderList
       }
     },
@@ -477,18 +477,24 @@
 
       async signInvoice(orderId) {
         const that = this;
-        let res = await reqSignInvoice({ id: orderId, isPass: true });
-        if (res.code === 200) {
-          uni.showToast({
-            title: '签收成功',
-            mask: true,
-            success(res) {
-              setTimeout(() => {
-                that.getData();
-              }, 2000)
+        SHOW_MODAL({
+          title: '签收发票',
+          content: '确定收到发票了吗?',
+          confirm() {
+            let res = await reqSignInvoice({ id: orderId, isPass: true });
+            if (res.code === 200) {
+              uni.showToast({
+                title: '签收成功',
+                mask: true,
+                success(res) {
+                  setTimeout(() => {
+                    that.getData();
+                  }, 2000)
+                }
+              })
             }
-          })
-        }
+          }
+        })
       },
 
 

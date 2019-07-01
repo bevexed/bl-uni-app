@@ -13,7 +13,7 @@ import {
   reqOrderDetail,
   reqPayOrder, reqShipCost
 } from "../../api/order";
-import { getRoute, MSG_TO, SMG } from "../../unit";
+import { getRoute, MSG_TO, SHOW_MODAL, SMG } from "../../unit";
 import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {
@@ -77,12 +77,19 @@ export const cancelOrder = async ({ dispatch }, data) => {
 };
 
 export const confirmReceipt = async ({ dispatch }, data) => {
-  let res = await reqConfirmReceipt(data);
-  if (res.code === 200) {
-   uni.showToast({
-     title:'收货成功'
-   })
-  }
+  SHOW_MODAL({
+    title: '确认收货',
+    content: '确定收到货物了吗？',
+    async confirm() {
+      let res = await reqConfirmReceipt(data);
+      if (res.code === 200) {
+        uni.showToast({
+          title: '收货成功'
+        })
+      }
+    }
+  })
+
 };
 
 export const remindOrder = async ({ dispatch }, data) => {

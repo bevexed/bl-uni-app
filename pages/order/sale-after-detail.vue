@@ -78,7 +78,8 @@
 </template>
 
 <script>
-  import { reqAfterSaleDetail } from "../../api/sale";
+  import { reqCancelAfterSale, reqAfterSaleDetail } from "../../api/sale";
+  import { SHOW_MODAL } from "../../unit";
 
   export default {
     data() {
@@ -108,18 +109,24 @@
       },
 
       async cancelAfterSale() {
-        const _this = this
-        let res = await reqAfterSaleDetail({ afterSaleId: this.afterSaleId });
-        if (res.code === 200) {
-          this.good = res.data;
-          uni.showToast({
-            title: '取消成功',
-            mask: true,
-            success(res) {
-              this.getAfterSaleDetail(_this.afterSaleId)
+        SHOW_MODAL({
+          title: '取消售后',
+          content: '确定取消申请',
+          async confirm() {
+            let res = await reqCancelAfterSale({ afterSaleId: this.afterSaleId });
+            if (res.code === 200) {
+              this.good = res.data;
+              let result = await reqAfterSaleDetail(this.afterSaleId);
+              if (result.code === 200) {
+                uni.showToast({
+                  title: '取消成功',
+                  mask: true,
+                })
+              }
             }
-          })
-        }
+          }
+        });
+
       },
 
       toPostInformation() {
