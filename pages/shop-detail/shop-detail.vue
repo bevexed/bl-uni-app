@@ -207,16 +207,17 @@
         }
       })
     },
-    onShareAppMessage(res) {
+    async onShareAppMessage(res) {
+      const id = this.id;
       if (res.from === 'button') {// 来自页面内分享按钮
-        console.log(res.target)
-      }
-      return {
-        title: 'SINOTY',
-        path: '/pages/shop-detail/shop-detail?id=' + this.id,
-        async success(res) {
-         let result =  await reqShare(this.id);
-          console.log('分享成功', res, result);
+        console.log(res.target);
+        let result = await reqShare(id);
+        return {
+          title: 'SINOTY',
+          path: '/pages/shop-detail/shop-detail?id=' + id,
+          complete(res) {
+            console.log('分享成功');
+          }
         }
       }
     },
