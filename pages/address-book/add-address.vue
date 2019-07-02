@@ -32,7 +32,7 @@
             maxlength="11"
             placeholder="请输入正确的手机号码(必填)"
             placeholder-style="font-size:10px;color:#aaaaaa;"
-            type="text"
+            type="number"
             v-model="phone"
           /></view>
       </view>
@@ -148,12 +148,13 @@
       },
 
       back() {
-        if (this.id !== 'null' && !this.compareData()) {
+        const { id, compareData, doChange } = this;
+        if (id !== 'null' && !compareData()) {
           return SHOW_MODAL({
             title: '编辑地址',
             content: '是否保存本次编辑结果？',
             confirm() {
-              this.doChange()
+              doChange()
             },
             cancel() {
               uni.navigateBack({ delta: 1 })
@@ -164,15 +165,10 @@
       },
 
       doChange() {
-        const data = this.collectData();
-        if (this.id === 'null') {
-          // 新增 地址
-          this.addAddress(data)
-        } else {
-          // 修改地址
-          this.changeAddress({ ...data, id })
-        }
+        const { id, addAddress, changeAddress, collectData } = this;
+        id === 'null' ? addAddress(data) : changeAddress({ ...collectData(), id })
       },
+
       bindPickerChange(e) {
         console.log('picker发送选择改变，携带值为', e.target.value);
         this.addressDataList = e.target.value

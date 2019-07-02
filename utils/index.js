@@ -124,14 +124,17 @@ export const getRoute = index => {
  * @param content
  * @param confirm
  * @param cancel
+ * @param confirmText
+ * @param confirmColor
  * @constructor
  */
 
-export const SHOW_MODAL = ({ title, content, confirm, cancel=()=>{} }) => {
+export const SHOW_MODAL = ({ title, content, confirm, cancel=()=>{},confirmText='确定',confirmColor = '#BFA065'}) => {
   uni.showModal({
     title,
     content,
-    confirmColor: '#BFA065',
+    confirmColor,
+    confirmText,
     success(res) {
       if (res.confirm) {
         confirm()
@@ -193,6 +196,12 @@ export const toTop = () => {
     duration: 300
   });
 };
+
+/**
+ * @function 复制
+ * @param data 要复制的数据
+ * @param title 复制成功后的提示语
+ */
 
 export const copy = ({ data, title }) => {
   uni.setClipboardData({

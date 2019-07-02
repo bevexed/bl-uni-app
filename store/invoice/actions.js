@@ -205,6 +205,8 @@ export const deleteInvoice = async ({ dispatch }, data) => {
   SHOW_MODAL({
     title: '删除开票信息',
     content: '确定要删除该信息吗?',
+    confirmText: '删除',
+    confirmColor: '#f00',
     async confirm() {
       let res = await reqDeleteIncoice(data);
       if (res.code === 200) {

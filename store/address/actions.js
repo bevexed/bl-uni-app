@@ -62,6 +62,8 @@ export const deleteAddress = async ({ dispatch }, id) => {
   SHOW_MODAL({
     title: '删除地址',
     content: '确认删除地址？',
+    confirmText: '删除',
+    confirmColor: '#f00',
     async confirm() {
       let res = await reqDeleteAddress(id);
       if (res.code === 200) {
