@@ -471,11 +471,12 @@
 
     .preview {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         padding: 40upx 0;
         image {
-            width: 128upx;
+          margin-right: upx(30);
+
+          width: upx(172);
             height: 162upx;
         }
         .more {

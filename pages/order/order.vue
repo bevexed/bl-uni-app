@@ -23,7 +23,7 @@
                       :src="good.image"
                       mode=""></image>
                   </view>
-                  <image class="more" @tap="toPreview(order.orderId)" src="../static/icon/more.svg" mode=""></image>
+                  <image @tap="toPreview(order.orderId)" class="more" mode="" src="../../static/icon/more.svg"></image>
                     </view>
                 <!--展开-->
                 <!--小样-->
@@ -96,7 +96,7 @@
                     </view>
                   </view>
 
-                  <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg"
+                  <image @tap="toPreview(-1)" class="hr" src="../../static/icon/all.svg"
                          v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                 </view>
 
