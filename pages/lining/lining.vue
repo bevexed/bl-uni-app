@@ -185,37 +185,39 @@
     data() {
       return {
         menuData: ['全部', '筛选', '排序'],
-        // 当前选中 按钮
         menuCurrentSelect: 0,
-        // 抽屉 显示控制
         drawerShow: false,
-        // 显示更多颜色
         showColorMore: false,
-        // 当前选分类
-        categoryId: '',
-        // 返回顶部显示
         appear: false,
-        // 排序
         sortList: [
           { text: '综合', value: 'composite_desc' },
           { text: '最新上架', value: 'shelves_desc' },
           { text: '按销量', value: 'sale_desc' },
           { text: '价格从高到底', value: 'price_desc' },
           { text: '价格从低到高', value: 'price_asc' }],
-        // 当前选择排序方式
         currentSortState: 0,
 
         sortPageShow: false,
 
-        agreement: false,
-
+        categoryId: '',
         pno: '',
         weightMin: '',
         weightMax: '',
         widthMin: '',
         widthMax: '',
         priceMin: '',
-        priceMax: ''
+        priceMax: '',
+        agreement: false,
+
+        cur_categoryId: '',
+        cur_pno: '',
+        cur_weightMin: '',
+        cur_weightMax: '',
+        cur_widthMin: '',
+        cur_widthMax: '',
+        cur_priceMin: '',
+        cur_priceMax: '',
+        cur_agreement: false,
       };
     },
 
@@ -277,19 +279,32 @@
        */
 
       collectData() {
-        let { page, categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
+        let { page, cur_categoryId, cur_agreement, cur_pno, cur_weightMin, cur_weightMax, cur_widthMin, cur_widthMax, cur_priceMin, cur_priceMax, currentSortState } = this;
         return {
           page,
           pageSize: 10,
-          pno: encodeURIComponent(pno),
-          categoryId,
-          hasStock: agreement,
+          pno: encodeURIComponent(cur_pno),
+          categoryId: cur_categoryId,
+          hasStock: cur_agreement,
           status: this.userInfo.status || '',
-          weight: weightMin + ',' + weightMax,
-          width: widthMin + ',' + widthMax,
-          price: priceMin + ',' + priceMax,
+          weight: cur_weightMin + ',' + cur_weightMax,
+          width: cur_widthMin + ',' + cur_widthMax,
+          price: cur_priceMin + ',' + cur_priceMax,
           sort: this.sortList[currentSortState].value,
         }
+      },
+
+      changeData() {
+        let { categoryId, agreement, pno, weightMin, weightMax, widthMin, widthMax, priceMin, priceMax, currentSortState } = this;
+        this.cur_categoryId = categoryId;
+        this.cur_pno = pno;
+        this.cur_weightMin = weightMin;
+        this.cur_weightMax = weightMax;
+        this.cur_widthMin = widthMin;
+        this.cur_widthMax = widthMax;
+        this.cur_priceMin = priceMin;
+        this.cur_priceMax = priceMax;
+        this.cur_agreement = agreement
       },
 
       /**
@@ -297,8 +312,10 @@
        * @returns {Promise<boolean|*>}
        */
       async doSearch() {
+        const { changeData, collectData } = this;
+        changeData();
         let res = await this.getProducts({
-          ...this.collectData(),
+          ...collectData(),
           page: 1,
           reset: true
         });
