@@ -127,6 +127,9 @@
 
                       <!--待发货-->
                       <!--待发货-->
+                      <view class="button  cancel" v-if="order.status === '待发货' && order.allowCancel" :data-order-id="order.orderId"
+                            @tap="toBackMoney($event)">取消订单
+                      </view>
                       <view class="button  cancel" v-if="order.status === '待发货'" @tap="remindOrder(order.orderId)">
                         催单
                       </view>

@@ -49,7 +49,7 @@
                   placeholder-style="font-size:12px;color:#999;"
                   v-model="reasonText"
                   placeholder="请描述您的问题，以便我们尽快为您服务"
-                />
+                ></textarea>
               <text class="text-area-length">{{ reasonText.length }}/200</text>
             </view>
         </view>
@@ -102,6 +102,7 @@ export default {
       sortShow: false,
       // 退款原因
       sorts: [
+        { reasonText: '', reason: '' },
         { reasonText: '买错了,不想买了', reason: 0 },
         { reasonText: '未及时发货', reason: 10 },
         { reasonText: '商品信息有误', reason: 20 },
