@@ -127,12 +127,12 @@
 
                       <!--待发货-->
                       <!--待发货-->
-                      <view class="button  cancel" v-if="order.status === '待发货'" :data-order-id="order.orderId"
-                            @tap="toBackMoney($event)">取消订单
-                      </view>
                       <view class="button  cancel" v-if="order.status === '待发货'" @tap="remindOrder(order.orderId)">
                         催单
                       </view>
+
+                      <!--待收货-->
+                      <!--待收货-->
                       <view class="button  pay" v-if="order.status === '待收货'" @tap="confirmReceipt(order.orderId)">
                         确认收货
                       </view>
@@ -363,6 +363,7 @@
     methods: {
       ...mapActions('Order', ['getOrderList', 'confirmReceipt', 'remindOrder', 'cancelOrder', 'deleteOrder']),
       ...mapActions('Sale', ['getAfterSaleList']),
+
       swiperChange(e) {
         let { current } = e.target;
         this.TabCur = current;
@@ -459,7 +460,7 @@
               console.log('用户点击确定');
               await that.cancelOrder({
                 orderId: that.currentCancelOrderNum,
-                reason: that.sorts[that.currentPickerValue].reason
+                reason: that.sorts[that.currentPickerValue].reason,
               });
               that.getData();
             } else if (res.cancel) {

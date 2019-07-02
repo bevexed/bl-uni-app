@@ -60,15 +60,15 @@ export const createOrder = async ({ commit }, data) => {
 };
 
 export const cancelOrder = async ({ dispatch }, data) => {
-  let { reasonText } = data;
   let res = await reqCancelOrder(data);
   if (res.code === 200) {
-    // if (!reasonText) {
-    //   uni.showToast({
-    //     title: "订单取消成功"
-    //   });
-    //   return
-    // }
+    const route = getRoute(1);
+    if (route === 'pages/order/order') {
+      uni.showToast({
+        title: "订单取消成功"
+      });
+      return
+    }
     MSG_REDIRECT({
       title: '订单取消成功',
       url: '/pages/order/order',
