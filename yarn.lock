@@ -41,6 +41,11 @@
     vue "^2.6.9"
     vuex "^3.1.0"
 
+aes-js@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.npm.taobao.org/aes-js/download/aes-js-3.1.2.tgz#db9aabde85d5caabbfc0d4f2a4446960f627146a"
+  integrity sha1-25qr3oXVyqu/wNTypERpYPYnFGo=
+
 ajv@^6.5.5:
   version "6.10.0"
   resolved "http://registry.npm.taobao.org/ajv/download/ajv-6.10.0.tgz#90d0d54439da587cd7e843bfb7045f50bd22bdf1"
@@ -101,6 +106,16 @@ core-util-is@1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/core-util-is/download/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+
+crypto-js@^3.1.9-1:
+  version "3.1.9-1"
+  resolved "https://registry.npm.taobao.org/crypto-js/download/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
+  integrity sha1-/aGedh/Ad+Af+/3G6f38WeiAbNg=
+
+cryptojs@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.npm.taobao.org/cryptojs/download/cryptojs-2.5.3.tgz#909547ecf15bac456e275459b39f2ef45d7fcbb9"
+  integrity sha1-kJVH7PFbrEVuJ1RZs58u9F1/y7k=
 
 dashdash@^1.12.0:
   version "1.14.1"

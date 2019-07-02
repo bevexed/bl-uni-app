@@ -73,6 +73,7 @@
             <image class="more" @tap="preview = false" src="../../static/icon/more.svg" mode=""></image>
         </view>
 
+      <!--fixMe：总价-->
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
@@ -144,7 +145,7 @@
         // 查看更多地址状态
         showMoreAddress: false,
         // 是否 预览
-        preview: true,
+        preview: false,
         // 是否同意
         agreement: false,
 

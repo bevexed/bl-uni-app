@@ -16,6 +16,9 @@ import {
   reqUpdatePhone,
   reqVerify
 } from "../../api/user";
+
+import { encrypt } from "../../static/js/aes";
+
 import { MSG_BACK, MSG_REDIRECT, MSG_RELAUNCH, SHOW_MODAL, SMG } from "../../utils";
 
 export default {
@@ -67,7 +70,7 @@ export default {
 
   // 获取短信验证码
   async getVerify({ commit }, phone) {
-    let res = await reqVerify({ phone });
+    let res = await reqVerify({ phone: encrypt(phone) });
     if (res.code === 200) {
     commit(GET_VERIFY, { phone });
       uni.showToast({
@@ -151,7 +154,7 @@ export default {
       SMG('请检查手机号');
       return
     }
-    let res = await reqUpdatePhone(data);
+    let res = await reqUpdatePhone({ phone: encrypt(phone), verify });
     if (res.code === 200) {
       uni.setStorage({
         key: 'token',

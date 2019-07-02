@@ -42,6 +42,7 @@
                               })"></image>
                     </view>
                     <view class="detail-footer">
+                      <!--价格-->
                       <view v-if="!edit" :class="['options']">
                         <view class="option" v-if="good.sampleType">
                           <view class="label">标样：￥{{ good.samplePrice }}</view>
@@ -52,7 +53,7 @@
                           <view class="value">* {{ good.shoppingNum }}</view>
                         </view>
                       </view>
-
+                      <!--数量-->
                       <view v-else class="options del-active" @tap="selectWillChang(i)">
                         <view class="option" v-if="good.sampleType">
                           <view class="label">标样：*{{ good.sampleType }}</view>
@@ -63,7 +64,7 @@
 
                         <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                       </view>
-
+                      <!--总价-->
                       <view class="price">￥{{ good.price * good.shoppingNum + good.sampleType * good.samplePrice }}</view>
                     </view>
                   </view>
