@@ -11,9 +11,10 @@ import {
   reqConfirmReceipt,
   reqRemindOrder,
   reqOrderDetail,
-  reqPayOrder, reqShipCost
+  reqPayOrder,
+  reqShipCost, reqDeleteOrder
 } from "../../api/order";
-import { getRoute, MSG_TO, SHOW_MODAL, SMG } from "../../utils";
+import { getRoute, MSG_REDIRECT, MSG_TO, SHOW_MODAL, SMG } from "../../utils";
 import { reqDetele } from "../../api/cart";
 
 export const getOrderList = async ({ commit, state }, data) => {
@@ -62,14 +63,13 @@ export const cancelOrder = async ({ dispatch }, data) => {
   let { reasonText } = data;
   let res = await reqCancelOrder(data);
   if (res.code === 200) {
-    if (!reasonText) {
-      uni.showToast({
-        title: "订单取消成功"
-      });
-      return
-    }
-
-    MSG_TO({
+    // if (!reasonText) {
+    //   uni.showToast({
+    //     title: "订单取消成功"
+    //   });
+    //   return
+    // }
+    MSG_REDIRECT({
       title: '订单取消成功',
       url: '/pages/order/order',
     })
@@ -159,15 +159,16 @@ export const getShipCost = async ({ commit }, data) => {
 };
 
 export const deleteOrder = async ({ dispatch }, data) => {
+  console.log(data);
   SHOW_MODAL({
     title: '删除订单',
     content: '确认删除订单?',
     async confirm() {
-      let res = await deleteOrder(data);
+      let res = await reqDeleteOrder(data);
       if (res.code === 200) {
         await dispatch('getOrderList');
         uni.showToast({ title: '删除成功' })
       }
     }
   })
-}
+};

@@ -46,7 +46,10 @@
                     <view class="default" v-if="address.default">默认地址</view>
                     <view class="empty" v-else></view>
                     <view class="icon">
-                        <image src="../../static/icon/edit.svg" mode=""  @tap="toAddAddress(address.id)"></image>
+                      <image
+                        @tap="TO( '/pages/address-book/add-address?id=' + address.id)"
+                        mode=""
+                        src="../../static/icon/edit.svg"></image>
                         <image src="../../static/icon/del2.svg" mode=""  @tap="deleteAddress(address.id)"></image>
                     </view>
                 </view>
@@ -139,7 +142,7 @@
     data() {
       return {
         // 查看更多地址状态
-        showMoreAddress: true,
+        showMoreAddress: false,
         // 是否 预览
         preview: true,
         // 是否同意
@@ -195,7 +198,7 @@
 
       selectAddress(data) {
         this.curAddress = data;
-        this.curAddressList = [...this.addressList.filter(item => item.id === data), ...this.addressList.filter(item => item.id !== data)]
+        this.curAddressList = [...this.addressList.filter(item => item.id === data), ...this.addressList.filter(item => item.id !== data)];
         this.doShipCost();
       },
 
@@ -208,11 +211,6 @@
           await this.createOrder({ addressId, item: JSON.stringify(item), amount });
         }
       },
-      toAddAddress(id) {
-        uni.navigateTo({
-          url: "/pages/address-book/add-address?id=" + id
-        })
-      }
     }
   }
   ;

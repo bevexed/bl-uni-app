@@ -93,4 +93,4 @@ export const reqShipCost = ({ addressId, item }) => ajax('/order/shipCost', { ad
  * @param orderId
  * @returns {Promise<*>}
  */
-export const reqDeleteOrder = orderId => ajax('/order/deleteOrder', {}, 'DELETE');
+export const reqDeleteOrder = orderId => ajax('/order/deleteOrder/' + orderId, {}, 'DELETE');

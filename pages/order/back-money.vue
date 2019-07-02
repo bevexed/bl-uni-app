@@ -31,7 +31,7 @@
             <view class="item">
                 <text class="label">退款金额</text>
               <text class="price">￥{{ current[0].amount }}</text>
-                <text class="bedge">(不含运费)</text>
+                <text class="bedge"></text>
             </view>
             <view class="item flex" @tap="cancalOrder">
                 <text class="label">退款原因</text>
