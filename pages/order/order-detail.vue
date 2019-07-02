@@ -15,7 +15,9 @@
                     <text class="name">{{ orderDetail.receiverName }}</text>
                     <text class="phone" v-if="orderDetail && orderDetail.phone">{{ orderDetail.phone.slice(0,3) }} **** {{ orderDetail.phone.slice(7) }}</text>
                 </view>
-                <view class="address-detail">地址：{{ orderDetail.address }}</view>
+              <view class="address-detail">
+                地址：{{ orderDetail.province }} {{ orderDetail.city }} {{ orderDetail.county }} {{ orderDetail.address }}
+              </view>
             </view>
         </view>
 
