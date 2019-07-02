@@ -19,8 +19,8 @@
           <view
             :class="['address-detail', { active: address.id === curAddress }]"
             :key="i"
-            v-for="(address, i) in addressList"
-            v-if="showMoreAddress ? showMoreAddress : address.id === curAddress">
+            v-for="(address, i) in curAddressList"
+          >
             <image @tap="selectAddress(address.id)"
                    class="gou"
                    mode=""
@@ -73,7 +73,11 @@
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
-              <image class="shop-img" :src="good.imageShow" mode="" @tap="toDetail(good.productId)"></image>
+              <image
+                :src="good.imageShow"
+                @tap="TO('/pages/shop-detail/shop-detail?id=' + good.productId)"
+                class="shop-img"
+                mode=""></image>
 
                 <view class="detail">
                     <view class="detail-header"><view class="shop-name">{{ good.pno }}</view></view>
@@ -129,13 +133,13 @@
 
 <script>
   import { mapActions, mapGetters, mapState } from "vuex";
-  import { SMG } from "../../utils";
+  import { SMG, TO } from "../../utils";
 
   export default {
     data() {
       return {
         // 查看更多地址状态
-        showMoreAddress: false,
+        showMoreAddress: true,
         // 是否 预览
         preview: true,
         // 是否同意
@@ -143,6 +147,8 @@
 
 
         curAddress: '',
+
+        curAddressList: []
       };
     },
 
@@ -158,58 +164,49 @@
       await this.getAllAddress();
       await this.doShipCost();
       this.preview = this.goods.length >= 4;
-      this.curAddress = this.addressList.filter(item => item.isMain)[0].id || '';
+      this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? '' : this.addressList.filter(item => item.isMain)[0].id;
+      this.curAddressList = this.addressList
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
       ...mapActions('Order', ['createOrder', 'getShipCost']),
+      TO,
 
-      collectData(){
-
-      },
-
-      async doShipCost() {
-        const { goods, addressList, curAddress } = this;
+      collectData() {
+        let { goods, addressList, curAddress, agreement } = this;
         let item = goods.map(item => ({
           count: item.shoppingNum,
           productId: item.productId,
           sampleType: item.sampleType === 0 ? 0 : 10
         }));
-        let addressId = curAddress || addressList.filter(item => item.isMain)[0].id;
+        let addressId = curAddress ? curAddress : addressList.filter(item => item.isMain).length === 0 ? '' : addressList.filter(item => item.isMain)[0].id;
+        return { addressId, item, agreement }
+      },
+
+      async doShipCost() {
+        let { addressId, item } = this.collectData();
+
         if (!addressId) {
-          SMG('缺少收货地址');
-          return
+          return SMG('请选择收货地址');
         }
+
         await this.getShipCost({ addressId, item: JSON.stringify(item) });
       },
 
-      async selectAddress(data) {
+      selectAddress(data) {
         this.curAddress = data;
+        this.curAddressList = [...this.addressList.filter(item => item.id === data), ...this.addressList.filter(item => item.id !== data)]
         this.doShipCost();
       },
 
       async toPay(amount) {
-        const { agreement, goods, addressList,curAddress } = this;
-        let item = goods.map(item => ({
-          count: item.shoppingNum,
-          productId: item.productId,
-          sampleType: item.sampleType === 0 ? 0 : 10
-        }));
-
-        if (!addressList.filter(item => item.isMain)[0].length) {
-          SMG('请选择收货地址');
+        const { addressId, item, agreement } = this.collectData();
+        if (!addressId) {
+          return SMG('请选择收货地址');
         }
-
-        let addressId = curAddress || addressList.filter(item => item.isMain)[0].id;
-
         if (agreement) {
           await this.createOrder({ addressId, item: JSON.stringify(item), amount });
         }
-      },
-      toDetail(id) {
-        uni.navigateTo({
-          url: '/pages/shop-detail/shop-detail?id=' + id
-        });
       },
       toAddAddress(id) {
         uni.navigateTo({

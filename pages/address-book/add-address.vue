@@ -166,7 +166,7 @@
 
       doChange() {
         const { id, addAddress, changeAddress, collectData } = this;
-        id === 'null' ? addAddress(data) : changeAddress({ ...collectData(), id })
+        id === 'null' ? addAddress(collectData()) : changeAddress({ ...collectData(), id })
       },
 
       bindPickerChange(e) {
