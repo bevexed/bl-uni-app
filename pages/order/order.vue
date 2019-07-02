@@ -51,13 +51,10 @@
                                         </view>
                                     </view>
 
-                                  <view class="price">￥{{good.amount}}</view>
+                                  <view class="price">￥{{good.sampleAmount}}</view>
                                 </view>
                             </view>
                         </view>
-
-                      <image @tap="toPreview(-1)" class="hr" src="../static/icon/all.svg"
-                             v-if="preview === order.orderId && order.product.length >= 4" mode=""></image>
                     </view>
                 <!--商品-->
                 <view class="goods"
@@ -94,7 +91,7 @@
                           </view>
                         </view>
 
-                        <view class="price">￥{{good.amount}}</view>
+                        <view class="price">￥{{ good.amount - good.sampleAmount}}</view>
                       </view>
                     </view>
                   </view>
@@ -300,25 +297,53 @@
 
     onShow() {
       if (this.isAfterSaleOpen) {
-        this.tabList.push({ name: '售后', value: 40 })
+        this.tabList = [
+          { name: '全部', value: 0 },
+          { name: '待付款', value: 0 },
+          { name: '待发货', value: 20 },
+          { name: '待收货', value: 30 },
+          { name: '售后', value: 40 }
+        ]
       }
 
 
       this.getAfterSaleList();
 
       if (this.TabCur === 0) {
-        this.getOrderList({
+        return this.getOrderList({
           page: 1,
           pageSize: 10,
         }).then(() => this.height('.wrap0'));
-        return
+
       }
+
       let status = this.tabList[this.TabCur].value;
       this.getOrderList({
         page: 1,
         pageSize: 10,
         status
       }).then(() => this.height('.wrap0'))
+    },
+
+    async onPullDownRefresh() {
+      await this.getAfterSaleList();
+
+      if (this.TabCur === 0) {
+        await this.getOrderList({
+          page: 1,
+          pageSize: 10,
+        });
+      } else {
+        await this.getOrderList({
+          page: 1,
+          pageSize: 10,
+          status: this.tabList[this.TabCur].value
+        })
+      }
+
+      this.height('.wrap0');
+      uni.stopPullDownRefresh();
+      return uni.showToast({ title: '数据刷新成功' })
     },
 
     onReachBottom() {

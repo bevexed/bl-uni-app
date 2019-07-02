@@ -414,8 +414,9 @@
       }
 
       .search-bar {
+        padding: upx(40);
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
 
         img.search {
@@ -427,7 +428,6 @@
         .camera {
           width: upx(46);
           height: upx(46);
-          margin-right: upx(20);
           box-shadow: 0 0 upx(8) 0 rgba(204, 204, 204, 0.5);
           padding: upx(13) upx(20);
         }
@@ -536,7 +536,7 @@
         background: #fff;
 
         .my-button {
-          $height: 60 upx;
+          $height: upx(60);
           width: upx(240);
           height: $height;
           line-height: $height;
