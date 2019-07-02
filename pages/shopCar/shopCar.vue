@@ -10,7 +10,7 @@
 
                 <view class="menu" v-if="edit" @tap="edit = !edit">
                     <image src="../../static/icon/save.svg" mode=""></image>
-                  <text @tap="getCartAll">保存</text>
+                  <text>保存</text>
                 </view>
                 <view class="menu" v-else @tap="edit = !edit">
                     <image src="../../static/icon/edit.svg" mode=""></image>
