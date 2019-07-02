@@ -16,10 +16,16 @@
 
         <!--已存在的收货地址-->
         <view :class="['select-address', { active: showMoreAddress }]">
-            <view :class="['address-detail', { active: address.default }]" v-for="(address, i) in addressList" :key="i">
-              <image class="gou" src="../../static/icon/gou.svg" mode=""
-                     @tap="changeDefaultAddress(address.id)"></image>
-              <view class="header" @tap="changeDefaultAddress(address.id)">
+          <view
+            :class="['address-detail', { active: address.id === curAddress }]"
+            :key="i"
+            v-for="(address, i) in addressList"
+            v-if="showMoreAddress ? showMoreAddress : address.id === curAddress">
+            <image @tap="selectAddress(address.id)"
+                   class="gou"
+                   mode=""
+                   src="../../static/icon/gou.svg"></image>
+            <view @tap="selectAddress(address.id)" class="header">
                     <view class="label">收件人：</view>
                     <view class="value">
                       {{ address.addressee }}
@@ -27,7 +33,7 @@
                     </view>
                 </view>
 
-              <view class="content" @tap="changeDefaultAddress(address.id)">
+            <view @tap="selectAddress(address.id)" class="content">
                     <view class="label">地址：</view>
                     <view class="value">
                       {{ address.province }} {{ address.city }} {{ address.county }}
@@ -133,7 +139,10 @@
         // 是否 预览
         preview: true,
         // 是否同意
-        agreement: false
+        agreement: false,
+
+
+        curAddress: '',
       };
     },
 
@@ -148,19 +157,25 @@
     async onShow() {
       await this.getAllAddress();
       await this.doShipCost();
-      this.preview = this.goods.length >= 4
+      this.preview = this.goods.length >= 4;
+      this.curAddress = this.addressList.filter(item => item.isMain)[0].id || '';
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
       ...mapActions('Order', ['createOrder', 'getShipCost']),
+
+      collectData(){
+
+      },
+
       async doShipCost() {
-        const { goods, addressList } = this;
+        const { goods, addressList, curAddress } = this;
         let item = goods.map(item => ({
           count: item.shoppingNum,
           productId: item.productId,
           sampleType: item.sampleType === 0 ? 0 : 10
         }));
-        let addressId = addressList.filter(item => item.isMain)[0].id;
+        let addressId = curAddress || addressList.filter(item => item.isMain)[0].id;
         if (!addressId) {
           SMG('缺少收货地址');
           return
@@ -168,13 +183,13 @@
         await this.getShipCost({ addressId, item: JSON.stringify(item) });
       },
 
-      async changeDefaultAddress(data) {
-        await this.defaultAddress(data);
+      async selectAddress(data) {
+        this.curAddress = data;
         this.doShipCost();
       },
 
       async toPay(amount) {
-        const { agreement, goods, addressList } = this;
+        const { agreement, goods, addressList,curAddress } = this;
         let item = goods.map(item => ({
           count: item.shoppingNum,
           productId: item.productId,
@@ -185,7 +200,7 @@
           SMG('请选择收货地址');
         }
 
-        let addressId = addressList.filter(item => item.isMain)[0].id;
+        let addressId = curAddress || addressList.filter(item => item.isMain)[0].id;
 
         if (agreement) {
           await this.createOrder({ addressId, item: JSON.stringify(item), amount });
