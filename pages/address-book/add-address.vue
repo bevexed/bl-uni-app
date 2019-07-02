@@ -96,6 +96,7 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex'
+  import { SHOW_MODAL } from "../../utils";
 
   export default {
     data() {
@@ -126,6 +127,18 @@
     methods: {
       ...mapActions('Address', ['addAddress', 'changeAddress']),
       back() {
+        if (this.id !== 'null') {
+         return  SHOW_MODAL({
+            title: '编辑地址',
+            content: '是否保存本次编辑结果？',
+            confirm() {
+              this.doChange()
+            },
+            cancel() {
+              uni.navigateBack({ delta: 1 })
+            }
+          })
+        }
         uni.navigateBack({ delta: 1 })
       },
       doChange() {
