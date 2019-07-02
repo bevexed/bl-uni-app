@@ -108,7 +108,7 @@ export const SMG = title => uni.showToast({
 });
 
 /**
- * @function 获取当前地址
+ * @function 获取地址
  * @param index
  * @returns {() => void}
  */
