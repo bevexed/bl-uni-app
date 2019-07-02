@@ -2,12 +2,12 @@ import {
   GET_AFTER_SALE_LIST
 } from '../mutation-types';
 import { reqAfterSaleList, reqCreateAfterSale } from "../../api/sale";
-import { MSG_TO } from "../../utils";
+import { MSG_REDIRECT } from "../../utils";
 
 export const createAfterSale = async ({ commit }, data) => {
   let res = await reqCreateAfterSale(data);
   if (res.code === 200) {
-    MSG_TO({
+    MSG_REDIRECT({
       title: '请求售后成功',
       url: 'sale-after-detail?orderId=' + res.data
     })

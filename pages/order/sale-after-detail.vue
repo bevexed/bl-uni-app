@@ -69,8 +69,11 @@
             <view class="label">退款总金额</view>
           <view class="value">¥{{ good.amount }}</view>
         </view>
-        
-         <view class="contact">
+
+      <view
+        @tap="TO('/pages/contact/contact')"
+        class="contact"
+      >
             <text>联系客服</text>
         </view>
         <view class="white-space"></view>
@@ -80,6 +83,7 @@
 <script>
   import { reqCancelAfterSale, reqAfterSaleDetail } from "../../api/sale";
   import { SHOW_MODAL } from "../../utils";
+  import { TO } from "../../utils";
 
   export default {
     data() {
@@ -101,6 +105,7 @@
     },
 
     methods: {
+      TO,
       async getAfterSaleDetail(afterSaleId) {
         let res = await reqAfterSaleDetail({ afterSaleId });
         if (res.code === 200) {
@@ -109,15 +114,17 @@
       },
 
       async cancelAfterSale() {
+        const _this = this;
+        const { afterSaleId } = this;
         SHOW_MODAL({
           title: '取消售后',
           content: '确定取消申请',
           async confirm() {
-            let res = await reqCancelAfterSale({ afterSaleId: this.afterSaleId });
+            let res = await reqCancelAfterSale({ afterSaleId });
             if (res.code === 200) {
-              this.good = res.data;
-              let result = await reqAfterSaleDetail(this.afterSaleId);
+              let result = await reqAfterSaleDetail({ afterSaleId });
               if (result.code === 200) {
+                _this.good = result.data;
                 uni.showToast({
                   title: '取消成功',
                   mask: true,

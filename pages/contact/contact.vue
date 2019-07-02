@@ -65,7 +65,6 @@
 
     .title {
       margin: upx(50) 0 upx(70);
-      font-family: Helvetica Bold, serif;
       font-size: upx(48);
       font-weight: bold;
 

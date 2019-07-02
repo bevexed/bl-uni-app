@@ -16,7 +16,7 @@
         <div class="upload" @tap="chooseImg" :style="{color:payTypes.bankPay?'#bfa065':'#999'}">点击上传汇款凭证</div>
       </div>
     </div>
-    <div class="button" @tap="payOrder(payData)">确认支付</div>
+    <div @tap="pay" class="button">确认支付</div>
   </div>
 </template>
 
@@ -34,7 +34,10 @@
 
         bankTransferRecord: '',
         filename: '',
-        payData: {}
+        payData: {},
+
+
+        type: ''
       };
     },
 
@@ -50,22 +53,30 @@
       ...mapActions('Order', ['payOrder']),
       ...mapActions('User', ['getCode']),
 
+      async pay() {
+        // 准备数据
+        switch (this.type) {
+          case 'wxPay':
+            await this.wxPay();
+            break;
+          case 'bankPay':
+            await this.bankPay();
+            break;
+        }
+
+        this.payOrder(this.payData)
+
+      },
+
       async changePayType(cur) {
+        this.type = cur;
         let { payTypes } = this;
         Object.entries(payTypes).map(([key, value]) => {
           this.payTypes[key] = false;
         });
         this.payTypes[cur] = true;
 
-        // 准备数据
-        switch (cur) {
-          case 'wxPay':
-            await this.wxPay(code);
-            break;
-          case 'bankPay':
-            await this.bankPay();
-            break;
-        }
+
       },
 
       // fixMe:支付
@@ -87,7 +98,7 @@
           orderNum,
           paymentMethod: 0,
           bankTransferRecord,
-          filename
+          filename,
         };
       },
 
