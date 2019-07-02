@@ -20,6 +20,7 @@ export const GET_CART_ALL = 'get_cart_all';
 export const DELETE_CART = 'delete_cart';
 export const DELETE_INVALID = 'delete_invalid';
 export const SELECT_PRODUCT = 'select_product';
+export const PUT_CART = 'put_cart';
 
 // collect
 export const ADD_COLLECT = 'add_collect';

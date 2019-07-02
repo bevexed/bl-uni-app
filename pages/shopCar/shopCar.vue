@@ -10,7 +10,7 @@
 
                 <view class="menu" v-if="edit" @tap="edit = !edit">
                     <image src="../../static/icon/save.svg" mode=""></image>
-                  <text>保存</text>
+                  <text @tap="getCartAll">保存</text>
                 </view>
                 <view class="menu" v-else @tap="edit = !edit">
                     <image src="../../static/icon/edit.svg" mode=""></image>
@@ -64,7 +64,7 @@
                         <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
                       </view>
 
-                      <view class="price">￥{{ good.totalAmount }}</view>
+                      <view class="price">￥{{ good.price * good.shoppingNum + good.sampleType * good.samplePrice }}</view>
                     </view>
                   </view>
                 </view>
@@ -218,6 +218,7 @@
         let length = goods.filter(good => good[state] === true).length;
         let data = goods.filter(good => good[state] === true);
         let ids = data.map(item => item.productId);
+        console.log(data);
         this.selectProduct(data);
         return { length, ids };
       }

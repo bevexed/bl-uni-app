@@ -3,7 +3,7 @@ import {
   GET_CART_ALL,
   SELECT_PRODUCT,
   DELETE_CART,
-  DELETE_INVALID
+  DELETE_INVALID, PUT_CART
 } from '../mutation-types';
 
 import {
@@ -56,6 +56,7 @@ export const doDeleteInvalid = async ({ dispatch }) => {
   SHOW_MODAL({
     title: '清除下架',
     content: '是否一键清除下架商品？',
+    // confirmColor: '#f00',
     async confirm() {
       let res = await reqDeleteInvalid();
       if (res.code === 200) {
@@ -71,10 +72,10 @@ export const doDeleteInvalid = async ({ dispatch }) => {
   });
 };
 
-export const putCart = async ({ dispatch }, data) => {
+export const putCart = async ({ commit }, data) => {
   let res = await reqPutCart(data);
   if (res.code !== 200) {
-    SMG('修改失败')
+    return SMG('修改失败')
   }
 };
 

@@ -3,7 +3,7 @@ import {
   GET_CART_ALL,
   SELECT_PRODUCT,
   DELETE_CART,
-  DELETE_INVALID
+  DELETE_INVALID, PUT_CART
 } from '../mutation-types';
 
 export default {
