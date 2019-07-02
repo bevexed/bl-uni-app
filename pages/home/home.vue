@@ -3,26 +3,30 @@
     <div class="title">SINOTY</div>
 
     <!-- 轮播图 -->
-    <uni-swiper-dot :info="banners" :current="current" mode="long" :dotsStyles="dotsStyles">
+    <uni-swiper-dot :current="current" :dotsStyles="dotsStyles" :info="banners" mode="long">
       <swiper
-        :indicator-dots="false"
         :autoplay="true"
-        :interval="3000"
         :duration="1000"
-        loop
-        class="banner"
+        :indicator-dots="false"
+        :interval="3000"
         :style="{ height: windowHeight - 72 + 'px' }"
         @change="onChange"
+        class="banner"
+        loop
       >
         <swiper-item
-          v-for="(banner, bannerIndex) in banners" :key="bannerIndex"
+          :key="bannerIndex"
           @tap="authenticationTo({
                 url: '/pages/shop-detail/shop-detail?id=' + banner.productId,
                 status:userInfo.status
-              })">
+              })"
+          v-for="(banner, bannerIndex) in banners">
           <view class="swiper-item">
-            <img :style="{ height: windowHeight - 72 + 'px' }" lazy-load mode="aspectFill" class="banner-img"
-                 :src="banner.url" alt=""/>
+            <img
+              :src="banner.url"
+              :style="{ height: windowHeight - 72 + 'px' }"
+              alt="" class="banner-img"
+              lazy-load mode="aspectFill"/>
           </view>
         </swiper-item>
       </swiper>
@@ -32,36 +36,39 @@
     <div class="picture-presentation second">
       <div class="picture-presentation-top">
         <img
-          lazy-load
-          mode="aspectFill"
           :src="second[0].url"
           @tap="authenticationTo({
             url: '/pages/shop-detail/shop-detail?id=' + second[0].productId,
             status:userInfo.status
           })"
-          alt=""/>
+          alt=""
+          lazy-load
+          mode="aspectFill"/>
       </div>
       <div class="picture-presentation-bottom">
         <div class="title">new fashion gathering place</div>
         <div class="exhibition">
           <div class="big-pic">
-            <img lazy-load mode="aspectFill" :src="second[1].url"
-                 @tap="authenticationTo({
+            <img :src="second[1].url" @tap="authenticationTo({
                 url: '/pages/shop-detail/shop-detail?id=' +second[1].productId,
                 status:userInfo.status
-              })"
-                 alt=""/>
+              })" alt=""
+                 lazy-load
+                 mode="aspectFill"/>
           </div>
 
           <!-- 右部预览项目 -->
           <div class="sm-pic">
             <div class="title">FASHION BRANDS</div>
-            <img lazy-load mode="aspectFill" :src="second[2].url"
-                 @tap="authenticationTo({
+            <img
+              :src="second[2].url"
+              @tap="authenticationTo({
                 url: '/pages/shop-detail/shop-detail?id=' +second[2].productId,
                 status:userInfo.status
               })"
-                 alt=""/>
+              alt=""
+              lazy-load
+              mode="aspectFill"/>
           </div>
         </div>
       </div>
@@ -70,35 +77,36 @@
     <!-- 第三屏 -->
     <div class="picture-presentation third">
       <div class="picture-presentation-top">
-        <img lazy-load mode="aspectFill" :src="third[0].url"
-             @tap="authenticationTo({
+        <img :src="third[0].url" @tap="authenticationTo({
                 url: '/pages/shop-detail/shop-detail?id=' +third[0].productId,
                 status:userInfo.status
-              })"
-             alt=""/>
+              })" alt=""
+             lazy-load
+             mode="aspectFill"/>
       </div>
       <div class="picture-presentation-bottom">
         <div class="title">selection of high-quality item</div>
         <div class="exhibition">
           <div class="sm-pic">
             <div class="title">HOT-SALE</div>
-            <img lazy-load mode="aspectFill" :src="third[1].url"
-                 @tap="authenticationTo({
+            <img :src="third[1].url" @tap="authenticationTo({
                       url: '/pages/shop-detail/shop-detail?id=' +third[1].productId,
                       status:userInfo.status
-                   })"
-                 alt=""/>
+                   })" alt=""
+                 lazy-load
+                 mode="aspectFill"/>
 
           </div>
 
           <!-- 右部预览项目 -->
           <div class="big-pic">
-            <img lazy-load mode="aspectFill" :src="third[2].url"
+            <img :src="third[2].url"
                  @tap="authenticationTo({
                       url: '/pages/shop-detail/shop-detail?id=' +third[2].productId,
                       status:userInfo.status
-                   })"
-                 alt=""/>
+                   })" alt=""
+                 lazy-load
+                 mode="aspectFill"/>
           </div>
         </div>
       </div>
@@ -110,10 +118,10 @@
       <video
         :direction="direction"
         class="my-video"
-        poster=""
-        src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
         controls
         loop
+        poster=""
+        src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"
       ></video>
       <div class="tel">如果您在选购中有疑问，请致电：0571-88888888</div>
     </div>

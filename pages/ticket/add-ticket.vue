@@ -14,10 +14,12 @@
       </view>
 
         <view class="title">企业名称</view>
-      <input type="text" v-model="companyName" focus autofocus placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999"/>
+      <input autofocus focus maxlength="50" placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999" type="text"
+             v-model="companyName"/>
 
         <view class="title">企业税号</view>
-      <input type="text" v-model="companyTax" placeholder="请输入企业税号" placeholder-style="font-size:12px;color:#999"/>
+      <input maxlength="100" placeholder="请输入企业税号" placeholder-style="font-size:12px;color:#999" type="text"
+             v-model="companyTax"/>
 
         <!-- 专票 -->
         <view class="special" v-if="currentState === 0">
@@ -47,17 +49,29 @@
               <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
           </picker>
-          <input type="text" v-model="address" placeholder="请输入详细地址" placeholder-style="font-size:12px;color:#999"/>
+          <input
+            maxlength="120"
+            placeholder="请输入详细地址"
+            placeholder-style="font-size:12px;color:#999" type="text"
+            v-model="address"/>
 
             <view class="title">开户银行</view>
             <view class="bank">
-              <input type="text" v-model="bank" placeholder="请填写开户银行"
-                     placeholder-style="font-size:12px;color:#999"/>
-<!--              <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>-->
+              <input
+                maxlength="120"
+                placeholder="请填写开户银行"
+                placeholder-style="font-size:12px;color:#999"
+                type="text"
+                v-model="bank"/>
             </view>
 
             <view class="title">开户账号</view>
-          <input type="text" v-model="account" placeholder="请输入开户账号" placeholder-style="font-size:12px;color:#999"/>
+          <input
+            maxlength="50"
+            placeholder="请输入开户账号"
+            placeholder-style="font-size:12px;color:#999"
+            type="text"
+            v-model="account"/>
         </view>
 
         <view class="wrap">

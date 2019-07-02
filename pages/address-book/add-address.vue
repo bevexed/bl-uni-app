@@ -16,6 +16,7 @@
               <view class="value">
                 <input
                   type="text"
+                  maxlength="20"
                   placeholder="请输入收件人姓名(必填)"
                   placeholder-style="font-size:10px;color:#aaaaaa;"
                   v-model="addressee"/></view>
@@ -69,6 +70,7 @@
             <view class="value">
               <input
                 type="text"
+                maxlength="120"
                 placeholder="请输入详细地址，并精确到街道、单元、门牌等(必填)"
                 placeholder-style="font-size:10px;color:#aaaaaa;"
                 v-model="other"
