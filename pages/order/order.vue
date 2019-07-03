@@ -74,9 +74,9 @@
                         <view class="shop-name">{{ good.productNo }}</view>
 
                         <!-- 售后状态 -->
-                        <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">
-                          {{ good.afterSaleStatus }}
-                        </view>
+<!--                        <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">-->
+<!--                          {{ good.afterSaleStatus }}-->
+<!--                        </view>-->
                         <view class="shop-after-button"
                               v-if="good.allowAfterSale && isAfterSaleOpen"
                               @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
