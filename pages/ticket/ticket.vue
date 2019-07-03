@@ -71,12 +71,12 @@ export default {
     };
   },
   computed: mapState('Invoice', ['invoiceList']),
+  async onShow(){
+    await this.getInvoiceList();
+  },
   onLoad(e) {
     const { from } = e;
     this.from = from;
-
-
-    this.getInvoiceList()
   },
   methods: {
     ...mapActions('Invoice', ['getInvoiceList', 'invoiceDetail', 'getInvoiceApplyRequest', 'deleteInvoice']),

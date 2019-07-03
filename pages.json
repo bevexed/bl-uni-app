@@ -127,6 +127,9 @@
     },
     {
       "path": "pages/agreement/agreement"
+    },
+    {
+      "path": "pages/agreement2/agreement"
     }
   ],
   "subPackages": [

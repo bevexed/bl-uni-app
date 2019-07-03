@@ -1,7 +1,7 @@
 <template>
     <view class="uni-numbox">
         <view class="uni-numbox__minus" :class="{ 'uni-numbox--disabled': disableSubtract || disabled }" @click="_calcValue('subtract')">-</view>
-        <input class="uni-numbox__value" type="number" :disabled="true" :value="inputValue" @blur="_onBlur" />
+      <input :disabled="disabled" :value="inputValue" @blur="_onBlur" class="uni-numbox__value" type="number"/>
         <view class="uni-numbox__plus" :class="{ 'uni-numbox--disabled': disableAdd || disabled }" @click="_calcValue('add')">+</view>
     </view>
 </template>
@@ -35,7 +35,7 @@ export default {
     },
     data() {
         return {
-            inputValue: this.value
+          inputValue: this.value,
         };
     },
     computed: {

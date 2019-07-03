@@ -76,7 +76,6 @@
             <image class="more" @tap="preview = false" src="../../static/icon/more.svg" mode=""></image>
         </view>
 
-      <!--fixMe：总价-->
         <view class="goods" v-else>
             <view class="good" v-for="(good, i) in goods" :key="i">
                 <!-- 展开 -->
@@ -129,8 +128,8 @@
             <view :class="['select', { active: agreement }]" @tap="agreement = !agreement"><view class="selected"></view></view>
             <view>
                 <text class="star">*</text>
-                我已经阅读并同意接受相关的
-                <text class="href">销售条款</text>
+              我已经阅读并同意接受相关的
+              <text @tap="TO('/pages/agreement/agreement')" class="href">销售条款</text>
             </view>
         </view>
 

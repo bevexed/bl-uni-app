@@ -14,11 +14,11 @@
       </view>
 
         <view class="title">企业名称</view>
-      <input autofocus focus maxlength="50" placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999" type="text"
+      <input autofocus focus maxlength="30" placeholder="请输入企业名称" placeholder-style="font-size:12px;color:#999" type="text"
              v-model="companyName"/>
 
         <view class="title">企业税号</view>
-      <input maxlength="100" placeholder="请输入企业税号" placeholder-style="font-size:12px;color:#999" type="text"
+      <input maxlength="20" placeholder="请输入企业税号" placeholder-style="font-size:12px;color:#999" type="text"
              v-model="companyTax"/>
 
         <!-- 专票 -->
