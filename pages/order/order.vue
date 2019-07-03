@@ -11,9 +11,9 @@
             <swiper-item v-for="(item, index) in tabList" :key="index">
               <view :class="['wrap', 'wrap' + index]" v-for="(order, orderIndex) in currentDataList" :key="orderIndex">
                     <view class="order-header">
-                      <view class="order-num">{{tabList[TabCur].name === '售后'? '服务单号':'订单编号'}}:{{ order.orderId }}
+                      <view class="order-num">{{tabList[TabCur].name === '售后'? '服务单号':'订单编号'}} : {{ order.orderId }}
                       </view>
-                      <view class="order-state">{{ order.status }}</view>
+                      <view class="order-state">{{tabList[TabCur].name === '售后'? order.afterSaleStatus : order.status }}</view>
                     </view>
                     <!-- 收起 -->
                 <view class="preview" v-if="preview !== order.orderId && order.product.length >= 4">
@@ -142,7 +142,9 @@
 
                       <!--售后处理-->
                       <!--售后处理-->
-                      <view class="button  cancel" v-if="order.status === '售后处理' && isAfterSaleOpen" :data-order-id="order.orderId"
+                      <view class="button  cancel"
+                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpen"
+                            :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">售后详情
                       </view>
 
@@ -223,8 +225,7 @@
                     </picker-view-column>
                 </picker-view>
 
-                <!-- <view class="line left"></view>
-                <view class="line right"></view> -->
+
             </view>
         </view>
     </view>
@@ -279,6 +280,7 @@
         let afterSaleList = this.afterSaleList
           .map(item =>
             ({
+              afterSaleStatus: item.status,
               status: '售后处理',
               orderId: item.afterSaleId,
               product: [{

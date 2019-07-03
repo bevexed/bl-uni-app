@@ -118,7 +118,7 @@
         const { afterSaleId } = this;
         SHOW_MODAL({
           title: '取消售后',
-          content: '确定取消申请',
+          content: '确定取消申请?',
           async confirm() {
             let res = await reqCancelAfterSale({ afterSaleId });
             if (res.code === 200) {

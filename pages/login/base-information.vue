@@ -14,12 +14,12 @@
         <view :class="['button', { active: phone.length === 11 && !send }, { sended: send }]" @tap="sendMsg">{{ send ? '重新获取(' + time + 's)' : '获取验证码' }}</view>
       </view>
 
-       <view class="phone">
+      <view class="phone" v-if="custNameR">
         <image src="../../static/icon/cim.svg" mode=""></image>
         <input type="text"  v-model="custName" placeholder="公司名称" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
       </view>
 
-       <view class="phone">
+      <view class="phone" v-if="jobR">
          <image src="../../static/icon/job.svg" mode=""></image>
         <input type="text" v-model="job"  placeholder="您的职务" placeholder-style="color:#aaaaaa;font-weight:300;font-size:16px" />
       </view>
@@ -36,7 +36,7 @@
     </view>
 
     <button
-      :class="['pay-button', { active: agreement && phone.length === 11 && verify.length >= 4 && job && custName}]"
+      :class="['pay-button', { active: agreement && phone.length === 11 && verify.length >= 4 && (jobR ? job : !jobR ) && (custNameR ? custName : !custNameR)}]"
       open-type="getUserInfo"
       @getuserinfo="login"
     >注册并登录
@@ -46,6 +46,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
+  import { reqConfigureCollection } from "../../api/user";
 
   export default {
     data() {
@@ -57,7 +58,11 @@
         verify: '',
         // 是否 已发送 短信
         job: '',
+        jobR: false,
+
         custName: '',
+        custNameR: false,
+
         send: false,
         // 倒计时
         time: 60,
@@ -65,9 +70,13 @@
         timer: null
       };
     },
-    onLoad(e) {
+    async onLoad(e) {
       const { phone } = e;
+
+      await this.getConfig();
+
       this.phone = phone;
+
     },
     methods: {
       ...mapActions('User', ['getVerify', 'doLogin']),
@@ -76,6 +85,20 @@
           url: '/pages/agreement/agreement'
         })
       },
+
+
+      async getConfig() {
+        let res = await reqConfigureCollection();
+        if (res.code === 200) {
+          this.jobR = res.data
+            .filter(item => item.fieldName === 'job').length === 0 ? false
+            : res.data.filter(item => item.fieldName === 'job')[0].required;
+          this.custNameR = res.data
+            .filter(item => item.fieldName === 'job').length === 0 ? false
+            : res.data.filter(item => item.fieldName === 'company_name')[0].required;
+        }
+      },
+
       async sendMsg() {
 
         let { phone, send, time, timer } = this;
@@ -117,8 +140,8 @@
           return;
         }
         const { nickName, avatarUrl } = e.detail.userInfo;
-        let { phone, verify, agreement, job, custName } = this;
-        if (agreement && phone.length === 11 && verify.length >= 4 && job && custName) {
+        let { phone, verify, agreement, job, custName, jobR, custNameR } = this;
+        if (agreement && phone.length === 11 && verify.length >= 4 && (jobR ? job : !jobR) && (custNameR ? custName : !custNameR)) {
           this.doLogin({ verify, phone, job, custName, avatar: avatarUrl, nickName })
         }
       }
