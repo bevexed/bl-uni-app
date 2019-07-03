@@ -52,7 +52,7 @@ export const addInvoice = async ({ dispatch }, data) => {
 
     let p = /^1\d{10}$/;
     if (!p.test(phone)) {
-      SMG('请检测手机号');
+      SMG('请检查手机号');
       return
     }
 
@@ -135,7 +135,7 @@ export const doUpdateInvoice = async ({}, data) => {
 
     let p = /^1\d{10}$/;
     if (!p.test(phone)) {
-      SMG('请检测手机号');
+      SMG('请检查手机号');
       return
     }
 

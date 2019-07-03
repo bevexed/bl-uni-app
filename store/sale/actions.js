@@ -2,9 +2,15 @@ import {
   GET_AFTER_SALE_LIST
 } from '../mutation-types';
 import { reqAfterSaleList, reqCreateAfterSale } from "../../api/sale";
-import { MSG_REDIRECT } from "../../utils";
+import { MSG_REDIRECT, SMG } from "../../utils";
 
 export const createAfterSale = async ({ commit }, data) => {
+  const { reasonCode, type } = data;
+  console.log(reasonCode, type);
+  if (reasonCode === '' || type === '') {
+    return SMG('请选择必选信息')
+  }
+
   let res = await reqCreateAfterSale(data);
   if (res.code === 200) {
     MSG_REDIRECT({

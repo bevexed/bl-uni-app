@@ -41,8 +41,8 @@
             </view>
 
             <view :class="['item', 'flex']" @tap="selectNum">
-                <text :class="['label', { 'current-picker': currentSelectSaleAfterShow !== 1 }]">退货数量</text>
-              <view class="flex" v-if="currentSelectSaleAfterShow === 1">
+                <text :class="['label', { 'current-picker': type[currentSelectSaleAfterShow].text !== '退货退款' }]">退货数量</text>
+              <view class="flex" v-if="type[currentSelectSaleAfterShow].text=== '退货退款'">
                 <text class="label">{{ num }}</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
               </view>
@@ -126,6 +126,7 @@
 
                 <picker-view class="pick" indicator-style="height: 40px;" :value="defaultSelectSaleAfterShow" @change="bindChange">
                     <picker-view-column>
+                        <view class="selecter"><view class="value"></view></view>
                         <view class="selecter"><view class="value">仅退款</view></view>
                         <view class="selecter"><view class="value">退货退款</view></view>
                     </picker-view-column>
@@ -177,9 +178,10 @@ export default {
       selectReasonShow: false,
       // 退款原因
       sorts: [
-        { reasonText: '买错了,不想买了', reason: 0 },
-        { reasonText: '未及时发货', reason: 10 },
-        { reasonText: '商品信息有误', reason: 20 },
+        { reasonText: '', reason: '' },
+        { reasonText: '买错了', reason: 0 },
+        { reasonText: '发货错误', reason: 10 },
+        { reasonText: '商品有问题', reason: 20 },
         { reasonText: '其他', reason: 30 }
       ],
       // 默认退款原因
@@ -202,7 +204,7 @@ export default {
       num: 0,
       oldNum: 0,
 
-      type: [{ text: '仅退款', value: 0 }, { text: '退货退款', value: 10 }]
+      type: [{ text: '', value: '' },{ text: '仅退款', value: 0 }, { text: '退货退款', value: 10 }]
     };
   },
   computed: mapState('Order', {
@@ -238,7 +240,7 @@ export default {
       this.currentPickerValue = e.detail.value[0];
     },
     selectNum() {
-      if (this.currentSelectSaleAfterShow !== 1) {
+      if (this.type[this.currentSelectSaleAfterShow].text !== '退货退款') {
         return;
       }
       this.oldNum = this.num;

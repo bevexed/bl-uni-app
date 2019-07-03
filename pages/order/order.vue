@@ -235,7 +235,7 @@
   import { mapActions, mapState } from "vuex";
   import { reqApplyContract } from "../../api/contract";
   import { reqSignInvoice } from "../../api/invoice";
-  import { SHOW_MODAL } from "../../utils";
+  import { SHOW_MODAL, SMG } from "../../utils";
 
   export default {
     data() {
@@ -454,8 +454,10 @@
       },
 
       sureSelect() {
+        if (!this.sorts[this.currentPickerValue].reason) return SMG('请选择退款原因');
         const that = this;
         this.sortShow = false;
+
         uni.showModal({
           title: '取消订单',
           content: '确定取消当前订单？',

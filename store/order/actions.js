@@ -61,7 +61,6 @@ export const createOrder = async ({ commit }, data) => {
 
 export const cancelOrder = async ({ dispatch }, data) => {
   const {reason} = data;
-  if (!reason) return SMG('请选择退款原因');
   let res = await reqCancelOrder(data);
   if (res.code === 200) {
     const route = getRoute(1);
