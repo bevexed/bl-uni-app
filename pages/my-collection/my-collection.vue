@@ -27,7 +27,8 @@
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i" @tap="toDetail(good.productId)">
                   <image :src="good.imageShow" mode=""></image>
-                  <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge">{{ good.badge }}
+                  <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge && good.badge!=='失效'">
+                    {{ good.badge }}
                   </view>
                 </view>
             </view>
@@ -36,18 +37,24 @@
         <!-- 详情展示 -->
         <view class="detail" v-if="!preview && !sortState">
             <view class="list">
-                <view class="item" v-for="(good, i) in goodList" :key="i" @tap="toDetail(good.productId)">
-                  <image :src="good.imageShow" mode=""></image>
+              <view :key="i" class="item" v-for="(good, i) in goodList">
+                <image :src="good.imageShow" @tap="toDetail(good.productId)" mode=""></image>
                     <view class="shop-detail">
                       <view class="shop-name">{{ good.pno }}</view>
                       <view class="collect">{{ good.collectNum }} 人收藏</view>
 
                         <view class="bottom">
-                            <view class="price">
+                          <view class="price"  v-if="good.badge !== '失效'">
                               ￥{{ good.price }}
                               <text class="per">/{{ good.unit }}</text>
                             </view>
-                          <image src="../../static/icon/del.svg" mode="" @tap="deleteCollect(good.productId)"></image>
+                          <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-else>
+                            失效
+                          </view>
+                          <view class="right">
+                            <image @tap="deleteCollect(good.productId)" mode="" src="../../static/icon/del.svg"></image>
+                            <view class="open-state">{{ good.badge }}</view>
+                          </view>
                         </view>
                     </view>
                 </view>
@@ -127,6 +134,7 @@
 </script>
 
 <style lang="scss">
+  @import "../../uni";
 .my-collection {
     padding: $white-space 0;
     .menu {
@@ -249,13 +257,35 @@
                     }
 
                     .bottom {
+                      height: upx(120);
                         display: flex;
                         justify-content: space-between;
-                        align-items: baseline;
+                      align-items: flex-end;
+                      padding-bottom: upx(20);
+
+                      .right {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        align-items: flex-end;
+                      }
+
+                      .open-state {
+                        height: upx(34);
+                        border-radius: upx(8);
+                        background: rgba(191, 160, 101, 0.2);
+
+                        font-size: upx(20);
+                        font-family: PingFang-SC-Medium, serif;
+                        font-weight: 500;
+                        color: rgba(191, 160, 101, 1);
+
+                        padding: 0 upx(10);
+                        margin: upx(20) 0 0 0;
+                      }
                     }
 
                     .price {
-                        width: 380upx;
                         font-size: 48upx;
                         font-family: DINAlternate-Bold;
                         font-weight: bold;
@@ -351,5 +381,21 @@
             }
         }
     }
+
+  .badge {
+
+    bottom: upx(6);
+    min-width: upx(40);
+    height: upx(40);
+    line-height: upx(40);
+    padding: 0 upx(20);
+    font-size: upx(24);
+    font-family: PingFang-SC-Medium,serif;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    background: #ccc;
+    text-align: center;
+    border-radius: upx(8);
+  }
 }
 </style>
