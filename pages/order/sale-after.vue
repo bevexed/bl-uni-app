@@ -96,10 +96,10 @@
         <custmer-phone class="custmer" />
 
         <!-- 退款 原因 弹窗 -->
-        <view class="pop-wrap" v-show="selectReasonShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectReasonShow = false">
+      <view @touchmove.stop.prevent="moveHandle" class="pop-wrap" v-show="selectReasonShow">
             <view class="my-pop">
                 <view class="pop-top">
-                    <text @tap.stop.prevent="selectReasonShow = false">取消</text>
+                  <text @tap.stop.prevent="cancelSelect(3)">取消</text>
                     <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
@@ -117,10 +117,10 @@
         </view>
 
         <!-- 售后 服务类型 弹窗-->
-        <view class="pop-wrap" v-show="selectSaleAfterShow" @touchmove.stop.prevent="moveHandle" @tap.self="selectReasonShow = false">
+      <view @touchmove.stop.prevent="moveHandle" class="pop-wrap" v-show="selectSaleAfterShow">
             <view class="my-pop">
                 <view class="pop-top">
-                    <text @tap.stop.prevent="selectSaleAfterShow = false">取消</text>
+                  <text @tap.stop.prevent="cancelSelect(1)">取消</text>
                     <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
@@ -135,10 +135,10 @@
         </view>
 
         <!-- 数量 选择 弹窗 -->
-        <view class="pop-wrap" v-show="selectNumShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectNumShow = false">
+      <view @touchmove.stop.prevent="moveHandle" class="pop-wrap" v-show="selectNumShow">
             <view class="my-pop" @tap.stop>
                 <view class="pop-top">
-                    <text @tap.stop.prevent="selectNumShow = false">取消</text>
+                  <text @tap.stop.prevent="cancelSelect(2)">取消</text>
                     <text class="sure" @tap.stop.prevent="sureSelect">选择</text>
                 </view>
 
@@ -186,21 +186,21 @@ export default {
       defaultPicker: [0],
       // 当前选择退款原因
       currentPickerValue: 0,
+      OldCurrentPickerValue: 0,
       // 售后服务类型弹窗
       selectSaleAfterShow: false,
       // 默认售后类型
       defaultSelectSaleAfterShow: [0],
       // 当前选择类型
       currentSelectSaleAfterShow: 0,
+      OldCurrentSelectSaleAfterShow: 0,
 
       // 数量 选择 弹窗
       selectNumShow: false,
 
       // 购买数量
-      num: 1,
-
-      // 当前选中标签
-      tagCurrentSelect: [],
+      num: 0,
+      oldNum: 0,
 
       type: [{ text: '仅退款', value: 0 }, { text: '退货退款', value: 10 }]
     };
@@ -217,6 +217,23 @@ export default {
       this.selectSaleAfterShow = false;
       this.selectNumShow = false;
     },
+    cancelSelect(index) {
+      this.selectReasonShow = false;
+      this.selectSaleAfterShow = false;
+      this.selectNumShow = false;
+      switch (index) {
+        case 1:
+          this.currentSelectSaleAfterShow = this.OldCurrentSelectSaleAfterShow;
+          break;
+        case 2:
+          this.num = this.oldNum;
+          break
+        case 3:
+          this.currentPickerValue = this.OldCurrentPickerValue
+
+      }
+
+    },
     selectChange(e) {
       this.currentPickerValue = e.detail.value[0];
     },
@@ -224,12 +241,15 @@ export default {
       if (this.currentSelectSaleAfterShow !== 1) {
         return;
       }
+      this.oldNum = this.num;
       this.selectNumShow = true;
     },
     selectReason(e) {
+      this.OldCurrentPickerValue = this.currentPickerValue;
       this.selectReasonShow = true;
     },
     selectSaleAfter() {
+      this.OldCurrentSelectSaleAfterShow = this.currentSelectSaleAfterShow;
       this.selectSaleAfterShow = true;
     },
 
@@ -245,10 +265,10 @@ export default {
     moveHandle() {
     }
   },
-  onLoad(e) {
+  async onLoad(e) {
     const { orderId, itemId } = e;
     this.itemId = itemId;
-    this.getOrderDetail(orderId);
+    await this.getOrderDetail(orderId);
   }
 };
 </script>
