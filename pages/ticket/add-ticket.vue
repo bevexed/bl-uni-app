@@ -95,7 +95,7 @@
           isDefault:setDefault,
           phone,
           province: addressDataList[0],
-          type:stateList[currentState].label,
+          type:stateList[currentState]?stateList[currentState].label:'',
           userId
         })">保存
       </view>
@@ -116,7 +116,7 @@
           province: addressDataList[0],
           type:stateList[currentState].label,
           userId,
-          id
+          id,
         })">修改
       </view>
 
@@ -139,7 +139,7 @@ export default {
       county: '',
       phone: '',
       province: '',
-      addressDataList: '',
+      addressDataList: ['浙江省', '杭州市', '西湖区'],
       //开票状态
       stateList: [
         {
@@ -150,7 +150,7 @@ export default {
         }
       ],
       // 当前开票状态
-      currentState: 0,
+      currentState: -1,
 
       // 是否默认
       setDefault: false,

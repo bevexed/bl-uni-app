@@ -14,6 +14,10 @@ import { MSG_BACK, MSG_TO, SHOW_MODAL, SMG } from "../../utils";
 
 export const addInvoice = async ({ dispatch }, data) => {
   const { account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type, userId } = data;
+  if (!type) {
+    return SMG('请选择开票状态')
+  }
+
 
   if (type === '普票') {
     if (!companyName) {
