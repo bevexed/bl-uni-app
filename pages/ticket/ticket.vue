@@ -50,11 +50,11 @@
             </view>
         </view>
 
-        <view class="button" @tap="toAddticket">
+      <view @tap="toAddticket" class="button" v-if="invoiceList.length < 10">
           <image src="../../static/icon/addw.png" mode=""></image>
             <text>添加开票信息</text>
         </view>
-        <view class="white-space"></view>
+        <view class="white-space" v-if="invoiceList.length < 10"></view>
     </view>
 </template>
 
