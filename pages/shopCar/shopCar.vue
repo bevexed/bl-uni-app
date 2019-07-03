@@ -219,7 +219,6 @@
         let length = goods.filter(good => good[state] === true).length;
         let data = goods.filter(good => good[state] === true);
         let ids = data.map(item => item.productId);
-        console.log(data);
         this.selectProduct(data);
         return { length, ids };
       }

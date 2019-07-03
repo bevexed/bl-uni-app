@@ -15,16 +15,8 @@
             </view>
         </view>
 
-        <view class="agreement">
-            <view :class="['select', { active: agreement }]" @tap="agreement = !agreement"><view class="selected"></view></view>
-            <view>
-                <text class="star"></text>
-              已经阅读并同意
-              <text class="href" @tap="toAgreement">隐私政策</text>
-            </view>
-        </view>
 
-      <view :class="['pay-button', { active: agreement && phone.length === 11 && code.length >= 4 }]" @tap="toHome">
+      <view :class="['pay-button', { active: phone.length === 11 && code.length >= 4 }]" @tap="toHome">
         登录
       </view>
     </view>
@@ -32,6 +24,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
+  import { TO } from "../../utils";
 
   export default {
     data() {
@@ -60,9 +53,6 @@
         if (!result) {
           return
         }
-        // if (!exist) {
-        //   return
-        // }
 
             if (!phone) {
                 return;
@@ -101,16 +91,12 @@
         },
 
       async toHome() {
-        let { phone, code, agreement } = this;
-        if (agreement && phone.length === 11 && code.length >= 4) {
+        let { phone, code } = this;
+        if (phone.length === 11 && code.length >= 4) {
           await this.doLogin({ phone, verify: code });
         }
       },
-      async toAgreement() {
-        uni.navigateTo({
-          url: '/pages/agreement/agreement'
-        })
-      }
+
     }
 };
 </script>

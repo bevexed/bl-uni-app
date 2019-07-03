@@ -8,7 +8,10 @@
                 收货地址
                 <text>（{{ addressList.length }}/10）</text>
             </view>
-          <view class="add-new-address" @tap="toAddAddress(null)" v-if="addressList.length<10">
+          <view
+            @tap="TO('/pages/address-book/add-address?id=null')"
+            class="add-new-address"
+            v-if="addressList.length<10">
                 <image src="../../static/icon/add.png" mode=""></image>
                 <text>添加新地址</text>
             </view>

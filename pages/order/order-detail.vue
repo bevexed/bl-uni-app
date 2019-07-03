@@ -101,7 +101,7 @@
             </view>
         </view>
 
-        <view class="button-bottom">
+        <view class="button-bottom" @tap="TO('/pages/contact/contact')">
             <text>联系客服</text>
         </view>
         <view class="white-space"></view>
@@ -110,6 +110,7 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
+  import { TO } from "../../utils";
 
   export default {
     data() {
@@ -135,6 +136,7 @@
     }),
     methods: {
       ...mapActions('Order', ['getOrderDetail']),
+      TO,
 
       toSaleAfter(data) {
         const { orderId, itemId } = data;
