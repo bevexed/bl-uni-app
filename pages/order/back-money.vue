@@ -33,13 +33,13 @@
               <text class="price">￥{{ current[0].amount }}</text>
                 <text class="bedge"></text>
             </view>
-            <view class="item flex" @tap="cancalOrder">
+          <view @tap=" sortShow = true" class="item flex">
                 <text class="label">退款原因</text>
                 <view class="label flex">
                   {{ sorts[currentPickerValue].reasonText }} <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
-            <view class="item">
+          <view class="item" v-if="!sortShow">
                 <text class="label">退款说明</text>
                 <text class="bedge">(选填)</text>
                 <textarea
@@ -103,9 +103,9 @@ export default {
       // 退款原因
       sorts: [
         { reasonText: '', reason: '' },
-        { reasonText: '买错了,不想买了', reason: 0 },
-        { reasonText: '未及时发货', reason: 10 },
-        { reasonText: '商品信息有误', reason: 20 },
+        { reasonText: '买错了', reason: 0 },
+        { reasonText: '发货错误', reason: 10 },
+        { reasonText: '商品有问题', reason: 20 },
         { reasonText: '其他', reason: 30 },
       ],
       // 默认退款原因
@@ -123,9 +123,7 @@ export default {
     bindChange(e) {
       this.currentPickerValue = e.detail.value[0];
     },
-    cancalOrder(e) {
-      this.sortShow = true;
-    },
+
     moveHandle() {
     },
   },

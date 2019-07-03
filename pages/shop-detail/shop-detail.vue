@@ -309,6 +309,8 @@
           productId: product.id,
           shoppingNum: num,
           sampleType: tagCurrentSelect.length,
+          price: product.price,
+          samplePrice: product.samplePrice,
           totalAmount: num * product.price,
           ...this.product
         }]);
