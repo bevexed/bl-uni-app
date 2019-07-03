@@ -273,7 +273,7 @@
         productParams: state => state.product.parameters ? Object.entries(state.product.parameters) : ''
       }),
       ...mapState('Products', ['product']),
-      ...mapState('User', ['userInfo']),
+      ...mapState('User', ['userInfo', 'setting']),
     },
     methods: {
       ...mapActions('Products', ['getProduct']),
@@ -298,7 +298,11 @@
       },
 
       async toCreateOrder() {
-        const { product, num, tagCurrentSelect } = this;
+        const { product, num, tagCurrentSelect, setting } = this;
+
+        if (!setting.standard_sample_price) {
+          return SMG('订单信息错误');
+        }
 
         let p = await this.reg();
         if (!p) {
@@ -310,7 +314,7 @@
           shoppingNum: num,
           sampleType: tagCurrentSelect.length,
           price: product.price,
-          samplePrice: product.samplePrice,
+          samplePrice: setting.standard_sample_price,
           totalAmount: num * product.price,
           ...this.product
         }]);

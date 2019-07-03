@@ -1,6 +1,6 @@
 import {
   GET_CODE,
-  GET_CURRENT_USER_DETAIL,
+  GET_CURRENT_USER_DETAIL, GET_FUNCTION_SETTING,
   GET_REFRESH_TOKEN,
   GET_VERIFY,
   IS_EXIST,
@@ -10,6 +10,7 @@ import {
 import {
   reqChangeUser,
   reqCurrentUserDetail,
+  reqFunctionSetting,
   reqIsExist,
   reqLogin,
   reqRefreshToken,
@@ -168,8 +169,14 @@ export default {
       })
 
     }
+  },
+
+  async getFunctionSetting({ commit }) {
+    let res = await reqFunctionSetting();
+    if (res.code === 200) {
+      commit(GET_FUNCTION_SETTING, res)
+    }
   }
 }
-
 
 

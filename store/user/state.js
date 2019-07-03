@@ -8,5 +8,8 @@ export default {
 
   exist: false,
 
-  isAfterSaleOpen: false
+  isAfterSaleOpen: false,
+
+
+  setting:{}
 }

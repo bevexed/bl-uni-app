@@ -1,28 +1,28 @@
 <script>
   import { mapActions } from 'vuex'
 export default {
-    onLaunch: function() {
-      const that = this;
-      // 检验token
-      // token 存在说明以前登录过
-      uni.getStorage({
-        key:'token',
-        success(res) {
-          that.getCurrentUserInfo();
-          setTimeout(()=>{
-            that.getRefreshToken();
-          })
-        },
-        fail(res) {
-        }
-      });
-    },
-  onShow: function () {
+  async onLaunch() {
+
+  },
+  async onShow() {
+    const that = this;
+    // 检验token
+    // token 存在说明以前登录过
+    uni.getStorage({
+      key: 'token',
+      async success() {
+        await that.getCurrentUserInfo();
+        await that.getRefreshToken();
+        await that.getFunctionSetting();
+      },
+      fail(res) {
+      }
+    });
   },
   onHide: function () {
   },
   methods: {
-    ...mapActions('User', ['getCurrentUserInfo', 'getRefreshToken'])
+    ...mapActions('User', ['getCurrentUserInfo', 'getRefreshToken', 'getFunctionSetting'])
   }
 };
 </script>

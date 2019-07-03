@@ -81,3 +81,5 @@ export const reqCheckVerify = ({ phone, verify }) => ajax('/user/checkVerify/' +
 export const reqUpdatePhone = ({ phone, verify }) => ajax('/user/' + phone + '/' + verify, {}, 'PUT');
 
 export const reqConfigureCollection = () => ajax(`/configureCollection/${ companyId }`, {}, 'GET');
+
+export const reqFunctionSetting = () => ajax('/functionSetting', {}, 'GET');

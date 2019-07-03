@@ -2,7 +2,7 @@ import {
   GET_REFRESH_TOKEN,
   GET_CURRENT_USER_DETAIL,
   GET_VERIFY,
-  LOGIN, GET_CODE, LOGIN_OUT, IS_EXIST
+  LOGIN, GET_CODE, LOGIN_OUT, IS_EXIST, GET_FUNCTION_SETTING,
 } from '../mutation-types';
 
 export default {
@@ -37,5 +37,9 @@ export default {
 
   [IS_EXIST](state, data) {
     state.exist = data
+  },
+
+  [GET_FUNCTION_SETTING](state, { data }) {
+    state.setting = data
   }
 };
