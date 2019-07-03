@@ -151,7 +151,6 @@
                   <uni-number-box
                     :min="0"
                     :max="product.stock"
-                    :step="1"
                     :value="num"
                     @change="numChange($event)"></uni-number-box>
                     <view class="rest unit">米</view>
@@ -252,7 +251,7 @@
         selectShow: false,
 
         // 购买数量
-        num: 1,
+        num: 0,
 
         tagsList: ['标样'],
         // 当前选中标签

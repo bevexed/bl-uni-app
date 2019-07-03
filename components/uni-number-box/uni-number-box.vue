@@ -1,11 +1,14 @@
 <template>
     <view class="uni-numbox">
         <view class="uni-numbox__minus" :class="{ 'uni-numbox--disabled': disableSubtract || disabled }" @click="_calcValue('subtract')">-</view>
-        <input class="uni-numbox__value" type="number" :disabled="disabled" :value="inputValue" @blur="_onBlur" />
+        <input class="uni-numbox__value" type="number" :disabled="true" :value="inputValue" @blur="_onBlur" />
         <view class="uni-numbox__plus" :class="{ 'uni-numbox--disabled': disableAdd || disabled }" @click="_calcValue('add')">+</view>
     </view>
 </template>
 <script>
+import { mapState } from "vuex";
+import { SMG } from "../../utils";
+
 export default {
     name: 'uni-number-box',
     props: {
@@ -36,6 +39,7 @@ export default {
         };
     },
     computed: {
+      ...mapState('User', ['userInfo', 'setting']),
         disableSubtract() {
             return this.inputValue <= this.min;
         },
@@ -58,15 +62,24 @@ export default {
             }
             const scale = this._getDecimalScale();
             let value = this.inputValue * scale;
-            let step = this.step * scale;
+            let step = this.setting.product_num_select_setting * scale;
             if (type === 'subtract') {
                 value -= step;
+
             } else if (type === 'add') {
                 value += step;
             }
-            if (value < this.min || value > this.max) {
-                return;
-            }
+
+          if (value > this.max) {
+            value = this.max;
+            SMG('不能超过购买数量')
+          } else if (value < this.min) {
+            value = this.min;
+          }
+
+          // if (value < this.min || value > this.max) {
+          //     return;
+          // }
             this.inputValue = value / scale;
         },
         _getDecimalScale() {
@@ -86,6 +99,7 @@ export default {
             value = +value;
             if (value > this.max) {
                 value = this.max;
+              SMG('不能超过购买数量')
             } else if (value < this.min) {
                 value = this.min;
             }
