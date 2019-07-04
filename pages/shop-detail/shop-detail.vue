@@ -50,10 +50,14 @@
             </view>
         </view>
 
-        <view class="shop-select" @tap="selectShow = true">
+      <view @tap="selectShow = true,addCartState ='open'" class="shop-select">
             <text>商品选择</text>
+        <div>
+          {{ num === 0 ? "" : num }} {{ tagCurrentSelect.length === 0? '' : '小样' }}
           <image src="../../static/icon/arrow-bottom.svg" mode=""></image>
-        </view>
+        </div>
+
+      </view>
       <view class="shop-detail" v-if="!selectShow">
             商品详情
             <view class="list">
@@ -111,12 +115,12 @@
               <view
                 class="add-cart"
 
-                @tap="selectShow = true, addCartState = true"
+                @tap="select('cart')"
               >加入购物车
               </view>
 
               <!--              <view class="buy-now" @tap="toCreateOrder">立即购买</view>-->
-              <view class="buy-now" @tap="selectShow = true, addCartState = false">立即购买</view>
+              <view @tap="select('order')" class="buy-now">立即购买</view>
             </view>
         </view>
 
@@ -294,7 +298,38 @@
       ...mapActions('Collect', ['addCollect', 'deleteCollect']),
 
       async sure() {
-        const {addCartState, addCartByNum, toCreateOrder } = this
+        let { addCartState, addCartByNum, toCreateOrder } = this;
+        switch (addCartState) {
+          case 'open':
+            this.selectShow = false;
+            break;
+          case 'cart':
+            addCartByNum();
+            break;
+          case 'order':
+            toCreateOrder();
+            break;
+        }
+      },
+
+      async select(type) {
+        let { num, tagCurrentSelect, addCartState, addCartByNum, toCreateOrder } = this;
+        let flag = !!(num || tagCurrentSelect.length);
+        switch (type) {
+          case 'cart':
+            if (flag) {
+              return addCartByNum()
+            }
+            this.addCartState = 'cart'
+            this.selectShow = true;
+            break;
+          case 'order':
+            if (flag) {
+              return toCreateOrder()
+            }
+            this.addCartState = 'order'
+            this.selectShow = true
+        }
       },
 
       async reg() {
@@ -306,7 +341,7 @@
           return false
         }
 
-        if (this.num === 0 && tagCurrentSelect.length === 0) {
+        if (num === 0 && tagCurrentSelect.length === 0) {
           SMG('请选择商品数量');
           return false
         }
