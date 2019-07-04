@@ -142,7 +142,7 @@
 
                       <!--待收货-->
                       <!--待收货-->
-                      <view class="button  pay" v-if="order.status === '待收货'" @tap="confirmReceipt(order.orderId)">
+                      <view class="button  pay" v-if="order.status === '待收货'" @tap="confirmReceipt({order:order.orderId,  status: tabList[TabCur].value})">
                         确认收货
                       </view>
 
