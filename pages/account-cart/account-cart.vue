@@ -167,7 +167,6 @@
       ...mapState('Order', ['shipCost'])
     },
     async onShow() {
-      console.log(this);
       await this.getAllAddress();
       this.preview = this.goods.length >= 4;
       this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? (this.addressList.length === 0 ? '' : this.addressList[0].id) : this.addressList.filter(item => item.isMain)[0].id;
@@ -179,7 +178,6 @@
     watch: {
       addressList: {
         handler() {
-          console.log(1);
           this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? (this.addressList.length === 0 ? '' : this.addressList[0].id) : this.addressList.filter(item => item.isMain)[0].id;
           this.curAddressList = [...this.addressList.filter(item => item.id === this.curAddress), ...this.addressList.filter(item => item.id !== this.curAddress)];
         },
