@@ -186,6 +186,7 @@ export default {
       this.phone = phone;
       this.currentState = type === '专票' ? 0 : 1;
       console.log(type);
+
     }
   },
   methods: {
