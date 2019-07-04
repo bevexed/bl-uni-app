@@ -167,11 +167,24 @@
       ...mapState('Order', ['shipCost'])
     },
     async onShow() {
+      console.log(this);
       await this.getAllAddress();
-      await this.doShipCost();
       this.preview = this.goods.length >= 4;
-      this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? '' : this.addressList.filter(item => item.isMain)[0].id;
-      this.curAddressList = this.addressList
+      this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? (this.addressList.length === 0 ? '' : this.addressList[0].id) : this.addressList.filter(item => item.isMain)[0].id;
+      this.curAddressList = this.addressList;
+      await this.doShipCost();
+
+    },
+
+    watch: {
+      addressList: {
+        handler() {
+          console.log(1);
+          this.curAddress = this.addressList.filter(item => item.isMain).length === 0 ? (this.addressList.length === 0 ? '' : this.addressList[0].id) : this.addressList.filter(item => item.isMain)[0].id;
+          this.curAddressList = this.addressList;
+        },
+        deep: true
+      }
     },
     methods: {
       ...mapActions('Address', ['getAllAddress', 'deleteAddress', 'defaultAddress']),
@@ -185,7 +198,7 @@
           productId: item.productId,
           sampleType: item.sampleType === 0 ? 0 : 10
         }));
-        let addressId = curAddress ? curAddress : addressList.filter(item => item.isMain).length === 0 ? '' : addressList.filter(item => item.isMain)[0].id;
+        let addressId = curAddress ? curAddress : addressList.filter(item => item.isMain).length === 0 ? (this.addressList.length === 0 ? '' : this.addressList[0].id) : addressList.filter(item => item.isMain)[0].id;
         return { addressId, item, agreement }
       },
 
