@@ -259,13 +259,14 @@
       },
 
       selectWillChang(i) {
-        this.goods.forEach(item => item.willChange = false);
+        // this.goods.forEach(item => item.willChange = false);
 
         this.goods[i].willChange = !this.goods[i].willChange;
 
         this.putCart(this.goods[i])
 
       },
+
 
 
       changSampleType(i) {

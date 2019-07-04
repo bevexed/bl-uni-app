@@ -1,5 +1,5 @@
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 export default {
   async onLaunch() {
 
@@ -13,7 +13,10 @@ export default {
       async success() {
         await that.getCurrentUserInfo();
         await that.getRefreshToken();
-        await that.getFunctionSetting();
+
+        if (that.userInfo.status === 2) {
+          await that.getFunctionSetting();
+        }
       },
       fail(res) {
       }
@@ -21,6 +24,7 @@ export default {
   },
   onHide: function () {
   },
+  computed: mapState('User', ['userInfo']),
   methods: {
     ...mapActions('User', ['getCurrentUserInfo', 'getRefreshToken', 'getFunctionSetting'])
   }

@@ -1,7 +1,7 @@
 <template>
     <view class="my" :style="{ height: windowHeight - 50 + 'px' }">
         <view class="background"><image class="" src="../../static/icon/bk.png" mode="bottom"></image></view>
-        <view class="header"  @tap="to('/pages/personal-information/personal-information')">
+        <view class="header"  @tap="TO('/pages/personal-information/personal-information')">
           <image class="avatar" :src="userInfo.avatar" mode=""></image>
             <view class="info">
                 <view class="info-header">
@@ -61,7 +61,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
-  import { authenticationTo } from "../../utils";
+  import { authenticationTo, TO } from "../../utils";
 
   export default {
     data() {
@@ -73,6 +73,7 @@
     methods: {
       ...mapActions('User',['loginOut','getCurrentUserInfo']),
       authenticationTo,
+      TO,
     },
     onReady() {
       this.getCurrentUserInfo();

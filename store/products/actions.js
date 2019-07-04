@@ -17,9 +17,8 @@ export const getProducts = async ({ commit, state }, data) => {
   // 如果此用户不是会员
   const { status, reset } = data;
 
-  if (status !== 2 && state.page === 2) {
-    authenticationTo({ status });
-    return
+  if (status !== 2 && state.page > 2) {
+    return authenticationTo({ status });
   }
 
   // 翻页

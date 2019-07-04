@@ -81,10 +81,11 @@
             </view>
         </view>
 
-      <view
-        v-if="id==='-1'"
-        class="save"
-        @tap="addInvoice({
+      <view class="buttons">
+        <view @tap="back" class="cancel">取消</view>
+
+        <view
+          @tap="addInvoice({
           account,
           address,
           bank,
@@ -97,13 +98,13 @@
           province: addressDataList[0],
           type:stateList[currentState]?stateList[currentState].label:'',
           userId
-        })">保存
-      </view>
+        })"
+          class="save"
+          v-if="id==='-1'">保存
+        </view>
 
-      <view
-        v-else
-        class="save"
-        @tap="doUpdateInvoice({
+        <view
+          @tap="doUpdateInvoice({
           account,
           address,
           bank,
@@ -117,7 +118,10 @@
           type:stateList[currentState].label,
           userId,
           id,
-        })">修改
+        })"
+          class="save"
+          v-else>保存
+        </view>
       </view>
 
         <view class="white-space"></view>
@@ -126,6 +130,7 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
+  import { SHOW_MODAL } from "../../utils";
 
 export default {
   data() {
@@ -155,6 +160,8 @@ export default {
       // 是否默认
       setDefault: false,
       id: '',
+
+      olderData: {}
     };
   },
   computed: {
@@ -190,11 +197,56 @@ export default {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.addressDataList = e.target.value
     },
+
+    back() {
+      const { account, address, bank,phone, addressDataList, setDefault, companyName, companyTax, stateList, currentState, userId, id, addInvoice, doUpdateInvoice } = this;
+      return SHOW_MODAL({
+        title: '编辑地址',
+        content: '是否保存本次编辑结果？',
+        confirm() {
+          id === '-1' ?
+            addInvoice({
+              account,
+              address,
+              bank,
+              city: addressDataList[1],
+              companyName,
+              companyTax,
+              county: addressDataList[2],
+              isDefault: setDefault,
+              phone,
+              province: addressDataList[0],
+              type: stateList[currentState] ? stateList[currentState].label : '',
+              userId
+            })
+            : doUpdateInvoice({
+              account,
+              address,
+              bank,
+              city: addressDataList[1],
+              companyName,
+              companyTax,
+              county: addressDataList[2],
+              isDefault: setDefault,
+              phone,
+              province: addressDataList[0],
+              type: stateList[currentState].label,
+              userId,
+              id,
+            })
+        },
+        cancel() {
+          uni.navigateBack({ delta: 1 })
+        }
+      })
+      uni.navigateBack({ delta: 1 })
+    },
   }
 };
 </script>
 
 <style lang="scss">
+  @import "../../uni";
 .add-ticket {
     padding: $white-space;
     .title {
@@ -284,18 +336,6 @@ export default {
         }
     }
 
-    .save {
-        position: fixed;
-        bottom: 22px;
-        width: 692upx;
-        height: 80upx;
-        line-height: 80upx;
-        background: $theme-color;
-        text-align: center;
-        border-radius: 8upx;
-        color: #fff;
-        font-size: 28upx;
-    }
 
     .white-space {
         height: 140upx;
@@ -306,5 +346,40 @@ export default {
         height: 20upx;
         transform: rotate(270deg);
     }
+
+  .buttons {
+    z-index: 9999;
+    position: fixed;
+    bottom: upx(100);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 122px;
+
+    > view {
+      width: upx(326);
+      height: upx(80);
+      line-height: upx(80);
+      text-align: center;
+      font-size: upx(28);
+      font-family: PingFang-SC-Medium, serif;
+      font-weight: 500;
+      border-radius: upx(8);
+    }
+
+    .cancel {
+      z-index: 9999;
+      border: upx(2) solid $theme-color;
+      color: $theme-color;
+      background: white;
+      margin-right: upx(10);
+    }
+
+    .save {
+      z-index: 9999;
+      border: upx(2) solid transparent;
+      color: #fff;
+      background: $theme-color;
+    }
+  }
 }
 </style>

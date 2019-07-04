@@ -15,7 +15,7 @@
 
 <script>
   import { mapActions, mapState } from "vuex";
-  import { MSG_TO, SMG } from "../../utils";
+  import { MSG_BACK, MSG_TO, SMG } from "../../utils";
 
   export default {
     data() {
@@ -41,20 +41,19 @@
           return
         }
 
+        if (this.key === 'email') {
+          let p = /^[A-Za-z0-9]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+          if (!p.test(this.value)) {
+            return SMG('邮箱地址格式有误')
+          }
+
+        }
+
         let res = await this.changeUser({ [this.key]: this.value });
 
         if (res.code === 200) {
-          uni.showToast({
-            title: '修改成功',
-            mask: true,
-            success() {
-              setTimeout(() => {
-                uni.redirectTo({
-                  url: 'personal-information'
-                })
-              }, 2000)
-            }
-          })
+          MSG_BACK({ title: '修改成功' });
         }
       },
     }

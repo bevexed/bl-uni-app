@@ -68,10 +68,9 @@ export const addInvoice = async ({ dispatch }, data) => {
 
   let res = await reqAddInvoice(data);
   if (res.code === 200) {
-    MSG_TO({
-      title: '添加成功',
-      url: '/pages/ticket/ticket'
-    })
+    MSG_BACK({
+      title:'添加成功'
+    });
   }
 };
 

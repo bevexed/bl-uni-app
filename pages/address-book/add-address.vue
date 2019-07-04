@@ -148,8 +148,8 @@
       },
 
       back() {
-        const { id, compareData, doChange } = this;
-        if (id !== 'null' && !compareData()) {
+        const { id, compareData, doChange, addAddress } = this;
+        if (!compareData()) {
           return SHOW_MODAL({
             title: '编辑地址',
             content: '是否保存本次编辑结果？',
