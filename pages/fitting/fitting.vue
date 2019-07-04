@@ -1,6 +1,12 @@
 <template>
-    <view class="fitting">
-        <!-- 模特选择轮播 -->
+  <view @touchmove.stop.prevent="''" class="fitting">
+    <div class="cover" v-if="first">
+      <div class="btn" @tap="doFirst">
+      </div>
+      <img alt="" mode="widthFix" src="../../static/imgs/fitting/1.svg">
+    </div>
+
+    <!-- 模特选择轮播 -->
         <view class="model">
             <view :class="['select-model',{open}]">
                 <!-- 模特选择标题 -->
@@ -34,10 +40,10 @@
             <!-- 控制器 -->
             <view class="controll">
                 <view class="dircetion">
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-top" @tap="offset('dyP')"></image>
+                  <image @tap="offset('dyR')" class="dirction-top" mode="" src="../../static/icon/dir.svg"></image>
                   <image src="../../static/icon/dir.svg" mode="" class="dirction-right" @tap="offset('dxR')"></image>
                   <image src="../../static/icon/dir.svg" mode="" class="dirction-left" @tap="offset('dxP')"></image>
-                  <image src="../../static/icon/dir.svg" mode="" class="dirction-bottom" @tap="offset('dyR')"></image>
+                  <image @tap="offset('dyP')" class="dirction-bottom" mode="" src="../../static/icon/dir.svg"></image>
                 </view>
 
                 <view class="touchbar">
@@ -51,7 +57,7 @@
         <!-- 样式选择标题 -->
         <view class="model-select-title">
             <text>花样选择</text>
-            <view class="detail">
+          <view @tap="TO( '/pages/shop-detail/shop-detail?id='+ data_upload.id)" class="detail">
                 <text>花形详情</text>
               <image class="more" src="../../static/icon/more.png" mode=""></image>
             </view>
@@ -63,7 +69,7 @@
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(img, index) in defaultStyle" :key="index">
                   <view :class="['swiper-item', { selected: index === currentStyle }]"
-                        @tap="img.id ? onStyleChange(img.id, index) : ''">
+                        @tap="onStyleChange(img.id, index)">
                     <image :src="img.pattern" mode=""></image>
                     </view>
                 </swiper-item>
@@ -78,12 +84,15 @@
 import { pathToBase64, base64ToPath } from 'image-tools';
 
 import { reqFitting, reqFittingModel, reqFittingSimilar } from "../../api/products";
+import { TO } from "../../utils";
 
 export default {
     components: {},
     data() {
         return {
-            // 默认模特数量,最小数量为5
+          first: true,
+
+          // 默认模特数量,最小数量为5
           defaultModel: [],
             // 当前选中模特
             currentModel: 0,
@@ -146,6 +155,10 @@ export default {
         };
     },
     methods: {
+      TO,
+      doFirst(){
+
+      },
         resizeStart(e) {
             // console.log(e);
             this.touch.old.touchStartX1 = e.touches[0].clientX;
@@ -223,6 +236,8 @@ export default {
 
       // 更换花纹
       onStyleChange(id, index) {
+        if (!id) return
+
         this.currentStyle = index;
         this.data_upload.id = id;
 
@@ -389,6 +404,8 @@ export default {
   },
 
   onLoad(e) {
+    let res = uni.getStorageSync('first');
+    this.first = !res;
     console.log(e);
     let { orderId } = e;
     this.data_upload.id = orderId;
@@ -692,5 +709,29 @@ export default {
         height: 1200upx;
         background: transparent;
     }
+
+  .cover {
+    z-index: 999999999999999;
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .3);
+    text-align: center;
+
+    img {
+      margin-top: 20vh;
+      width: upx(580);
+    }
+
+    .btn {
+      position: absolute;
+      bottom: 20vh;
+      left: 30vw;
+      height: upx(200);
+      width: upx(320);
+    }
+  }
 }
 </style>

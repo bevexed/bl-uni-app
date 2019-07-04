@@ -1,5 +1,10 @@
 <template>
-    <view class="recognition">
+    <view class="recognition" @touchmove="toTopShow">
+      <!-- 切换 按钮 -->
+      <div class="to-top" v-show="appear" @tap="toTop">
+        <img src="../../static/icon/top.png" mode="" alt="">
+      </div>
+
       <view class="header">
         <image :src="imageShow" mode=""></image>
       </view>
@@ -48,6 +53,7 @@
   import { mapActions, mapState } from 'vuex'
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniDrawer, uniNavBar, uniTag, uniCollapse, uniCollapseItem } from '@dcloudio/uni-ui';
+  import { toTop } from "../../utils";
 
 export default {
   components: {
@@ -66,6 +72,7 @@ export default {
 
   data() {
     return {
+      appear:false,
       imgUrl: '',
       tagsList: ['标签一', '标签二', '标签三', '标签四', '标签五'],
       // 当前选中标签
@@ -75,6 +82,16 @@ export default {
   computed: mapState('Products', ['similar', 'imageShow']),
   methods: {
     ...mapActions('Products', ['getSimilar']),
+    // 监听 toTop 显示
+    toTopShow() {
+     setInterval(() => {
+        uni.createSelectorQuery()
+          .selectViewport()
+          .scrollOffset(res => this.appear = res.scrollTop > 100)
+          .exec();
+      }, 300);
+    },
+    toTop,
     selectTag(currentState, tag_name) {
       if (this[currentState].includes(tag_name)) {
         this[currentState].splice(this[currentState].findIndex(item => item === tag_name), 1);
@@ -187,5 +204,29 @@ export default {
             }
         }
     }
+  .to-top {
+    z-index: 999;
+    width: upx(268);
+    height: upx(60);
+    position: fixed;
+    top: upx(226);
+
+    /* #ifdef MP-WEIXIN */
+    top: upx(226);
+    /* #endif */
+
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border-radius: upx(8);
+
+    img {
+      width: upx(40);
+      height: upx(40);
+      margin: upx(10) 0;
+    }
+  }
 }
 </style>
