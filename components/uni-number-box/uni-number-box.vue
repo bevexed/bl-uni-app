@@ -72,7 +72,7 @@ export default {
 
           if (value > this.max) {
             value = this.max;
-            SMG('不能超过购买数量')
+            SMG('超过库存上限，不可操作')
           } else if (value < this.min) {
             value = this.min;
           }

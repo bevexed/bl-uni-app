@@ -1,5 +1,7 @@
 import uniRequest from 'uni-request';
-import { MSG_RELAUNCH, MSG_TO, SHOW_MODAL } from "../utils";
+import { MSG_RELAUNCH, MSG_TO, SHOW_MODAL, SMG } from "../utils";
+import Store from '../store'
+
 
 // 全局修改公司 ID
 export const companyId = 4;
@@ -23,7 +25,6 @@ const header = () => {
       }
     });
   })
-
 };
 
 uniRequest.defaults.headers.post['Content-Type'] = 'application/json';
@@ -82,8 +83,14 @@ export default async function ajax(url, data = {}, type, loading = true) {
       response => {
         uni.hideLoading();
         console.log('ajax-success', response.data);
+
+        if (response.data.code === 400) {
+          return SMG(response.data.msg);
+        }
+
         // 全局拦截 401 用户未登录
         if (response.data.code === 401) {
+          uni.clearStorage();
           SHOW_MODAL({
             title: '未登录',
             content: '用户未登录，无法操作，是否跳转登录？',

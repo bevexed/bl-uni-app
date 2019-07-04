@@ -42,7 +42,7 @@
         }
 
         if (this.key === 'email') {
-          let p = /^[A-Za-z0-9]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+          let p = /^[A-Za-z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 
           if (!p.test(this.value)) {
             return SMG('邮箱地址格式有误')

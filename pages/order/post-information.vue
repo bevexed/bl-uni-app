@@ -55,12 +55,12 @@
     data() {
       return {
         afterSaleId: "",
-        expressCompany: 0,
+        expressCompany: '',
         senderName: "",
         senderPhone: "",
         trackNum: "",
 
-        value: 0,
+        value: '',
         postList: [
           { value: '', key: '' },
           { value: 0, key: '顺丰快递' },

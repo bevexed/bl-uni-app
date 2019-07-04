@@ -59,8 +59,8 @@
                     <text>填写快递信息</text>
                   </view>
 
-                  <view class="button" v-if="good.status === '待寄回' && good.statusCode === 30">
-                    <text style="color:#eee">已上传快递信息</text>
+                  <view class="button" v-if="good.status === '退款中' && good.statusCode === 40">
+                    <text>已上传快递信息</text>
                   </view>
                 </view>
             </view>
@@ -98,11 +98,13 @@
 
     computed: {},
 
+   async onShow(){
+      await this.getAfterSaleDetail(this.afterSaleId);
+    },
 
     async onLoad(e) {
       const { orderId } = e;
       this.afterSaleId = orderId;
-      await this.getAfterSaleDetail(orderId);
     },
 
     methods: {

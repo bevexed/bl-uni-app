@@ -15,14 +15,12 @@
               <view @tap=" product.isCollect ? deleteCollect(product.id): addCollect(product.id)">
                   <image src="../../static/icon/collect.png" mode=""></image>
                 <text>{{ product.isCollect ? '取消收藏' : '收藏' }}</text>
-                </view>
+              </view>
 
                 <view>
                   <image src="../../static/icon/share.png" mode=""></image>
                   <button open-type="share">分享</button>
                 </view>
-
-
             </view>
 
             <view class="add" @tap="showButton = !showButton">
@@ -171,7 +169,11 @@
                     </view>
                 </view>
 
-              <view class="button" @tap="addCartState ? addCartByNum() : toCreateOrder()">确定</view>
+              <view
+                @tap="sure()"
+                class="button">
+                确定
+              </view>
             </view>
         </view>
     </view>
@@ -291,6 +293,10 @@
       ...mapActions('Cart', ['addCart', 'selectProduct']),
       ...mapActions('Collect', ['addCollect', 'deleteCollect']),
 
+      async sure() {
+        const {addCartState, addCartByNum, toCreateOrder } = this
+      },
+
       async reg() {
         const { product, num, tagCurrentSelect } = this;
 
@@ -301,7 +307,7 @@
         }
 
         if (this.num === 0 && tagCurrentSelect.length === 0) {
-          SMG('请选择要购买的小样或者商品');
+          SMG('请选择商品数量');
           return false
         }
 
