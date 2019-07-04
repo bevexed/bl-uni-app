@@ -29,7 +29,7 @@
                 <!--小样-->
                 <view class="goods"
                       v-if="!(preview !== order.orderId && order.product.length >= 4 )"
-                      @tap="tabList[TabCur].name === '售后'? toSaleAfterDetail($event):toOrderDetail($event)"
+                      @tap.stop="tabList[TabCur].name === '售后'? toSaleAfterDetail($event):toOrderDetail($event)"
                       :data-order-id="order.orderId"
                 >
                   <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if="good.sampleType!=='无小样'"
@@ -38,7 +38,7 @@
                         <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
                                :src="good.image"
                                mode=""
-                               @tap="toDetail(good.productId)"
+                               @tap.stop="toDetail(good.productId)"
                         ></image>
 
                             <view class="detail">
@@ -71,7 +71,7 @@
                     <image :class="['shop-img', { 'not-send-good': good.notSendGood }]"
                            :src="good.image"
                            mode=""
-                           @tap="toDetail(good.productId)"
+                           @tap.stop="toDetail(good.productId)"
                     ></image>
 
                     <view class="detail">
@@ -79,12 +79,12 @@
                         <view class="shop-name">{{ good.productNo }}</view>
 
                         <!-- 售后状态 -->
-<!--                        <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">-->
-<!--                          {{ good.afterSaleStatus }}-->
-<!--                        </view>-->
+                        <view class="shop-after" v-if="!good.allowAfterSale && good.afterSaleStatus">
+                          {{ tabList[TabCur].name === '售后'? '' :good.afterSaleStatus }}
+                        </view>
                         <view class="shop-after-button"
                               v-if="good.allowAfterSale && isAfterSaleOpen"
-                              @tap="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
+                              @tap.stop="toSaleAfter({orderId:order.orderId,itemId:good.itemId})">
                           售后
                         </view>
                       </view>
@@ -308,7 +308,7 @@
       }
     },
 
-    onShow() {
+    async onShow() {
       if (this.isAfterSaleOpen) {
         this.tabList = [
           { name: '全部', value: 0 },
@@ -316,11 +316,11 @@
           { name: '待发货', value: 20 },
           { name: '待收货', value: 30 },
           { name: '售后', value: 40 }
-        ]
+        ];
+
+        await this.getAfterSaleList();
       }
 
-
-      this.getAfterSaleList();
 
       if (this.TabCur === 0) {
         return this.getOrderList({
@@ -339,7 +339,9 @@
     },
 
     async onPullDownRefresh() {
-      await this.getAfterSaleList();
+      if (this.isAfterSaleOpen) {
+        await this.getAfterSaleList();
+      }
 
       if (this.TabCur === 0) {
         await this.getOrderList({

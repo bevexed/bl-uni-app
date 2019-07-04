@@ -104,7 +104,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
         // 用户权限不足
         if (response.data.code === 403) {
           MSG_RELAUNCH({
-            title: '用户权限不足',
+            title: '用户未激活，请等待激活！',
             icon: "none",
             mask: true,
             url: '/pages/home/home'

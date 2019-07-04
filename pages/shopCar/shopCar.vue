@@ -3,14 +3,14 @@
         <!-- 购物车不为空 -->
         <view class="has-goods" v-if="goods.length">
             <view class="menus title">
-              <view class="menu" v-if="edit" @tap="cancel">取消</view>
+              <view class="menu" v-if="edit" @tap="cancel"></view>
                 <view class="menu" v-else @tap="doDeleteInvalid">清空下架</view>
 
                 <view class="menu">购物车({{ goods.length }})</view>
 
                 <view class="menu" v-if="edit" @tap="edit = !edit">
                     <image src="../../static/icon/save.svg" mode=""></image>
-                  <text>保存</text>
+                  <text @tap="getCartAll">完成</text>
                 </view>
                 <view class="menu" v-else @tap="edit = !edit">
                     <image src="../../static/icon/edit.svg" mode=""></image>
@@ -193,6 +193,7 @@
   import CustmerPhone from '../../components/CustmerPhone/CustmerPhone.vue';
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
+  import { SMG } from "../../utils";
 
   export default {
     components: {
@@ -205,7 +206,10 @@
         // 是否处于修改状态
         edit: false,
         // 当前要删除的商品
-        willDelGoods: ''
+        willDelGoods: '',
+
+
+        oldNum: 0
       };
     },
     computed: {
@@ -266,6 +270,10 @@
 
       changSampleType(i) {
         this.goods[i].sampleType = this.goods[i].sampleType === 0 ? 1 : 0;
+        if (!this.goods[i].shoppingNum && !this.goods[i].sampleType) {
+          return SMG('商品数量和小样不能同时为空')
+        }
+
 
         this.putCart(this.goods[i])
       },
@@ -274,6 +282,10 @@
       numChange(val, i) {
         console.log(val, i);
         this.goods[i].shoppingNum = val;
+        if (!this.goods[i].sampleType && !val) {
+          return SMG('商品数量和小样不能同时为空')
+        }
+
 
         this.putCart(this.goods[i])
       },

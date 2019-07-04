@@ -48,11 +48,12 @@
                     </view>
                 </view>
 
-            <view class="buttons" @tap="cancelAfterSale">
-                  <view class="button" v-if="good.status === '审核中'">
+            <view class="buttons">
+                  <view class="button" v-if="good.status === '审核中'"  @tap="cancelAfterSale">
                     <image src="../../static/icon/calord.svg" mode=""></image>
                         <text>取消申请</text>
                     </view>
+
                   <view class="button" v-if="good.status === '待寄回' && good.statusCode === 20" @tap="toPostInformation">
                     <image src="../../static/icon/edit.svg" mode=""></image>
                     <text>填写快递信息</text>

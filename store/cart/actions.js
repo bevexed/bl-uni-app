@@ -73,6 +73,10 @@ export const doDeleteInvalid = async ({ dispatch }) => {
 };
 
 export const putCart = async ({ commit }, data) => {
+  const { sampleType, shoppingNum } = data;
+  if (!sampleType && !shoppingNum) {
+    return SMG('商品和小样不能同同时为空');
+  }
   let res = await reqPutCart(data);
   if (res.code !== 200) {
     return SMG('修改失败')

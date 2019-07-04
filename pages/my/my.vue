@@ -19,25 +19,27 @@
         </view>
 
         <view class="set-list">
-            <view class="set-item" @tap="to('/pages/address-book/address-book')">
+          <view @tap="authenticationTo({url:'/pages/address-book/address-book', status: userInfo.status,})"
+                class="set-item">
                 <image class="icon" src="../../static/icon/adb.svg" mode=""></image>
                 <text>我的地址薄</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item" @tap="to('/pages/order/order')">
+          <view @tap="authenticationTo({url:'/pages/order/order', status: userInfo.status,})" class="set-item">
                 <image class="icon" src="../../static/icon/dd.svg" mode=""></image>
                 <text>我的订单</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item" @tap="to('/pages/ticket/ticket')">
+          <view @tap="authenticationTo({url:'/pages/ticket/ticket', status: userInfo.status,})" class="set-item">
                 <image class="icon" src="../../static/icon/kp.svg" mode=""></image>
                 <text>开票信息维护</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
             </view>
 
-            <view class="set-item" @tap="to('/pages/my-collection/my-collection')">
+          <view @tap="authenticationTo({url:'/pages/my-collection/my-collection',status: userInfo.status,})"
+                class="set-item">
                 <image class="icon" src="../../static/icon/sc.svg" mode=""></image>
                 <text>我的收藏</text>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
@@ -59,6 +61,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
+  import { authenticationTo } from "../../utils";
 
   export default {
     data() {
@@ -69,11 +72,7 @@
     computed: mapState('User', ['userInfo']),
     methods: {
       ...mapActions('User',['loginOut','getCurrentUserInfo']),
-      to(url) {
-        uni.navigateTo({
-          url
-        });
-      }
+      authenticationTo,
     },
     onReady() {
       this.getCurrentUserInfo();

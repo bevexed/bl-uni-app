@@ -326,7 +326,10 @@
       async addCartByNum() {
 
         const { product, num, tagCurrentSelect } = this;
-        this.reg();
+        let p = await this.reg();
+        if (!p) {
+          return
+        }
 
         let res = await this.addCart({
           productId: product.id,
