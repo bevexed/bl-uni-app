@@ -30,7 +30,7 @@ export default {
   },
 
   [LOGIN_OUT](state, data) {
-    state.userInfo = data;
+    state.userInfo = {};
     state.phone = '';
     state.code = '';
   },

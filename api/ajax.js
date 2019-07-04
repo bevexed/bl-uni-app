@@ -41,6 +41,8 @@ uniRequest.defaults.headers.put['Content-Type'] = 'application/json';
 
 export default async function ajax(url, data = {}, type, loading = true) {
 
+  console.log('query', data);
+
   await header();
 
   if (loading) {
