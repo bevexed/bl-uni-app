@@ -155,7 +155,7 @@ export default {
       SMG('请检查手机号');
       return
     }
-    let res = await reqUpdatePhone({ phone: encrypt(phone), verify });
+    let res = await reqUpdatePhone({ phone, verify });
     if (res.code === 200) {
       uni.setStorage({
         key: 'token',

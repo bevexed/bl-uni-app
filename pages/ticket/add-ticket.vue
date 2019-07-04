@@ -202,7 +202,7 @@ export default {
     back() {
       const { account, address, bank,phone, addressDataList, setDefault, companyName, companyTax, stateList, currentState, userId, id, addInvoice, doUpdateInvoice } = this;
       return SHOW_MODAL({
-        title: '编辑地址',
+        title: '开票信息',
         content: '是否保存本次编辑结果？',
         confirm() {
           id === '-1' ?
@@ -239,8 +239,7 @@ export default {
         cancel() {
           uni.navigateBack({ delta: 1 })
         }
-      })
-      uni.navigateBack({ delta: 1 })
+      });
     },
   }
 };

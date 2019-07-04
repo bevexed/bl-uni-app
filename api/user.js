@@ -49,7 +49,7 @@ export const reqRefreshToken = () => ajax('/user/refreshToken', {}, 'GET');
  * @function 修改用户信息
  * */
 
-export const reqChangeUser = ({ id, email, sex, job, phone, verify, avatar, nickName, username, birthday }) =>
+export const reqChangeUser = ({ id, email, sex, job, phone, verify, avatar, nickName, username, birthday, custName }) =>
   ajax('/user', {
     id,
     companyId,
@@ -61,7 +61,8 @@ export const reqChangeUser = ({ id, email, sex, job, phone, verify, avatar, nick
     nickName,
     birthday,
     sex,
-    username
+    username,
+    custName
 }, 'PUT');
 
 /**

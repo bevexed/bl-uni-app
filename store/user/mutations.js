@@ -13,7 +13,6 @@ export default {
   [LOGIN](state, data) {
     state.userInfo = data;
     state.isAfterSaleOpen = data.isAfterSaleOpen
-
   },
 
   [GET_CURRENT_USER_DETAIL](state, data) {

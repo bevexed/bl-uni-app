@@ -64,11 +64,11 @@
               </picker>
             </view>
 
-            <view class="item">
+            <view class="item" @tap="userInfo.custName?'':to('update?key=custName&value='+ '' +'&pl=企业名称')">
                 <view class="label">企业名称</view>
                 <view class="value">
-                  <text class="name">{{ userInfo.custName }}</text>
-                  <!-- <view class="bedge">已授权</view>-->
+                  <text class="name">{{ userInfo.custName || '去添加' }}</text>
+                  <image class="arrow" v-if="!userInfo.custName" src="../../static/icon/arrow-bottom.svg" mode=""></image>
                 </view>
             </view>
 
