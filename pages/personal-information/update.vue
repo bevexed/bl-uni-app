@@ -6,7 +6,7 @@
     </h1>
 
     <footer class="header">
-      <input type="text" :placeholder="'请输入新'+pl" v-model="value">
+      <input type="text" :placeholder="'请输入新'+pl" maxlength="30" v-model="value">
     </footer>
 
     <view class="button" @tap="change">完成</view>

@@ -181,8 +181,8 @@
   import { uniSwiperDot, uniTag } from '@dcloudio/uni-ui';
   import uniNumberBox from '../../components/uni-number-box/uni-number-box.vue';
   import { mapActions, mapState } from 'vuex';
-  import { reqShare } from "../../api/products";
-  import { MSG_RELAUNCH, MSG_TO, SMG } from "../../utils";
+  import { reqFitting, reqShare } from "../../api/products";
+  import { MSG_RELAUNCH, SMG } from "../../utils";
 
   export default {
     components: {
@@ -259,6 +259,18 @@
 
         // 显示大图
         bigShow: -1,
+
+        data_upload: {
+          // image: '',
+          amp: 1,
+          loc: '',
+          dx: 0,
+          dy: 0,
+          id: 192,
+          modelId: 1,
+          rotate: 0,
+          // Rdpi: 40
+        },
       };
     },
     onUnload(){
@@ -370,10 +382,13 @@
           loop: true
         });
       },
-      toFit(orderId) {
-        uni.navigateTo({
-          url: '/pages/fitting/fitting?orderId=' + orderId
-        });
+      async toFit(orderId) {
+        let res = await reqFitting({ ...this.data_upload, id: orderId })
+        if (res) {
+          uni.navigateTo({
+            url: '/pages/fitting/fitting?orderId=' + orderId
+          });
+        }
       },
       toRecognition(id, imgUrl) {
         uni.navigateTo({
@@ -395,13 +410,14 @@
           url: '/contact/contact'
         });
       },
-      toDetail(id) {
+      async toDetail(id) {
         uni.navigateTo({
           url: '/pages/shop-detail/shop-detail?id=' + id
         });
       },
       moveHandle() {
-      }
+      },
+
     }
   };
 </script>

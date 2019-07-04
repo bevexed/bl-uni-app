@@ -204,7 +204,6 @@ export default {
             });
 
           let res = await reqFitting(this.data_upload);
-          console.log(res);
           // if (res.code === 200) {
             this.currentImage = 'data:image/png;base64,' + res;
           // }
