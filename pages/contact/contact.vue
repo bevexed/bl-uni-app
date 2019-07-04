@@ -21,7 +21,7 @@
           <text class="label">QQ：</text>
           <text class="value">123123123</text>
         </view>
-        <view @longtap="copy({data:'www.123123.com',title:'官网地址已复制'})">
+        <view @longtap="copy({data:'www.123123.com',title:'官网已复制'})">
           <text class="label">官网：</text>
           <text class="value">www.123123.com</text>
         </view>

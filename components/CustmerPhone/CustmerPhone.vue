@@ -16,11 +16,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "../../uni";
 .custmer-phone {
     z-index: 9;
     position: fixed;
     right: 48upx;
-    bottom: 160upx;
+    bottom: upx(100);
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     width: 74upx;

@@ -61,6 +61,9 @@ export const createOrder = async ({ commit }, data) => {
 
 export const cancelOrder = async ({ dispatch }, data) => {
   const {reason} = data;
+  if (reason === '') {
+    return SMG('请选择退款原因')
+  }
   let res = await reqCancelOrder(data);
   if (res.code === 200) {
     const route = getRoute(1);
@@ -160,14 +163,13 @@ export const getShipCost = async ({ commit }, data) => {
 };
 
 export const deleteOrder = async ({ dispatch }, data) => {
-  console.log(data);
   SHOW_MODAL({
     title: '删除订单',
     content: '确认删除订单?',
     async confirm() {
-      let res = await reqDeleteOrder(data);
+      let res = await reqDeleteOrder(data.order);
       if (res.code === 200) {
-        await dispatch('getOrderList');
+        await dispatch('getOrderList', { status: data.status, page: 1, pageSize: 100 });
         uni.showToast({ title: '删除成功' })
       }
     }

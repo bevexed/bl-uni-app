@@ -142,7 +142,7 @@
         const { nickName, avatarUrl } = e.detail.userInfo;
         let { phone, verify, agreement, job, custName, jobR, custNameR } = this;
         if (agreement && phone.length === 11 && verify.length >= 4 && (jobR ? job : !jobR) && (custNameR ? custName : !custNameR)) {
-          this.doLogin({ verify, phone, job, custName, avatar: avatarUrl, nickName })
+          this.doLogin({ verify, phone, job, custName, avatar: avatarUrl, nickname:nickName })
         }
       }
     }

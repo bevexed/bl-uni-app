@@ -58,7 +58,7 @@
                     <text>填写快递信息</text>
                   </view>
 
-                  <view class="button" v-if="good.status === '待寄回' && good.statusCode === 30" @tap="toPostInformation">
+                  <view class="button" v-if="good.status === '待寄回' && good.statusCode === 30">
                     <text style="color:#eee">已上传快递信息</text>
                   </view>
                 </view>

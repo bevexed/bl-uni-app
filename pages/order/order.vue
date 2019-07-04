@@ -28,7 +28,10 @@
                 <!--展开-->
                 <!--小样-->
                 <view class="goods"
-                      v-if="!(preview !== order.orderId && order.product.length >= 4 )">
+                      v-if="!(preview !== order.orderId && order.product.length >= 4 )"
+                      @tap="tabList[TabCur].name === '售后'? toSaleAfterDetail($event):toOrderDetail($event)"
+                      :data-order-id="order.orderId"
+                >
                   <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if="good.sampleType!=='无小样'"
                         :key="goodIndex">
                             <!-- 展开 -->
@@ -122,7 +125,8 @@
 
                       <!--交易关闭-->
                       <!--交易关闭-->
-                      <view class="button  cancel" v-if="order.status === '交易关闭'" @tap="deleteOrder(order.orderId)">
+                      <view @tap="deleteOrder({order:order.orderId,  status: tabList[TabCur].value})" class="button  cancel"
+                            v-if="order.status === '交易关闭'">
                         删除订单
                       </view>
                       <view class="button  cancel" v-if="order.status === '交易关闭'"  :data-order-id="order.orderId"  @tap="toOrderDetail($event)">订单详情</view>
@@ -458,7 +462,7 @@
       },
 
       sureSelect() {
-        if (!this.sorts[this.currentPickerValue].reason) return SMG('请选择退款原因');
+        if (this.sorts[this.currentPickerValue].reason === '') return SMG('请选择退款原因');
         const that = this;
         this.sortShow = false;
 

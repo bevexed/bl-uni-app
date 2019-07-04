@@ -1,6 +1,6 @@
 <template>
     <view class="post-information">
-        <view class="title">售后服务</view>
+        <view class="title">快递单信息</view>
 
         <view class="list">
           <picker
@@ -39,8 +39,9 @@
             </view>
         </view>
 
-      <view :class="['pay-button', { active: senderName && senderPhone.length === 11 && trackNum }]"
-            @tap="fillExpressInfo">
+      <view
+        :class="['pay-button', { active:postList[value].key && senderName && senderPhone.length === 11 && trackNum }]"
+        @tap="fillExpressInfo">
         确定
       </view>
     </view>
@@ -61,6 +62,7 @@
 
         value: 0,
         postList: [
+          { value: '', key: '' },
           { value: 0, key: '顺丰快递' },
           { value: 10, key: '韵达快递' },
           { value: 20, key: '圆通快递' },
@@ -80,17 +82,21 @@
       },
 
       async fillExpressInfo() {
+        if (this.postList[this.value].value === '') {
+          return SMG('请完整填写快递单信息')
+        }
+
         if (!this.senderName) {
-          return SMG('请填写发件人姓名')
+          return SMG('请完整填写快递单信息')
         }
 
         let p = /^1[0-9]{10}$/;
         if (!p.test(this.senderPhone)) {
-          return SMG('请检查手机号')
+          return SMG('请完整填写快递单信息')
         }
 
         if (!this.trackNum) {
-          return SMG('请检查快递单号')
+          return SMG('请完整填写快递单信息')
         }
 
         let res = await reqFillExpressInfo({
@@ -112,6 +118,7 @@
 </script>
 
 <style lang="scss">
+  @import "../../uni";
 .post-information {
     .title {
         font-size: 32upx;
@@ -175,16 +182,20 @@
     }
 
   .pay-button {
-    $height: 80 upx;
+    position: fixed;
+    bottom: upx(100);
+    left: 0;
+    right: 0;
+    $height: upx(80);
     height: $height;
     line-height: $height;
-    width: 692 upx;
-    margin: 226 upx auto 68 upx;
+    width: upx(692);
+    margin: upx(226) auto upx(68);
     text-align: center;
     background: #cccccc;
-    border-radius: 8 upx;
+    border-radius: upx(8);
     color: #fff;
-    font-size: 28 upx;
+    font-size: upx(28);
 
     &.active {
       background: $theme-color;
