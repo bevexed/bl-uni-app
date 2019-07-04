@@ -373,7 +373,6 @@
 
       // 放大图片
       showBig(index) {
-        console.log(index);
         this.currentBig = index;
         uni.previewImage({
           current: this.banners[index],
@@ -383,7 +382,7 @@
         });
       },
       async toFit(orderId) {
-        let res = await reqFitting({ ...this.data_upload, id: orderId })
+        let res = await reqFitting({ ...this.data_upload, id: orderId });
         if (res) {
           uni.navigateTo({
             url: '/pages/fitting/fitting?orderId=' + orderId

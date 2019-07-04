@@ -1,7 +1,7 @@
 <template>
     <view class="shop-car">
         <!-- 购物车不为空 -->
-        <view class="has-goods" v-if="goods.length">
+        <view class="has-goods" v-if="goods.length + u_goods.length">
             <view class="menus title">
               <view class="menu" v-if="edit" @tap="cancel"></view>
                 <view class="menu" v-else @tap="doDeleteInvalid">清空下架</view>
@@ -226,9 +226,10 @@
         return { length, ids };
       }
     },
-    onShow() {
-      this.getCartAll();
-      this.edit = false
+   async onShow() {
+     await this.getCartAll();
+     console.log(this.u_goods);
+     this.edit = false
     },
     methods: {
       ...mapActions('Cart', ['getCartAll', 'doDeleteCart', 'doDeleteInvalid', 'selectProduct', 'putCart']),
