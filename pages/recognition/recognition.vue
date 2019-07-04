@@ -1,8 +1,8 @@
 <template>
     <view class="recognition">
-<!--        <view class="header">-->
-<!--          <image :src="imgUrl" lazy-load></image>-->
-<!--        </view>-->
+      <view class="header">
+        <image :src="imageShow" mode=""></image>
+      </view>
 
       <view class="similar" v-if="false">
             <view class="title">相似商品</view>
@@ -72,7 +72,7 @@ export default {
       tagCurrentSelect: []
     };
   },
-  computed: mapState('Products', ['similar']),
+  computed: mapState('Products', ['similar', 'imageShow']),
   methods: {
     ...mapActions('Products', ['getSimilar']),
     selectTag(currentState, tag_name) {
@@ -92,10 +92,11 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../uni";
 .recognition {
     .header {
         position: relative;
-        height: 128upx;
+        height: upx(160);
         background: rgba(0, 0, 0, 0.5);
         image {
             position: absolute;

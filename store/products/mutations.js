@@ -25,6 +25,7 @@ export default {
     state.product = data
   },
   [GET_SIMILAR](state,data){
-    state.similar = data
+    state.similar = data.similarProds;
+    state.imageShow = data.imageShow;
   }
 };

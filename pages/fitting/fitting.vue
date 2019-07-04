@@ -63,7 +63,7 @@
             <swiper class="swiper select-style" :display-multiple-items="5">
                 <swiper-item v-for="(img, index) in defaultStyle" :key="index">
                   <view :class="['swiper-item', { selected: index === currentStyle }]"
-                        @tap="onStyleChange(img.id, index)">
+                        @tap="img.id ? onStyleChange(img.id, index) : ''">
                     <image :src="img.pattern" mode=""></image>
                     </view>
                 </swiper-item>

@@ -149,9 +149,16 @@
                       <!--售后处理-->
                       <!--售后处理-->
                       <view class="button  cancel"
-                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpen"
+                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpen && tabList[TabCur].name === '售后'"
                             :data-order-id="order.orderId"
                             @tap="toSaleAfterDetail($event)">售后详情
+                      </view>
+
+                      <view class="button  cancel"
+                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpen && tabList[TabCur].name !== '售后'"
+                            :data-order-id="order.orderId"
+                            @tap="toOrderDetail($event)"
+                      >查看详情
                       </view>
 
 

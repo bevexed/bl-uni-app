@@ -3,5 +3,6 @@ export default {
   categories:[],
   page: 1,
   product: {},
-  similar: []
+  similar: [],
+  imageShow:''
 }
