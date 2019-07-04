@@ -98,7 +98,7 @@ export default {
         key: 'token',
         data: res.data.token,
         async success(res) {
-          await dispatch('getFunctionSetting')
+          await dispatch('getFunctionSetting');
           uni.switchTab({
             url: '/pages/home/home'
           })

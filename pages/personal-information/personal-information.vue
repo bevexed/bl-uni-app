@@ -108,15 +108,21 @@ export default {
   },
   methods: {
     ...mapActions('User', ['changeUser', 'getCurrentUserInfo']),
-    changeBirth(e) {
+    async changeBirth(e) {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.birthday = e.target.value;
-      this.changeUser({ birthday: this.birthday })
+      let res = await this.changeUser({ birthday: this.birthday })
+      if (res.code === 200) {
+        this.getCurrentUserInfo();
+      }
     },
-    changeSex(e) {
+    async changeSex(e) {
       console.log('picker发送选择改变，携带值为', e.target.value);
       this.sex = e.target.value;
-      this.changeUser({ sex: Number(this.sex) })
+      let res = await this.changeUser({ sex: Number(this.sex) })
+      if (res.code === 200) {
+        this.getCurrentUserInfo();
+      }
     },
 
     to(url) {

@@ -1,6 +1,6 @@
 <template>
   <view @touchmove.stop.prevent="''" class="fitting">
-    <div class="cover" v-if="first">
+    <div class="cover" v-if="!first">
       <div class="btn" @tap="doFirst">
       </div>
       <img alt="" mode="widthFix" src="../../static/imgs/fitting/1.svg">
@@ -81,12 +81,10 @@
 </template>
 
 <script>
-import { pathToBase64, base64ToPath } from 'image-tools';
+  import { reqFitting, reqFittingModel, reqFittingSimilar } from "../../api/products";
+  import { TO } from "../../utils";
 
-import { reqFitting, reqFittingModel, reqFittingSimilar } from "../../api/products";
-import { TO } from "../../utils";
-
-export default {
+  export default {
     components: {},
     data() {
         return {
@@ -157,7 +155,14 @@ export default {
     methods: {
       TO,
       doFirst(){
-
+        const that = this
+        uni.setStorage({
+          key: 'first',
+          data: true,
+          success() {
+            that.first = true
+          }
+        });
       },
         resizeStart(e) {
             // console.log(e);
@@ -404,8 +409,7 @@ export default {
   },
 
   onLoad(e) {
-    let res = uni.getStorageSync('first');
-    this.first = !res;
+    this.first = uni.getStorageSync('first');
     console.log(e);
     let { orderId } = e;
     this.data_upload.id = orderId;
