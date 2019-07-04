@@ -104,7 +104,7 @@
                 </view>
             </view>
 
-            <image @tap="preview = true" class="hr" src="../../static/icon/all.svg" mode=""></image>
+          <image @tap="preview = true" class="hr" mode="" src="../../static/icon/all.svg" v-if="goods.length>4"></image>
         </view>
 
         <view class="pay-detail">

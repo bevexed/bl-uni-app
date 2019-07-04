@@ -85,7 +85,6 @@
                 <view class="select-small" v-if="good.willChange && edit">
                   <view class="title">小样选择</view>
                   <view :class="['tags']">
-                    <!--todo: step 接口-->
                     <uni-tag
                       class="tag"
                       :text="tag"

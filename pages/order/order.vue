@@ -59,6 +59,8 @@
                 <!--商品-->
                 <view class="goods"
                       v-if="!(preview !== order.orderId && order.product.length >= 4 )"
+                      @tap="tabList[TabCur].name === '售后'? toSaleAfterDetail($event):toOrderDetail($event)"
+                      :data-order-id="order.orderId"
                 >
                   <view :class="['good']" v-for="(good, goodIndex) in order.product" v-if="Number(good.count) !== 0"
                         :key="goodIndex">
@@ -151,8 +153,10 @@
 
                       <!--交易完成-->
                       <!--交易完成-->
-                      <view class="button  cancel" v-if="order.status === '交易完成'" :data-order-id="order.orderId"
-                            @tap="toOrderDetail($event)">查看详情
+                      <view class="button  cancel" v-if="order.status === '交易完成'"
+                            :data-order-id="order.orderId"
+                            @tap="toOrderDetail($event)"
+                      >查看详情
                       </view>
                       <view
                         class="button  cancel"

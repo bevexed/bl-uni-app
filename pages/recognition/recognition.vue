@@ -58,11 +58,12 @@ export default {
     uniCollapseItem,
     CustmerPhone
   },
-  onLoad(query) {
+  async onLoad(query) {
     let id = query.id;
     this.imgUrl = query.imgUrl;
-    this.getSimilar(id)
+    await this.getSimilar(id)
   },
+
   data() {
     return {
       imgUrl: '',

@@ -79,7 +79,6 @@
 
       },
 
-      // fixMe:支付
       async wxPay() {
         let { orderNum, amount } = this;
         const code = await this.getCode();
