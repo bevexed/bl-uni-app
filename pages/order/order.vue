@@ -142,7 +142,8 @@
 
                       <!--待收货-->
                       <!--待收货-->
-                      <view class="button  pay" v-if="order.status === '待收货'" @tap="confirmReceipt({order:order.orderId,  status: tabList[TabCur].value})">
+                      <view @tap="confirmReceipt({orderId:order.orderId,  status: tabList[TabCur].value})" class="button  pay"
+                            v-if="order.status === '待收货'">
                         确认收货
                       </view>
 
@@ -155,7 +156,7 @@
                       </view>
 
                       <view class="button  cancel"
-                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpen && tabList[TabCur].name !== '售后'"
+                            v-if="(['审核中','售后处理','待寄回','退款中','已退款'].includes(order.status)) && isAfterSaleOpe && tabList[TabCur].name !== '售后'"
                             :data-order-id="order.orderId"
                             @tap="toOrderDetail($event)"
                       >查看详情
