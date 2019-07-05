@@ -165,8 +165,11 @@
           <text>全选</text>
         </view>
         <view class="total">
-          <text>总计：</text>
-          ￥{{ total }}
+          <view v-if="!edit">
+            <text>总计：</text>
+            ￥{{ total }}
+          </view>
+
         </view>
         <view
           v-if="edit"

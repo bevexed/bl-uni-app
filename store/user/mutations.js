@@ -17,6 +17,7 @@ export default {
 
   [GET_CURRENT_USER_DETAIL](state, data) {
     state.userInfo = data;
+    state.isAfterSaleOpen = data.isAfterSaleOpen
   },
 
   [GET_REFRESH_TOKEN](state, data) {

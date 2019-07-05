@@ -59,7 +59,7 @@
                     <text>填写快递信息</text>
                   </view>
 
-                  <view class="button" v-if="good.status === '退款中' && good.statusCode === 40">
+                  <view class="button" v-if="good.status === '退款中' && good.statusCode === 40 && good.trackNum">
                     <text>已上传快递信息</text>
                   </view>
                 </view>

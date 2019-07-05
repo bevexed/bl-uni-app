@@ -12,8 +12,8 @@ export default {
       key: 'token',
       async success() {
         await that.getCurrentUserInfo();
-        await that.getRefreshToken();
-
+        // 刷新 token
+        // await that.getRefreshToken();
         if (that.userInfo.status === 2) {
           await that.getFunctionSetting();
         }

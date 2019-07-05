@@ -82,7 +82,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
     promise.then(
       response => {
         uni.hideLoading();
-        // console.log('ajax-success', response.data);
+        console.log('ajax-success', response.data);
 
         if (response.data.code === 400) {
           Store.commit('User/login_out', {}, { root: true });

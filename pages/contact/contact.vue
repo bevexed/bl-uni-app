@@ -15,7 +15,7 @@
       <view class="contact-detail">
         <view @longtap="copy({data:'0571-88888888',title:'电话号已复制'})">
           <text class="label">电话：</text>
-          <text class="value">0571-88888888</text>
+          <text class="value">0571-57150666</text>
         </view>
         <view @longtap="copy({data:'123123123',title:'QQ已复制'})">
           <text class="label">QQ：</text>
@@ -23,11 +23,11 @@
         </view>
         <view @longtap="copy({data:'www.123123.com',title:'官网已复制'})">
           <text class="label">官网：</text>
-          <text class="value">www.123123.com</text>
+          <text class="value">http://www.tytexchina.com</text>
         </view>
         <view @longtap="copy({data:'杭州文一西路中节能西溪首 座A1-1 310室',title:'地址已复制'})">
           <text class="label">地址：</text>
-          <text class="value">杭州文一西路中节能西溪首 座A1-1 310室</text>
+          <text class="value">杭州市大江东产业集聚区新湾工业区 / 杭州市萧山区博地中心C座2803室</text>
         </view>
       </view>
     </view>

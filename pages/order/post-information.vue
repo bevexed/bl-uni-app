@@ -62,7 +62,7 @@
 
         value: '',
         postList: [
-          { value: '', key: '' },
+          { value: '', key: '请选择' },
           { value: 0, key: '顺丰快递' },
           { value: 10, key: '韵达快递' },
           { value: 20, key: '圆通快递' },
