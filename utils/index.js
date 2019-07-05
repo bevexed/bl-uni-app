@@ -219,6 +219,7 @@ export const copy = ({ data, title }) => {
  */
 export const TO = (url) => uni.navigateTo({ url });
 
+
 // 5.公司名称和职务根据后台设置，确认必填和非必填
 // 商品详情页面
 // 1.长按轮播图片后松开，显示全屏  ->  暂停轮播，松开后重新计算

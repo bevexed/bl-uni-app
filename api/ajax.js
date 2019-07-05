@@ -44,6 +44,8 @@ export default async function ajax(url, data = {}, type, loading = true) {
 
   console.log('query', data);
 
+  console.log(Store);
+
   await header();
 
   if (loading) {
@@ -84,13 +86,15 @@ export default async function ajax(url, data = {}, type, loading = true) {
         uni.hideLoading();
         console.log('ajax-success', response.data);
 
-        //todo; 400 401 清数据
         if (response.data.code === 400) {
+          Store.commit('User/login_out', {}, { root: true });
+          uni.clearStorage();
           return SMG(response.data.msg);
         }
 
         // 全局拦截 401 用户未登录
         if (response.data.code === 401) {
+          Store.commit('User/login_out', {}, { root: true });
           uni.clearStorage();
           SHOW_MODAL({
             title: '未登录',

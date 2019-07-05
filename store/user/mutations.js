@@ -29,6 +29,7 @@ export default {
   },
 
   [LOGIN_OUT](state, data) {
+    console.log(1);
     state.userInfo = {};
     state.phone = '';
     state.code = '';

@@ -89,7 +89,7 @@ export default {
   },
 
   // 用户登录
-  async doLogin({ commit,dispatch }, data) {
+  async doLogin({ commit, dispatch, state }, data) {
     let res = await reqLogin(data);
     if (res.code === 200) {
       commit(LOGIN, res.data);
@@ -98,7 +98,9 @@ export default {
         key: 'token',
         data: res.data.token,
         async success(res) {
-          await dispatch('getFunctionSetting');
+          if (state.userInfo.status === 2) {
+            await dispatch('getFunctionSetting');
+          }
           uni.switchTab({
             url: '/pages/home/home'
           })
