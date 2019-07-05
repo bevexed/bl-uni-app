@@ -82,7 +82,6 @@
       let _this = this;
       uni.getSystemInfo({
         success: res => {
-          console.log(res);
           _this.windowHeight = res.windowHeight;
           _this.windowWidth = res.windowWidth;
         }

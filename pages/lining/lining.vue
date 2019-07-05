@@ -271,7 +271,7 @@
         this.widthMax = '';
         this.priceMin = '';
         this.priceMax = '';
-        this.currentSortState = 0;
+        // this.currentSortState = 0;
       },
 
       /**

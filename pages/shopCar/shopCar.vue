@@ -228,7 +228,6 @@
     },
    async onShow() {
      await this.getCartAll();
-     console.log(this.u_goods);
      this.edit = false
     },
     methods: {

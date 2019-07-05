@@ -27,7 +27,7 @@
             <view class="list">
                 <view class="item" v-for="(good, i) in goodList" :key="i" @tap="toDetail(good.productId)">
                   <image :src="good.imageShow" mode=""></image>
-                  <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge && good.badge!=='失效'">
+                  <view :class="['badge', { unefficacy: good.badge === '失效' }]" v-if="good.badge">
                     {{ good.badge }}
                   </view>
                 </view>
@@ -53,7 +53,7 @@
                           </view>
                           <view class="right">
                             <image @tap="deleteCollect(good.productId)" mode="" src="../../static/icon/del.svg"></image>
-                            <view class="open-state">{{ good.badge }}</view>
+                            <view v-if="good.badge !== '失效'" class="open-state">{{ good.badge }}</view>
                           </view>
                         </view>
                     </view>
