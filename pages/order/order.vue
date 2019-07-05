@@ -259,7 +259,7 @@
         // 页面最大高度
         maxHeight: '',
         tabList: [
-          { name: '全部', value: 0 },
+          { name: '全部', value: '' },
           { name: '待付款', value: 0 },
           { name: '待发货', value: 20 },
           { name: '待收货', value: 30 },

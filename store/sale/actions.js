@@ -5,6 +5,11 @@ import { reqAfterSaleList, reqCreateAfterSale } from "../../api/sale";
 import { MSG_REDIRECT, SMG } from "../../utils";
 
 export const createAfterSale = async ({ commit }, data) => {
+
+  if (data.productCount === 0) {
+    return SMG('请选择商品数量')
+  }
+
   const { reasonCode, type } = data;
   console.log(reasonCode, type);
   if (reasonCode === '' || type === '') {

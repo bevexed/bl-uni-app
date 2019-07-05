@@ -148,22 +148,13 @@ export const doUpdateInvoice = async ({}, data) => {
     }
   }
 
-  SHOW_MODAL({
-    title: '编辑开票信息',
-    content: '是否保存本次编辑结果？',
-    async confirm() {
-      let res = await upDateInvoice(data);
+  let res = await upDateInvoice(data);
 
-      if (res.code === 200) {
-        MSG_BACK({
-          title:'修改成功'
-        })
-      }
-    },
-    cancel() {
-
-    }
-  })
+  if (res.code === 200) {
+    MSG_BACK({
+      title: '修改成功'
+    })
+  }
 
 
 };
