@@ -84,6 +84,7 @@ export default async function ajax(url, data = {}, type, loading = true) {
         uni.hideLoading();
         console.log('ajax-success', response.data);
 
+        //todo; 400 401 清数据
         if (response.data.code === 400) {
           return SMG(response.data.msg);
         }
