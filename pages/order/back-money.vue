@@ -103,9 +103,9 @@ export default {
       // 退款原因
       sorts: [
         { reasonText: '', reason: '' },
-        { reasonText: '买错了', reason: 0 },
-        { reasonText: '发货错误', reason: 10 },
-        { reasonText: '商品有问题', reason: 20 },
+        { reasonText: '买错了/不想买了', reason: 0 },
+        { reasonText: '未及时发货', reason: 10 },
+        { reasonText: '商品信息有误', reason: 20 },
         { reasonText: '其他', reason: 30 },
       ],
       // 默认退款原因

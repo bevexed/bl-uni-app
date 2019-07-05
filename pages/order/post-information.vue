@@ -13,7 +13,7 @@
             <view class="item flex" @tap="">
               <text class="label">快递公司</text>
               <view class="flex">
-                <view class="label">{{ postList[value].key }}</view>
+                <view class="label">{{ postList[value].key=== 0 ? '' : postList[value].key }}</view>
                 <image class="arrow" src="../../static/icon/arrow-bottom.svg" mode=""></image>
               </view>
             </view>
@@ -152,7 +152,7 @@
             }
 
             input {
-                width: 228upx;
+                width: upx(250);
               text-align: right;
             }
         }

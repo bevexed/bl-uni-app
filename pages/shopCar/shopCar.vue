@@ -259,7 +259,13 @@
       },
 
       selectWillChang(i) {
-        // this.goods.forEach(item => item.willChange = false);
+
+        if (this.goods[i].willChange) {
+         return  this.goods.forEach(item => item.willChange = false);
+        }
+
+
+        this.goods.forEach(item => item.willChange = false);
 
         this.goods[i].willChange = !this.goods[i].willChange;
 

@@ -125,10 +125,10 @@
         </view>
 
         <!-- // 下架按钮 -->
+      <view class="white-space"></view>
 
       <view class="sold-out" v-if="product.status === 0">该商品已下架</view>
 
-        <view class="white-space"></view>
 
         <!--  弹窗 -->
         <view class="pop-wrap" v-show="selectShow" @touchmove.stop.prevent="moveHandle" @tap.stop="selectShow = false">
@@ -928,7 +928,7 @@
         width: 100%;
         height: 98upx;
         position: fixed;
-        bottom: 98upx;
+        bottom: 0;
         line-height: 98upx;
         background: #666;
         color: #fff;
