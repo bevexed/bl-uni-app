@@ -118,7 +118,6 @@
       <video
         :direction="direction"
         class="my-video"
-        controls
         loop
         poster=""
         src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uni-app20190127.mp4"

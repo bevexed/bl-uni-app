@@ -18,7 +18,7 @@ import ajax, { companyId } from "./ajax";
  * @returns {Promise<*>}
  */
 
-export const reqAddInvoice = ({ account, address, bank, city, companyName, companyTax, county, id, isDefault, phone, province, type, userId }) => ajax('/invoice/add', {
+export const reqAddInvoice = ({ account, address, bank, city, companyName, companyTax, county, isDefault, phone, province, type, userId }) => ajax('/invoice/add', {
   account,
   address,
   bank,
@@ -26,7 +26,6 @@ export const reqAddInvoice = ({ account, address, bank, city, companyName, compa
   companyName,
   companyTax,
   county,
-  id,
   isDefault,
   phone,
   province,

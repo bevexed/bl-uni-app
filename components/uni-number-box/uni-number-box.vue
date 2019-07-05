@@ -51,10 +51,15 @@ export default {
         value(val) {
             this.inputValue = val;
         },
-        inputValue(val) {
-            this.$emit('change', val);
+      inputValue(newVal, oldVal) {
+        if (+newVal !== +oldVal) {
+          this.$emit('change', newVal)
         }
+      }
     },
+  created() {
+    this.inputValue = +this.value
+  },
     methods: {
         _calcValue(type) {
             if (this.disabled) {

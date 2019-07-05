@@ -1,5 +1,9 @@
 <template>
-    <view class="custmer-phone"  @tap="link('/pages/contact/contact')"><image class="phone" src="/static/icon/phone.png" mode=""></image></view>
+    <cover-view class="custmer-phone"  @tap.stop="link('/pages/contact/contact')">
+      <cover-image class="phone" src="/static/icon/phone.png" mode="">
+
+      </cover-image>
+    </cover-view>
 </template>
 
 <script>

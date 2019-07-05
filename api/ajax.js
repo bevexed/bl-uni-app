@@ -44,8 +44,6 @@ export default async function ajax(url, data = {}, type, loading = true) {
 
   console.log('query', data);
 
-  console.log(Store);
-
   await header();
 
   if (loading) {

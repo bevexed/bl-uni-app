@@ -414,6 +414,10 @@
 
       // 放大图片
       showBig(index) {
+        if (!this.userInfo.isActivate){
+          return
+        }
+
         this.currentBig = index;
         uni.previewImage({
           current: this.banners[index],

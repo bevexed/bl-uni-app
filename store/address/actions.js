@@ -112,20 +112,11 @@ export const changeAddress = async ({ dispatch }, data) => {
     return
   }
 
-  SHOW_MODAL({
-    title: '编辑地址',
-    content: '是否保存本次编辑结果？',
-    async confirm() {
-      let res = await reqChangeAddress(data);
-      if (res.code === 200) {
-        MSG_BACK({
-          title: '修改成功'
-        })
-      }
-    },
-    cancel() {
-
-    }
-  })
+  let res = await reqChangeAddress(data);
+  if (res.code === 200) {
+    MSG_BACK({
+      title: '修改成功'
+    })
+  }
 
 };
